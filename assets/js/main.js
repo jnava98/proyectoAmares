@@ -180,7 +180,7 @@
 
   /**
    * Initiate TinyMCE Editor
-   */
+   
 
   var useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -240,7 +240,7 @@
         });
       }
 
-      /* Provide alternative source and posted for the media dialog */
+      /* Provide alternative source and posted for the media dialog 
       if (meta.filetype === 'media') {
         callback('movie.mp4', {
           source2: 'alt.ogg',
@@ -276,7 +276,7 @@
     content_css: useDarkMode ? 'dark' : 'default',
     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
   });
-
+  */
   /**
    * Initiate Bootstrap validation check
    */
