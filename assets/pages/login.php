@@ -55,7 +55,8 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Inicia sesión</h5>
                                         <p class="text-center small">Ingresa usuario y contraseña</p>
                                     </div>
-                                    <form class="row g-3" id="iniciar_sesion" name="iniciar_sesion" method="s">
+                                    <!-- Form -->
+                                    <form class="row g-3" id="iniciar_sesion" name="iniciar_sesion" action="">
                                         <div class="col-12">
                                         <label for="yourUsername" class="form-label">Usuario</label>
                                         <div class="input-group has-validation">
@@ -78,14 +79,9 @@
                                         <!--<p class="small mb-0">No tienes usuario? <a href="./pages-register.html">Crea uno</a></p>-->
                                         </div>
                                     </form>
+                                    <!-- Fin Form -->
+
                                 </div>
-                            </div>
-                            <div class="credits">
-                                <!-- All the links in the footer should remain intact. -->
-                                <!-- You can delete the links only if you purchased the pro version. -->
-                                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ 
-                                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>-->
                             </div>
                         </div>
                     </div>
@@ -100,9 +96,6 @@
   
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/login.js"></script>
 
 </body>
 

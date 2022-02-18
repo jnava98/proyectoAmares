@@ -3,12 +3,10 @@ function login_usuario(){
         $(document).ready(function(){
             //Defino las variables
             var usuario=$('#usuario').val();
-            alert(usuario);
             var password=$('#password').val();
-            alert(password);
             //Función de Ajax
             $.ajax({
-                url: "assets/php/comprobar_usuario.php",
+                url: "assets/php/login/comprobar_usuario.php",
                 type: "get",
                 dataType:"json",//Formato en como se manda la información
                 data:{//Información a enviar o cadena a enviar
@@ -17,10 +15,13 @@ function login_usuario(){
                 },
                 success:function(respuesta){
                     if(respuesta.valor=="1"){
-                        document.getElementById("iniciar_sesion").action ="?page=clientes";
-                        document.getElementById["iniciar_sesion"].submit();
+                        alert("Ingresando...");
+                        window.location.replace("?page=clientes"); 
+                        //document.getElementById("iniciar_sesion").action="?page=clientes";
+                        //document.getElementById("iniciar_sesion").submit();
                     }else{
                         $(document).ready(function(){
+                            console.log(respuesta.valor);
                             swal({
                                 text:'¡Usuario o Contraseña invalidos!',
                                 type:'error'
@@ -30,7 +31,7 @@ function login_usuario(){
                     
                 },
                 error:function(respuesta,jqXHR, exception){//Si surge un error
-                    console.log("error en ajax");
+                    alert("error en ajax");
                 }
             });//Fin de ajax
         });        

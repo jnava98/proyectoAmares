@@ -1,8 +1,9 @@
 <?php
 
 session_start();
-include 'conexion.php';
+include '../conexion.php';
 
+//Recibimos los valores de login.js/login_usuario()
 if(empty($_GET["usuario"])){
 	$usuario="0";
 }else{
@@ -16,7 +17,34 @@ if(empty($_GET["password"])){
 }//Fin del else..
 
 
+//Declaramos la respuesta que devolveremos a login.js/login_usuario()
 $respuesta=Array();
+
+
+$sql="SELECT usuario, password, id_usuario FROM cuentas_usuario WHERE usuario LIKE '$usuario' AND password LIKE '$password'";
+$result=mysqli_query(conectar(),$sql);
+desconectar();
+$num_rows=mysqli_num_rows($result);
+if($num_rows>0){
+	$respuesta['valor'] = "1";
+	
+	//Asignamos valores a las variables de sesión
+	$col=mysqli_fetch_array($result);
+	$_SESSION["usuario"]=$col[0];
+	$_SESSION["password"]=$col[1];
+	$_SESSION["id"]=$col['id_usuario'];
+	$_SESSION["ultimoAcceso"]=date("Y-n-j H:i:s");
+	//$_SESSION["autentificado"]="SI";
+}else{
+	$respuesta['valor'] = "0";
+}
+//Respondemos a la función login.js/login_usuario()
+echo json_encode($respuesta);
+
+
+
+/*
+CODIGO CESAR
 
 if(!isset($_SESSION['nombre_user'])){
 	$sql="SELECT usuario, password, id_usuario FROM cuentas_usuario WHERE usuario LIKE '".$usuario."' AND PASSWORD LIKE '".$password."'";
@@ -49,6 +77,6 @@ if(!isset($_SESSION['nombre_user'])){
 	}//Fin del else...
 }//Fin de la validación del usuario...
 echo json_encode($respuesta);
-//echo json_encode('respuesta'=>$respuesta);
 
+*/
 ?>
