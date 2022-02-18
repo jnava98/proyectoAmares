@@ -8,23 +8,29 @@ function login_usuario(){
             alert(password);
             //Función de Ajax
             $.ajax({
-                url:"assets/php/comprobar_usuario.php",
+                url: "assets/php/comprobar_usuario.php",
+                type: "get",
                 dataType:"json",//Formato en como se manda la información
-                type:"get",
                 data:{//Información a enviar o cadena a enviar
-                    usuario:usuario, password:password
+                    usuario:usuario,
+                    password:password
                 },
                 success:function(respuesta){
                     if(respuesta.valor=="1"){
                         document.getElementById("iniciar_sesion").action ="?page=clientes";
-                        document.forms["iniciar_sesion"].submit();
+                        document.getElementById["iniciar_sesion"].submit();
                     }else{
-                        $('#comprobar').show().html("¡Comprobar nombre de usuario o contraseña!");
+                        $(document).ready(function(){
+                            swal({
+                                text:'¡Usuario o Contraseña invalidos!',
+                                type:'error'
+                            });
+                        });
                     }//Fin del else
-                    console.log("Bueno");
+                    
                 },
-                error:function(respuesta){//Si surge un error
-                    console.log("malo");
+                error:function(respuesta,jqXHR, exception){//Si surge un error
+                    console.log("error en ajax");
                 }
             });//Fin de ajax
         });        

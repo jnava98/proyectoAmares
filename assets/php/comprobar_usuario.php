@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include 'conexion.php';
 
@@ -13,14 +14,12 @@ if(empty($_GET["password"])){
 }else{
 	$password=$_GET["password"];
 }//Fin del else..
-echo $usuario;
-echo $password;
+
 
 $respuesta=Array();
 
 if(!isset($_SESSION['nombre_user'])){
-	$sql="select usuario, password, id_usuario from cuentas_usuario where usuario like '".$usuario."' and password like '".$password."'";
-    echo $sql;
+	$sql="SELECT usuario, password, id_usuario FROM cuentas_usuario WHERE usuario LIKE '".$usuario."' AND PASSWORD LIKE '".$password."'";
 	$result=mysqli_query(conectar(),$sql);
 	desconectar();
 	$num_rows=mysqli_num_rows($result);
@@ -51,4 +50,5 @@ if(!isset($_SESSION['nombre_user'])){
 }//Fin de la validación del usuario...
 echo json_encode($respuesta);
 //echo json_encode('respuesta'=>$respuesta);
+
 ?>

@@ -9,11 +9,11 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
     <!--Referencias Cesar -->
-    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="assets/js/login.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
     <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
-    <script type="text/javascript" src="assets/js/jquery.js"></script>
+    
 
     <!-- Favicons -->
     <link href="assets\img\iconAmares.svg" rel="icon">
@@ -55,19 +55,19 @@
                                         <h5 class="card-title text-center pb-0 fs-4">Inicia sesión</h5>
                                         <p class="text-center small">Ingresa usuario y contraseña</p>
                                     </div>
-                                    <form class="row g-3" id="iniciar_ession" name="iniciar_sesion" method="post">
+                                    <form class="row g-3" id="iniciar_sesion" name="iniciar_sesion" method="s">
                                         <div class="col-12">
                                         <label for="yourUsername" class="form-label">Usuario</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="usuario" class="form-control" id="usuario" required>
+                                            <input type="text" name="usuario" class="form-control" id="usuario" autocomplete="off" required>
                                             <div class="invalid-feedback">Ingresa tu nombre de usuario</div>
                                         </div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Contraseña</label>
-                                            <input type="password" name="password" class="form-control" id="password" required>
+                                            <input type="password" name="password" class="form-control" autocomplete="off" id="password" required>
                                             <div class="invalid-feedback">Por favor ingresa tu contraseña</div>
                                         </div>
                                         
