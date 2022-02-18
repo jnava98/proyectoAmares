@@ -60,14 +60,14 @@
                                         <label for="yourUsername" class="form-label">Usuario</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="usuario" class="form-control" id="usuario" required>
+                                            <input type="text" name="usuario" class="form-control" id="usuario">
                                             <div class="invalid-feedback">Ingresa tu nombre de usuario</div>
                                         </div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Contraseña</label>
-                                            <input type="password" name="password" class="form-control" id="password" required>
+                                            <input type="password" name="password" class="form-control" id="password">
                                             <div class="invalid-feedback">Por favor ingresa tu contraseña</div>
                                         </div>
                                         
