@@ -10,11 +10,10 @@
   <meta content="" name="keywords">
 
   <!--Referencias Cesar -->
-  <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="assets/js/login.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
   <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
-  <script type="text/javascript" src="assets/js/jquery.js"></script>
 
   <!-- Favicons -->
   <link href="assets\img\iconAmares.svg" rel="icon">
@@ -275,7 +274,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="./panel_control.html">
+        <a class="nav-link collapsed" href="?page=control">
           <i class="bi bi-grid"></i>
           <span>Panel de Control</span>
         </a>
@@ -530,6 +529,7 @@
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
+  <script src="assets/js/main.js"></script>
 </body>
 
 </html>
