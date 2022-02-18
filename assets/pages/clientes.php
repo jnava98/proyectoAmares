@@ -11,7 +11,10 @@
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/clientes.js"></script>
+  <script type="text/javascript" src="assets/js/login.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
+  <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
+  <script type="text/javascript" src="assets/js/jquery.js"></script>
 
   <!-- Favicons -->
   <link href="assets\img\iconAmares.svg" rel="icon">
@@ -33,12 +36,6 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -48,7 +45,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
-        <img src="../img/logoAmares.svg" alt="">
+        <img src="assets/img/logoAmares.svg" alt="">
         <span class="d-none d-lg-block">Cobranza</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -538,9 +535,6 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/altaClientes.js"></script>
 
 </body>
 

@@ -1,9 +1,11 @@
 function login_usuario(){
-    if((!(document.getElementById("usuario").value.length<="0"))&&(!(document.getElementById("password").value.length<="0"))){
+    if((!(document.getElementById("usuario").value==""))&&(!(document.getElementById("password").value==""))){
         $(document).ready(function(){
             //Defino las variables
             var usuario=$('#usuario').val();
+            alert(usuario);
             var password=$('#password').val();
+            alert(password);
             //Función de Ajax
             $.ajax({
                 url:"assets/php/comprobar_usuario.php",
@@ -11,10 +13,7 @@ function login_usuario(){
                 type:"get",
                 data:{//Información a enviar o cadena a enviar
                     usuario:usuario, password:password
-                    },
-                beforeSend:function(){//Se ejecuta antes/durante de realizar la petición
-                    $('#aviso').html("Cargando");
-                }, 
+                },
                 success:function(respuesta){
                     if(respuesta.valor=="1"){
                         document.getElementById("iniciar_sesion").action ="?page=clientes";
@@ -22,9 +21,10 @@ function login_usuario(){
                     }else{
                         $('#comprobar').show().html("¡Comprobar nombre de usuario o contraseña!");
                     }//Fin del else
+                    console.log("Bueno");
                 },
                 error:function(respuesta){//Si surge un error
-                    console.log(respuesta);
+                    console.log("malo");
                 }
             });//Fin de ajax
         });        

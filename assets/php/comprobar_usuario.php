@@ -13,11 +13,14 @@ if(empty($_GET["password"])){
 }else{
 	$password=$_GET["password"];
 }//Fin del else..
+echo $usuario;
+echo $password;
 
 $respuesta=Array();
 
 if(!isset($_SESSION['nombre_user'])){
 	$sql="select usuario, password, id_usuario from cuentas_usuario where usuario like '".$usuario."' and password like '".$password."'";
+    echo $sql;
 	$result=mysqli_query(conectar(),$sql);
 	desconectar();
 	$num_rows=mysqli_num_rows($result);
