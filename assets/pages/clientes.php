@@ -424,12 +424,6 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Fecha firma</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="fecha_firma">
-                    </div>
-                </div>
-                <div class="row mb-3">
                     <label for="inputText" class="col-sm-3 col-form-label">Precio de venta</label>
                     <div class="col-sm-5">
                         <input type="number" class="form-control" id="precio_venta">
