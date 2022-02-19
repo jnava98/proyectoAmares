@@ -63,3 +63,47 @@ function guardar_cliente(){
 		});
 	});
 }//fin de guardar postulantes pre
+
+function busca_cliente(){
+	var cliente = $('#input_cliente').val();
+	$.ajax({
+		type:'get',
+		url:'assets/php/clientes/busca_cliente.php',
+		data:{
+			cliente:cliente
+		},
+		success:function(response) {
+			$('#tbody_cliente').html(response);
+			$('#div_cliente_lista').css('display','block');
+		}//fin de success
+	});
+};//Fin busca cliente
+
+function seleccionar_cliente(nombre,cod_empleado){
+	$('#input_cliente').val(nombre+"-"+cod_empleado);
+	$('#input_cliente').attr('name', cod_empleado);
+	$('#div_cliente_lista').css('display','none');
+};//Fin seleccionarPersona
+
+function cargar_datos_cliente(id){
+	//alert("Entrando");
+	var cliente = $('#input_cliente').val();
+	$.ajax({
+		url:"assets/php/clientes/cargar_datos_cliente.php",
+		dataType:"json",//Formato en como se manda la información
+		type:"get",
+		data:{//Información a enviar o cadena a enviar
+			cliente:cliente, id:id
+		},
+		success:function(respuesta){
+			$(document).ready(function(){
+				if(respuesta.valor=="ok"){
+					$('#div_formato_cliente').html(respuesta.formato);
+				}//fin del if
+			});	
+		},
+		error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+		}
+	});
+}//fin de cargar datos clientes

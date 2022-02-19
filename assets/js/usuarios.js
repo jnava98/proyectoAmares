@@ -3,7 +3,7 @@ function cargar_tabla_usuarios(){
 		//Defino las variables
 		//Función de Ajax
 		$.ajax({
-			url:"assets/php/cargar_usuarios.php",
+			url:"assets/php/usuarios/cargar_usuarios.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
@@ -44,7 +44,7 @@ function actualizar_usuario(id){
             var nombre = document.getElementById("input_nombre&"+id).value;
 			//Función de Ajax
 			$.ajax({
-				url:"php/actualizar_usuario.php",
+				url:"assets/php/usuarios/actualizar_usuario.php",
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
@@ -84,7 +84,7 @@ function eliminar_usuario(id){
 				//Defino las variables
 				//Función de Ajax
 				$.ajax({
-					url:"php/eliminar_usuario.php",
+					url:"assets/php/usuarios/eliminar_usuario.php",
 					dataType:"json",//Formato en como se manda la información
 					type:"get",
 					data:{//Información a enviar o cadena a enviar
@@ -146,7 +146,7 @@ function guardar_formato_usuario(){
 			var password = document.getElementById("password").value;
 			//Función de Ajax
 			$.ajax({
-				url:"php/guardar_usuario.php",
+				url:"assets/php/usuarios/guardar_usuario.php",
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar

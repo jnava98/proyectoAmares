@@ -11,9 +11,12 @@
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="assets/js/login.js"></script>
+  <script type="text/javascript" src="assets/js/clientes.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!--
   <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
   <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
+  -->
 
   <!-- Favicons -->
   <link href="assets\img\iconAmares.svg" rel="icon">
@@ -333,185 +336,32 @@
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-6">
-
+        <div id="div_buscar_cliente" class="col-lg-12">
           <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Datos del cliente</h5>
-
-              <!-- General Form Elements -->
-              <form>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Nombre</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nombre_cliente">
-                    </div>
+              <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Ingresa los primeros caracteres del apellido paterno" onkeyup="busca_cliente()">
+                  </div>
+                  <div class="col-lg-6">
+                    <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);"> Buscar</button>&nbsp
+                    <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button> 
+                  </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Ape Pat</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="apellidopa_cliente">
-                    </div>
+                <div class="row" id="div_cliente_lista" style="display: none;">
+                  <div class="col" style="margin-left: -12px;">
+                    <table>
+                      <tbody id="tbody_cliente"></tbody>
+                    </table>
+                  </div>
                 </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Ape Mat</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="apellidoma_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Residencia</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="residencia_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Nacionalidad</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nacionalidad_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="correo_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Telefono</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="telefono_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Estado Civil</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="estadoc_cliente">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-2 col-form-label">Actividad Económica</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="act_cliente">
-                    </div>
-                </div>
-                
-            </form><!-- End General Form Elements -->
-
+              </div>
             </div>
           </div>
-
         </div>
-
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Datos del contrato</h5>
-
-              <!-- Advanced Form Elements -->
-              <form>
-                <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Fecha Contrato</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="fecha_contrato">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Fecha firma</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="fecha_firma">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Precio de venta</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="precio_venta">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Tipo de compra</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="tipo_compra">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Cantidad Apartado</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="cant_apartado">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Fecha apartado</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="fecha_apartado">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Cantidad enganche</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="cant_enganche">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Fecha del enganche</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="fecha_enganche">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">No. de mensualidades</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="n_mensualidades">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Monto mensual</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="monto_mensual">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Pago final</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" id="pago_final">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Lote comprado</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="lote_comprado">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Estatus de la venta</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="estatus_venta">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputDate" class="col-sm-3 col-form-label">Día de pago</label>
-                    <div class="col-sm-5">
-                        <input type="date" class="form-control" id="dia_pago">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputText" class="col-sm-3 col-form-label">Descuento</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-9">
-                        <button type="button" class="btn btn-primary" onclick="guardar_cliente();">Guardar Cliente</button>
-                    </div>
-                </div>
-            </form><!-- End General Form Elements -->
-
-            </div>
-          </div>
-
-        </div>
+      </div>
+      <div class="row" id="div_formato_cliente">
       </div>
     </section>
 
