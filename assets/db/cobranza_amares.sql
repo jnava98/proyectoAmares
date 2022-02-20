@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2022 a las 02:22:40
+-- Tiempo de generación: 20-02-2022 a las 04:33:55
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -115,7 +115,6 @@ CREATE TABLE `contrato` (
   `mensualidades` varchar(50) NOT NULL,
   `monto_mensual` varchar(50) NOT NULL,
   `pago_final` varchar(50) NOT NULL,
-  `id_lote` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_estatus_venta` int(11) NOT NULL,
   `dia_pago` varchar(50) NOT NULL,
@@ -159,10 +158,22 @@ CREATE TABLE `lotes` (
   `cos` varchar(50) NOT NULL,
   `cus` varchar(50) NOT NULL,
   `uso` varchar(50) NOT NULL,
-  `id_tipo_lote` varchar(50) NOT NULL,
+  `id_tipo_lote` int(11) NOT NULL,
   `fecha_entrega` varchar(50) NOT NULL,
   `disponibilidad` varchar(50) NOT NULL,
   `precio_lista` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `lotes_contrato`
+--
+
+CREATE TABLE `lotes_contrato` (
+  `id_lote_contrato` int(11) NOT NULL,
+  `id_lote` int(11) NOT NULL,
+  `id_contrato` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -179,7 +190,7 @@ CREATE TABLE `pagos` (
   `mensualidad` varchar(50) NOT NULL,
   `monto_pagado` varchar(50) NOT NULL,
   `diferencia` varchar(50) NOT NULL,
-  `id_estatus_paga` varchar(50) NOT NULL
+  `id_estatus_pago` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -226,7 +237,11 @@ ALTER TABLE `clientes`
 -- Indices de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  ADD PRIMARY KEY (`id_contrato`);
+  ADD PRIMARY KEY (`id_contrato`),
+  ADD KEY `id_cliente` (`id_cliente`),
+  ADD KEY `id_estatus_venta` (`id_estatus_venta`),
+  ADD KEY `id_descuento` (`id_descuento`),
+  ADD KEY `id_tipo_compra` (`id_tipo_compra`);
 
 --
 -- Indices de la tabla `cuentas_usuario`
@@ -238,13 +253,25 @@ ALTER TABLE `cuentas_usuario`
 -- Indices de la tabla `lotes`
 --
 ALTER TABLE `lotes`
-  ADD PRIMARY KEY (`id_lote`);
+  ADD PRIMARY KEY (`id_lote`),
+  ADD KEY `id_tipo_lote` (`id_tipo_lote`);
+
+--
+-- Indices de la tabla `lotes_contrato`
+--
+ALTER TABLE `lotes_contrato`
+  ADD PRIMARY KEY (`id_lote_contrato`),
+  ADD KEY `id_lote` (`id_lote`),
+  ADD KEY `id_contrato` (`id_contrato`);
 
 --
 -- Indices de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id_pago`);
+  ADD PRIMARY KEY (`id_pago`),
+  ADD KEY `id_cliente` (`id_cliente`),
+  ADD KEY `id_contrato` (`id_contrato`),
+  ADD KEY `id_estatus_paga` (`id_estatus_pago`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -305,10 +332,49 @@ ALTER TABLE `lotes`
   MODIFY `id_lote` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `lotes_contrato`
+--
+ALTER TABLE `lotes_contrato`
+  MODIFY `id_lote_contrato` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
   MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `contrato`
+--
+ALTER TABLE `contrato`
+  ADD CONSTRAINT `contrato_ibfk_1` FOREIGN KEY (`id_descuento`) REFERENCES `cat_descuento` (`id_descuento`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contrato_ibfk_2` FOREIGN KEY (`id_estatus_venta`) REFERENCES `cat_estatus_venta` (`id_estatus_venta`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contrato_ibfk_4` FOREIGN KEY (`id_tipo_compra`) REFERENCES `cat_tipo_compra` (`id_tipo_compra`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `lotes`
+--
+ALTER TABLE `lotes`
+  ADD CONSTRAINT `lotes_ibfk_1` FOREIGN KEY (`id_tipo_lote`) REFERENCES `cat_tipo_lote` (`id_tipo_lote`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `lotes_contrato`
+--
+ALTER TABLE `lotes_contrato`
+  ADD CONSTRAINT `lotes_contrato_ibfk_1` FOREIGN KEY (`id_contrato`) REFERENCES `contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `lotes_contrato_ibfk_2` FOREIGN KEY (`id_lote`) REFERENCES `lotes` (`id_lote`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`id_contrato`) REFERENCES `contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`id_estatus_pago`) REFERENCES `cat_estatus_pago` (`id_estatus_pago`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
