@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "conexion.php";
-include "funciones.php";
+include "../conexion.php";
+include "../funciones.php";
 
 $respuesta=Array();
 $sql="select * from cuentas_usuario order by usuario";//Consultar id de la variable

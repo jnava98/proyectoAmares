@@ -1,7 +1,8 @@
 <?php
 session_start();
-    include "conexion.php";
-	include "funciones_agenda.php";
+include "../conexion.php";
+include "../funciones.php";
+
 
     if(empty($_GET["usuario"])){
 		$usuario="0";
