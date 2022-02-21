@@ -335,6 +335,7 @@
     </div><!-- End Page Title -->
 
     <section class="section">
+      <input id="id_cliente" type="hidden" value="">
       <div class="row">
         <div id="div_buscar_cliente" class="col-lg-12">
           <div class="card">
@@ -362,6 +363,12 @@
         </div>
       </div>
       <div class="row" id="div_formato_cliente">
+      </div>
+      <div class="row">
+        <div class="table-responsive" id="div_tabla_contratos">
+        </div>
+      </div>
+      <div class="row" id="div_formato_contrato">
       </div>
     </section>
 

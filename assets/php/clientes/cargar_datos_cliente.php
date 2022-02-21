@@ -30,20 +30,15 @@ if(($cliente!="0")||($id_input!="0")){
 		if($result){
 			$respuesta['valor']="ok";
 			$respuesta['formato']=mostrar_formato_cliente($id_cliente);
+			$respuesta['id_cliente']=$id_cliente;
 		}else{
-			$respuesta['valor']="¡No se encontró ningún apartado para ese periodo!";
+			$respuesta['valor']="¡No se encontró ningún cliente!";
+			$respuesta['id_cliente']="";
 		}//Fin del else
 	}else{
-        $sql="SELECT * FROM clientes";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $num=mysqli_num_rows($result);
-        if($result){
-            $respuesta['valor']="ok";
-            $respuesta['formato']=mostrar_formato_cliente_vacio();
-        }else{
-            $respuesta['valor']="¡No se encontró ningún apartado para ese periodo!";
-        }//Fin del else
+		$respuesta['valor']="ok";
+		$respuesta['formato']=mostrar_formato_cliente_vacio();
+		$respuesta['id_cliente']="";
 	}//fin del else
 }else{
 

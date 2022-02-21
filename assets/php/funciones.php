@@ -108,13 +108,96 @@ function mostrar_formato_cliente_vacio(){
             $html.='</div>';
         $html.='</div>';
     $html.='</div>';
-    $html.='<div id="div_multiselect" class="col-lg-12">';
+    return $html;
+}//fin de mostrar formato cliente vacio
 
-    $html.='</div>';
+function mostrar_formato_cliente($id_cliente){
+    $html="";
+    $sql="SELECT * from clientes where id_cliente LIKE '".$id_cliente."'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $html.='<div id="div_cliente" class="col-lg-12">';
+            $html.='<div class="card">';
+                $html.='<div class="card-body">';
+                    $html.='<h5 class="card-title">Datos del cliente</h5>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Nombre</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="nombre_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Ape Pat</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="apellidopa_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Ape Mat</label>';
+                        $html.='<div class="col-sm-10">';
+                        $html.='<input type="text" class="form-control" id="apellidoma_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Residencia</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="residencia_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Nacionalidad</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="nacionalidad_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="email" class="form-control" id="correo_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputPassword" class="col-sm-2 col-form-label">Telefono</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="telefono_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Estado Civil</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="estadoc_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Actividad Económica</label>';
+                        $html.='<div class="col-sm-10">';
+                            $html.='<input type="text" class="form-control" id="act_cliente">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label class="col-sm-2 col-form-label"></label>';
+                        $html.='<div class="col-sm-9">';
+                            $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Contrato</button>';
+                        $html.='</div>';
+                    $html.='</div>';
+                $html.='</div>';
+            $html.='</div>';
+        $html.='</div>';
+    }else{
+
+    }//fin del else
+    return $html;
+}//fin de mostrar formato cliente vacio
+
+function mostrar_formato_contrato_vacio(){
+    $html="";
     $html.='<div id="div_contrato" class="col-lg-12">';
         $html.='<div class="card">';
             $html.='<div class="card-body">';
                 $html.='<h5 class="card-title">Datos del contrato</h5>';
+                $html.='<input type="hidden" id="id_contrato">';
                 $html.='<div class="row mb-3">';
                     $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha Contrato</label>';
                     $html.='<div class="col-sm-5">';
@@ -200,12 +283,19 @@ function mostrar_formato_cliente_vacio(){
                     $html.='</div>';
                 $html.='</div>';
                 $html.='<div class="row mb-3">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Descuento</label>';
+                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Nombre Descuento</label>';
                     $html.='<div class="col-sm-9">';
-                        $html.='<input type="text" class="form-control">';
+                        $html.='<input type="text" class="form-control" id="nombre_descuento">';
                     $html.='</div>';
                 $html.='</div>';
                 $html.='<div class="row mb-3">';
+                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Tasa</label>';
+                    $html.='<div class="col-sm-9">';
+                        $html.='<input type="text" id="tasa" class="form-control" onkeyup="validar_entrada(this.id)">';
+                    $html.='</div>';
+                $html.='</div>';
+                $html.='<div class="row mb-3">';
+                    $html.='<label class="col-sm-2 col-form-label"></label>';
                     $html.='<div class="col-sm-9">';
                         $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
                     $html.='</div>';
@@ -214,86 +304,18 @@ function mostrar_formato_cliente_vacio(){
         $html.='</div>';
     $html.='</div>';
     return $html;
-}//fin de mostrar formato cliente vacio
+}//fin de mostrar formato contrato vacio
 
-function mostrar_formato_cliente($id_cliente){
-    $html="";
-    $sql="SELECT * from clientes where id_cliente LIKE '".$id_cliente."'";
+function mostrar_formato_contrato($id_contrato){
+    $sql="SELECT * from contrato WHERE id_contrato LIKE '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
-    desconectar();
     $num=mysqli_num_rows($result);
     if($num>0){
-        $html.='<div id="div_cliente" class="col-lg-12">';
-            $html.='<div class="card">';
-                $html.='<div class="card-body">';
-                    $html.='<h5 class="card-title">Datos del cliente</h5>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Nombre</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="nombre_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Ape Pat</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="apellidopa_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Ape Mat</label>';
-                        $html.='<div class="col-sm-10">';
-                        $html.='<input type="text" class="form-control" id="apellidoma_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Residencia</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="residencia_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Nacionalidad</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="nacionalidad_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="email" class="form-control" id="correo_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputPassword" class="col-sm-2 col-form-label">Telefono</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="telefono_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Estado Civil</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="estadoc_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-2 col-form-label">Actividad Económica</label>';
-                        $html.='<div class="col-sm-10">';
-                            $html.='<input type="text" class="form-control" id="act_cliente">';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="row mb-3">';
-                        $html.='<label class="col-sm-2 col-form-label"></label>';
-                        $html.='<div class="col-sm-9">';
-                            $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Contrato</button>';
-                        $html.='</div>';
-                    $html.='</div>';
-                $html.='</div>';
-            $html.='</div>';
-        $html.='</div>';
         $html.='<div id="div_contrato" class="col-lg-12">';
             $html.='<div class="card">';
                 $html.='<div class="card-body">';
                     $html.='<h5 class="card-title">Datos del contrato</h5>';
+                    $html.='<input type="hidden" id="id_contrato" value="">';
                     $html.='<div class="row mb-3">';
                         $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha Contrato</label>';
                         $html.='<div class="col-sm-5">';
@@ -379,9 +401,15 @@ function mostrar_formato_cliente($id_cliente){
                         $html.='</div>';
                     $html.='</div>';
                     $html.='<div class="row mb-3">';
-                        $html.='<label for="inputText" class="col-sm-3 col-form-label">Descuento</label>';
+                        $html.='<label for="inputText" class="col-sm-3 col-form-label">Nombre Descuento</label>';
                         $html.='<div class="col-sm-9">';
-                            $html.='<input type="text" class="form-control">';
+                            $html.='<input type="text" class="form-control" id="nombre_descuento">';
+                        $html.='</div>';
+                    $html.='</div>';
+                    $html.='<div class="row mb-3">';
+                        $html.='<label for="inputText" class="col-sm-3 col-form-label">Tasa</label>';
+                        $html.='<div class="col-sm-9">';
+                            $html.='<input type="text" id="tasa" class="form-control" onkeyup="validar_entrada(this.id)">';
                         $html.='</div>';
                     $html.='</div>';
                     $html.='<div class="row mb-3">';
@@ -397,7 +425,45 @@ function mostrar_formato_cliente($id_cliente){
 
     }//fin del else
     return $html;
-}//fin de mostrar formato cliente vacio
+}//fin de mostrar formato contrato
+
+function mostrar_tabla_contratos($id_cliente){
+    $html="";
+    $sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato inner join lotes_contrato as lc on co.id_contrato = lc.id_contrato inner join lotes as lo on lc.id_lote = lo.id_lote WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato;" //Consultar id de la variable
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if ($num>0){
+        $i=1;
+        $html.="<h4>Tabla de usuarios</h4>"; 
+        $html.="<table id='tabla_contratos' class='table.table-striped table-bordered table-hover table-condensed'>";
+            $html.="<thead>";
+                $html.="<tr>";
+                    $html.="<th style='text-align:center'>#</th>";
+                    $html.="<th style='text-align:center'>Lote</th>";
+                    $html.="<th style='text-align:center'>Fecha Contrato</th>";
+                    $html.="<th style='text-align:center'>Acciones</th>";
+                $html.="</tr>";
+            $html.="</thead>";
+            $html.="<tbody>";
+            while($col=mysqli_fetch_array($result)){
+                $html.="<tr>";
+                    $html.="<td style='text-align:center'>".$i."</td>";
+                    $html.="<td><input disabled='disabled' class='form-control' value='".$col['fase'].",".$col['super_manzana'].",".$col['mza'].",".$col['lote']."'></input></td>";
+                    $html.="<td><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
+                    //Botones para las acciones
+                    $html.="<td>";
+                        $html.="<button id='".$col['id_contrato']."' onclick='editar_contrato(this.id);'>Editar</button>";
+                        $html.="&nbsp;&nbsp;<button id='".$col['id_contrato']."' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
+                    $html.="</td>";
+                $html.="</tr>";
+                $i++;
+            }//Fin del while
+            $html.="</tbody>";    
+        $html.="</table>";
+    }//Fin del if..
+    return $html;
+}//fin de mostrar tabla usuarios
 
 
 ?>
