@@ -1,17 +1,17 @@
 <?php
-include('conexion.php');
+include('../conexion.php');
 $cliente = $_GET['cliente'];
 if($cliente==" "||$cliente==""){
     return false;
 }else{
-    $consulta = "SELECT id_cliente, nombre, apellido_paterno, apellido_materno FROM clientes WHERE nombre LIKE '%$empleadoBuscado%' OR clave_emp LIKE '%$empleadoBuscado%' AND direccion LIKE '02' "; 
+    $consulta = "SELECT id_cliente, nombre, apellido_paterno, apellido_materno FROM clientes WHERE nombre LIKE '%$cliente%' OR apellido_paterno LIKE '%$cliente%' OR apellido_materno LIKE '%$cliente%'"; 
     $resultado=mysqli_query(conectar(),$consulta);
     desconectar();
     while($row=mysqli_fetch_assoc($resultado)){
         $id_cliente= $row['id_cliente'];
-        $nombre= $row['nombre'];
-        $nombre.= $row['apellido_paterno'];
-        $nombre.= $row['apellido_materno'];
+        $nombre= $row['nombre']." ";
+        $nombre.= $row['apellido_paterno']." ";
+        $nombre.= $row['apellido_materno']." ";
         echo '<tr id="trcliente_buscado"  onclick="seleccionar_cliente('.$id_cliente.','.$nombre.')">';
             echo '<td id="tdcliente_buscado">'.($id_cliente.'-'.$nombre).'</td>';
         echo '</tr>';
