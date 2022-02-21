@@ -30,7 +30,11 @@ function login_usuario(){
                     
                 },
                 error:function(respuesta,jqXHR, exception){//Si surge un error
-                    alert("error en ajax");
+                    swal({
+                        text:'Error en consulta',
+                        type:'error'
+                    });
+                    //console.log(respuesta,jqXHR,exception);
                 }
             });//Fin de ajax
         });        
@@ -43,3 +47,24 @@ function login_usuario(){
         });
     }//Fin del else...
 }//Fin de login_usuario...  
+
+//FUNCIONES POR EJECUTAR AL CARGAR LA PAGINA
+$( document ).ready(function() {
+
+    //Event.listener para la tecla enter
+    document.getElementById("password").addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            login_usuario();
+        }
+    });
+
+
+
+
+
+
+});//Fin document.ready
+
+
+
+

@@ -1,4 +1,11 @@
 <?php
+/*
+Función: busca_cliente.php
+Invocada por: js/clientes/busca_cliente()
+Objetivo: Trae los clientes según se ingresen los caracteres en el buscador
+*/
+
+
 include('../conexion.php');
 $cliente = $_GET['cliente'];
 if($cliente==" "||$cliente==""){
@@ -12,7 +19,8 @@ if($cliente==" "||$cliente==""){
         $nombre= $row['nombre']." ";
         $nombre.= $row['apellido_paterno']." ";
         $nombre.= $row['apellido_materno']." ";
-        echo '<tr id="trcliente_buscado"  onclick="seleccionar_cliente('.$id_cliente.','.$nombre.')">';
+       // echo '<tr id="trcliente_buscado"  onclick="seleccionar_cliente('.$id_cliente.','.$nombre.')">';
+        echo "<tr id='trcliente_buscado'  onclick='seleccionar_cliente('$id_cliente','$nombre')>";
             echo '<td id="tdcliente_buscado">'.($id_cliente.'-'.$nombre).'</td>';
         echo '</tr>';
     }//fin del while

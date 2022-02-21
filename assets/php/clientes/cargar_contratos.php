@@ -1,4 +1,9 @@
 <?php
+/*
+Función: cargar_contratos.php
+Invocada por: js/clientes.js/cargar_datos_cliente()
+Objetivo: Trae todos los contratos que tiene un cliente.
+*/
 session_start();
 include "../conexion.php";
 include "../funciones.php";
@@ -10,7 +15,7 @@ if(empty($_GET["id_cliente"])){
 }//Fin del else
 
 $respuesta=Array();
-$sql="SELECT c.id_cliente, cc.id_cliente_contrato, co.id_contrato from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato  WHERE id_cliente LIKE '".$id_cliente."' order by co.id_contrato;" //Consultar id de la variable
+$sql="SELECT c.id_cliente, cc.id_cliente_contrato, co.id_contrato from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato  WHERE id_cliente LIKE '".$id_cliente."' order by co.id_contrato;"; //Consultar id de la variable
 $result=mysqli_query(conectar(),$sql);
 desconectar();
 $num=mysqli_num_rows($result);

@@ -144,7 +144,8 @@ function busca_cliente(){
 	});
 };//Fin busca cliente
 
-function seleccionar_cliente(nombre,cod_empleado){
+function seleccionar_cliente(cod_empleado,nombre){
+	console.log(cod_empleado+","+nombre);
 	$('#input_cliente').val(nombre+"-"+cod_empleado);
 	$('#input_cliente').attr('name', cod_empleado);
 	$('#div_cliente_lista').css('display','none');
