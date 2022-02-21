@@ -15,7 +15,6 @@ function login_usuario(){
                 },
                 success:function(respuesta){
                     if(respuesta.valor=="1"){
-                        alert("Ingresando...");
                         window.location.replace("?page=control"); 
                         //document.getElementById("iniciar_sesion").action="?page=clientes";
                         //document.getElementById("iniciar_sesion").submit();
