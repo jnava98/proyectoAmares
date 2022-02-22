@@ -259,7 +259,7 @@ function cargar_select_super_manzana(id_select_fase){
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				etapa:etapa, ciclo:ciclo
+				fase:fase
 			},
 			beforeSend : function (jqXHR, settings){
 				//alert("Entra");
