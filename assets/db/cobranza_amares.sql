@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2022 a las 03:37:06
+-- Tiempo de generación: 22-02-2022 a las 05:25:33
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -141,6 +141,13 @@ CREATE TABLE `cliente_contrato` (
   `id_cliente` int(11) NOT NULL,
   `id_contrato` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `cliente_contrato`
+--
+
+INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrato`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -1785,7 +1792,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
-  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato`
