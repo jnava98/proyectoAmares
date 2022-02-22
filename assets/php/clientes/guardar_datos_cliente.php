@@ -71,10 +71,11 @@ if($id_cliente!="0"){
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE clientes set nombre = '".$nombre."', apellido_paterno = '".$apellido_pa."', apellido_materno = '".$apellido_ma."', residencia = '".$residencia."', nacionalidad = '".$nacionalidad."', correo = '".$correo."', telefono = '".$telefono."', estado_civil = '".$estado_civil."' actividad_economica = '".$actividad_economica."' ";
+        $sql="UPDATE clientes set nombre = '".$nombre."', apellido_paterno = '".$apellido_pa."', apellido_materno = '".$apellido_ma."', residencia = '".$residencia."', nacionalidad = '".$nacionalidad."', correo = '".$correo."', telefono = '".$telefono."', estado_civil = '".$estado_civil."', act_economica = '".$actividad_economica."' WHERE id_cliente LIKE '".$id_cliente."' ";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
+            $respuesta['id_cliente']=$id_cliente;
         }else{
             $respuesta['valor']="error";
         }//fin del else
@@ -84,6 +85,12 @@ if($id_cliente!="0"){
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
+            $sql="SELECT max(id_cliente) FROM clientes";
+            $result=mysqli_query(conectar(),$sql);
+            desconectar();
+            $col = mysqli_fetch_array($result);
+            $id_cliente = $col[0];
+            $respuesta['id_cliente']=$id_cliente;
         }else{
             $respuesta['valor']="error";
         }//fin del else
@@ -93,6 +100,12 @@ if($id_cliente!="0"){
     $result=mysqli_query(conectar(),$sql);
     if($result){
         $respuesta['valor']="ok";
+        $sql="SELECT max(id_cliente) FROM clientes";
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        $col = mysqli_fetch_array($result);
+        $id_cliente = $col[0];
+        $respuesta['id_cliente']=$id_cliente;
     }else{
         $respuesta['valor']="error";
     }//fin del else

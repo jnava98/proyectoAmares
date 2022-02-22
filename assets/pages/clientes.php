@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+session_start();
+if(!(empty($_SESSION["usuario"]))){
+?>
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -12,11 +15,11 @@
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="assets/js/clientes.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!--
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  -->
   <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
   <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
-  -->
 
   <!-- Favicons -->
   <link href="assets\img\iconAmares.svg" rel="icon">
@@ -347,7 +350,8 @@
                   </div>
                   <div class="col-lg-6">
                     <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);"> Buscar</button>&nbsp
-                    <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button> 
+                    <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button>&nbsp
+                    <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
                   </div>
                 </div>
                 <div class="row" id="div_cliente_lista" style="display: none;">
@@ -366,6 +370,17 @@
       </div>
       <div class="row">
         <div class="table-responsive" id="div_tabla_contratos">
+        </div>
+        <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <button type="button" id="buscar" class="success" onclick="cargar_datos_contrato('0');">Agregar Nuevo Contrato</button>
+                </div>
+              </div>
+            </div>
+          </div>            
         </div>
       </div>
       <div class="row" id="div_formato_contrato">
@@ -388,5 +403,10 @@
 
   <script src="assets/js/main.js"></script>
 </body>
-
+<?php
+}else{
+	header("Location:?page=login");
+}//Fin del else...
+?>
 </html>
+

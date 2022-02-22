@@ -7,7 +7,7 @@ include "../selects.php";
 if(empty($_GET["id_cliente"])){
 	$id_cliente="0";
 }else{
-	$id_cliente=$_GET["cliente"];
+	$id_cliente=$_GET["id_cliente"];
 }//Fin del else
 
 if(empty($_GET["id"])){

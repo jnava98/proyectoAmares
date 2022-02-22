@@ -64,6 +64,8 @@ if(empty($_GET["actividad_economica"])){
 
 $respuesta=Array();
 
+//Programar guardado para las tabla lotes-contrato, cliente-contrato
+
 if($id_cliente!="0"){
     //Validamos si existe el cliente
     $sql="SELECT * from clientes where id_cliente LIKE '".$id_cliente."'";

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+session_start();
+if(!(empty($_SESSION["usuario"]))){
+?>
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -722,5 +725,9 @@
   <script src="assets/js/main.js"></script>
 
 </body>
-
+<?php
+}else{
+	header("Location:?page=login");
+}//Fin del else...
+?>
 </html>

@@ -1,3 +1,7 @@
+function cancelar_busqueda(){ //Funcion para recargar la pagina
+	location.reload();
+}//fin de funcion cancelar busqueda
+
 function guardar_datos_cliente(){
 	//alert("Entra");
 	$(document).ready(function(){
@@ -26,6 +30,9 @@ function guardar_datos_cliente(){
 							text:'Datos guardados',
 							type: 'success'
 						});
+						$('#id_cliente').val(respuesta.id_cliente);
+						$('#div_boton_contrato').show('slow');
+						cargar_tabla_contratos();
 					}else{
 						swal({
 							text:'Error',
@@ -167,6 +174,9 @@ function cargar_datos_cliente(id){
 					$('#div_formato_cliente').html(respuesta.formato);
 					$('#id_cliente').val(respuesta.id_cliente);
 					cargar_tabla_contratos();
+					if(respuesta.id_cliente!=""){
+						$('#div_boton_contrato').show('slow');
+					}//fin del if
 				}//fin del if
 			});	
 		},
@@ -201,6 +211,7 @@ function cargar_datos_contrato(id){
 
 function cargar_tabla_contratos(){
 	if($('#id_cliente').val()!=""){
+		var id_cliente = $('#id_cliente').val();
 		$(document).ready(function(){
 			//Defino las variables
 			//Función de Ajax
@@ -209,6 +220,7 @@ function cargar_tabla_contratos(){
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
+					id_cliente:id_cliente
 				},
 				success:function(respuesta){
 					if(respuesta.valor=="ok"){
@@ -261,7 +273,7 @@ function cargar_select_super_manzana(id_select_fase){
 			data:{//Información a enviar o cadena a enviar
 				fase:fase
 			},
-			beforeSend : function (jqXHR, settings){
+			/*beforeSend : function (jqXHR, settings){
 				//alert("Entra");
 				//document.getElementById("imagen_carga_indicador").style.display="block";
 				$('#municipio_postulante').hide();
@@ -270,13 +282,12 @@ function cargar_select_super_manzana(id_select_fase){
 				$('#div_mapa_jueces').hide();
 				$('#div_imagen_select').show();
 				$('#carga_select').show();
-			},
+			},*/
 			success:function(respuesta){
 				if(respuesta.valor=="ok"){
-					$('#div_imagen_select').hide();
-					$('#municipio_postulante').show();
-					$('#municipio_postulante1').show();
-					$('#municipio_postulante1').html(respuesta.select);	
+					$('#div_super_manzana').show('slow');
+					$('#div_select_super_manzana').show('slow');
+					$('#div_select_super_manzana').html(respuesta.select);	
 				}//Fin del if
 			},
 			error:function(respuesta){//Si surge un error
@@ -284,7 +295,81 @@ function cargar_select_super_manzana(id_select_fase){
 			}
 		});
 	}else{
-		$('#municipio_postulante').hide();
-		$('#municipio_postulante1').hide();
+		$('#div_super_manzana').hide();
+		$('#div_select_super_manzana').hide();
 	}//fin del else
-}//fin de cargar select municipios
+}//fin de cargar select super manzana
+
+function cargar_select_manzana(id_select_super_manzana){
+	if(document.getElementById(id_select_super_manzana).value!="0"){
+		var super_manzana = document.getElementById(id_select_super_manzana).value;
+		$.ajax({
+			url:"php/cargar_select_manzana.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				super_manzana:super_manzana
+			},
+			/*beforeSend : function (jqXHR, settings){
+				//alert("Entra");
+				//document.getElementById("imagen_carga_indicador").style.display="block";
+				$('#municipio_postulante').hide();
+				$('#municipio_postulante1').hide();
+				$('#div_tabla_jueces').hide();
+				$('#div_mapa_jueces').hide();
+				$('#div_imagen_select').show();
+				$('#carga_select').show();
+			},*/
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#div_manzana').show('slow');
+					$('#div_select_manzana').show('slow');
+					$('#div_select_manzana').html(respuesta.select);	
+				}//Fin del if
+			},
+			error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+			}
+		});
+	}else{
+		$('#div_manzana').hide();
+		$('#div_select_manzana').hide();
+	}//fin del else
+}//fin de cargar select manzana
+
+function cargar_select_lotes(id_select_manzana){
+	if(document.getElementById(id_select_manzana).value!="0"){
+		var manzana = document.getElementById(id_select_manzana).value;
+		$.ajax({
+			url:"php/cargar_select_lotes.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				manzana:manzana
+			},
+			/*beforeSend : function (jqXHR, settings){
+				//alert("Entra");
+				//document.getElementById("imagen_carga_indicador").style.display="block";
+				$('#municipio_postulante').hide();
+				$('#municipio_postulante1').hide();
+				$('#div_tabla_jueces').hide();
+				$('#div_mapa_jueces').hide();
+				$('#div_imagen_select').show();
+				$('#carga_select').show();
+			},*/
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#div_lotes').show('slow');
+					$('#div_select_lotes').show('slow');
+					$('#div_select_lotes').html(respuesta.select);
+				}//Fin del if
+			},
+			error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+			}
+		});
+	}else{
+		$('#div_lotes').hide();
+		$('#div_select_lotes').hide();
+	}//fin del else
+}//fin de cargar select lotes
