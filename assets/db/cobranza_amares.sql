@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-02-2022 a las 04:33:55
+-- Tiempo de generación: 22-02-2022 a las 02:20:18
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -20,18 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `cobranza_amares`
 --
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `cat_descuento`
---
-
-CREATE TABLE `cat_descuento` (
-  `id_descuento` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `tasa` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -99,6 +87,18 @@ CREATE TABLE `clientes` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cliente_contrato`
+--
+
+CREATE TABLE `cliente_contrato` (
+  `id_cliente_contrato` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_contrato` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `contrato`
 --
 
@@ -115,10 +115,10 @@ CREATE TABLE `contrato` (
   `mensualidades` varchar(50) NOT NULL,
   `monto_mensual` varchar(50) NOT NULL,
   `pago_final` varchar(50) NOT NULL,
-  `id_cliente` int(11) NOT NULL,
   `id_estatus_venta` int(11) NOT NULL,
   `dia_pago` varchar(50) NOT NULL,
-  `id_descuento` int(11) NOT NULL,
+  `nombre_descuento` varchar(100) NOT NULL,
+  `tasa` varchar(10) NOT NULL,
   `nombre_broker` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -198,12 +198,6 @@ CREATE TABLE `pagos` (
 --
 
 --
--- Indices de la tabla `cat_descuento`
---
-ALTER TABLE `cat_descuento`
-  ADD PRIMARY KEY (`id_descuento`);
-
---
 -- Indices de la tabla `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_pago`
@@ -234,13 +228,19 @@ ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id_cliente`);
 
 --
+-- Indices de la tabla `cliente_contrato`
+--
+ALTER TABLE `cliente_contrato`
+  ADD PRIMARY KEY (`id_cliente_contrato`),
+  ADD KEY `id_cliente` (`id_cliente`),
+  ADD KEY `id_contrato` (`id_contrato`);
+
+--
 -- Indices de la tabla `contrato`
 --
 ALTER TABLE `contrato`
   ADD PRIMARY KEY (`id_contrato`),
-  ADD KEY `id_cliente` (`id_cliente`),
   ADD KEY `id_estatus_venta` (`id_estatus_venta`),
-  ADD KEY `id_descuento` (`id_descuento`),
   ADD KEY `id_tipo_compra` (`id_tipo_compra`);
 
 --
@@ -278,12 +278,6 @@ ALTER TABLE `pagos`
 --
 
 --
--- AUTO_INCREMENT de la tabla `cat_descuento`
---
-ALTER TABLE `cat_descuento`
-  MODIFY `id_descuento` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_pago`
@@ -312,6 +306,12 @@ ALTER TABLE `cat_tipo_lote`
 --
 ALTER TABLE `clientes`
   MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cliente_contrato`
+--
+ALTER TABLE `cliente_contrato`
+  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato`
@@ -348,10 +348,16 @@ ALTER TABLE `pagos`
 --
 
 --
+-- Filtros para la tabla `cliente_contrato`
+--
+ALTER TABLE `cliente_contrato`
+  ADD CONSTRAINT `cliente_contrato_ibfk_1` FOREIGN KEY (`id_contrato`) REFERENCES `contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cliente_contrato_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  ADD CONSTRAINT `contrato_ibfk_1` FOREIGN KEY (`id_descuento`) REFERENCES `cat_descuento` (`id_descuento`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `contrato_ibfk_2` FOREIGN KEY (`id_estatus_venta`) REFERENCES `cat_estatus_venta` (`id_estatus_venta`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `contrato_ibfk_4` FOREIGN KEY (`id_tipo_compra`) REFERENCES `cat_tipo_compra` (`id_tipo_compra`) ON DELETE CASCADE ON UPDATE CASCADE;
 

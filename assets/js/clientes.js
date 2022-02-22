@@ -250,3 +250,41 @@ function validar_entrada(id){
 	}//Fin del for
 	document.getElementById(id).value=cant;
 }//Fin de validar entrada..
+
+function cargar_select_super_manzana(id_select_fase){
+	if(document.getElementById(id_select_fase).value!="0"){
+		var fase = document.getElementById(id_select_fase).value;
+		$.ajax({
+			url:"php/cargar_select_super_manzana.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				etapa:etapa, ciclo:ciclo
+			},
+			beforeSend : function (jqXHR, settings){
+				//alert("Entra");
+				//document.getElementById("imagen_carga_indicador").style.display="block";
+				$('#municipio_postulante').hide();
+				$('#municipio_postulante1').hide();
+				$('#div_tabla_jueces').hide();
+				$('#div_mapa_jueces').hide();
+				$('#div_imagen_select').show();
+				$('#carga_select').show();
+			},
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#div_imagen_select').hide();
+					$('#municipio_postulante').show();
+					$('#municipio_postulante1').show();
+					$('#municipio_postulante1').html(respuesta.select);	
+				}//Fin del if
+			},
+			error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+			}
+		});
+	}else{
+		$('#municipio_postulante').hide();
+		$('#municipio_postulante1').hide();
+	}//fin del else
+}//fin de cargar select municipios
