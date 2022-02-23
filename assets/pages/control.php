@@ -139,14 +139,10 @@ if(!(empty($_SESSION["usuario"]))){
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="?page=clientes">
-              <i class="bi bi-circle"></i><span>Alta de Clientes</span>
+              <i class="bi bi-circle"></i><span>Detalle CLientes</span>
             </a>
           </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Consulta de Clientes</span>
-            </a>
-          </li>
+
         </ul>
       </li><!-- End Components Nav -->
 

@@ -8,7 +8,7 @@ if(!(empty($_SESSION["usuario"]))){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Amares Cobranza - Alta de Clientes</title>
+  <title>Amares Cobranza - Clientes</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -295,12 +295,7 @@ if(!(empty($_SESSION["usuario"]))){
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Alta de Clientes</span>
-            </a>
-          </li>
-          <li>
-            <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Consulta de Clientes</span>
+              <i class="bi bi-circle"></i><span>Detalle CLientes</span>
             </a>
           </li>
         </ul>
@@ -329,12 +324,12 @@ if(!(empty($_SESSION["usuario"]))){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Alta de Clientes</h1>
+      <h1>Detalle CLientes</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
           <li class="breadcrumb-item">Clientes</li>
-          <li class="breadcrumb-item active">Alta de Clientes</li>
+          <li class="breadcrumb-item active">Detalle CLientes</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -348,7 +343,7 @@ if(!(empty($_SESSION["usuario"]))){
                 <h5 class="card-title">Clientes</h5>
                 <div class="row">
                   <div class="col-lg-6">
-                    <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Ingresa los primeros caracteres del apellido paterno" onkeyup="busca_cliente()">
+                    <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
                   </div>
                   <div class="col-lg-6">
                     <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);"> Buscar</button>&nbsp
