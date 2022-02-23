@@ -488,7 +488,7 @@ function mostrar_tabla_contratos($id_cliente){
             $html.="<thead>";
                 $html.="<tr>";
                     $html.="<th style='text-align:center'>#</th>";
-                    $html.="<th style='text-align:center'>Lote</th>";
+                    $html.="<th style='text-align:center'>Lotes Comprados</th>";
                     $html.="<th style='text-align:center'>Fecha Contrato</th>";
                     $html.="<th style='text-align:center'>Acciones</th>";
                 $html.="</tr>";
