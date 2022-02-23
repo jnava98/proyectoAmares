@@ -19,11 +19,9 @@ if($cliente==" "||$cliente==""){
         $nombre= $row['nombre']." ";
         $nombre.= $row['apellido_paterno']." ";
         $nombre.= $row['apellido_materno']." ";
-       // echo '<tr id="trcliente_buscado"  onclick="seleccionar_cliente('.$id_cliente.','.$nombre.')">';
-        echo "<tr id='trcliente_buscado'  onclick='seleccionar_cliente('$id_cliente','$nombre')>";
-            echo '<td id="tdcliente_buscado">'.($id_cliente.'-'.$nombre).'</td>';
+        echo '<tr id="'.$id_cliente.'&'.$nombre.'"  onclick="seleccionar_cliente(this.id)">';
+            echo '<td id="tdcliente_buscado">'.($id_cliente.' - '.$nombre).'</td>';
         echo '</tr>';
     }//fin del while
-    //mysqli_free_result($resultado);//Liberamos el resultado
 }//fin del else
 ?>

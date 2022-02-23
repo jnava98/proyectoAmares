@@ -64,9 +64,7 @@ function guardar_datos_contrato(){
 		var n_mensualidades = $('#n_mensualidades').val();
 		var monto_mensual = $('#monto_mensual').val();
 		var pago_final = $('#pago_final').val();
-		/*Poner los valores de los selects del lote
-		var fecha_contrato = $('#fecha_contrato').val();
-		*/
+		var txtArea_lotes = $('#txtArea_lotes').val();
 		var estatus_venta = $('#estatus_venta').val();
 		var dia_pago = $('#dia_pago').val();
 		var nombre_descuento = $('#nombre_descuento').val();
@@ -78,7 +76,7 @@ function guardar_datos_contrato(){
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma, precio_venta:precio_venta, tipo_compra:tipo_compra, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, estatus_venta:estatus_venta, dia_pago:dia_pago, nombre_descuento:nombre_descuento, tasa:tasa
+				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma, precio_venta:precio_venta, tipo_compra:tipo_compra, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, txtArea_lotes:txtArea_lotes, estatus_venta:estatus_venta, dia_pago:dia_pago, nombre_descuento:nombre_descuento, tasa:tasa
 			},
 			success:function(respuesta){
 				$(document).ready(function(){
@@ -89,9 +87,10 @@ function guardar_datos_contrato(){
 						});
 					}else{
 						swal({
-							text:'Error',
+							text:respuesta.valor,
 							type: 'error'
 						});
+						console.log(respuesta);		
 					}//fin del else
 				});	
 			},
@@ -151,39 +150,56 @@ function busca_cliente(){
 	});
 };//Fin busca cliente
 
-function seleccionar_cliente(cod_empleado,nombre){
-	console.log(cod_empleado+","+nombre);
-	$('#input_cliente').val(nombre+"-"+cod_empleado);
-	$('#input_cliente').attr('name', cod_empleado);
+function seleccionar_cliente(id){
+	var cadena = id.split("&");
+	id_cliente = cadena[0];	
+	nombre = cadena[1];
+	$('#input_cliente').val(nombre);
+	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
 };//Fin seleccionarPersona
 
 function cargar_datos_cliente(id){
-	//alert("Entrando");
-	var cliente = $('#input_cliente').val();
-	$.ajax({
-		url:"assets/php/clientes/cargar_datos_cliente.php",
-		dataType:"json",//Formato en como se manda la información
-		type:"get",
-		data:{//Información a enviar o cadena a enviar
-			cliente:cliente, id:id
-		},
-		success:function(respuesta){
-			$(document).ready(function(){
-				if(respuesta.valor=="ok"){
-					$('#div_formato_cliente').html(respuesta.formato);
-					$('#id_cliente').val(respuesta.id_cliente);
-					cargar_tabla_contratos();
-					if(respuesta.id_cliente!=""){
-						$('#div_boton_contrato').show('slow');
+	var aux = 0;
+	if(id=="buscar"){
+		if($('#id_cliente').val()==""){
+			aux = 1;
+		}//fin del if
+		var cliente = $('#id_cliente').val();
+	}else{
+		aux = 0;
+		var cliente = $('#input_cliente').val();
+	}//fin del else
+	if(aux==0){
+		$.ajax({
+			url:"assets/php/clientes/cargar_datos_cliente.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				cliente:cliente, id:id
+			},
+			success:function(respuesta){
+				$(document).ready(function(){
+					if(respuesta.valor=="ok"){
+						$('#div_formato_cliente').html(respuesta.formato);
+						$('#id_cliente').val(respuesta.id_cliente);
+						cargar_tabla_contratos();
+						if(respuesta.id_cliente!=""){
+							$('#div_boton_contrato').show('slow');
+						}//fin del if
 					}//fin del if
-				}//fin del if
-			});	
-		},
-		error:function(respuesta){//Si surge un error
-			console.log(respuesta);
-		}
-	});
+				});	
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	}else{
+		swal({
+			text:'Debes seleccionar un cliente',
+			type: 'warning'
+		});
+	}//fin del else
 }//fin de cargar datos clientes
 
 function cargar_datos_contrato(id){
@@ -267,7 +283,7 @@ function cargar_select_super_manzana(id_select_fase){
 	if(document.getElementById(id_select_fase).value!="0"){
 		var fase = document.getElementById(id_select_fase).value;
 		$.ajax({
-			url:"php/cargar_select_super_manzana.php",
+			url:"assets/php/clientes/cargar_select_super_manzana.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
@@ -302,13 +318,14 @@ function cargar_select_super_manzana(id_select_fase){
 
 function cargar_select_manzana(id_select_super_manzana){
 	if(document.getElementById(id_select_super_manzana).value!="0"){
+		var fase = document.getElementById("select_fase").value;
 		var super_manzana = document.getElementById(id_select_super_manzana).value;
 		$.ajax({
-			url:"php/cargar_select_manzana.php",
+			url:"assets/php/clientes/cargar_select_manzana.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				super_manzana:super_manzana
+				super_manzana:super_manzana, fase:fase
 			},
 			/*beforeSend : function (jqXHR, settings){
 				//alert("Entra");
@@ -340,12 +357,14 @@ function cargar_select_manzana(id_select_super_manzana){
 function cargar_select_lotes(id_select_manzana){
 	if(document.getElementById(id_select_manzana).value!="0"){
 		var manzana = document.getElementById(id_select_manzana).value;
+		var fase = document.getElementById("select_fase").value;
+		var super_manzana = document.getElementById("select_super_manzana").value;
 		$.ajax({
-			url:"php/cargar_select_lotes.php",
+			url:"assets/php/clientes/cargar_select_lotes.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				manzana:manzana
+				manzana:manzana, super_manzana:super_manzana, fase:fase
 			},
 			/*beforeSend : function (jqXHR, settings){
 				//alert("Entra");
@@ -359,9 +378,9 @@ function cargar_select_lotes(id_select_manzana){
 			},*/
 			success:function(respuesta){
 				if(respuesta.valor=="ok"){
-					$('#div_lotes').show('slow');
-					$('#div_select_lotes').show('slow');
-					$('#div_select_lotes').html(respuesta.select);
+					$('#div_lote').show('slow');
+					$('#div_select_lote').show('slow');
+					$('#div_select_lote').html(respuesta.select);
 				}//Fin del if
 			},
 			error:function(respuesta){//Si surge un error
@@ -373,3 +392,67 @@ function cargar_select_lotes(id_select_manzana){
 		$('#div_select_lotes').hide();
 	}//fin del else
 }//fin de cargar select lotes
+
+function agregar_lote(){
+	//Comprobamos que el campo no esté vacío
+	if(document.getElementById("select_lotes").value=="0"){
+		swal({
+			text:"Debes seleccionar un lote.",
+			type: 'warning'
+		});							
+	}else{
+		lote = document.getElementById("select_lotes").value
+		if(document.getElementById("txtArea_lotes").value.length>0){ //Verificamos si ya hay un valor en el textArea
+			var arreglo_lotes = document.getElementById("txtArea_lotes").value.split(","); //Creamos un arreglo para almacenar los valores del txtArea
+			for (var i = 0; i < arreglo_lotes.length; i++) { //Recorremos el arreglo
+				if(arreglo_lotes[i]==document.getElementById("select_lotes").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
+					swal({
+						text:"Este lote ya se encuentra registrado",
+						type: 'warning'
+					});
+				}//Fin if...
+			}//Fin for...
+			if(document.getElementById("txtArea_lotes").value!=0){
+				aux=document.getElementById("txtArea_lotes").value;
+				aux=aux+",";
+			}//Fin if...
+		}else{
+			aux="";
+		}//Fin del else...
+		aux+=lote;
+		document.getElementById("txtArea_lotes").value=aux;
+		document.getElementById("select_fase").value = "0";
+		document.getElementById("select_super_manzana").value= "0";
+		document.getElementById("select_manzana").value= "0";
+		document.getElementById("select_lotes").value= "0";
+		document.getElementById("div_select_super_manzana").style.display="none";
+		document.getElementById("div_select_manzana").style.display="none";
+		document.getElementById("div_select_lote").style.display="none";
+	}//Fin else...
+}//Fin agregar_lote...
+
+function quitar_lote(){
+	if(document.getElementById("txtArea_lotes").value.length=="0"){ //Validamos que el txtArea no esté vacio
+		swal({
+			text:"No hay lotes seleccionados",
+			type: 'warning'
+		});
+	}else{
+		var arreglo_lotes = document.getElementById("txtArea_lotes").value.split(","); //Generamos un arreglo con los responsables que ya hay en el textArea
+		lotes_largo = arreglo_lotes.length;
+		if(lotes_largo==1){
+			document.getElementById("txtArea_lotes").value="";
+		}else{
+			lotes_largo--;
+			var aux = "";
+			for (var i = 0; i < lotes_largo; i++) {
+				if(i==0){
+					aux+=arreglo_lotes[i];
+				}else{
+					aux+=","+arreglo_lotes[i];
+				}//fin del else
+			}//fin del for
+			document.getElementById("txtArea_lotes").value=aux;
+		}//fin del else
+	}//Fin else...
+}//Fin contar_responsables...

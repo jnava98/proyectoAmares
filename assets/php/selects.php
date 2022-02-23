@@ -30,7 +30,7 @@ function select_fase(){
 	$consulta="select distinct fase from lotes order by fase";
 	$resultado=mysqli_query(conectar(),$consulta);
 	desconectar();
-    $num=mysqli_num_rows($result);
+    $num=mysqli_num_rows($resultado);
     if($num>0){
         $respuesta.="<select name='select_fase' id='select_fase' class='form-control' onchange='cargar_select_super_manzana(this.id)'>";
         $respuesta.="<option value='0'>Elige una opcion</option>";
@@ -38,7 +38,9 @@ function select_fase(){
             $respuesta.="<option value='".$registro['fase']."'>".$registro['fase']."</option>";	
         }//Fin del while
         $respuesta.="</select>";
-    }//fin del if
+    }else{
+        $respuesta.="<h3> Sin datos </h3>";
+    }//fin del else
 	return $respuesta;
 }//fin de select fase
 
@@ -47,7 +49,7 @@ function select_super_manzana($fase){
 	$consulta="SELECT DISTINCT super_manzana from lotes where fase LIKE '".$fase."'";
 	$resultado=mysqli_query(conectar(),$consulta);
 	desconectar();
-    $num=mysqli_num_rows($result);
+    $num=mysqli_num_rows($resultado);
     if($num>0){
         $respuesta.="<select name='select_super_manzana' id='select_super_manzana' class='form-control' onchange='cargar_select_manzana(this.id)'>";
         $respuesta.="<option value='0'>Elige una opcion</option>";
@@ -59,12 +61,12 @@ function select_super_manzana($fase){
 	return $respuesta;
 }//fin de select super manzana
 
-function select_manzana($super_manzana){
+function select_manzana($super_manzana, $fase){
     $respuesta="";
-	$consulta="SELECT DISTINCT mza from lotes where super_manzana LIKE '".$super_manzana."'";
+	$consulta="SELECT DISTINCT mza from lotes where super_manzana LIKE '".$super_manzana."' AND fase LIKE '".$fase."'";
 	$resultado=mysqli_query(conectar(),$consulta);
 	desconectar();
-    $num=mysqli_num_rows($result);
+    $num=mysqli_num_rows($resultado);
     if($num>0){
         $respuesta.="<select name='select_manzana' id='select_manzana' class='form-control' onchange='cargar_select_lotes(this.id)'>";
         $respuesta.="<option value='0'>Elige una opcion</option>";
@@ -76,17 +78,17 @@ function select_manzana($super_manzana){
 	return $respuesta;
 }//fin de select super manzana
 
-function select_lotes($manzana){
+function select_lotes($manzana, $super_manzana, $fase){
     $respuesta="";
-	$consulta="SELECT DISTINCT lote, m2 from lotes where mza LIKE '".$manzana."'";
+	$consulta="SELECT id_lote, lote, m2 from lotes where mza LIKE '".$manzana."' AND super_manzana LIKE '".$super_manzana."' AND fase LIKE '".$fase."'";
 	$resultado=mysqli_query(conectar(),$consulta);
 	desconectar();
-    $num=mysqli_num_rows($result);
+    $num=mysqli_num_rows($resultado);
     if($num>0){
         $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' >";
         $respuesta.="<option value='0'>Elige una opcion</option>";
         while($registro=mysqli_fetch_array($resultado)){
-            $respuesta.="<option value='".$registro['lote']."'>".$registro['mza']." - ".$registro['m2']."</option>";	
+            $respuesta.="<option value='".$fase."-".$super_manzana."-".$manzana."-".$registro['lote']."'>".$registro['lote']." - ".$registro['m2']."m2</option>";	
         }//Fin del while
         $respuesta.="</select>";
     }//fin del if

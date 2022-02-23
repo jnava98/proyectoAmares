@@ -2,6 +2,7 @@
 session_start();
 include "../conexion.php";
 include "../funciones.php";
+include "../selects.php";
 
 if(empty($_GET["fase"])){
 	$fase="0";

@@ -18,6 +18,8 @@ if(!(empty($_SESSION["usuario"]))){
   <!--
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   -->
+  <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
+  <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
   <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
 
@@ -355,8 +357,8 @@ if(!(empty($_SESSION["usuario"]))){
                   </div>
                 </div>
                 <div class="row" id="div_cliente_lista" style="display: none;">
-                  <div class="col" style="margin-left: -12px;">
-                    <table>
+                  <div class="col-lg-6" style="margin-left: -12px;">
+                    <table class="table table-responsive">
                       <tbody id="tbody_cliente"></tbody>
                     </table>
                   </div>

@@ -20,17 +20,14 @@ if(empty($_GET["id"])){
 $respuesta=Array();
 if(($cliente!="0")||($id_input!="0")){
 	if($id_input=="buscar"){
-        $porciones = explode("-", $cliente);
-        $id_cliente = $porciones[0]; // porción1
-        echo $porciones[1]; // porción2
-		$sql="SELECT * from clientes where id_cliente like '".$id_cliente."'";//Consultar id de la variable
+		$sql="SELECT * from clientes where id_cliente like '".$cliente."'";//Consultar id de la variable
 		$result=mysqli_query(conectar(),$sql);
 		desconectar();
 		$num=mysqli_num_rows($result);
 		if($result){
 			$respuesta['valor']="ok";
-			$respuesta['formato']=mostrar_formato_cliente($id_cliente);
-			$respuesta['id_cliente']=$id_cliente;
+			$respuesta['formato']=mostrar_formato_cliente($cliente);
+			$respuesta['id_cliente']=$cliente;
 		}else{
 			$respuesta['valor']="¡No se encontró ningún cliente!";
 			$respuesta['id_cliente']="";
