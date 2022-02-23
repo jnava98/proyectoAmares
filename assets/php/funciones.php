@@ -283,7 +283,7 @@ function mostrar_formato_contrato_vacio(){
                             $html.='</div>';
                         $html.='</div>';
                         $html.='<div id="div_lote" class="row mb-3">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Lote</label>';
+                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Lotes Comprados</label>';
                             $html.='<div id="div_select_lote" class="col-sm-9">';
                             $html.='</div>';
                         $html.='</div>';
@@ -483,7 +483,7 @@ function mostrar_tabla_contratos($id_cliente){
     $num=mysqli_num_rows($result);
     if ($num>0){
         $i=1;
-        $html.="<h4>Tabla de usuarios</h4>"; 
+        $html.="<h4>Contratos del cliente</h4>"; 
         $html.="<table id='tabla_contratos' class='table.table-striped table-bordered table-hover table-condensed'>";
             $html.="<thead>";
                 $html.="<tr>";
@@ -497,7 +497,7 @@ function mostrar_tabla_contratos($id_cliente){
             while($col=mysqli_fetch_array($result)){
                 $html.="<tr>";
                     $html.="<td style='text-align:center'>".$i."</td>";
-                    $html.="<td><input disabled='disabled' class='form-control' value='".$col['fase'].",".$col['super_manzana'].",".$col['mza'].",".$col['lote']."'></input></td>";
+                    $html.="<td><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
                     $html.="<td><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
                     //Botones para las acciones
                     $html.="<td>";
