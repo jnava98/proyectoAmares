@@ -185,43 +185,10 @@ if(!(empty($_SESSION["usuario"]))){
         <div class="col-lg-8">
           <div class="row">
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+            
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- Ingresos Card -->
+            <div class="col-xxl-4 col-xl-12">
               <div class="card info-card revenue-card">
 
                 <div class="filter">
@@ -246,16 +213,16 @@ if(!(empty($_SESSION["usuario"]))){
                     </div>
                     <div class="ps-3">
                       <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">aumento</span>
 
                     </div>
                   </div>
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- End ingreos Card -->
 
-            <!-- Customers Card -->
+            <!-- Lotes Vendidos Card -->
             <div class="col-xxl-4 col-xl-12">
 
               <div class="card info-card customers-card">
@@ -282,7 +249,7 @@ if(!(empty($_SESSION["usuario"]))){
                     </div>
                     <div class="ps-3">
                       <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decremento</span>
 
                     </div>
                   </div>
@@ -310,7 +277,7 @@ if(!(empty($_SESSION["usuario"]))){
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Lotes Vendidos <span>|2022</span></h5>
 
                   <!-- Line Chart -->
                   <div id="reportsChart"></div>
@@ -319,13 +286,13 @@ if(!(empty($_SESSION["usuario"]))){
                     document.addEventListener("DOMContentLoaded", () => {
                       new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
-                          name: 'Sales',
+                          name: 'Premium',
                           data: [31, 40, 28, 51, 42, 82, 56],
                         }, {
-                          name: 'Revenue',
+                          name: 'Estándar',
                           data: [11, 32, 45, 32, 34, 52, 41]
                         }, {
-                          name: 'Customers',
+                          name: 'Plus',
                           data: [15, 11, 32, 18, 9, 24, 11]
                         }],
                         chart: {
@@ -356,14 +323,47 @@ if(!(empty($_SESSION["usuario"]))){
                           width: 2
                         },
                         xaxis: {
-                          type: 'datetime',
-                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                          type: 'date',
+                          categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"]
                         },
                         tooltip: {
                           x: {
-                            format: 'dd/MM/yy HH:mm'
+                            format: 'dd/MM/yy'
                           },
-                        }
+                        },
+                        toolbar: {
+                          show: true,
+                          offsetX: 0,
+                          offsetY: 0,
+                          tools: {
+                            download: true,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true | '<img src="/static/icons/reset.png" width="20">',
+                            customIcons: []
+                          },
+                          export: {
+                            csv: {
+                              filename: undefined,
+                              columnDelimiter: ',',
+                              headerCategory: 'category',
+                              headerValue: 'value',
+                              dateFormatter(timestamp) {
+                                return new Date(timestamp).toDateString()
+                              }
+                            },
+                            svg: {
+                              filename: undefined,
+                            },
+                            png: {
+                              filename: undefined,
+                            }
+                          },
+                          autoSelected: 'zoom' 
+                        },
                       }).render();
                     });
                   </script>
@@ -392,53 +392,39 @@ if(!(empty($_SESSION["usuario"]))){
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Clientes por Notificar <span>| Hoy</span></h5>
 
                   <table class="table table-borderless datatable">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Estatus Notificación</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <th scope="row"><a href="#">#2457</a></th>
-                        <td>Brandon Jacob</td>
-                        <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                        <td>$64</td>
-                        <td><span class="badge bg-success">Approved</span></td>
+                        <td>Jorge Navarrete</td>
+                        <td><a href="#" class="text-primary">jcnt98@gmail.com</a></td>
+                        <td>$600</td>
+                        <td><span class="badge bg-success">Notificado</span></td>
                       </tr>
                       <tr>
                         <th scope="row"><a href="#">#2147</a></th>
-                        <td>Bridie Kessler</td>
-                        <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
+                        <td>Cesar Toraya</td>
+                        <td><a href="#" class="text-primary">cesartn12@gmail.com</a></td>
                         <td>$47</td>
                         <td><span class="badge bg-warning">Pending</span></td>
                       </tr>
                       <tr>
                         <th scope="row"><a href="#">#2049</a></th>
-                        <td>Ashleigh Langosh</td>
-                        <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                        <td>$147</td>
-                        <td><span class="badge bg-success">Approved</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Angus Grady</td>
-                        <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                        <td>$67</td>
-                        <td><span class="badge bg-danger">Rejected</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2644</a></th>
-                        <td>Raheem Lehner</td>
-                        <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                        <td>$165</td>
-                        <td><span class="badge bg-success">Approved</span></td>
+                        <td>Maritzel Solis</td>
+                        <td><a href="#" class="text-primary">Maritz13@gmail.com</a></td>
+                        <td>$200</td>
+                        <td><span class="badge bg-danger">Error en la notificación</span></td>
                       </tr>
                     </tbody>
                   </table>
@@ -604,7 +590,7 @@ if(!(empty($_SESSION["usuario"]))){
           <!-- Budget Report -->
          
 
-          <!-- Website Traffic -->
+          <!-- Website Traffic 
           <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -619,7 +605,7 @@ if(!(empty($_SESSION["usuario"]))){
               </ul>
             </div>
 
-            <div class="card-body pb-0">
+            <!--div class="card-body pb-0">
               <h5 class="card-title">Website Traffic <span>| Today</span></h5>
 
               <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
@@ -680,7 +666,7 @@ if(!(empty($_SESSION["usuario"]))){
               </script>
 
             </div>
-          </div><!-- End Website Traffic -->
+          </div> End Website Traffic -->
 
           
 
