@@ -29,7 +29,7 @@ if($manzana!="0"){
     $num=mysqli_num_rows($result);
     if($num>0){
         $respuesta['valor']="ok";
-		$respuesta['select']=select_lotes($manzana, $super_manzana, $fase);
+		$respuesta['select']=select_lotes($manzana, $super_manzana, $fase, "");
     }else{
         $respuesta['valor']="error";
     }//fin del else
