@@ -88,10 +88,27 @@ function select_lotes($manzana, $super_manzana, $fase){
         $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' >";
         $respuesta.="<option value='0'>Elige una opcion</option>";
         while($registro=mysqli_fetch_array($resultado)){
-            $respuesta.="<option value='".$fase."-".$super_manzana."-".$manzana."-".$registro['lote']."'>".$registro['lote']." - ".$registro['m2']."m2</option>";	
+            $respuesta.="<option value='".$registro['id_lote']."'>".$registro['lote']." - ".$registro['m2']."m2</option>";	
         }//Fin del while
         $respuesta.="</select>";
     }//fin del if
 	return $respuesta;
 }//fin de select super manzana
+
+function select_clientes(){
+    $respuesta="";
+    $sql="SELECT * from clientes order by apellido_paterno";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $respuesta.='<select id="select_clientes" class="form-control" >';
+            $respuesta.='<option value="0" disabled selected>Selecciona una opcion</option>';
+        while($col=mysqli_fetch_array($result)){
+            $respuesta.="<option value='".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."'>".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."</option>";
+        }//fin del while
+        $respuesta.='</select>';
+    }
+    return $respuesta;
+}
 ?>

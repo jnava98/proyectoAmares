@@ -373,12 +373,14 @@ if(!(empty($_SESSION["usuario"]))){
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-6">
-                  <button type="button" id="buscar" class="success" onclick="cargar_datos_contrato('0');">Agregar Nuevo Contrato</button>
+                  <button type="button" id="buscar" class="success" onclick="cargar_datos_precontrato('0');">Agregar Nuevo Contrato</button>
                 </div>
               </div>
             </div>
           </div>            
         </div>
+      </div>
+      <div class="row" id="div_formato_precontrato">
       </div>
       <div class="row" id="div_formato_contrato">
       </div>

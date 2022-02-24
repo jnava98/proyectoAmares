@@ -48,35 +48,26 @@ function guardar_datos_cliente(){
 	});
 }//fin de guardar datos cliente
 
-function guardar_datos_contrato(){
+function guardar_datos_precontrato(){
 	//alert("Entra");
 	$(document).ready(function(){
 		var id_cliente = $('#id_cliente').val();
 		var id_contrato = $('#id_contrato').val();
-		var fecha_contrato = $('#fecha_contrato').val();
-		var fecha_firma = $('#fecha_firma').val();
-		var precio_venta = $('#precio_venta').val();
-		var tipo_compra = $('#tipo_compra').val();
 		var cantidad_apartado = $('#cantidad_apartado').val();
 		var fecha_apartado = $('#fecha_apartado').val();
 		var cantidad_enganche = $('#cantidad_enganche').val();
 		var fecha_enganche = $('#fecha_enganche').val();
-		var n_mensualidades = $('#n_mensualidades').val();
-		var monto_mensual = $('#monto_mensual').val();
-		var pago_final = $('#pago_final').val();
-		var txtArea_lotes = $('#txtArea_lotes').val();
-		var estatus_venta = $('#estatus_venta').val();
-		var dia_pago = $('#dia_pago').val();
-		var nombre_descuento = $('#nombre_descuento').val();
-		var tasa = $('#tasa').val();
+		var mensualidad_enganche = $('#men_enganche').val();
+		var clientes = $('#txtArea_clientes').val();
+		var lote = $('#select_lotes').val();
 		
 		//Función de Ajax
 		$.ajax({
-			url:"assets/php/clientes/guardar_datos_contrato.php",
+			url:"assets/php/clientes/guardar_datos_precontrato.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma, precio_venta:precio_venta, tipo_compra:tipo_compra, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, txtArea_lotes:txtArea_lotes, estatus_venta:estatus_venta, dia_pago:dia_pago, nombre_descuento:nombre_descuento, tasa:tasa
+				id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote
 			},
 			success:function(respuesta){
 				$(document).ready(function(){
@@ -100,6 +91,54 @@ function guardar_datos_contrato(){
 		});
 	});
 }//fin de guardar datos cliente
+
+function guardar_datos_contrato(){
+	//alert("Entra");
+	$(document).ready(function(){
+		var id_cliente = $('#id_cliente').val();
+		var id_contrato = $('#id_contrato').val();
+		var fecha_contrato = $('#fecha_contrato').val();
+		var fecha_firma = $('#fecha_firma').val();
+		var precio_venta = $('#precio_venta').val();
+		var tipo_compra = $('#tipo_compra').val();
+		var n_mensualidades = $('#n_mensualidades').val();
+		var monto_mensual = $('#monto_mensual').val();
+		var pago_final = $('#pago_final').val();
+		var estatus_venta = $('#estatus_venta').val();
+		var dia_pago = $('#dia_pago').val();
+		var nombre_descuento = $('#nombre_descuento').val();
+		var tasa = $('#tasa').val();
+		
+		//Función de Ajax
+		$.ajax({
+			url:"assets/php/clientes/guardar_datos_contrato.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, estatus_venta:estatus_venta, dia_pago:dia_pago, nombre_descuento:nombre_descuento, tasa:tasa
+			},
+			success:function(respuesta){
+				$(document).ready(function(){
+					if(respuesta.valor=="ok"){
+						swal({
+							text:'Datos guardados',
+							type: 'success'
+						});
+					}else{
+						swal({
+							text:respuesta.valor,
+							type: 'error'
+						});
+						console.log(respuesta);		
+					}//fin del else
+				});	
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	});
+}//fin de guardar datos contrato
 
 function eliminar_contrato(id_contrato){
 	//alert("Entra");
@@ -200,6 +239,29 @@ function cargar_datos_cliente(id){
 			type: 'warning'
 		});
 	}//fin del else
+}//fin de cargar datos clientes
+
+function cargar_datos_precontrato(id){
+	//alert("Entrando");
+	var id_cliente = $('#id_cliente').val();
+	$.ajax({
+		url:"assets/php/clientes/cargar_datos_precontrato.php",
+		dataType:"json",//Formato en como se manda la información
+		type:"get",
+		data:{//Información a enviar o cadena a enviar
+			id_cliente:id_cliente, id:id
+		},
+		success:function(respuesta){
+			$(document).ready(function(){
+				if(respuesta.valor=="ok"){
+					$('#div_formato_precontrato').html(respuesta.formato);
+				}//fin del if
+			});	
+		},
+		error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+		}
+	});
 }//fin de cargar datos clientes
 
 function cargar_datos_contrato(id){
@@ -453,6 +515,69 @@ function quitar_lote(){
 				}//fin del else
 			}//fin del for
 			document.getElementById("txtArea_lotes").value=aux;
+		}//fin del else
+	}//Fin else...
+}//Fin contar_responsables...
+
+function agregar_cliente(){
+	//Comprobamos que el campo no esté vacío
+	if(document.getElementById("select_clientes").value=="0"){
+		swal({
+			text:"Debes seleccionar un cliente.",
+			type: 'warning'
+		});							
+	}else{
+		cliente = document.getElementById("select_clientes").value
+		if(document.getElementById("txtArea_clientes").value.length>0){ //Verificamos si ya hay un valor en el textArea
+			var arreglo_clientes = document.getElementById("txtArea_clientes").value.split(","); //Creamos un arreglo para almacenar los valores del txtArea
+			for (var i = 0; i < arreglo_clientes.length; i++) { //Recorremos el arreglo
+				if(arreglo_clientes[i]==document.getElementById("select_clientes").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
+					swal({
+						text:"Este cliente ya se encuentra registrado",
+						type: 'warning'
+					});
+					cliente="";
+				}//Fin if...
+			}//Fin for...
+			if(document.getElementById("txtArea_clientes").value!=0){
+				aux=document.getElementById("txtArea_clientes").value;
+				if(cliente==""){
+					aux=aux+"";
+				}else{
+					aux=aux+",";
+				}//fin del else
+			}//Fin if...
+		}else{
+			aux="";
+		}//Fin del else...
+		aux+=cliente;
+		document.getElementById("txtArea_clientes").value=aux;
+		document.getElementById("select_clientes").value = "0";
+	}//Fin else...
+}//Fin agregar_lote...
+
+function quitar_cliente(){
+	if(document.getElementById("txtArea_clientes").value.length=="0"){ //Validamos que el txtArea no esté vacio
+		swal({
+			text:"No hay clientes seleccionados",
+			type: 'warning'
+		});
+	}else{
+		var arreglo_clientes = document.getElementById("txtArea_clientes").value.split(","); //Generamos un arreglo con los responsables que ya hay en el textArea
+		clientes_largo = arreglo_clientes.length;
+		if(clientes_largo==1){
+			document.getElementById("txtArea_clientes").value="";
+		}else{
+			clientes_largo--;
+			var aux = "";
+			for (var i = 0; i < clientes_largo; i++) {
+				if(i==0){
+					aux+=arreglo_clientes[i];
+				}else{
+					aux+=","+arreglo_clientes[i];
+				}//fin del else
+			}//fin del for
+			document.getElementById("txtArea_clientes").value=aux;
 		}//fin del else
 	}//Fin else...
 }//Fin contar_responsables...

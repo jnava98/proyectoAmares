@@ -1,7 +1,7 @@
 <?php
 
 
-/*
+
 function conectar(){
 	$conexion=mysqli_connect("localhost","root", ""); //LOCAL
 	mysqli_select_db($conexion,"cobranza_amares")or die ("ninguna BD seleccionada");
@@ -12,10 +12,10 @@ function conectar(){
 function desconectar(){
 	mysqli_close(conectar());
 }//fin de funcion desconectar
-*/
+
 
 //CONEXION EN LINEA
-
+/*
 function conectar(){
 	//$conexion=mysqli_connect("localhost","root", ""); //LOCAL
 	$conexion=mysqli_connect("us-cdbr-east-05.cleardb.net","b64207390e8bf7","708d1f71"); //HEROKU
@@ -27,7 +27,7 @@ function conectar(){
 function desconectar(){
 	mysqli_close(conectar());
 }//fin de funcion desconectar
-
+*/
 
 
 
