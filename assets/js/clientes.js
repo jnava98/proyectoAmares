@@ -187,7 +187,7 @@ function busca_cliente(){
 			$('#div_cliente_lista').css('display','block');
 		}//fin de success
 	});
-};//Fin busca cliente
+};//Fin busca_cliente
 
 function seleccionar_cliente(id){
 	var cadena = id.split("&");
@@ -196,7 +196,7 @@ function seleccionar_cliente(id){
 	$('#input_cliente').val(nombre);
 	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
-};//Fin seleccionarPersona
+};//Fin seleccionar_cliente
 
 function cargar_datos_cliente(id){
 	var aux = 0;

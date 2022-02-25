@@ -577,6 +577,7 @@ function mostrar_formato_contrato($id_contrato){
     $num=mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
+            $html="";
             $html.='<div id="div_contrato" class="col-lg-12">';
                 $html.='<div class="card">';
                     $html.='<div class="card-body">';
