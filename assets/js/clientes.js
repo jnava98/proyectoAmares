@@ -53,14 +53,13 @@ function guardar_datos_precontrato(){
 	$(document).ready(function(){
 		var id_cliente = $('#id_cliente').val();
 		var id_contrato = $('#id_contrato').val();
-		var cantidad_apartado = $('#cantidad_apartado').val();
+		var cantidad_apartado = $('#cant_apartado').val();
 		var fecha_apartado = $('#fecha_apartado').val();
-		var cantidad_enganche = $('#cantidad_enganche').val();
+		var cantidad_enganche = $('#cant_enganche').val();
 		var fecha_enganche = $('#fecha_enganche').val();
 		var mensualidad_enganche = $('#men_enganche').val();
 		var clientes = $('#txtArea_clientes').val();
 		var lote = $('#select_lotes').val();
-		
 		//Función de Ajax
 		$.ajax({
 			url:"assets/php/clientes/guardar_datos_precontrato.php",
@@ -76,6 +75,7 @@ function guardar_datos_precontrato(){
 							text:'Datos guardados',
 							type: 'success'
 						});
+						cargar_datos_contrato();
 					}else{
 						swal({
 							text:respuesta.valor,
@@ -100,11 +100,11 @@ function guardar_datos_contrato(){
 		var fecha_contrato = $('#fecha_contrato').val();
 		var fecha_firma = $('#fecha_firma').val();
 		var precio_venta = $('#precio_venta').val();
-		var tipo_compra = $('#tipo_compra').val();
+		var tipo_compra = $('#select_tipo_compra').val();
 		var n_mensualidades = $('#n_mensualidades').val();
 		var monto_mensual = $('#monto_mensual').val();
 		var pago_final = $('#pago_final').val();
-		var estatus_venta = $('#estatus_venta').val();
+		var estatus_venta = $('#select_estatus_venta').val();
 		var dia_pago = $('#dia_pago').val();
 		var nombre_descuento = $('#nombre_descuento').val();
 		var tasa = $('#tasa').val();
@@ -255,6 +255,7 @@ function cargar_datos_precontrato(id){
 			$(document).ready(function(){
 				if(respuesta.valor=="ok"){
 					$('#div_formato_precontrato').html(respuesta.formato);
+					cargar_datos_contrato();
 				}//fin del if
 			});	
 		},
@@ -264,15 +265,15 @@ function cargar_datos_precontrato(id){
 	});
 }//fin de cargar datos clientes
 
-function cargar_datos_contrato(id){
-	//alert("Entrando");
+function cargar_datos_contrato(){
 	var id_cliente = $('#id_cliente').val();
+	var id_contrato = $('#id_contrato').val();
 	$.ajax({
 		url:"assets/php/clientes/cargar_datos_contrato.php",
 		dataType:"json",//Formato en como se manda la información
 		type:"get",
 		data:{//Información a enviar o cadena a enviar
-			id_cliente:id_cliente, id:id
+			id_cliente:id_cliente, id_contrato:id_contrato
 		},
 		success:function(respuesta){
 			$(document).ready(function(){

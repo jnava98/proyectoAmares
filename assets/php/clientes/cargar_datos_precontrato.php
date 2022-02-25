@@ -20,9 +20,6 @@ if(empty($_GET["id"])){
 $respuesta=Array();
 if(($id_cliente!="0")){
 	if($id_contrato!="0"){
-        $porciones = explode("-", $cliente);
-        $id_cliente = $porciones[0]; // porción1
-        echo $porciones[1]; // porción2
 		$sql="SELECT * from contrato where id_contrato like '".$id_contrato."'";//Consultar id de la variable
 		$result=mysqli_query(conectar(),$sql);
 		desconectar();

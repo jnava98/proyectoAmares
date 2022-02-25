@@ -37,7 +37,7 @@ function select_fase($fase){
         while($registro=mysqli_fetch_array($resultado)){
             if($fase!=""){
                 if($fase==$registro['fase']){
-                    $respuesta.="<option value='".$registro['fase']."'>".$registro['fase']."</option>";	
+                    $respuesta.="<option value='".$registro['fase']."' selected>".$registro['fase']."</option>";	
                 }else{
                     $respuesta.="<option value='".$registro['fase']."'>".$registro['fase']."</option>";	
                 }//fin del else
@@ -113,8 +113,8 @@ function select_lotes($manzana, $super_manzana, $fase, $lote){
         $respuesta.="<option value='0'>Elige una opcion</option>";
         while($registro=mysqli_fetch_array($resultado)){
             if($lote!=""){
-                if($lote==$registro['mza']){
-                    $lote.="<option value='".$registro['id_lote']."' selected>".$registro['lote']." - ".$registro['m2']."m2</option>";	
+                if($lote==$registro['lote']){
+                    $respuesta.="<option value='".$registro['id_lote']."' selected>".$registro['lote']." - ".$registro['m2']."m2</option>";	
                 }else{
                     $respuesta.="<option value='".$registro['id_lote']."'>".$registro['lote']." - ".$registro['m2']."m2</option>";	
                 }//fin del else
@@ -142,5 +142,55 @@ function select_clientes(){
         $respuesta.='</select>';
     }
     return $respuesta;
-}
+}//fin de select clientes
+
+function select_estatus_venta($estatus_venta){
+    $respuesta="";
+    $sql="SELECT * from cat_estatus_venta";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $respuesta.='<select id="select_estatus_venta" class="form-control" >';
+            $respuesta.='<option value="0">Selecciona una opcion</option>';
+        while($col=mysqli_fetch_array($result)){
+            if($estatus_venta!=""){
+                if($estatus_venta==$col['id_estatus_venta']){
+                    $respuesta.="<option value='".$col['id_estatus_venta']."' selected>".$col['nombre']."</option>";	
+                }else{
+                    $respuesta.="<option value='".$col['id_estatus_venta']."'>".$col['nombre']."</option>";	
+                }//fin del else
+            }else{
+                $respuesta.="<option value='".$col['id_estatus_venta']."'>".$col['nombre']."</option>";	
+            }//fin del else
+        }//fin del while
+        $respuesta.='</select>';
+    }//fin del if
+    return $respuesta;
+}//fin de select estatus venta
+
+function select_tipo_compra($id_tipo_compra){
+    $respuesta="";
+    $sql="SELECT * from cat_tipo_compra";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $respuesta.='<select id="select_tipo_compra" class="form-control" >';
+            $respuesta.='<option value="0">Selecciona una opcion</option>';
+        while($col=mysqli_fetch_array($result)){
+            if($id_tipo_compra!=""){
+                if($id_tipo_compra==$col['id_tipo_compra']){
+                    $respuesta.="<option value='".$col['id_tipo_compra']."' selected>".$col['nombre']."</option>";	
+                }else{
+                    $respuesta.="<option value='".$col['id_tipo_compra']."'>".$col['nombre']."</option>";	
+                }//fin del else
+            }else{
+                $respuesta.="<option value='".$col['id_tipo_compra']."'>".$col['nombre']."</option>";	
+            }//fin del else
+        }//fin del while
+        $respuesta.='</select>';
+    }//fin del if
+    return $respuesta;
+}//fin de select estatus venta
 ?>
