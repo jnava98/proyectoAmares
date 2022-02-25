@@ -178,7 +178,6 @@ function mostrar_formato_cliente($id_cliente){
                             $html.='</div>';
                         $html.='</div>';
                         $html.='<div class="row mb-3">';
-                            $html.='<label class="col-sm-2 col-form-label"></label>';
                             $html.='<div class="col-sm-9">';
                                 $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Contrato</button>';
                             $html.='</div>';
@@ -687,7 +686,6 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='</div>';
                         $html.='<br>';
                         $html.='<div class="row mb-3">';
-                            $html.='<label class="col-sm-2 col-form-label"></label>';
                             $html.='<div class="col-sm-9">';
                                 $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
                             $html.='</div>';
