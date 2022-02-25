@@ -8,13 +8,13 @@ if(!(empty($_SESSION["usuario"]))){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Amares Cobranza - Clientes</title>
+  <title>Amares Cobranza - Pagos</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="assets/js/clientes.js"></script>
+  <script type="text/javascript" src="assets/js/pagos.js"></script>
   <!--
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   -->
@@ -346,8 +346,7 @@ if(!(empty($_SESSION["usuario"]))){
                     <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
                   </div>
                   <div class="col-lg-6">
-                    <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);"> Buscar</button>&nbsp
-                    <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button>&nbsp
+                    <button type="button" id="buscar" id_cliente="" class="success" onclick="trae_contratos_cliente();"> Buscar</button>&nbsp
                     <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
                   </div>
                 </div>
@@ -366,7 +365,7 @@ if(!(empty($_SESSION["usuario"]))){
       <div class="row" id="div_formato_cliente">
       </div>
       <div class="row">
-        <div class="table-responsive" id="div_tabla_contratos">
+        <div class="table-responsive" id="div_tabla_contratos" style="display:none;">
         </div>
         <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
           <div class="card">
