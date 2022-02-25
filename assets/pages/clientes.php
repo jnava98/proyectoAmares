@@ -366,14 +366,23 @@ if(!(empty($_SESSION["usuario"]))){
       <div class="row" id="div_formato_cliente">
       </div>
       <div class="row">
-        <div class="table-responsive" id="div_tabla_contratos">
+        <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive col-lg-9" id="div_tabla_contratos">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-6">
-                  <button type="button" id="buscar" class="success" onclick="cargar_datos_precontrato('0');">Agregar Nuevo Contrato</button>
+                <div class="col-lg-2">
+                  <button type="button" id="buscar" class="btn btn-success" onclick="cargar_datos_precontrato('0');">Agregar Nuevo Contrato</button>
+                  <br>
                 </div>
               </div>
             </div>
@@ -400,7 +409,6 @@ if(!(empty($_SESSION["usuario"]))){
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <script src="assets/js/main.js"></script>
 </body>
 <?php
 }else{

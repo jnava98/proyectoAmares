@@ -9,7 +9,7 @@ if(empty($_GET["id_cliente"])){
 }//Fin del else
 
 if(empty($_GET["id_contrato"])){
-	$id_contrato="0";
+	$id_contrato="";
 }else{
 	$id_contrato=$_GET["id_contrato"];
 }//Fin del else
@@ -59,15 +59,14 @@ if(empty($_GET["lote"])){
 $respuesta=Array();
 
 //Programar guardado para las tabla lotes-contrato, cliente-contrato
-
-if(($id_contrato!="0")){
+if(($id_contrato!="")){
     //Validamos si existe el cliente
     $sql="SELECT * from contrato where id_contrato LIKE '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE contrato set cantidad_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."' where id_contrato LIKE '".$id_contrato."' ";
+        $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."' where id_contrato LIKE '".$id_contrato."' ";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
@@ -76,8 +75,10 @@ if(($id_contrato!="0")){
         }//fin del else
     }else{
         //Si no existe el cliente insertamos
-        $sql="INSERT into contrato (cantidad_apartado, fecha_apartado, cantidad_enganche, fecha_enganche, mensualidad_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
+        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
         $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        echo $sql;
         if($result){
             $sql="SELECT max(id_contrato) from contrato";
             $result=mysqli_query(conectar(),$sql);
@@ -86,14 +87,14 @@ if(($id_contrato!="0")){
             $id_contrato = $col[0];
             $cadena = explode(",", $clientes);
             $array_size = count($cadena);
-            for ($i = 1; $array_size; $i++) {
+            for ($i = 0; $i<$array_size; $i++) {
                 $cliente = $cadena[$i];
-                $cadena2 = explode(" ", $lotes);
+                $cadena2 = explode(" ", $cliente);
                 $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
                 $col_cliente = mysqli_fetch_array($resultado);
-                $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col['id_cliente']."', '".$id_contrato."') ";
+                $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del for
@@ -112,8 +113,10 @@ if(($id_contrato!="0")){
         }//fin del else
     }//fin del else
 }else{
-    $sql="INSERT into contrato (cantidad_apartado, fecha_apartado, cantidad_enganche, fecha_enganche, mensualidad_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
+    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
     $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    echo $sql;
     if($result){
         $sql="SELECT max(id_contrato) from contrato";
         $result=mysqli_query(conectar(),$sql);
@@ -122,14 +125,14 @@ if(($id_contrato!="0")){
         $id_contrato = $col[0];
         $cadena = explode(",", $clientes);
         $array_size = count($cadena);
-        for ($i = 1; $array_size; $i++) {
+        for ($i = 0; $i<$array_size; $i++) {
             $cliente = $cadena[$i];
-            $cadena2 = explode(" ", $lotes);
+            $cadena2 = explode(" ", $cliente);
             $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
             $resultado = mysqli_query(conectar(),$sql);
             desconectar();
             $col_cliente = mysqli_fetch_array($resultado);
-            $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col['id_cliente']."', '".$id_contrato."') ";
+            $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
         }//fin del for

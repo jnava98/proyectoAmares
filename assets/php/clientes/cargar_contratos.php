@@ -23,7 +23,7 @@ $num=mysqli_num_rows($result);
 if($num>0){
     $respuesta['valor']="ok";
     $respuesta['tabla']=mostrar_tabla_contratos($id_cliente);
-    $respuesta['id_tabla']="tabla_usuarios";
+    $respuesta['id_tabla']="tabla_contratos";
 }else{
     $respuesta['valor']="No se encontró ningún contrato";
 }//Fin del else

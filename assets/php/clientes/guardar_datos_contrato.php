@@ -92,6 +92,7 @@ if(($id_contrato!="0")){
     if($num>0){
         //Si existe editamos
         $sql="UPDATE contrato set fecha_contrato = '".$fecha_contrato."', fecha_firma = '".$fecha_firma."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', tasa = '".$tasa."' WHERE id_contrato LIKE '".$id_contrato."'";
+		echo $sql;
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";

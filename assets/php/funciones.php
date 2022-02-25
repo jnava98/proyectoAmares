@@ -178,7 +178,6 @@ function mostrar_formato_cliente($id_cliente){
                             $html.='</div>';
                         $html.='</div>';
                         $html.='<div class="row mb-3">';
-                            $html.='<label class="col-sm-2 col-form-label"></label>';
                             $html.='<div class="col-sm-9">';
                                 $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Contrato</button>';
                             $html.='</div>';
@@ -316,7 +315,7 @@ function mostrar_formato_precontrato($id_contrato){
     $num=mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
-            $sql="SELECT * FROM lotes where id_lote LIKE '".$col['lote']."'";
+            $sql="SELECT l.fase, l.super_manzana, l.mza, l.lote FROM lotes_contrato as lc inner join lotes as l on lc.id_lote = l.id_lote where id_contrato LIKE '".$id_contrato."'";
             $resultado=mysqli_query(conectar(),$sql);
             desconectar();
             $num=mysqli_num_rows($resultado);
@@ -364,7 +363,7 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.='<label for="inputText" class="col-form-label">Lotes Comprados</label>';
                             $html.='</div>';
                             $html.='<div id="div_select_lote" class="col-sm-3">';
-                                $html.=select_lotes($super_manzana, $manzana, $fase, $lote);
+                                $html.=select_lotes($manzana, $super_manzana, $fase, $lote);
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
@@ -413,7 +412,7 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.='<label for="inputText" class="col-form-label">Mensualidad Enganche</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
-                                $html.='<input type="number" class="form-control" id="men_enganche" value="'.$col['mensualidad_enganche'].'">';
+                                $html.='<input type="number" class="form-control" id="men_enganche" value="'.$col['mensualidades_enganche'].'">';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
@@ -431,7 +430,7 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.='<button type="button" class="btn btn-warning" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
                             $html.='</div>';
                             $html.='<div class="col-sm-6">';
-                                $html.='<textarea id="txtArea_clientes" disabled class="form-control">"'.$col['clientes'].'"</textarea>';
+                                $html.='<textarea id="txtArea_clientes" disabled class="form-control">'.$col['clientes'].'</textarea>';
                             $html.='</div>';
                         $html.='</div>'; 
                         $html.='<div class="row mb-3">';
@@ -449,7 +448,7 @@ function mostrar_formato_precontrato($id_contrato){
     return $html;
 }//fin de mostrar formato precontrato
 
-function mostrar_formato_contrato_vacio(){
+/*function mostrar_formato_contrato_vacio(){
     $html="";
     $html.='<div id="div_contrato" class="col-lg-12">';
         $html.='<div class="card">';
@@ -487,7 +486,7 @@ function mostrar_formato_contrato_vacio(){
                     $html.='<label for="inputText" class="col-sm-3 col-form-label">Tipo de compra</label>';
                     $html.='</div>';
                     $html.='<div class="col-sm-3">';
-                    $html.='<input type="text" class="form-control" id="tipo_compra">';
+                        $html.=select_tipo_compra("");
                     $html.='</div>';
                     $html.='<div class="col-sm-1">';
                     $html.='</div>';
@@ -525,7 +524,7 @@ function mostrar_formato_contrato_vacio(){
                     $html.='<label for="inputText" class="col-sm-3 col-form-label">Estatus de la venta</label>';
                     $html.='</div>';
                     $html.='<div class="col-sm-3">';
-                    $html.='<input type="text" class="form-control" id="estatus_venta">';
+                        $html.=select_estatus_venta("");
                     $html.='</div>';
                     $html.='<div class="col-sm-1">';
                     $html.='</div>';
@@ -569,9 +568,10 @@ function mostrar_formato_contrato_vacio(){
         $html.='</div>';
     $html.='</div>';
     return $html;
-}//fin de mostrar formato contrato vacio
+}//fin de mostrar formato contrato vacio*/
 
 function mostrar_formato_contrato($id_contrato){
+    $html="";
     $sql="SELECT * from contrato WHERE id_contrato LIKE '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     $num=mysqli_num_rows($result);
@@ -584,7 +584,7 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<h5 class="card-title">Datos del contrato</h5>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha Contrato</label>';
+                            $html.='<label for="inputDate" class="col-form-label">Fecha Contrato</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="date" class="form-control" id="fecha_contrato" value="'.$col['fecha_contrato'].'">';
@@ -592,7 +592,7 @@ function mostrar_formato_contrato($id_contrato){
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha firma</label>';
+                            $html.='<label for="inputDate" class="col-form-label">Fecha firma</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="date" class="form-control" id="fecha_firma" value="'.$col['fecha_firma'].'">';
@@ -603,7 +603,7 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Precio de venta</label>';
+                            $html.='<label for="inputText" class="col-form-label">Precio de venta</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="number" class="form-control" id="precio_venta" value="'.$col['precio_venta'].'">';
@@ -611,10 +611,10 @@ function mostrar_formato_contrato($id_contrato){
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Tipo de compra</label>';
+                            $html.='<label for="inputText" class="col-form-label">Tipo de compra</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
-                            $html.='<input type="text" class="form-control" id="tipo_compra">';
+                                $html.=select_tipo_compra($col['id_tipo_compra']);
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
@@ -622,15 +622,15 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">No. de mensualidades</label>';
+                            $html.='<label for="inputText" class="col-form-label">No. de mensualidades</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
-                            $html.='<input type="number" class="form-control" id="n_mensualidades" value="'.$col['n_mensualidades'].'">';
+                            $html.='<input type="number" class="form-control" id="n_mensualidades" value="'.$col['mensualidades'].'">';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Monto mensual</label>';
+                            $html.='<label for="inputText" class="col-form-label">Monto mensual</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="number" class="form-control" id="monto_mensual" value="'.$col['monto_mensual'].'">';
@@ -641,7 +641,7 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Pago final</label>';
+                            $html.='<label for="inputText" class="col-form-label">Pago final</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="number" class="form-control" id="pago_final" value="'.$col['pago_final'].'">';
@@ -649,10 +649,10 @@ function mostrar_formato_contrato($id_contrato){
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Estatus de la venta</label>';
+                            $html.='<label for="inputText" class="col-form-label">Estatus de la venta</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
-                            $html.='<input type="text" class="form-control" id="estatus_venta">';
+                                $html.=select_estatus_venta($col['id_estatus_venta']);
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
@@ -660,15 +660,15 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputDate" class="col-sm-3 col-form-label">Día de pago</label>';
+                            $html.='<label for="inputDate" class="col-form-label">Día de pago</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
-                            $html.='<input type="date" class="form-control" id="dia_pago" value="'.$col['dia_pago'].'">';
+                            $html.='<input type="number" class="form-control" id="dia_pago" value="'.$col['dia_pago'].'">';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Nombre Descuento</label>';
+                            $html.='<label for="inputText" class="col-form-label">Nombre Descuento</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="text" class="form-control" id="nombre_descuento" value="'.$col['nombre_descuento'].'">';
@@ -679,7 +679,7 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<div class="col-sm-2">';
-                            $html.='<label for="inputText" class="col-sm-3 col-form-label">Tasa</label>';
+                            $html.='<label for="inputText" class="col-form-label">Tasa</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-3">';
                             $html.='<input type="text" id="tasa" class="form-control" onkeyup="validar_entrada(this.id)" value="'.$col['tasa'].'">';
@@ -687,7 +687,6 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='</div>';
                         $html.='<br>';
                         $html.='<div class="row mb-3">';
-                            $html.='<label class="col-sm-2 col-form-label"></label>';
                             $html.='<div class="col-sm-9">';
                                 $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
                             $html.='</div>';
@@ -710,8 +709,8 @@ function mostrar_tabla_contratos($id_cliente){
     $num=mysqli_num_rows($result);
     if ($num>0){
         $i=1;
-        $html.="<h4>Contratos del cliente</h4>"; 
-        $html.="<table id='tabla_contratos' class='table.table-striped table-bordered table-hover table-condensed'>";
+        $html.='<h5 class="card-title">Contratos del Cliente</h5>';
+        $html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
             $html.="<thead>";
                 $html.="<tr>";
                     $html.="<th style='text-align:center'>#</th>";
@@ -724,12 +723,12 @@ function mostrar_tabla_contratos($id_cliente){
             while($col=mysqli_fetch_array($result)){
                 $html.="<tr>";
                     $html.="<td style='text-align:center'>".$i."</td>";
-                    $html.="<td><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
-                    $html.="<td><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
+                    $html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
+                    $html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
                     //Botones para las acciones
-                    $html.="<td>";
-                        $html.="<button id='".$col['id_contrato']."' onclick='editar_contrato(this.id);'>Editar</button>";
-                        $html.="&nbsp;&nbsp;<button id='".$col['id_contrato']."' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
+                    $html.="<td style='text-align:center'>";
+                        $html.="<button id='".$col['id_contrato']."' class='btn btn-sm btn-success' onclick='cargar_datos_precontrato(this.id);'>Editar</button>";
+                        $html.="&nbsp;&nbsp;<button id='".$col['id_contrato']."' class='btn btn-sm btn-dark' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
                     $html.="</td>";
                 $html.="</tr>";
                 $i++;
@@ -739,6 +738,27 @@ function mostrar_tabla_contratos($id_cliente){
     }//Fin del if..
     return $html;
 }//fin de mostrar tabla usuarios
+
+function validar_datos_precontrato($id_contrato){
+    $respuesta = "";
+    $sql="SELECT fecha_enganche, cant_enganche FROM contrato where id_contrato LIKE '".$id_contrato."'";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num = mysqli_num_rows($result);
+    if($num>0){
+        $col = mysqli_fetch_array($result);
+        $enganche = $col['cant_enganche'];
+        $fecha_enganche = $col['fecha_enganche'];
+        if($enganche!=0){
+            $respuesta = "ok";
+        }else{
+            $respuesta = "error";
+        }//fin del else
+    }else{
+        $respuesta = "error";
+    }//fin del else
+    return $respuesta;
+}//fin de validar datos precontrato
 
 
 ?>

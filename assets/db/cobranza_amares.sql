@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-02-2022 a las 06:10:50
+-- Tiempo de generación: 25-02-2022 a las 04:11:13
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -147,7 +147,8 @@ CREATE TABLE `cliente_contrato` (
 --
 
 INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrato`) VALUES
-(1, 1, 2);
+(1, 1, 2),
+(12510, 2, 22);
 
 -- --------------------------------------------------------
 
@@ -160,7 +161,7 @@ CREATE TABLE `contrato` (
   `fecha_contrato` date NOT NULL,
   `fecha_firma` date NOT NULL,
   `precio_venta` varchar(50) NOT NULL,
-  `id_tipo_compra` int(11) NOT NULL,
+  `id_tipo_compra` int(11) DEFAULT NULL,
   `cant_apartado` varchar(50) NOT NULL,
   `fecha_apartado` date NOT NULL,
   `cant_enganche` varchar(50) NOT NULL,
@@ -169,7 +170,7 @@ CREATE TABLE `contrato` (
   `mensualidades_enganche` varchar(10) NOT NULL,
   `monto_mensual` varchar(50) NOT NULL,
   `pago_final` varchar(50) NOT NULL,
-  `id_estatus_venta` int(11) NOT NULL,
+  `id_estatus_venta` int(11) DEFAULT NULL,
   `dia_pago` varchar(50) NOT NULL,
   `nombre_descuento` varchar(100) NOT NULL,
   `tasa` varchar(10) NOT NULL,
@@ -182,7 +183,8 @@ CREATE TABLE `contrato` (
 --
 
 INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_descuento`, `tasa`, `nombre_broker`, `clientes`) VALUES
-(2, '2022-11-09', '2022-12-09', '100000', 2, '10000', '2022-11-25', '15000', '2022-11-30', '10', '', '12000', '17000', 3, '27', 'No aplica', '5', 'Jorge Perez', '');
+(2, '2022-11-09', '2022-12-09', '100000', 2, '10000', '2022-11-25', '15000', '2022-11-30', '10', '', '12000', '17000', 3, '27', 'No aplica', '5', 'Jorge Perez', ''),
+(22, '2022-02-28', '2022-02-27', '150000', 4, '10000', '2022-02-24', '50000', '2022-02-25', '10', '', '15000', '20000', 1, '16', '', '', '', 'Navarrete Torres Jorge Carlos');
 
 -- --------------------------------------------------------
 
@@ -1158,7 +1160,8 @@ CREATE TABLE `lotes_contrato` (
 --
 
 INSERT INTO `lotes_contrato` (`id_lote_contrato`, `id_lote`, `id_contrato`) VALUES
-(1, 5, 2);
+(1, 5, 2),
+(2, 264, 22);
 
 -- --------------------------------------------------------
 
@@ -1303,13 +1306,13 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
-  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12511;
 
 --
 -- AUTO_INCREMENT de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `cuentas_usuario`
@@ -1327,7 +1330,7 @@ ALTER TABLE `lotes`
 -- AUTO_INCREMENT de la tabla `lotes_contrato`
 --
 ALTER TABLE `lotes_contrato`
-  MODIFY `id_lote_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_lote_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
