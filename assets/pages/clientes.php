@@ -295,7 +295,7 @@ if(!(empty($_SESSION["usuario"]))){
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Detalle CLientes</span>
+              <i class="bi bi-circle"></i><span>Detalle Clientes</span>
             </a>
           </li>
         </ul>
@@ -324,12 +324,12 @@ if(!(empty($_SESSION["usuario"]))){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Detalle CLientes</h1>
+      <h1>Detalle Clientes</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
           <li class="breadcrumb-item">Clientes</li>
-          <li class="breadcrumb-item active">Detalle CLientes</li>
+          <li class="breadcrumb-item active">Detalle Clientes</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -363,10 +363,10 @@ if(!(empty($_SESSION["usuario"]))){
           </div>
         </div>
       </div>
-      <div class="row" id="div_formato_cliente">
+      <div class="row" id="div_formato_cliente" >
       </div>
       <div class="row">
-        <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
+        <div id="div_contratos" class="col-lg-12" style="display:none;">
           <div class="card">
             <div class="card-body">
               <div class="row">

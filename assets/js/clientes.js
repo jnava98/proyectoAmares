@@ -303,6 +303,7 @@ function cargar_tabla_contratos(){
 				},
 				success:function(respuesta){
 					if(respuesta.valor=="ok"){
+						$('#div_contratos').show('slow');
 						$('#div_tabla_contratos').html(respuesta.tabla);//En donde quiero mostrar la información
 						$('#'+respuesta.id_tabla).DataTable();
 					}//Fin del if  
