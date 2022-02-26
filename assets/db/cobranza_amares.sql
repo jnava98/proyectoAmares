@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-02-2022 a las 04:11:13
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Tiempo de generación: 26-02-2022 a las 02:38:49
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -128,7 +128,17 @@ INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_ma
 (1, 'Cesar Julian', 'Toraya ', 'Novelo', 'Mérida', 'Mexicana', 'cesartn12@gmail.com', '999 360 0284', 'Soltero', 'Desarrollador'),
 (2, 'Jorge Carlos', 'Navarrete', 'Torres', 'Mérida', 'Mexicana', 'jorgecnt98@gmail.com', '999 579 9501', 'Casado', 'Desarrollador'),
 (3, 'Maritzel Beatriz', 'Euan', 'Solis', 'Uman', 'Mexicana', 'maritzels@gmail.com', '9991409186', 'Soltera', 'Administrador de Proyectos'),
-(4, 'Ana Carolina ', 'Martinez', 'Maza', 'Mocochá', 'Mexicana', 'karo@gmail.com', '999 397 1844', 'Soltera', 'Coordinadora ');
+(4, 'Ana Carolina ', 'Martinez', 'Maza', 'Mocochá', 'Mexicana', 'karo@gmail.com', '999 397 1844', 'Soltera', 'Coordinadora '),
+(10, 'Nicte-Ha', 'Velez', 'Koeppel', 'Playa del carmen ', 'Mexicana ', 'NICKYVK@ICLOUD.COM ', '2283110412', '', ''),
+(11, 'Ramei', 'Dubois', 'Garcia', 'Ciudad de Mexico ', 'Mexicana ', 'Ramaeldubois@hotmail.com', '5510697917', '', ''),
+(12, 'Isaac', 'Banman', 'Derksen', 'Sherwood Park', 'Canadiense', 'isaacdereksen@gmail.com', '7809269523', '', ''),
+(13, 'Luis Alonso', 'Joya', 'Villareal', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '8115873786', '', ''),
+(14, 'Alma Leticia', 'Medellin', 'Bazaldua', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '8115873786', '', ''),
+(15, 'Rosalie', 'Roeper', '', 'Amsterdam', 'Holandesa', 'rosalieroeper@live.nl ', ' +31 68321989', '', ''),
+(16, 'Laurena', 'Rutgers', '', 'Amsterdam', 'Holandesa', ' laurentarutgers1@gmail.com', '+31 655818843', '', ''),
+(17, 'Carlos Ernesto', 'Gutierrez', 'Villaseñor', 'Canada', 'Mexicano', 'neno.gutierrez.03@gmail.com', '9057836955', '', ''),
+(18, 'Roberto', 'Luna', 'Salcedo', 'Solidaridad', 'Mexicano', 'ing_roberto_luna@outlook.es', '3337241815', '', ''),
+(19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '9057836955', '', '');
 
 -- --------------------------------------------------------
 
@@ -1300,7 +1310,7 @@ ALTER TABLE `cat_tipo_lote`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_contrato`
