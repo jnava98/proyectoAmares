@@ -1422,7 +1422,7 @@
 .ri-money-cny-circle-line:before { content: "\ef61"; }
 .ri-money-dollar-box-fill:before { content: "\ef62"; }
 .ri-money-dollar-box-line:before { content: "\ef63"; }
-.ri-money-dollar-circle-fill:before { content: "\ef64"; }
+.ri-money-dollar-circle-fill:before {content: "\ef64";color: #2FCC71;}
 .ri-money-dollar-circle-line:before { content: "\ef65"; }
 .ri-money-euro-box-fill:before { content: "\ef66"; }
 .ri-money-euro-box-line:before { content: "\ef67"; }

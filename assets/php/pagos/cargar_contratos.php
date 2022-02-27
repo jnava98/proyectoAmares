@@ -53,8 +53,7 @@ if($num>0){
 			$html.="<td><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
 			//Botones para las acciones
 			$html.="<td>";
-				$html.="<button id='".$col['id_contrato']."' onclick='editar_contrato(this.id);'>Editar</button>";
-				$html.="&nbsp;&nbsp;<button id='".$col['id_contrato']."' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
+				$html.="<button id_contrato='".$col['id_contrato']."' id='".$col['id_contrato']."' onclick='consulta_historial_contrato(this.id_contrato);'><i class='ri-money-dollar-circle-fill' style='color: #2FCC71';></i></button>";
 			$html.="</td>";
 		$html.="</tr>";
 		$i++;

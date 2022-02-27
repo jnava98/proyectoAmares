@@ -66,3 +66,9 @@ function trae_contratos_cliente(){
 	}
     
 };
+
+function consulta_historial_contrato(id_contrato){
+	//Comenzamos con las validaciones
+	
+	console.log(id_contrato)
+};
