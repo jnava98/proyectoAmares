@@ -8,6 +8,8 @@
     if($pagina=="clientes") include "assets/pages/clientes.php";
 	if($pagina=="control") include "assets/pages/control.php";
 	if($pagina=="pagos") include "assets/pages/pagos.php";
+	if($pagina=="reportes") include "assets/pages/reportes.php";
+	if($pagina=="crear_excel") include "assets/php/reportes/crear_excel.php";
 
 	}else{
 		$pagina="login";
