@@ -14,7 +14,7 @@ if(!(empty($_SESSION["usuario"]))){
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="assets/js/clientes.js"></script>
+  <script type="text/javascript" src="assets/js/reportes.js"></script>
   <!--
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   -->
@@ -324,12 +324,12 @@ if(!(empty($_SESSION["usuario"]))){
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Detalle Clientes</h1>
+      <h1>Reportes</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-          <li class="breadcrumb-item">Clientes</li>
-          <li class="breadcrumb-item active">Detalle Clientes</li>
+          <li class="breadcrumb-item">Reportes</li>
+          <li class="breadcrumb-item active">Modulo Reportes</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -340,16 +340,28 @@ if(!(empty($_SESSION["usuario"]))){
             <div id="div_buscar_cliente" class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Clientes</h5>
+                    <h5 class="card-title">Reportes</h5>
                     <div class="row">
-                    <div class="col-lg-6">
-                        <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
-                    </div>
-                    <div class="col-lg-6">
-                        <form method="POST" taget="_blank" action="?page=crear_excel">
-                            <button class="btn btn-success pull-right" name="export"><span class="glyphicon glyphicon-print"></span> Exportar a Excel</button>
-                        </form>
-                    </div>
+                      <div class="col-lg-9">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_clientes" value="clientes" onclick="cargar_tipo_reporte(this.value)">
+                          <label class="form-check-label" for="inlineRadio1">Clientes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_lotes" value="lotes" onclick="cargar_tipo_reporte(this.value)">
+                          <label class="form-check-label" for="inlineRadio2">Lotes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                          <label class="form-check-label" for="inlineRadio3">3 </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                          <form method="POST" taget="_blank" action="?page=crear_excel">
+                              <button class="btn btn-success pull-right" name="export"><span class="glyphicon glyphicon-print"></span> Exportar a Excel</button>
+                              <input type="hidden" id="tipo_reporte" name="tipo_reporte">
+                          </form>
+                      </div>
                     </div>
                     <div class="row" id="div_cliente_lista" style="display: none;">
                     <div class="col-lg-6" style="margin-left: -12px;">
