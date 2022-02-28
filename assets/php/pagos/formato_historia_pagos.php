@@ -16,8 +16,8 @@ if($id_contrato==" "||$id_contrato==""){
 //Concepto
 //Observaciones
     $consulta = "SELECT
-        c.dia_pago,
         p.mensualidad,
+        c.dia_pago,
         p.fecha_pago, 
         p.monto_pagado,
         c.monto_mensual, 
@@ -31,7 +31,7 @@ if($id_contrato==" "||$id_contrato==""){
     desconectar();
     while($row=mysqli_fetch_assoc($resultado)){
         $mensualidad = $row['mensualidad']; //Numero de la mensualidad
-        $dia_pago = $row['dia_pago']; //Dia estipulado para pagar
+        $dia_pago = $row['dia_pago']; //Dia estipulado en el contrato
         $fecha_pago = $row['fecha_pago']; //Fecha en la que paga el cliente
         $monto_pagado = $row['monto_pagado']; //Cantidad que paga el cliente
         $monto_mensual = $row['monto_mensual'];//Cantidad mensual del contrato
@@ -49,18 +49,4 @@ if($id_contrato==" "||$id_contrato==""){
         ";
     };//fin del while
 };//fin del else
-
-/*
-$html='
-<tr>
-    <th scope="row">1</th>
-    <td>12/01/2022 - 12/02/2022</td>
-    <td>17/01/2022</td>
-    <td>1500</td>
-    <td>1500</td>
-    <td>0</td>
-    <td>Enganche 1</td>
-</tr>
-'*/
-
 ?>

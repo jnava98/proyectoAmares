@@ -35,9 +35,9 @@ $num=mysqli_num_rows($result);
 if($num>0){
 	$html="";
 	$i=1;
-	$html.="<h4>Contratos del cliente</h4>"; 
-	$html.="<table id='tabla_contratos' class='table.table-striped table-bordered table-hover table-condensed'>";
-		$html.="<thead>";
+	$html.="<h5 class='card-title'>Contratos del cliente</h5>"; 
+	$html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
+		$html.="<thead class='thead-dark'>";
 			$html.="<tr>";
 				$html.="<th style='text-align:center'>#</th>";
 				$html.="<th style='text-align:center'>Lotes Comprados</th>";
@@ -49,11 +49,11 @@ if($num>0){
 	while($col=mysqli_fetch_array($result)){
 		$html.="<tr>";
 			$html.="<td style='text-align:center'>".$i."</td>";
-			$html.="<td><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
-			$html.="<td><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
+			$html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
+			$html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
 			//Botones para las acciones
-			$html.="<td>";
-				$html.="<button data-id_contrato='".$col['id_contrato']."' id='".$col['id_contrato']."' onclick='consulta_historial_pagos(this.dataset.id_contrato);'><i class='ri-money-dollar-circle-fill' style='color: #2FCC71';></i></button>";
+			$html.="<td style='text-align:center'>";
+				$html.="<button class='btn btn-success' data-id_contrato='".$col['id_contrato']."' id='".$col['id_contrato']."' onclick='consulta_historial_pagos(this.dataset.id_contrato);'><i class='ri-money-dollar-circle-fill';></i></button>";
 			$html.="</td>";
 		$html.="</tr>";
 		$i++;
@@ -64,4 +64,6 @@ if($num>0){
     $response['existe']=0;
 }//Fin del else
 echo json_encode($response);
+
+
 ?>
