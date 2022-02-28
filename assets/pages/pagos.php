@@ -74,146 +74,6 @@ if(!(empty($_SESSION["usuario"]))){
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
-
-        <li class="nav-item dropdown">
-
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="message-item">
-              <a href="#">
-                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
-        </li><!-- End Messages Nav -->
 
         <li class="nav-item dropdown pe-3">
 
@@ -339,49 +199,127 @@ if(!(empty($_SESSION["usuario"]))){
       <div class="row">
         <div id="div_buscar_cliente" class="col-lg-12">
           <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Clientes</h5>
-                <div class="row">
-                  <div class="col-lg-6">
-                    <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
-                  </div>
-                  <div class="col-lg-6">
-                    <button type="button" id="buscar" id_cliente="" class="success" onclick="trae_contratos_cliente();"> Buscar</button>&nbsp
-                    <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
-                  </div>
+            <div class="card-body">
+              <h5 class="card-title">Clientes</h5>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
                 </div>
-                <div class="row" id="div_cliente_lista" style="display: none;">
-                  <div class="col-lg-6" style="margin-left: -12px;">
-                    <table class="table table-responsive">
-                      <tbody id="tbody_cliente"></tbody>
-                    </table>
-                  </div>
+                <div class="col-lg-6">
+                  <button type="button" id="buscar" id_cliente="" class="success" onclick="trae_contratos_cliente();"> Buscar</button>&nbsp
+                  <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
+                </div>
+              </div>
+              <div class="row" id="div_cliente_lista" style="display: none;">
+                <div class="col-lg-6" style="margin-left: -12px;">
+                  <table class="table table-responsive">
+                    <tbody id="tbody_cliente"></tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row" id="div_formato_cliente">
+      <div class="row card">
+        <div class="table-responsive" id="div_tabla_contratos" style="display:none;"></div>           
       </div>
       <div class="row">
-        <div class="table-responsive" id="div_tabla_contratos" style="display:none;">
-        </div>
-        <div id="div_boton_contrato" class="col-lg-12" style="display:none;">
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <button type="button" id="buscar" class="success" onclick="cargar_datos_contrato('0');">Agregar Nuevo Contrato</button>
-                </div>
-              </div>
+        <div id="div_form_pagos" class="col-lg-12">
+        <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Captura un pago nuevo.</h5>
+
+        <div class="row mb-12">
+            <label for="input_concepto" class="col-sm-2 col-form-label">Concepto</label>
+            <div class="col-sm-2">
+            <input type="text" class="form-control" id="inp_concepto">
             </div>
-          </div>            
+            <label for="inp_formpago" class="col-sm-2 col-form-label">Forma de pago</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="inp_formpago">
+            </div>
+            <label for="inp_mensualidad" class="col-sm-2 col-form-label">Cant Mensualidad</label>
+            <div class="col-sm-2">
+                <input type="email" class="form-control" id="inp_mensualidad" disabled>
+            </div>
         </div>
+
+        <div class="row mb-12">
+            <label for="input_fpago" class="col-sm-2 col-form-label">Fecha Pago</label>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" id="inp_fpago">
+            </div>
+            <label for="inp_recargo" class="col-sm-2 col-form-label">Recargo</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" id="inp_recargo">
+            </div>
+            <label for="inp_diferencia" class="col-sm-2 col-form-label">Diferencia</label>
+            <div class="col-sm-2">
+                <input type="email" class="form-control" id="inp_diferencia" disabled>
+            </div>
+        </div>
+
+        <div class="row mb-12">
+            <label for="input_cpagada" class="col-sm-2 col-form-label">Cantidad Pagada</label>
+            <div class="col-sm-2">
+            <input type="text" class="form-control" id="inp_cpagada">
+            </div>
+            <label for="inp_interes" class="col-sm-2 col-form-label">Interés</label>
+            <div class="col-sm-2">
+            <input type="email" class="form-control" id="inp_interes">
+            </div>
+            <label for="inp_totpagar" class="col-sm-2 col-form-label">Total a pagar</label>
+            <div class="col-sm-2 ">
+            <input type="email" class="form-control" id="inp_totpagar" disabled>
+            </div>
+        </div>
+        <div class="row mb-12 justify-content-end">
+            <label for="inp_estatus" class="col-sm-2 col-form-label">Estatus</label>
+            <div class="col-sm-2">
+            <input type="text" class="form-control" id="inp_estatus" disabled>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-primary" onclick="guarda_pago();">Capturar Pago</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+        </div>
+        <div id="div_historial_pagos" class="card">          
+          <table id="table_pagos" style="display:none;">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha Mensualidad</th>
+                <th scope="col">Fecha pago</th>
+                <th scope="col">$ Pagada</th>
+                <th scope="col">Mensualidad</th>
+                <th scope="col">Diferencia</th>
+                <th scope="col">Concepto</th>
+                <th scope="col">Observaciones</th>
+              </tr>
+            </thead>
+            <tbody id="body_table_pagos">
+              <tr>
+                <th scope="row">1</th>
+                <td>12/01/2022 - 12/02/2022</td>
+                <td>17/01/2022</td>
+                <td>1500</td>
+                <td>1500</td>
+                <td>0</td>
+                <td>Enganche 1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>           
       </div>
-      <div class="row" id="div_formato_contrato">
-      </div>
-    </section>
+    </div>
+  </section>
 
   </main><!-- End #main -->
 

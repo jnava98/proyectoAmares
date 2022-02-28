@@ -67,8 +67,31 @@ function trae_contratos_cliente(){
     
 };
 
-function consulta_historial_contrato(id_contrato){
+function consulta_historial_pagos(id_contrato){
 	//Comenzamos con las validaciones
-	
-	console.log(id_contrato)
+	//div_historial_pagos
+	//id_contrato
+	$.ajax({
+		type:'get',
+		url:'assets/php/pagos/formato_historia_pagos.php',
+		data:{
+			id_contrato:id_contrato
+		},
+		success:function(response) {
+			$('#body_table_pagos').html(response);
+		},
+		error:function(response){
+			//Mensaje de error
+		}
+	})
+
+
+
+	$(document).ready( function () {
+		$('#table_pagos').DataTable();
+	} );
+	$('#table_pagos').css("display", "block");
+
+
+	console.log(id_contrato);
 };
