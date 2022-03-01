@@ -75,10 +75,9 @@ if(($id_contrato!="")){
         }//fin del else
     }else{
         //Si no existe el cliente insertamos
-        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
+        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."')";
         $result=mysqli_query(conectar(),$sql);
         desconectar();
-        echo $sql;
         if($result){
             $sql="SELECT max(id_contrato) from contrato";
             $result=mysqli_query(conectar(),$sql);
@@ -99,21 +98,16 @@ if(($id_contrato!="")){
                 desconectar();
             }//fin del for
             if($result){
-                $sql="INSERT into lotes_contrato (id_lote, id_contrato) values ('".$lote."', '".$id_contrato."')";
-                $result = mysqli_query(conectar(),$sql);
-                desconectar();
-                if($result){
-                    $respuesta['valor']="ok";
-                }else{
-                    $respuesta['valor']="error4";
-                }//fin del else
-            }//fin del if
+                $respuesta['valor']="ok";
+            }else{
+                $respuesta['valor']="error4";
+            }//fin del else
         }else{
             $respuesta['valor']="error3";
         }//fin del else
     }//fin del else
 }else{
-    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."')";
+    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."')";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     echo $sql;
@@ -137,15 +131,10 @@ if(($id_contrato!="")){
             desconectar();
         }//fin del for
         if($result){
-            $sql="INSERT into lotes_contrato (id_lote, id_contrato) values ('".$lote."', '".$id_contrato."')";
-            $result = mysqli_query(conectar(),$sql);
-            desconectar();
-            if($result){
-                $respuesta['valor']="ok";
-            }else{
-                $respuesta['valor']="error4";
-            }//fin del else
-        }//fin del if
+            $respuesta['valor']="ok";
+        }else{
+            $respuesta['valor']="error4";
+        }//fin del else
     }else{
         $respuesta['valor']="error1";
     }//fin del else
