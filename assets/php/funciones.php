@@ -315,7 +315,8 @@ function mostrar_formato_precontrato($id_contrato){
     $num=mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
-            $sql="SELECT l.fase, l.super_manzana, l.mza, l.lote FROM lotes where id_lote LIKE '".$col['id_lote']."'";
+            $sql="SELECT fase, super_manzana, mza, lote FROM lotes where id_lote LIKE '".$col['id_lote']."'";
+            //echo $sql;
             $resultado=mysqli_query(conectar(),$sql);
             desconectar();
             $num=mysqli_num_rows($resultado);
@@ -582,7 +583,7 @@ function mostrar_formato_contrato($id_contrato){
 
 function mostrar_tabla_contratos($id_cliente){
     $html="";
-    $sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato inner join lotes_contrato as lc on co.id_contrato = lc.id_contrato inner join lotes as lo on lc.id_lote = lo.id_lote WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
+    $sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato inner join lotes as lo on co.id_lote = lo.id_lote WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
