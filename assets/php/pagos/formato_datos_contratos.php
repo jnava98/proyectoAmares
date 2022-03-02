@@ -91,7 +91,7 @@ $html="
                     </div>
                     
                 </div>
-                <button data-id_contrato='' class='col-sm-2 btn btn-primary' onclick='pago_nuevo(".$row['id_contrato'].")'>Agregar</button>
+                <button data-id_contrato='' class='col-sm-2 btn btn-primary' onclick='pago_nuevo(".$row['id_contrato'].")'>Agregar Pago Nuevo</button>
               </div>
         </div>
         ";

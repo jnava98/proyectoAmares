@@ -18,8 +18,8 @@ if(empty($_GET["id_contrato"])){
 $response=Array();
 $sql="SELECT 
     monto_mensual,
-    id_estatus_venta,
-    (SELECT MAX(mensualidad) FROM pagos WHERE id_contrato = 23) AS ultima_mensualidad,
+    id_estatus_venta,   
+    (SELECT MAX(mensualidad) FROM pagos WHERE id_contrato = '$id_contrato') AS ultima_mensualidad,
     (SELECT diferencia from pagos where mensualidad = ultima_mensualidad) AS ultima_diferencia
     FROM contrato
     WHERE id_contrato LIKE '$id_contrato'"; //Consultar id de la variable
@@ -47,6 +47,11 @@ switch ($row['id_estatus_venta']) {
         break;
 }
 $response = Array();
+
+//Datos que se usan en el formulario
+$int_mes_anterior = ($row['ultima_diferencia']*0.02);
+$tot_a_pagar = ($row['monto_mensual']+$row['ultima_diferencia']+$int_mes_anterior);
+
 $html="
 <div class='card'>
     <div class='card-body'>
@@ -74,26 +79,26 @@ $html="
             </div>
             <label for='inp_recargo' class='col-sm-2 col-form-label'>Recargo mes anterior</label>
             <div class='col-sm-2'>
-                <input type='text' class='form-control' id='inp_recargo' value='".$row['ultima_diferencia']."'>
+                <input type='number' class='form-control' id='inp_recargo' value='".$row['ultima_diferencia']."'>
             </div>
             <label for='inp_diferencia' class='col-sm-2 col-form-label'>Diferencia</label>
             <div class='col-sm-2'>
-                <input type='email' class='form-control' id='inp_diferencia' disabled>
+                <input type='number' onkeyup='actualiza_datos_pago()' class='form-control' id='inp_diferencia' disabled>
             </div>
         </div>
 
         <div class='row mb-3'>
             <label for='input_cpagada' class='col-sm-2 col-form-label'>Cantidad Pagada</label>
             <div class='col-sm-2'>
-            <input type='text' class='form-control' id='inp_cpagada'>
+            <input type='text' class='form-control' onkeyup='actualiza_datos_pago()' id='inp_cpagada'>
             </div>
             <label for='inp_interes' class='col-sm-2 col-form-label'>Interés mes anterior</label>
             <div class='col-sm-2'>
-            <input type='email' class='form-control' id='inp_interes' value='".($row['ultima_diferencia']*0.02)."'>
+            <input type='number' class='form-control' id='inp_interes' onkeyup='actualiza_datos_pago()'  value='$int_mes_anterior'>
             </div>
             <label for='inp_totpagar' class='col-sm-2 col-form-label'>Total a pagar</label>
             <div class='col-sm-2 '>
-            <input type='email' class='form-control' id='inp_totpagar' disabled>
+            <input type='number' class='form-control' actualiza_datos_pago() id='inp_totpagar' value='$tot_a_pagar'  >
             </div>
         </div>
         <div class='row mb-3 justify-content-end'>

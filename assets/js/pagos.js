@@ -120,7 +120,11 @@ function consulta_datos_contrato(id_contrato){
 			$('#div_card_contratos').show('slow')
 		},
 		error:function(response){
-			//Mensaje de error
+			Swal.fire(
+				'Error de conexión',
+				'Error:'+response,
+				'error'
+							)
 		}
 	})
 };
@@ -151,3 +155,19 @@ function pago_nuevo(id_contrato){
 	})
 	
 };
+
+function actualiza_datos_pago(){
+	//Calculamos el total a pagar
+	var recargo = parseFloat($('#inp_recargo').val());
+	var interes = parseFloat($('#inp_interes').val());
+	var mensualidad = parseFloat($('#inp_mensualidad').val());
+	$('#inp_totpagar').val(recargo + interes + mensualidad);
+
+	//Calculamos la diferencia
+	var totpagar = parseFloat($('#inp_totpagar').val());
+	var cpagada = parseFloat($('#inp_cpagada').val());
+
+	$('#inp_diferencia').val(totpagar - cpagada);
+	
+
+}
