@@ -37,7 +37,7 @@ if($id_contrato==" "||$id_contrato==""){
     $response = Array();
     $html="";
     $html.="
-    <table id='table_pagos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>
+    <table id='table_pagos' class='table table-responsive table-bordered table-striped table-hover table-condensed table-responsive'>
               <thead class='thead-dark'>
                 <tr>
                   <th scope='col'>#</th>

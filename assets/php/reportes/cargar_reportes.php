@@ -1,4 +1,10 @@
 <?php
+
+/*
+Función: cargar_contratos.php
+Invocada por: js/clientes.js/cargar_datos_cliente()
+Objetivo: Trae todos los contratos que tiene un cliente.
+*/
 	include "../conexion.php";
 	include "funciones_reportes.php";
 

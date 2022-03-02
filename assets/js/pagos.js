@@ -167,7 +167,7 @@ function actualiza_datos_pago(){
 	var totpagar = parseFloat($('#inp_totpagar').val());
 	var cpagada = parseFloat($('#inp_cpagada').val());
 
-	$('#inp_diferencia').val(totpagar - cpagada);
+	$('#inp_diferencia').val(totpagar - cpagada);	
 	
 
 }

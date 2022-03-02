@@ -7,7 +7,7 @@ function reporte_clientes(){
 	$num = mysqli_num_rows($result);
 	if($num>0){
 		$html .="
-			<table id='tabla_clientes' class='table.table-striped table-bordered table-hover table-condensed'>
+			<table id='tabla_clientes' class='table table-responsive table-bordered table-striped table-hover table-condensed dataTable no-footer'>
 				<thead>
 					<tr>
 						<th style='text-align:center'>ID</th>
@@ -49,7 +49,7 @@ function reporte_lotes(){
 	$num = mysqli_num_rows($result);
 	if($num>0){
 		$html .="
-			<table id='tabla_lotes' class='table.table-striped table-bordered table-hover table-condensed'>
+			<table id='tabla_lotes' class='table table-responsive table-bordered table-striped table-hover table-condensed dataTable no-footer'>
 				<thead>
 					<tr>
 						<th style='text-align:center'>Fase</th>
@@ -127,13 +127,14 @@ function obtener_nombre_mes($numero_mes){
 	return $respuesta;
 }//fin de obtener nombre mes
 
+/*
 function reporte_ventas_mensuales($fecha_uno, $fecha_dos){
 	$html="";
 	if(($fecha_uno!="0")&&($fecha_dos!="0")){
 	$fecha1 = $fecha_uno; $fecha2 = $fecha_dos;
 	$html.="<h4>Reporte Ventas Mensuales</h4>"; 
 	$html .="
-		<table id='tabla_reporte_ventas_mensuales' class='table.table-striped table-bordered table-hover table-condensed'>
+		<table id='tabla_reporte_ventas_mensuales' class='table table-responsive table-bordered table-striped table-hover table-condensed dataTable no-footer'>
 			<thead>
 				<tr>
 					<th style='text-align:center;'>Ventas + Reservas</th>
@@ -174,7 +175,7 @@ function reporte_ventas_mensuales($fecha_uno, $fecha_dos){
 							$aux = 0;
 							while($col=mysqli_fetch_array($result)){
 								$fecha_firma = $col['fecha_firma'];
-								if((strtotime(date("d-m-Y",$fecha_firma));>=strtotime(date("d-m-Y",$periodo1));)&&(strtotime(date("d-m-Y",$fecha_firma));<=strtotime(date("d-m-Y",$periodo2));)){
+								if((strtotime(date("d-m-Y",$fecha_firma));>=strtotime(date("d-m-Y",$periodo1));)&&(strtotime(date("d-m-Y",$fecha_firma));<=strtotime(date("d-m-Y",$periodo2)))){
 									$aux++;
 								}//fin del if
 							}//fin del while
@@ -261,3 +262,4 @@ function reporte_ventas_mensuales($fecha_uno, $fecha_dos){
 	}//fin del if
 	return $html;
 }//fin de reporte total ventas y reservas
+*/
