@@ -52,11 +52,13 @@ function trae_contratos_cliente(){
 						paging: false,
 						searching: false,
 					});
-					$('#div_tabla_contratos').css("display", "block");
+					//$('#div_tabla_contratos').css("display", "block");
+					$('#div_tabla_contratos').show('slow');
 				}else{
 					//Si no encontramos ningun contrato
 					Swal.fire(
 						'Este cliente no tiene contratos.',
+						'',
 						'error'
 					);
 					console.log(response.existe);
@@ -80,67 +82,72 @@ function consulta_historial_pagos(id_contrato){
 	$.ajax({
 		type:'get',
 		url:'assets/php/pagos/formato_historia_pagos.php',
+		dataType:'json',
 		data:{
 			id_contrato:id_contrato
 		},
 		success:function(response) {
 			//Si encontramos algun historial de pagos
-			$('#body_table_pagos').html(response);
+			$('#div_table_pagos').html(response.html);
 			$(document).ready( function () {
 				$('#table_pagos').DataTable({
 					dom: 'Bfrtip',
         			buttons: ['csv', 'excel', 'pdf', 'print']
 				});
 			});
-			$('#div_historial_pagos').css("display", "block");
+			//$('#div_historial_pagos').css("display", "block");
+			$('#div_historial_pagos').show('slow');
+			consulta_datos_contrato(id_contrato);
 		},
 		error:function(response){
 			//Mensaje de error
 		}
 	})
+	
 };
 
 function consulta_datos_contrato(id_contrato){
 	$.ajax({
 		type:'get',
-		url:'assets/php/pagos/formato_datos_contrato.php',
+		url:'assets/php/pagos/formato_datos_contratos.php',
 		data:{
 			id_contrato:id_contrato
 		},
 		success:function(response) {
 			//Si encontramos algun historial de pagos
 			$('#div_card_contratos').html(response);
-			
-			$('#div_card_contratos').css("display", "block");
+			//$('#div_card_contratos').css("display", "block");
+			$('#div_card_contratos').show('slow')
 		},
 		error:function(response){
 			//Mensaje de error
 		}
 	})
 };
-}
 
-function pago_nuevo(){
-	$('#div_form_pagos').css('display','block');
+
+function pago_nuevo(id_contrato){
+	//$('#div_form_pagos').css('display','block');
+	//VAMOS A TRAER LA INFORMACION DEL CONTRATO PARA COLOCARLA EN EL FORMULARIO DE PAGO
+	/*TRAEMOS: Concepto en el que esta el contrato
+		Cantidad mensual estipulada
+		Algun recargo del mes anterior		
+	*/
 	$.ajax({
 		type:'get',
-		url:'assets/php/pagos/cargar_datos_contrato.php',
+		url:'assets/php/pagos/formato_pagos.php',
+		dataType:'json',
 		data:{
 			id_contrato:id_contrato
 		},
 		success:function(response) {
+			$('#div_form_pagos').html(response.html);
 			//Si encontramos algun historial de pagos
-			$('#body_table_pagos').html(response);
-			$(document).ready( function () {
-				$('#table_pagos').DataTable({
-					dom: 'Bfrtip',
-        			buttons: ['csv', 'excel', 'pdf', 'print']
-				});
-			});
-			$('#div_historial_pagos').css("display", "block");
+			$('#div_form_pagos').show('slow');
 		},
 		error:function(response){
 			//Mensaje de error
 		}
 	})
-}
+	
+};

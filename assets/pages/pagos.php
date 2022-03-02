@@ -24,10 +24,6 @@ if(!(empty($_SESSION["usuario"]))){
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-  
-
-
-
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
   <!-- Favicons -->
@@ -225,77 +221,19 @@ if(!(empty($_SESSION["usuario"]))){
           </div>
         </div>
       </div>
-      
+      <div class="row">
+        <div class="card" id="div_tabla_contratos" style="display:none;"></div>           
+      </div>
       <!-- DATOS ADICIONALES CONTRATO -->
       <div class="row">
         <div class="card" id="div_card_contratos" style=""></div>           
       </div>
       <!-- FIN DATOS ADICIONALES CONTRATO -->
-      
 
       <!-- CAPTURA UN PAGO NUEVO -->
-      <div class="row card" id="div_form_pagos" style="display: none;">
-        <div class="col-lg-12">
-            <div class="card-body">
-              <h5 class="card-title">Captura un pago nuevo.</h5>
-              <div class="card-text">
-
-              
-                <div class="row mb-12">
-                    <label for="input_concepto" class="col-sm-2 col-form-label">Concepto</label>
-                    <div class="col-sm-2">
-                    <input type="text" class="form-control" id="inp_concepto">
-                    </div>
-                    <label for="inp_formpago" class="col-sm-2 col-form-label">Forma de pago</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="inp_formpago">
-                    </div>
-                    <label for="inp_mensualidad" class="col-sm-2 col-form-label">Cant Mensualidad</label>
-                    <div class="col-sm-2">
-                        <input type="email" class="form-control" id="inp_mensualidad" disabled>
-                    </div>
-                </div>
-
-                <div class="row mb-12">
-                    <label for="input_fpago" class="col-sm-2 col-form-label">Fecha Pago</label>
-                    <div class="col-sm-2">
-                        <input type="date" class="form-control" id="inp_fpago">
-                    </div>
-                    <label for="inp_recargo" class="col-sm-2 col-form-label">Recargo</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="inp_recargo">
-                    </div>
-                    <label for="inp_diferencia" class="col-sm-2 col-form-label">Diferencia</label>
-                    <div class="col-sm-2">
-                        <input type="email" class="form-control" id="inp_diferencia" disabled>
-                    </div>
-                </div>
-
-                <div class="row mb-12">
-                    <label for="input_cpagada" class="col-sm-2 col-form-label">Cantidad Pagada</label>
-                    <div class="col-sm-2">
-                    <input type="text" class="form-control" id="inp_cpagada">
-                    </div>
-                    <label for="inp_interes" class="col-sm-2 col-form-label">Interés</label>
-                    <div class="col-sm-2">
-                    <input type="email" class="form-control" id="inp_interes">
-                    </div>
-                    <label for="inp_totpagar" class="col-sm-2 col-form-label">Total a pagar</label>
-                    <div class="col-sm-2 ">
-                    <input type="email" class="form-control" id="inp_totpagar" disabled>
-                    </div>
-                </div>
-                <div class="row mb-12 justify-content-end">
-                    <label for="inp_estatus" class="col-sm-2 col-form-label">Estatus</label>
-                    <div class="col-sm-2">
-                    <input type="text" class="form-control" id="inp_estatus" disabled>
-                    </div>
-                </div>
-                </div>
-                      <a href="#" class="btn btn-primary justify-content-end" onclick="guarda_pago();">Guardar Pago</a>
-              </div>
-          </div>
-        </div>
+      <div class="row" id="div_form_pagos" style="display: none;">
+        
+      </div>
         <!-- FIN UN PAGO NUEVO -->
 
 
@@ -304,23 +242,10 @@ if(!(empty($_SESSION["usuario"]))){
           <div class="card-body">
             <div>
               <h5 class="card-title">Historial de pagos del contrato</h5>
-              <button data-id_contrato="" class="btn btn-primary" onclick="pago_nuevo()">Agregar</button>
+              
             </div>
+            <div id="div_table_pagos"></div>
             
-            <table id="table_pagos" class="table table-responsive table-bordered table-striped table-hover table-condensed">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Fecha pago</th>
-                  <th scope="col">$ Pagada</th>
-                  <th scope="col">Mensualidad</th>
-                  <th scope="col">Diferencia</th>
-                  <th scope="col">Estatus</th>
-                  <th scope="col">Observaciones</th>
-                </tr>
-              </thead>
-              <tbody id="body_table_pagos"></tbody>
-            </table>
           </div>         
         </div> 
         <!-- HISTORIAL PAGOS -->          

@@ -22,10 +22,8 @@ inner join cliente_contrato as cc
 ON c.id_cliente = cc.id_cliente 
 inner join contrato as co 
 on cc.id_contrato = co.id_contrato 
-inner join lotes_contrato as lc 
-on co.id_contrato = lc.id_contrato 
 inner join lotes as lo 
-on lc.id_lote = lo.id_lote 
+on co.id_lote = lo.id_lote 
 WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
 //echo $sql;
 $result=mysqli_query(conectar(),$sql);
