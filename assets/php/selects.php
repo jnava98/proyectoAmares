@@ -193,4 +193,15 @@ function select_tipo_compra($id_tipo_compra){
     }//fin del if
     return $respuesta;
 }//fin de select estatus venta
+
+function select_tipo_reporte(){
+    $respuesta="";
+    $respuesta.='<select id="select_tipo_reporte" name="select_tipo_reporte" class="form-control" onchange="mostrar_input_fecha()">';
+    $respuesta.='<option value="0">Selecciona una opcion</option>';
+    $respuesta.='<option value="clientes">Clientes</option>';
+    $respuesta.='<option value="lotes">Lotes</option>';
+    $respuesta.='<option value="ventas_mensuales">Ventas Mensuales</option>';
+    $respuesta.='</select>';
+    return $respuesta;
+}//fin de select estatus venta
 ?>

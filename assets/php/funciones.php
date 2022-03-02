@@ -315,7 +315,7 @@ function mostrar_formato_precontrato($id_contrato){
     $num=mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
-            $sql="SELECT l.fase, l.super_manzana, l.mza, l.lote FROM lotes_contrato as lc inner join lotes as l on lc.id_lote = l.id_lote where id_contrato LIKE '".$id_contrato."'";
+            $sql="SELECT l.fase, l.super_manzana, l.mza, l.lote FROM lotes where id_lote LIKE '".$col['id_lote']."'";
             $resultado=mysqli_query(conectar(),$sql);
             desconectar();
             $num=mysqli_num_rows($resultado);
@@ -326,8 +326,11 @@ function mostrar_formato_precontrato($id_contrato){
                 $manzana = $col_lotes['mza'];
                 $lote = $col_lotes['lote'];
             }else{
-
-            }
+                $fase = "";
+                $super_manzana = "";
+                $manzana = "";
+                $lote = "";
+            }//fin del else
             $html.='<div id="div_precontrato" class="col-lg-12">';
                 $html.='<div class="card">';
                     $html.='<div class="card-body">';
@@ -447,128 +450,6 @@ function mostrar_formato_precontrato($id_contrato){
     }//fin del else
     return $html;
 }//fin de mostrar formato precontrato
-
-/*function mostrar_formato_contrato_vacio(){
-    $html="";
-    $html.='<div id="div_contrato" class="col-lg-12">';
-        $html.='<div class="card">';
-            $html.='<div class="card-body">';
-                $html.='<h5 class="card-title">Datos del contrato</h5>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha Contrato</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="date" class="form-control" id="fecha_contrato">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputDate" class="col-sm-3 col-form-label">Fecha firma</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="date" class="form-control" id="fecha_firma">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Precio de venta</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="number" class="form-control" id="precio_venta">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Tipo de compra</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                        $html.=select_tipo_compra("");
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">No. de mensualidades</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="number" class="form-control" id="n_mensualidades">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Monto mensual</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="number" class="form-control" id="monto_mensual">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Pago final</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="number" class="form-control" id="pago_final">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Estatus de la venta</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                        $html.=select_estatus_venta("");
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputDate" class="col-sm-3 col-form-label">Día de pago</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="date" class="form-control" id="dia_pago">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Nombre Descuento</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="text" class="form-control" id="nombre_descuento">';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-1">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-12">';
-                    $html.='<div class="col-sm-2">';
-                    $html.='<label for="inputText" class="col-sm-3 col-form-label">Tasa</label>';
-                    $html.='</div>';
-                    $html.='<div class="col-sm-3">';
-                    $html.='<input type="text" id="tasa" class="form-control" onkeyup="validar_entrada(this.id)">';
-                    $html.='</div>';
-                $html.='</div>';
-                $html.='<br>';
-                $html.='<div class="row mb-3">';
-                    $html.='<label class="col-sm-2 col-form-label"></label>';
-                    $html.='<div class="col-sm-9">';
-                        $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
-                    $html.='</div>';
-                $html.='</div>';
-            $html.='</div>';
-        $html.='</div>';
-    $html.='</div>';
-    return $html;
-}//fin de mostrar formato contrato vacio*/
 
 function mostrar_formato_contrato($id_contrato){
     $html="";
@@ -695,9 +576,7 @@ function mostrar_formato_contrato($id_contrato){
                 $html.='</div>';
             $html.='</div>';
         }//fin del while
-    }else{
-
-    }//fin del else
+    }//fin del if
     return $html;
 }//fin de mostrar formato contrato
 

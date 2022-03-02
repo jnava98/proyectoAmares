@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 session_start();
+include "assets/php/selects.php";
 if(!(empty($_SESSION["usuario"]))){
 ?>
 <head>
@@ -18,10 +19,15 @@ if(!(empty($_SESSION["usuario"]))){
   <!--
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   -->
-  <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
-  <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
-  <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
   <!-- Favicons -->
   <link href="assets\img\iconAmares.svg" rel="icon">
@@ -335,48 +341,54 @@ if(!(empty($_SESSION["usuario"]))){
     </div><!-- End Page Title -->
 
     <section class="section">
-        <input id="id_cliente" type="hidden" value="">
-        <div class="row">
-            <div id="div_buscar_cliente" class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Reportes</h5>
-                    <div class="row">
-                      <div class="col-lg-9">
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_clientes" value="clientes" onclick="cargar_tipo_reporte(this.value)">
-                          <label class="form-check-label" for="inlineRadio1">Clientes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_lotes" value="lotes" onclick="cargar_tipo_reporte(this.value)">
-                          <label class="form-check-label" for="inlineRadio2">Lotes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-                          <label class="form-check-label" for="inlineRadio3">3 </label>
+      <input id="id_cliente" type="hidden" value="">
+      <div class="row">
+        <div id="div_buscar_cliente" class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Reportes</h5>
+              <div class="row">
+                <div class="col-lg-5">
+                  <?php echo select_tipo_reporte(); ?>
+                </div>
+                <div class="col-lg-5">
+                  <button type="button" id="tipo_reporte" name="tipo_reporte" class="btn btn-success" onclick="cargar_tabla_reporte()">Exportar a excel</button>
+                </div>
+              </div>
+              <br>
+              <div class="row" id="inputs_fechas" style="display: none;">
+                <div class="col-lg-1">
+                  <label > Del </label>
+                </div>
+                <div class="col-lg-4">
+                  <input type="date" id="fecha_uno" name="fecha_uno" class="form-control">
+                </div>
+                <div class="col-lg-1">
+                  <label > Al </label>
+                </div>
+                <div class="col-lg-4">
+                  <input type="date" id="fecha_dos" name="fecha_dos" class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div id="div_reportes" class="col-lg-12" style="display:none;">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="table-responsive col-lg-9" id="div_tabla_reportes">
                         </div>
                       </div>
-                      <div class="col-lg-3">
-                          <form method="POST" taget="_blank" action="?page=crear_excel">
-                              <button class="btn btn-success pull-right" name="export"><span class="glyphicon glyphicon-print"></span> Exportar a Excel</button>
-                              <input type="hidden" id="tipo_reporte" name="tipo_reporte">
-                          </form>
-                      </div>
                     </div>
-                    <div class="row" id="div_cliente_lista" style="display: none;">
-                    <div class="col-lg-6" style="margin-left: -12px;">
-                        <table class="table table-responsive">
-                        <tbody id="tbody_cliente"></tbody>
-                        </table>
-                    </div>
-                    </div>
+                  </div>
                 </div>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        <div class="row" id="div_formato_cliente" >
-        </div>
+      </div>
+      </div>
+      <div class="row" id="div_formato_cliente" >
+      </div>
     </section>
 
   </main><!-- End #main -->
@@ -384,14 +396,6 @@ if(!(empty($_SESSION["usuario"]))){
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
 
 </body>
 <?php
