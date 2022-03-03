@@ -1,6 +1,6 @@
 function cargar_tabla_reporte(){
     if(document.getElementById("select_tipo_reporte").value!="0"){
-        if(document.getElementById("select_tipo_reporte").value=="ventas_mensuales"){
+        if((document.getElementById("select_tipo_reporte").value=="ventas_mensuales")||(document.getElementById("select_tipo_reporte").value=="ventas_mensuales_unidades")||(document.getElementById("select_tipo_reporte").value=="reservas_mensuales")){
             fecha_uno = document.getElementById("fecha_uno").value;
             fecha_dos = document.getElementById("fecha_dos").value;
             tipo_reporte = document.getElementById("select_tipo_reporte").value;
@@ -27,7 +27,14 @@ function cargar_tabla_reporte(){
                             dom: 'Bfrtip',
         			        buttons: ['csv', 'excel', 'pdf', 'print']
                         });
-					}//Fin del if  
+					}else{
+                        $(document).ready(function(){
+                            swal.fire({
+                                text:'Error',
+                                icon: 'error'
+                            });
+                        });
+                    }//fin del else
 				},
 				error:function(respuesta){//Si surge un error
 					console.log(respuesta);
@@ -45,7 +52,11 @@ function cargar_tabla_reporte(){
 }//fin de cargar tipo reporte
 
 function mostrar_input_fecha(){
-    if(document.getElementById("select_tipo_reporte").value=="ventas_mensuales"){
-        document.getElementById("inputs_fechas").style.display="block";
-    }//fin del if
+    $(document).ready(function(){
+        if(($("#select_tipo_reporte").val()=="ventas_mensuales")||($("#select_tipo_reporte").val()=="ventas_mensuales_unidades")||($("#select_tipo_reporte").val()=="reservas_mensuales")){
+            $("#inputs_fechas").show('slow');
+        }else{
+            $("#inputs_fechas").hide();
+        }//fin del else
+    });
 }//fin de mostrar input fecha
