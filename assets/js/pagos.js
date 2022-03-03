@@ -96,7 +96,10 @@ function consulta_historial_pagos(id_contrato){
 				});
 			});
 			//$('#div_historial_pagos').css("display", "block");
-			$('#div_historial_pagos').show('slow');
+			$('#div_card_contratos').hide('fast');
+			$('#div_form_pagos').hide('fast');
+			$('#div_historial_pagos').show('fast');
+			
 			consulta_datos_contrato(id_contrato);
 		},
 		error:function(response){

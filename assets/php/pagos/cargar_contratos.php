@@ -33,7 +33,7 @@ $num=mysqli_num_rows($result);
 if($num>0){
 	$html="";
 	$i=1;
-	$html.="<h5 class='card-title'>Contratos del cliente</h5>"; 
+	$html.="<h5 class='card-title'>Lotes del cliente</h5>"; 
 	$html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
 		$html.="<thead class='thead-dark'>";
 			$html.="<tr>";
