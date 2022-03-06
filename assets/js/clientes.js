@@ -51,46 +51,68 @@ function guardar_datos_cliente(){
 
 function guardar_datos_precontrato(){
 	//alert("Entra");
-	$(document).ready(function(){
-		var id_cliente = $('#id_cliente').val();
-		var id_contrato = $('#id_contrato').val();
-		var cantidad_apartado = $('#cant_apartado').val();
-		var fecha_apartado = $('#fecha_apartado').val();
-		var cantidad_enganche = $('#cant_enganche').val();
-		var fecha_enganche = $('#fecha_enganche').val();
-		var mensualidad_enganche = $('#men_enganche').val();
-		var clientes = $('#txtArea_clientes').val();
-		var lote = $('#select_lotes').val();
-		//Función de Ajax
-		$.ajax({
-			url:"assets/php/clientes/guardar_datos_precontrato.php",
-			dataType:"json",//Formato en como se manda la información
-			type:"get",
-			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote
-			},
-			success:function(respuesta){
-				$(document).ready(function(){
-					if(respuesta.valor=="ok"){
-						swal({
-							text:'Datos guardados',
-							type: 'success'
-						});
-						//cargar_datos_contrato();
-					}else{
-						swal({
-							text:respuesta.valor,
-							type: 'error'
-						});
-						console.log(respuesta);		
-					}//fin del else
-				});	
-			},
-			error:function(respuesta){//Si surge un error
-				console.log(respuesta);
-			}
+	if(($('#cant_enganche').val()!="")&&($('#fecha_enganche').val()!="")&&($('#txtArea_clientes').val()!="")&&($('#select_lotes').val()!="0")&&($('#precio_venta').val()!="")&&($('#select_tipo_compra').val()!="0")&&($('#monto_mensual').val()!="")&&($('#pago_final').val()!="")&&($('#dia_pago').val()!="")){
+		$(document).ready(function(){
+			var id_cliente = $('#id_cliente').val();
+			var id_contrato = $('#id_contrato').val();
+			var cantidad_apartado = $('#cant_apartado').val();
+			var fecha_apartado = $('#fecha_apartado').val();
+			var cantidad_enganche = $('#cant_enganche').val();
+			var fecha_enganche = $('#fecha_enganche').val();
+			var mensualidad_enganche = $('#men_enganche').val();
+			var clientes = $('#txtArea_clientes').val();
+			var lote = $('#select_lotes').val();
+			var precio_venta = $('#precio_venta').val();
+			var tipo_compra = $('#select_tipo_compra').val();
+			var n_mensualidades = $('#n_mensualidades').val();
+			var monto_mensual = $('#monto_mensual').val();
+			var pago_final = $('#pago_final').val();
+			var dia_pago = $('#dia_pago').val();
+			var nombre_descuento = $('#nombre_descuento').val();
+			var descuento = $('#descuento').val();
+			var monto_interes = $('#monto_interes').val();
+			var nombre_broker = $('#nombre_broker').val();
+			var comision_broker = $('#comision_broker').val();
+			var observaciones = $('#observaciones').val();
+			//Función de Ajax
+			
+			$.ajax({
+				url:"assets/php/clientes/guardar_datos_precontrato.php",
+				dataType:"json",//Formato en como se manda la información
+				type:"get",
+				data:{//Información a enviar o cadena a enviar
+					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, monto_interes:monto_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones
+				},
+				success:function(respuesta){
+					$(document).ready(function(){
+						if(respuesta.valor=="ok"){
+							swal({
+								text:'Datos guardados',
+								type: 'success'
+							});
+							//cargar_datos_contrato();
+						}else{
+							swal({
+								text:respuesta.valor,
+								type: 'error'
+							});
+							console.log(respuesta);		
+						}//fin del else
+					});	
+				},
+				error:function(respuesta){//Si surge un error
+					console.log(respuesta);
+				}
+			});
 		});
-	});
+	}else{
+		$(document).ready(function(){
+			swal({
+				text:'No se pueden dejar campos vacíos',
+				type: 'info'
+			});
+		});	
+	}//fin del else
 }//fin de guardar datos cliente
 
 function guardar_datos_contrato(){
@@ -100,23 +122,13 @@ function guardar_datos_contrato(){
 		var id_contrato = $('#id_contrato').val();
 		var fecha_contrato = $('#fecha_contrato').val();
 		var fecha_firma = $('#fecha_firma').val();
-		var precio_venta = $('#precio_venta').val();
-		var tipo_compra = $('#select_tipo_compra').val();
-		var n_mensualidades = $('#n_mensualidades').val();
-		var monto_mensual = $('#monto_mensual').val();
-		var pago_final = $('#pago_final').val();
-		var estatus_venta = $('#select_estatus_venta').val();
-		var dia_pago = $('#dia_pago').val();
-		var nombre_descuento = $('#nombre_descuento').val();
-		var tasa = $('#tasa').val();
-		
 		//Función de Ajax
 		$.ajax({
 			url:"assets/php/clientes/guardar_datos_contrato.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, estatus_venta:estatus_venta, dia_pago:dia_pago, nombre_descuento:nombre_descuento, tasa:tasa
+				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
 			},
 			success:function(respuesta){
 				$(document).ready(function(){
@@ -194,7 +206,9 @@ function seleccionar_cliente(id){
 	var cadena = id.split("&");
 	id_cliente = cadena[0];	
 	nombre = cadena[1];
+	//nombre = nombre.substring(0, nombre.length - 1);
 	$('#input_cliente').val(nombre);
+	$("#input_cliente").prop('disabled', true);
 	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
 };//Fin seleccionar_cliente
@@ -245,12 +259,13 @@ function cargar_datos_cliente(id){
 function cargar_datos_precontrato(id){
 	//alert("Entrando");
 	var id_cliente = $('#id_cliente').val();
+	var input_cliente = $('#input_cliente').val();
 	$.ajax({
 		url:"assets/php/clientes/cargar_datos_precontrato.php",
 		dataType:"json",//Formato en como se manda la información
 		type:"get",
 		data:{//Información a enviar o cadena a enviar
-			id_cliente:id_cliente, id:id
+			id_cliente:id_cliente, id:id, input_cliente:input_cliente
 		},
 		success:function(respuesta){
 			$(document).ready(function(){
@@ -267,6 +282,7 @@ function cargar_datos_precontrato(id){
 }//fin de cargar datos clientes
 
 function cargar_datos_contrato(){
+	//Poner validacion
 	var id_cliente = $('#id_cliente').val();
 	var id_contrato = $('#id_contrato').val();
 	$.ajax({

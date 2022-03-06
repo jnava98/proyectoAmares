@@ -56,6 +56,84 @@ if(empty($_GET["lote"])){
 	$lote=$_GET["lote"];
 }//Fin del else
 
+if(empty($_GET["precio_venta"])){
+	$precio_venta="";
+}else{
+	$precio_venta=$_GET["precio_venta"];
+}//Fin del else
+
+if(empty($_GET["tipo_compra"])){
+	$tipo_compra="";
+}else{
+	$tipo_compra=$_GET["tipo_compra"];
+}//Fin del else
+
+if(empty($_GET["n_mensualidades"])){
+	$n_mensualidades="";
+}else{
+	$n_mensualidades=$_GET["n_mensualidades"];
+}//Fin del else
+
+if(empty($_GET["monto_mensual"])){
+	$monto_mensual="";
+}else{
+	$monto_mensual=$_GET["monto_mensual"];
+}//Fin del else
+
+if(empty($_GET["pago_final"])){
+	$pago_final="";
+}else{
+	$pago_final=$_GET["pago_final"];
+}//Fin del else
+
+if(empty($_GET["dia_pago"])){
+	$dia_pago="";
+}else{
+	$dia_pago=$_GET["dia_pago"];
+}//Fin del else
+
+if(empty($_GET["nombre_descuento"])){
+	$nombre_descuento="";
+}else{
+	$nombre_descuento=$_GET["nombre_descuento"];
+}//Fin del else
+
+if(empty($_GET["descuento"])){
+	$descuento="";
+}else{
+	$descuento=$_GET["descuento"];
+}//Fin del else
+
+if(empty($_GET["monto_interes"])){
+	$monto_interes="";
+}else{
+	$monto_interes=$_GET["monto_interes"];
+}//Fin del else
+
+if(empty($_GET["nombre_broker"])){
+	$nombre_broker="";
+}else{
+	$nombre_broker=$_GET["nombre_broker"];
+}//Fin del else
+
+if(empty($_GET["comision_broker"])){
+	$comision_broker="";
+}else{
+	$comision_broker=$_GET["comision_broker"];
+}//Fin del else
+
+if(empty($_GET["observaciones"])){
+	$observaciones="";
+}else{
+	$observaciones=$_GET["observaciones"];
+}//Fin del else
+
+if($fecha_apartado==""){
+    $estatus_venta = "2";
+}else{
+    $estatus_venta = "3";
+}//fin del else
+
 $respuesta=Array();
 
 //Programar guardado para las tabla lotes-contrato, cliente-contrato
@@ -66,7 +144,7 @@ if(($id_contrato!="")){
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."' where id_contrato LIKE '".$id_contrato."' ";
+        $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' where id_contrato LIKE '".$id_contrato."' ";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
@@ -75,7 +153,7 @@ if(($id_contrato!="")){
         }//fin del else
     }else{
         //Si no existe el cliente insertamos
-        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."')";
+        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
         $result=mysqli_query(conectar(),$sql);
         desconectar();
         if($result){
@@ -107,7 +185,7 @@ if(($id_contrato!="")){
         }//fin del else
     }//fin del else
 }else{
-    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."')";
+    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     echo $sql;

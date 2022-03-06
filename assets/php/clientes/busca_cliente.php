@@ -16,10 +16,11 @@ if($cliente==" "||$cliente==""){
     desconectar();
     while($row=mysqli_fetch_assoc($resultado)){
         $id_cliente= $row['id_cliente'];
-        $nombre= $row['nombre']." ";
-        $nombre.= $row['apellido_paterno']." ";
+        
+        $nombre= $row['apellido_paterno']." ";
         $nombre.= $row['apellido_materno']." ";
-        echo '<tr id="'.$id_cliente.'&'.$nombre.'"  onclick="seleccionar_cliente(this.id)">';
+        $nombre.= $row['nombre'];
+        echo '<tr id="'.$id_cliente.'&'.$nombre.'" onclick="seleccionar_cliente(this.id)">';
             echo '<td id="tdcliente_buscado">'.($id_cliente.' - '.$nombre).'</td>';
         echo '</tr>';
     }//fin del while
