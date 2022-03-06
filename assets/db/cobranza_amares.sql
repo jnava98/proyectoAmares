@@ -2,10 +2,10 @@
 -- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 06-03-2022 a las 04:14:05
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.15
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2022 at 04:38 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `cobranza_amares`
+-- Database: `cobranza_amares`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cat_estatus_pago`
+-- Table structure for table `cat_estatus_pago`
 --
 
 CREATE TABLE `cat_estatus_pago` (
@@ -33,7 +33,7 @@ CREATE TABLE `cat_estatus_pago` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cat_estatus_pago`
+-- Dumping data for table `cat_estatus_pago`
 --
 
 INSERT INTO `cat_estatus_pago` (`id_estatus_pago`, `nombre`) VALUES
@@ -43,7 +43,7 @@ INSERT INTO `cat_estatus_pago` (`id_estatus_pago`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cat_estatus_venta`
+-- Table structure for table `cat_estatus_venta`
 --
 
 CREATE TABLE `cat_estatus_venta` (
@@ -52,7 +52,7 @@ CREATE TABLE `cat_estatus_venta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cat_estatus_venta`
+-- Dumping data for table `cat_estatus_venta`
 --
 
 INSERT INTO `cat_estatus_venta` (`id_estatus_venta`, `nombre`) VALUES
@@ -63,7 +63,7 @@ INSERT INTO `cat_estatus_venta` (`id_estatus_venta`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cat_tipo_compra`
+-- Table structure for table `cat_tipo_compra`
 --
 
 CREATE TABLE `cat_tipo_compra` (
@@ -72,7 +72,7 @@ CREATE TABLE `cat_tipo_compra` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cat_tipo_compra`
+-- Dumping data for table `cat_tipo_compra`
 --
 
 INSERT INTO `cat_tipo_compra` (`id_tipo_compra`, `nombre`) VALUES
@@ -84,7 +84,7 @@ INSERT INTO `cat_tipo_compra` (`id_tipo_compra`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cat_tipo_lote`
+-- Table structure for table `cat_tipo_lote`
 --
 
 CREATE TABLE `cat_tipo_lote` (
@@ -93,7 +93,7 @@ CREATE TABLE `cat_tipo_lote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cat_tipo_lote`
+-- Dumping data for table `cat_tipo_lote`
 --
 
 INSERT INTO `cat_tipo_lote` (`id_tipo_lote`, `nombre`) VALUES
@@ -104,7 +104,7 @@ INSERT INTO `cat_tipo_lote` (`id_tipo_lote`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clientes`
+-- Table structure for table `clientes`
 --
 
 CREATE TABLE `clientes` (
@@ -118,33 +118,34 @@ CREATE TABLE `clientes` (
   `direccion` varchar(100) NOT NULL,
   `telefono` varchar(13) NOT NULL,
   `estado_civil` varchar(50) NOT NULL,
-  `act_economica` varchar(50) NOT NULL
+  `act_economica` varchar(50) NOT NULL,
+  `fecha_captura` date NOT NULL DEFAULT current_timestamp() COMMENT 'Fecha en la que se capturo el registro'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `clientes`
+-- Dumping data for table `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_materno`, `residencia`, `nacionalidad`, `correo`, `direccion`, `telefono`, `estado_civil`, `act_economica`) VALUES
-(1, 'Cesar Julian', 'Toraya ', 'Novelo', 'Mérida', 'Mexicana', 'cesartn12@gmail.com', '', '999 360 0284', 'Soltero', 'Desarrollador'),
-(2, 'Jorge Carlos', 'Navarrete', 'Torres', 'Mérida', 'Mexicana', 'jorgecnt98@gmail.com', '', '999 579 9501', 'Casado', 'Desarrollador'),
-(3, 'Maritzel Beatriz', 'Euan', 'Solis', 'Uman', 'Mexicana', 'maritzels@gmail.com', '', '9991409186', 'Soltera', 'Administrador de Proyectos'),
-(4, 'Ana Carolina ', 'Martinez', 'Maza', 'Mocochá', 'Mexicana', 'karo@gmail.com', '', '999 397 1844', 'Soltera', 'Coordinadora '),
-(10, 'Nicte-Ha', 'Velez', 'Koeppel', 'Playa del carmen ', 'Mexicana ', 'NICKYVK@ICLOUD.COM ', '', '2283110412', '', ''),
-(11, 'Ramei', 'Dubois', 'Garcia', 'Ciudad de Mexico ', 'Mexicana ', 'Ramaeldubois@hotmail.com', '', '5510697917', '', ''),
-(12, 'Isaac', 'Banman', 'Derksen', 'Sherwood Park', 'Canadiense', 'isaacdereksen@gmail.com', '', '7809269523', '', ''),
-(13, 'Luis Alonso', 'Joya', 'Villareal', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '', '8115873786', '', ''),
-(14, 'Alma Leticia', 'Medellin', 'Bazaldua', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '', '8115873786', '', ''),
-(15, 'Rosalie', 'Roeper', '', 'Amsterdam', 'Holandesa', 'rosalieroeper@live.nl ', '', ' +31 68321989', '', ''),
-(16, 'Laurena', 'Rutgers', '', 'Amsterdam', 'Holandesa', ' laurentarutgers1@gmail.com', '', '+31 655818843', '', ''),
-(17, 'Carlos Ernesto', 'Gutierrez', 'Villaseñor', 'Canada', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', ''),
-(18, 'Roberto', 'Luna', 'Salcedo', 'Solidaridad', 'Mexicano', 'ing_roberto_luna@outlook.es', '', '3337241815', '', ''),
-(19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '');
+INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_materno`, `residencia`, `nacionalidad`, `correo`, `direccion`, `telefono`, `estado_civil`, `act_economica`, `fecha_captura`) VALUES
+(1, 'Cesar Julian', 'Toraya ', 'Novelo', 'Mérida', 'Mexicana', 'cesartn12@gmail.com', '', '999 360 0284', 'Soltero', 'Desarrollador', '2022-03-05'),
+(2, 'Jorge Carlos', 'Navarrete', 'Torres', 'Mérida', 'Mexicana', 'jorgecnt98@gmail.com', '', '999 579 9501', 'Casado', 'Desarrollador', '2022-03-05'),
+(3, 'Maritzel Beatriz', 'Euan', 'Solis', 'Uman', 'Mexicana', 'maritzels@gmail.com', '', '9991409186', 'Soltera', 'Administrador de Proyectos', '2022-03-05'),
+(4, 'Ana Carolina ', 'Martinez', 'Maza', 'Mocochá', 'Mexicana', 'karo@gmail.com', '', '999 397 1844', 'Soltera', 'Coordinadora ', '2022-03-05'),
+(10, 'Nicte-Ha', 'Velez', 'Koeppel', 'Playa del carmen ', 'Mexicana ', 'NICKYVK@ICLOUD.COM ', '', '2283110412', '', '', '2022-03-05'),
+(11, 'Ramei', 'Dubois', 'Garcia', 'Ciudad de Mexico ', 'Mexicana ', 'Ramaeldubois@hotmail.com', '', '5510697917', '', '', '2022-03-05'),
+(12, 'Isaac', 'Banman', 'Derksen', 'Sherwood Park', 'Canadiense', 'isaacdereksen@gmail.com', '', '7809269523', '', '', '2022-03-05'),
+(13, 'Luis Alonso', 'Joya', 'Villareal', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '', '8115873786', '', '', '2022-03-05'),
+(14, 'Alma Leticia', 'Medellin', 'Bazaldua', 'San Pedro de Garza Garcia', 'Mexicana', 'luisjoya7@yahoo.com', '', '8115873786', '', '', '2022-03-05'),
+(15, 'Rosalie', 'Roeper', '', 'Amsterdam', 'Holandesa', 'rosalieroeper@live.nl ', '', ' +31 68321989', '', '', '2022-03-05'),
+(16, 'Laurena', 'Rutgers', '', 'Amsterdam', 'Holandesa', ' laurentarutgers1@gmail.com', '', '+31 655818843', '', '', '2022-03-05'),
+(17, 'Carlos Ernesto', 'Gutierrez', 'Villaseñor', 'Canada', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05'),
+(18, 'Roberto', 'Luna', 'Salcedo', 'Solidaridad', 'Mexicano', 'ing_roberto_luna@outlook.es', '', '3337241815', '', '', '2022-03-05'),
+(19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cliente_contrato`
+-- Table structure for table `cliente_contrato`
 --
 
 CREATE TABLE `cliente_contrato` (
@@ -154,7 +155,7 @@ CREATE TABLE `cliente_contrato` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cliente_contrato`
+-- Dumping data for table `cliente_contrato`
 --
 
 INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrato`) VALUES
@@ -163,7 +164,7 @@ INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrat
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `concepto`
+-- Table structure for table `concepto`
 --
 
 CREATE TABLE `concepto` (
@@ -172,7 +173,7 @@ CREATE TABLE `concepto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `concepto`
+-- Dumping data for table `concepto`
 --
 
 INSERT INTO `concepto` (`id_concepto`, `nombre`) VALUES
@@ -184,7 +185,7 @@ INSERT INTO `concepto` (`id_concepto`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `contrato`
+-- Table structure for table `contrato`
 --
 
 CREATE TABLE `contrato` (
@@ -210,21 +211,22 @@ CREATE TABLE `contrato` (
   `comision_broker` float NOT NULL,
   `clientes` varchar(300) NOT NULL,
   `id_lote` int(11) NOT NULL,
-  `observaciones` varchar(1000) NOT NULL
+  `observaciones` varchar(1000) NOT NULL,
+  `fecha_captura` date NOT NULL DEFAULT current_timestamp() COMMENT 'Fecha en la que se captura el registro'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `contrato`
+-- Dumping data for table `contrato`
 --
 
-INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `monto_interes`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_descuento`, `descuento`, `nombre_broker`, `comision_broker`, `clientes`, `id_lote`, `observaciones`) VALUES
-(23, '2022-02-28', '2022-02-01', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', 0, '', 1, ''),
-(24, '2022-02-28', '0000-00-00', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', 0, '', 2, '');
+INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `monto_interes`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_descuento`, `descuento`, `nombre_broker`, `comision_broker`, `clientes`, `id_lote`, `observaciones`, `fecha_captura`) VALUES
+(23, '2022-02-28', '2022-02-01', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', 0, '', 1, '', '2022-03-05'),
+(24, '2022-02-28', '0000-00-00', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', 0, '', 2, '', '2022-03-05');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cuentas_usuario`
+-- Table structure for table `cuentas_usuario`
 --
 
 CREATE TABLE `cuentas_usuario` (
@@ -235,7 +237,7 @@ CREATE TABLE `cuentas_usuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `cuentas_usuario`
+-- Dumping data for table `cuentas_usuario`
 --
 
 INSERT INTO `cuentas_usuario` (`id_usuario`, `usuario`, `password`, `nombre`) VALUES
@@ -244,7 +246,7 @@ INSERT INTO `cuentas_usuario` (`id_usuario`, `usuario`, `password`, `nombre`) VA
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `lotes`
+-- Table structure for table `lotes`
 --
 
 CREATE TABLE `lotes` (
@@ -264,7 +266,7 @@ CREATE TABLE `lotes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `lotes`
+-- Dumping data for table `lotes`
 --
 
 INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `cos`, `cus`, `uso`, `id_tipo_lote`, `fecha_entrega`, `disponibilidad`, `precio_lista`) VALUES
@@ -1181,7 +1183,7 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pagos`
+-- Table structure for table `pagos`
 --
 
 CREATE TABLE `pagos` (
@@ -1189,57 +1191,60 @@ CREATE TABLE `pagos` (
   `id_cliente` int(11) NOT NULL,
   `id_contrato` int(11) NOT NULL,
   `fecha_pago` date NOT NULL,
-  `mensualidad` varchar(50) NOT NULL,
+  `no_mensualidad` varchar(50) NOT NULL,
   `monto_pagado` float NOT NULL,
   `diferencia` float NOT NULL,
   `id_estatus_pago` int(11) NOT NULL,
   `comentario` varchar(200) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `id_concepto` int(11) NOT NULL
+  `id_concepto` int(11) NOT NULL,
+  `mensualidad_historica` float NOT NULL COMMENT 'Mensualidad que el cliente debió pagar en ese registro.',
+  `fecha_mensualidad` date DEFAULT NULL COMMENT 'Fecha de la mensualidad a la que corresponde el pago',
+  `fecha_captura` date NOT NULL DEFAULT current_timestamp() COMMENT 'Es la fecha en la que se capturó el pago.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `pagos`
+-- Dumping data for table `pagos`
 --
 
-INSERT INTO `pagos` (`id_pago`, `id_cliente`, `id_contrato`, `fecha_pago`, `mensualidad`, `monto_pagado`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`) VALUES
-(4, 2, 23, '2022-03-01', '1', 5000, 110, 1, 'No paga completo por x razon.', 3);
+INSERT INTO `pagos` (`id_pago`, `id_cliente`, `id_contrato`, `fecha_pago`, `no_mensualidad`, `monto_pagado`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`, `mensualidad_historica`, `fecha_mensualidad`, `fecha_captura`) VALUES
+(4, 2, 23, '2022-03-01', '1', 5000, 110, 1, 'No paga completo por x razon.', 3, 0, NULL, '2022-03-05');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `cat_estatus_pago`
+-- Indexes for table `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_pago`
   ADD PRIMARY KEY (`id_estatus_pago`);
 
 --
--- Indices de la tabla `cat_estatus_venta`
+-- Indexes for table `cat_estatus_venta`
 --
 ALTER TABLE `cat_estatus_venta`
   ADD PRIMARY KEY (`id_estatus_venta`);
 
 --
--- Indices de la tabla `cat_tipo_compra`
+-- Indexes for table `cat_tipo_compra`
 --
 ALTER TABLE `cat_tipo_compra`
   ADD PRIMARY KEY (`id_tipo_compra`);
 
 --
--- Indices de la tabla `cat_tipo_lote`
+-- Indexes for table `cat_tipo_lote`
 --
 ALTER TABLE `cat_tipo_lote`
   ADD PRIMARY KEY (`id_tipo_lote`);
 
 --
--- Indices de la tabla `clientes`
+-- Indexes for table `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id_cliente`);
 
 --
--- Indices de la tabla `cliente_contrato`
+-- Indexes for table `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
   ADD PRIMARY KEY (`id_cliente_contrato`),
@@ -1247,13 +1252,13 @@ ALTER TABLE `cliente_contrato`
   ADD KEY `id_contrato` (`id_contrato`);
 
 --
--- Indices de la tabla `concepto`
+-- Indexes for table `concepto`
 --
 ALTER TABLE `concepto`
   ADD PRIMARY KEY (`id_concepto`);
 
 --
--- Indices de la tabla `contrato`
+-- Indexes for table `contrato`
 --
 ALTER TABLE `contrato`
   ADD PRIMARY KEY (`id_contrato`),
@@ -1262,20 +1267,20 @@ ALTER TABLE `contrato`
   ADD KEY `id_lote` (`id_lote`);
 
 --
--- Indices de la tabla `cuentas_usuario`
+-- Indexes for table `cuentas_usuario`
 --
 ALTER TABLE `cuentas_usuario`
   ADD PRIMARY KEY (`id_usuario`);
 
 --
--- Indices de la tabla `lotes`
+-- Indexes for table `lotes`
 --
 ALTER TABLE `lotes`
   ADD PRIMARY KEY (`id_lote`),
   ADD KEY `id_tipo_lote` (`id_tipo_lote`);
 
 --
--- Indices de la tabla `pagos`
+-- Indexes for table `pagos`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`id_pago`),
@@ -1285,88 +1290,88 @@ ALTER TABLE `pagos`
   ADD KEY `id_concepto` (`id_concepto`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `cat_estatus_pago`
+-- AUTO_INCREMENT for table `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_pago`
   MODIFY `id_estatus_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `cat_estatus_venta`
+-- AUTO_INCREMENT for table `cat_estatus_venta`
 --
 ALTER TABLE `cat_estatus_venta`
   MODIFY `id_estatus_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `cat_tipo_compra`
+-- AUTO_INCREMENT for table `cat_tipo_compra`
 --
 ALTER TABLE `cat_tipo_compra`
   MODIFY `id_tipo_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `cat_tipo_lote`
+-- AUTO_INCREMENT for table `cat_tipo_lote`
 --
 ALTER TABLE `cat_tipo_lote`
   MODIFY `id_tipo_lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `clientes`
+-- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
   MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT de la tabla `cliente_contrato`
+-- AUTO_INCREMENT for table `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
   MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12513;
 
 --
--- AUTO_INCREMENT de la tabla `concepto`
+-- AUTO_INCREMENT for table `concepto`
 --
 ALTER TABLE `concepto`
   MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `contrato`
+-- AUTO_INCREMENT for table `contrato`
 --
 ALTER TABLE `contrato`
   MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT de la tabla `cuentas_usuario`
+-- AUTO_INCREMENT for table `cuentas_usuario`
 --
 ALTER TABLE `cuentas_usuario`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `lotes`
+-- AUTO_INCREMENT for table `lotes`
 --
 ALTER TABLE `lotes`
   MODIFY `id_lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=909;
 
 --
--- AUTO_INCREMENT de la tabla `pagos`
+-- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
   MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `cliente_contrato`
+-- Constraints for table `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
   ADD CONSTRAINT `cliente_contrato_ibfk_1` FOREIGN KEY (`id_contrato`) REFERENCES `contrato` (`id_contrato`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `cliente_contrato_ibfk_2` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `contrato`
+-- Constraints for table `contrato`
 --
 ALTER TABLE `contrato`
   ADD CONSTRAINT `contrato_ibfk_2` FOREIGN KEY (`id_estatus_venta`) REFERENCES `cat_estatus_venta` (`id_estatus_venta`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1374,13 +1379,13 @@ ALTER TABLE `contrato`
   ADD CONSTRAINT `contrato_ibfk_5` FOREIGN KEY (`id_lote`) REFERENCES `lotes` (`id_lote`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `lotes`
+-- Constraints for table `lotes`
 --
 ALTER TABLE `lotes`
   ADD CONSTRAINT `lotes_ibfk_1` FOREIGN KEY (`id_tipo_lote`) REFERENCES `cat_tipo_lote` (`id_tipo_lote`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `pagos`
+-- Constraints for table `pagos`
 --
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE,
