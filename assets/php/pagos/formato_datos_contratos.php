@@ -16,6 +16,8 @@ if($id_contrato==" "||$id_contrato==""){
 //fecha de la firma del contrato ??
 //fecha del apartado del terreno ??
 
+
+
 //ELIMINAR LA TABLA LOTES-CONTRATO
     $consulta = "SELECT
     c.id_contrato,
@@ -56,6 +58,17 @@ $dia_pago = $row['dia_pago'];
 $nombre_completo = $row['nombre']." ".$row['apellido_paterno']." ".$row['apellido_materno'];
 
 $lote = $row['fase']."-".$row['super_manzana']."-".$row['mza']."-".$row['lote'];   
+
+
+//Inicio del formulario
+
+/*
+Datos a agregar:
+-Cantidad restante a pagar
+-Tipo de pago del enganche
+-
+*/
+
 $html="
 <div class='card-body'>
 
