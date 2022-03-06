@@ -16,10 +16,12 @@ if(empty($_GET["id_cliente"])){
 
 $response=Array();
 
-$sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote 
+$sql="SELECT c.id_cliente, cev.nombre,  co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote 
 from clientes as c 
 inner join cliente_contrato as cc 
 ON c.id_cliente = cc.id_cliente 
+inner join cat_estatus_venta as cev
+on cev.id_estatus_venta = id_estatus_venta
 inner join contrato as co 
 on cc.id_contrato = co.id_contrato 
 inner join lotes as lo 
@@ -33,13 +35,13 @@ $num=mysqli_num_rows($result);
 if($num>0){
 	$html="";
 	$i=1;
-	$html.="<h5 class='card-title'>Lotes del cliente</h5>"; 
+	$html.="<h5 class='card-title'>Compras del cliente</h5>"; 
 	$html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
 		$html.="<thead class='thead-dark'>";
 			$html.="<tr>";
 				$html.="<th style='text-align:center'>#</th>";
 				$html.="<th style='text-align:center'>Lotes Comprados</th>";
-				$html.="<th style='text-align:center'>Fecha Contrato</th>";
+				$html.="<th style='text-align:center'>Estatus de la Compra</th>";
 				$html.="<th style='text-align:center'>Acciones</th>";
 			$html.="</tr>";
 		$html.="</thead>";
@@ -48,7 +50,7 @@ if($num>0){
 		$html.="<tr>";
 			$html.="<td style='text-align:center'>".$i."</td>";
 			$html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
-			$html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
+			$html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='".$col['nombre']."'></input></td>";
 			//Botones para las acciones
 			$html.="<td style='text-align:center'>";
 				$html.="<button class='btn btn-success' data-id_contrato='".$col['id_contrato']."' id='".$col['id_contrato']."' onclick='consulta_historial_pagos(this.dataset.id_contrato);'><i class='ri-money-dollar-circle-fill';></i></button>";
