@@ -12,6 +12,7 @@ function guardar_datos_cliente(){
 		var residencia = $('#residencia_cliente').val();
 		var nacionalidad = $('#nacionalidad_cliente').val();
 		var correo = $('#correo_cliente').val();
+		var direccion = $('#direccion_cliente').val();
 		var telefono = $('#telefono_cliente').val();
 		var estado_civil = $('#estadoc_cliente').val();
 		var actividad_economica = $('#act_cliente').val();
@@ -21,7 +22,7 @@ function guardar_datos_cliente(){
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
+				id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
 			},
 			success:function(respuesta){
 				$(document).ready(function(){
@@ -75,7 +76,7 @@ function guardar_datos_precontrato(){
 							text:'Datos guardados',
 							type: 'success'
 						});
-						cargar_datos_contrato();
+						//cargar_datos_contrato();
 					}else{
 						swal({
 							text:respuesta.valor,
@@ -255,7 +256,7 @@ function cargar_datos_precontrato(id){
 			$(document).ready(function(){
 				if(respuesta.valor=="ok"){
 					$('#div_formato_precontrato').html(respuesta.formato);
-					cargar_datos_contrato();
+					//cargar_datos_contrato();
 				}//fin del if
 			});	
 		},
@@ -375,6 +376,9 @@ function cargar_select_super_manzana(id_select_fase){
 			}
 		});
 	}else{
+		$('#select_lotes').val('0');
+		$('#select_manzana').val('0');
+		$('#select_super_manzana').val('0');
 		$('#div_super_manzana').hide();
 		$('#div_select_super_manzana').hide();
 	}//fin del else
@@ -413,6 +417,8 @@ function cargar_select_manzana(id_select_super_manzana){
 			}
 		});
 	}else{
+		$('#select_lotes').val('0');
+		$('#select_manzana').val('0');
 		$('#div_manzana').hide();
 		$('#div_select_manzana').hide();
 	}//fin del else
@@ -452,6 +458,7 @@ function cargar_select_lotes(id_select_manzana){
 			}
 		});
 	}else{
+		$('#select_lotes').val('0');
 		$('#div_lotes').hide();
 		$('#div_select_lotes').hide();
 	}//fin del else
