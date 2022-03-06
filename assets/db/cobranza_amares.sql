@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-03-2022 a las 03:57:04
+-- Tiempo de generación: 06-03-2022 a las 04:06:34
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -200,6 +200,7 @@ CREATE TABLE `contrato` (
   `mensualidades` int(50) NOT NULL,
   `mensualidades_enganche` int(50) NOT NULL,
   `monto_mensual` float NOT NULL,
+  `monto_interes` float NOT NULL,
   `pago_final` float NOT NULL,
   `id_estatus_venta` int(11) DEFAULT NULL,
   `dia_pago` date NOT NULL,
@@ -215,9 +216,9 @@ CREATE TABLE `contrato` (
 -- Volcado de datos para la tabla `contrato`
 --
 
-INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_descuento`, `descuento`, `nombre_broker`, `clientes`, `id_lote`, `observaciones`) VALUES
-(23, '2022-02-28', '2022-02-01', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 5500, 1, '0000-00-00', '', 0, '', '', 1, ''),
-(24, '2022-02-28', '0000-00-00', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 5500, 1, '0000-00-00', '', 0, '', '', 2, '');
+INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `monto_interes`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_descuento`, `descuento`, `nombre_broker`, `clientes`, `id_lote`, `observaciones`) VALUES
+(23, '2022-02-28', '2022-02-01', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', '', 1, ''),
+(24, '2022-02-28', '0000-00-00', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 1, '0000-00-00', '', 0, '', '', 2, '');
 
 -- --------------------------------------------------------
 
