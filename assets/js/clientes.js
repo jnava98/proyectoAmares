@@ -223,6 +223,8 @@ function cargar_datos_cliente(id){
 	}else{
 		aux = 0;
 		var cliente = $('#input_cliente').val();
+		$("#input_cliente").prop('disabled', false);
+		$('#input_cliente').val("");
 	}//fin del else
 	if(aux==0){
 		$.ajax({
@@ -238,6 +240,7 @@ function cargar_datos_cliente(id){
 						$('#div_formato_cliente').html(respuesta.formato);
 						$('#id_cliente').val(respuesta.id_cliente);
 						cargar_tabla_contratos();
+						$('#div_contratos').hide();
 						if(respuesta.id_cliente!=""){
 							$('#div_boton_contrato').show('slow');
 						}//fin del if
