@@ -11,12 +11,24 @@ if(empty($_GET["id_contrato"])){
 }//Fin del else
 
 //VAMOS A TRAER LA INFORMACION DEL CONTRATO PARA COLOCARLA EN EL FORMULARIO DE PAGO
-	/*TRAEMOS: Concepto en el que esta el contrato
+	/*
+    Primero consultamos en que estado se encuentra el contrato.
+
+    Si el contrato se encuentra en Reservado, significa que aun no hay ningun pago registrado.
+    Por lo que vamos a colocar el concepto como "Apartado"
+
+    Si el contrato se encuentra en Enganche, significa que el apartado ya esta pagado
+
+    Primero consultamos si existe algun pago para ese contrato.
+    Si no existe ningun pago, entonces 
+    
+    
+    TRAEMOS: Concepto en el que esta el contrato
 		Cantidad mensual estipulada
 		Algun recargo del mes anterior		
 	*/
 $response=Array();
-$sql="SELECT 
+$sql="SELECT
     monto_mensual,
     id_estatus_venta,   
     (SELECT MAX(mensualidad) FROM pagos WHERE id_contrato = '$id_contrato') AS ultima_mensualidad,
@@ -28,7 +40,6 @@ $result=mysqli_query(conectar(),$sql);
 desconectar();
 $row=mysqli_fetch_array($result);
 $num=mysqli_num_rows($result);
-
 //Verificamos el estatus del contrato, para saber que concepto tendra el pago
 //1 - Contrato Firmado -> Concepto - Mensualidad
 //2 - Enganche -> Concepto - Mensualidad Enganche

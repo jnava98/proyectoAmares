@@ -13,7 +13,6 @@ function busca_cliente(){
 		success:function(response) {
 			$('#tbody_cliente').html(response);
 			$('#div_cliente_lista').css('display','block');
-			$('#div_tabla_contratos').css('display','none');
 		}//fin de success
 	});
 };//Fin busca cliente
@@ -53,7 +52,9 @@ function trae_contratos_cliente(){
 						searching: false,
 					});
 					//$('#div_tabla_contratos').css("display", "block");
-					$('#div_tabla_contratos').show('slow');
+					$('#div_tabla_contratos').hide('slow').show('slow');
+					$('#div_historial_pagos').hide('slow');
+					$('#div_card_contratos').hide('slow');
 				}else{
 					//Si no encontramos ningun contrato
 					Swal.fire(
