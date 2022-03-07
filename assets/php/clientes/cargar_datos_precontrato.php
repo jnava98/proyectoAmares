@@ -16,6 +16,11 @@ if(empty($_GET["id"])){
 	$id_contrato=$_GET["id"];
 }//Fin del else
 
+if(empty($_GET["input_cliente"])){
+	$input_cliente="0";
+}else{
+	$input_cliente=$_GET["input_cliente"];
+}//Fin del else
 
 $respuesta=Array();
 if(($id_cliente!="0")){
@@ -32,7 +37,7 @@ if(($id_cliente!="0")){
 		}//Fin del else
 	}else{
         $respuesta['valor']="ok";
-        $respuesta['formato']=mostrar_formato_precontrato_vacio();
+        $respuesta['formato']=mostrar_formato_precontrato_vacio($input_cliente);
 	}//fin del else
 }else{
 

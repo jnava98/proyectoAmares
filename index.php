@@ -10,6 +10,7 @@
 	if($pagina=="pagos") include "assets/pages/pagos.php";
 	if($pagina=="reportes") include "assets/pages/reportes.php";
 	if($pagina=="crear_excel") include "assets/php/reportes/crear_excel.php";
+	if($pagina=="lotes") include "assets/pages/lotes.php";
 
 	}else{
 		$pagina="login";
