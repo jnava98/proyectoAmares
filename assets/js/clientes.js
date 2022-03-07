@@ -75,7 +75,6 @@ function guardar_datos_precontrato(){
 			var comision_broker = $('#comision_broker').val();
 			var observaciones = $('#observaciones').val();
 			//Función de Ajax
-			
 			$.ajax({
 				url:"assets/php/clientes/guardar_datos_precontrato.php",
 				dataType:"json",//Formato en como se manda la información
@@ -98,6 +97,7 @@ function guardar_datos_precontrato(){
 							});
 							console.log(respuesta);		
 						}//fin del else
+						cargar_tabla_contratos();
 					});	
 				},
 				error:function(respuesta){//Si surge un error
@@ -258,8 +258,10 @@ function cargar_datos_cliente(id){
 
 function cargar_datos_precontrato(id){
 	//alert("Entrando");
+	$('#div_formato_precontrato').hide();
 	var id_cliente = $('#id_cliente').val();
 	var input_cliente = $('#input_cliente').val();
+	$('#div_formato_contrato').hide();
 	$.ajax({
 		url:"assets/php/clientes/cargar_datos_precontrato.php",
 		dataType:"json",//Formato en como se manda la información
@@ -270,6 +272,7 @@ function cargar_datos_precontrato(id){
 		success:function(respuesta){
 			$(document).ready(function(){
 				if(respuesta.valor=="ok"){
+					$('#div_formato_precontrato').show('slow');
 					$('#div_formato_precontrato').html(respuesta.formato);
 					//cargar_datos_contrato();
 				}//fin del if
@@ -282,27 +285,35 @@ function cargar_datos_precontrato(id){
 }//fin de cargar datos clientes
 
 function cargar_datos_contrato(){
-	//Poner validacion
-	var id_cliente = $('#id_cliente').val();
-	var id_contrato = $('#id_contrato').val();
-	$.ajax({
-		url:"assets/php/clientes/cargar_datos_contrato.php",
-		dataType:"json",//Formato en como se manda la información
-		type:"get",
-		data:{//Información a enviar o cadena a enviar
-			id_cliente:id_cliente, id_contrato:id_contrato
-		},
-		success:function(respuesta){
-			$(document).ready(function(){
-				if(respuesta.valor=="ok"){
-					$('#div_formato_contrato').html(respuesta.formato);
-				}//fin del if
-			});	
-		},
-		error:function(respuesta){//Si surge un error
-			console.log(respuesta);
-		}
-	});
+	//Poner validacion para que el estatus sea enganche
+	if(($('#id_cliente').val()!="")&&($('#id_contrato').val()!="")){
+		$('#div_formato_contrato').show('slow');
+		var id_cliente = $('#id_cliente').val();
+		var id_contrato = $('#id_contrato').val();
+		$.ajax({
+			url:"assets/php/clientes/cargar_datos_contrato.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				id_cliente:id_cliente, id_contrato:id_contrato
+			},
+			success:function(respuesta){
+				$(document).ready(function(){
+					if(respuesta.valor=="ok"){
+						$('#div_formato_contrato').html(respuesta.formato);
+					}//fin del if
+				});	
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	}else{
+		swal({
+			text:'Debes llenar los datos de la compra para poder crear un contrato',
+			type: 'warning'
+		});
+	}//fin del else
 }//fin de cargar datos clientes
 
 function cargar_tabla_contratos(){
