@@ -16,17 +16,18 @@ if(empty($_GET["id_cliente"])){
 
 $response=Array();
 
+
 $sql="SELECT c.id_cliente, cev.nombre,  co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote 
 from clientes as c 
 inner join cliente_contrato as cc 
 ON c.id_cliente = cc.id_cliente 
-inner join cat_estatus_venta as cev
-on cev.id_estatus_venta = id_estatus_venta
 inner join contrato as co 
-on cc.id_contrato = co.id_contrato 
+on cc.id_contrato = co.id_contrato
+inner join cat_estatus_venta as cev
+on cev.id_estatus_venta = co.id_estatus_venta
 inner join lotes as lo 
 on co.id_lote = lo.id_lote 
-WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
+WHERE c.id_cliente = '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
 //echo $sql;
 $result=mysqli_query(conectar(),$sql);
 desconectar();
