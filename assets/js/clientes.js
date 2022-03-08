@@ -4,49 +4,60 @@ function cancelar_busqueda(){ //Funcion para recargar la pagina
 
 function guardar_datos_cliente(){
 	//alert("Entra");
-	$(document).ready(function(){
-		var id_cliente = $('#id_cliente').val();
-		var nombre = $('#nombre_cliente').val();
-		var apellido_pa = $('#apellidopa_cliente').val();
-		var apellido_ma = $('#apellidoma_cliente').val();
-		var residencia = $('#residencia_cliente').val();
-		var nacionalidad = $('#nacionalidad_cliente').val();
-		var correo = $('#correo_cliente').val();
-		var direccion = $('#direccion_cliente').val();
-		var telefono = $('#telefono_cliente').val();
-		var estado_civil = $('#estadoc_cliente').val();
-		var actividad_economica = $('#act_cliente').val();
-		//Función de Ajax
-		$.ajax({
-			url:"assets/php/clientes/guardar_datos_cliente.php",
-			dataType:"json",//Formato en como se manda la información
-			type:"get",
-			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
-			},
-			success:function(respuesta){
-				$(document).ready(function(){
-					if(respuesta.valor=="ok"){
-						swal({
-							text:'Datos guardados',
-							type: 'success'
-						});
-						$('#id_cliente').val(respuesta.id_cliente);
-						$('#div_boton_contrato').show('slow');
-						cargar_tabla_contratos();
-					}else{
-						swal({
-							text:'Error',
-							type: 'error'
-						});
-					}//fin del else
-				});	
-			},
-			error:function(respuesta){//Si surge un error
-				console.log(respuesta);
-			}
+	if(($('#nombre_cliente').val()!="")&&($('#apellidopa_cliente').val()!="")&&($('#residencia_cliente').val()!="")&&($('#nacionalidad_cliente').val()!="")&&($('#correo_cliente').val()!="")&&($('#telefono_cliente').val()!="")&&($('#direccion_cliente').val()!="")){
+		$(document).ready(function(){
+			var id_cliente = $('#id_cliente').val();
+			var nombre = $('#nombre_cliente').val();
+			var apellido_pa = $('#apellidopa_cliente').val();
+			var apellido_ma = $('#apellidoma_cliente').val();
+			var residencia = $('#residencia_cliente').val();
+			var nacionalidad = $('#nacionalidad_cliente').val();
+			var correo = $('#correo_cliente').val();
+			var direccion = $('#direccion_cliente').val();
+			var telefono = $('#telefono_cliente').val();
+			var estado_civil = $('#estadoc_cliente').val();
+			var actividad_economica = $('#act_cliente').val();
+			//Función de Ajax
+			$.ajax({
+				url:"assets/php/clientes/guardar_datos_cliente.php",
+				dataType:"json",//Formato en como se manda la información
+				type:"get",
+				data:{//Información a enviar o cadena a enviar
+					id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
+				},
+				success:function(respuesta){
+					$(document).ready(function(){
+						if(respuesta.valor=="ok"){
+							swal({
+								text:'Datos guardados',
+								type: 'success'
+							});
+							$('#id_cliente').val(respuesta.id_cliente);
+							$('#input_cliente').val(respuesta.nombre_cliente);
+							$("#input_cliente").prop('disabled', true);
+							$('#div_boton_contrato').show('slow');
+							cargar_tabla_contratos();
+						}else{
+							swal({
+								text:'Error',
+								type: 'error'
+							});
+						}//fin del else
+					});	
+				},
+				error:function(respuesta){//Si surge un error
+					console.log(respuesta);
+				}
+			});
 		});
-	});
+	}else{
+		$(document).ready(function(){
+			swal({
+				text:'No se pueden dejar campos vacíos',
+				type: 'info'
+			});
+		});	
+	}//fin del else
 }//fin de guardar datos cliente
 
 function guardar_datos_precontrato(){
@@ -166,17 +177,10 @@ function eliminar_contrato(id_contrato){
 			},
 			success:function(respuesta){
 				$(document).ready(function(){
-					if(respuesta.valor=="ok"){
-						swal({
-							text:'Datos guardados',
-							type: 'success'
-						});
-					}else{
-						swal({
-							text:'Error',
-							type: 'error'
-						});
-					}//fin del else
+					swal({
+						text:respuesta.mensaje,
+						type: respuesta.valor
+					});
 					cargar_tabla_contratos();
 				});	
 			},
@@ -211,6 +215,7 @@ function seleccionar_cliente(id){
 	$("#input_cliente").prop('disabled', true);
 	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
+	$("#buscar").prop('disabled', false);
 };//Fin seleccionar_cliente
 
 function cargar_datos_cliente(id){
@@ -220,9 +225,17 @@ function cargar_datos_cliente(id){
 			aux = 1;
 		}//fin del if
 		var cliente = $('#id_cliente').val();
+		$("#agregar").prop('disabled', true);
 	}else{
 		aux = 0;
 		var cliente = $('#input_cliente').val();
+		$("#input_cliente").prop('disabled', true);
+		$('#input_cliente').val("");
+		$('#div_cliente_lista').hide();
+		$('#div_contratos').hide();
+		$('#div_boton_contrato').hide();
+		$('#div_formato_precontrato').hide();
+		$('#div_formato_contrato').hide();
 	}//fin del else
 	if(aux==0){
 		$.ajax({
@@ -238,6 +251,7 @@ function cargar_datos_cliente(id){
 						$('#div_formato_cliente').html(respuesta.formato);
 						$('#id_cliente').val(respuesta.id_cliente);
 						cargar_tabla_contratos();
+						$('#div_contratos').hide();
 						if(respuesta.id_cliente!=""){
 							$('#div_boton_contrato').show('slow');
 						}//fin del if
@@ -343,6 +357,41 @@ function cargar_tabla_contratos(){
 		});
 	}//fin del if
 }//fin de funcion cargar tabla contratos
+
+function cargar_precio_lista_lote(id_lote){
+	if((id_lote!="0")||(id_lote!="")){
+		$.ajax({
+			url:"assets/php/clientes/cargar_precio_lista_lote.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				id_lote:id_lote
+			},
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#precio_lista').val(respuesta.precio_lista);
+				}//Fin del if  
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	}//fin del if
+}//fin de cargar precio lista lote
+
+function validar_precio_venta(input_venta){
+	var precio_venta = document.getElementById(input_venta).value;
+	var precio_lista = document.getElementById("precio_lista").value;
+	if(precio_venta<=precio_lista){
+
+	}else{
+		swal({
+			text:'El precio de venta no puede ser mayor que el precio de lista',
+			type: 'warning'
+		});
+		document.getElementById(input_venta).value = "";
+	}//fin del else
+}//fin de validar precio venta
 
 function validar_entrada(id){
 	var aux=document.getElementById(id).value;
