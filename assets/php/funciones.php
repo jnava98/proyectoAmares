@@ -250,7 +250,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                     $html.='<label for="inputText" class="col-form-label">Precio de venta</label>';
                     $html.='</div>';
                     $html.='<div class="col-sm-2">';
-                    $html.='<input type="number" class="form-control" id="precio_venta" value="">';
+                    $html.='<input type="number" class="form-control" id="precio_venta" value="" onblur="validar_precio_venta(this.id)">';
                     $html.='</div>';
                     $html.='<div class="col-sm-1">';
                     $html.='<label for="inputText" class="col-form-label">Tipo de compra</label>';
@@ -407,7 +407,7 @@ function mostrar_formato_precontrato($id_contrato){
     $num=mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
-            $sql="SELECT fase, super_manzana, mza, lote FROM lotes where id_lote LIKE '".$col['id_lote']."'";
+            $sql="SELECT fase, super_manzana, mza, lote, precio_lista FROM lotes where id_lote LIKE '".$col['id_lote']."'";
             //echo $sql;
             $resultado=mysqli_query(conectar(),$sql);
             desconectar();
@@ -418,11 +418,13 @@ function mostrar_formato_precontrato($id_contrato){
                 $super_manzana = $col_lotes['super_manzana'];
                 $manzana = $col_lotes['mza'];
                 $lote = $col_lotes['lote'];
+                $precio_lista = $col_lotes['precio_lista'];
             }else{
                 $fase = "";
                 $super_manzana = "";
                 $manzana = "";
                 $lote = "";
+                $precio_lista = "";
             }//fin del else
             $html.='<div id="div_precontrato" class="col-lg-12">';
                 $html.='<div class="card">';
@@ -462,13 +464,13 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.='<label for="inputText" class="col-form-label">Precio de lista</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                                $html.='<input type="number" class="form-control" id="precio_lista" value="" disabled>';
+                                $html.='<input type="number" class="form-control" id="precio_lista" value="'.$precio_lista.'" disabled>';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='<label for="inputText" class="col-form-label">Precio de venta</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                            $html.='<input type="number" class="form-control" id="precio_venta" value="'.$col['precio_venta'].'">';
+                            $html.='<input type="number" class="form-control" id="precio_venta" value="'.$col['precio_venta'].'" onblur="validar_precio_venta(this.id)">';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                             $html.='<label for="inputText" class="col-form-label">Tipo de compra</label>';

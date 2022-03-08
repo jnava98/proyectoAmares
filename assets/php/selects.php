@@ -1,30 +1,5 @@
 <?php
 
-function multiselect_lotes(){
-    $respuesta="";
-    $sql="";
-    $result=mysqli_query(conectar(),$sql);
-    desconectar();
-    $num = mysqli_num_rows($result);
-    if($num>0){
-        $respuesta.='<select id="multiselect_lotes" class="select" multiple data-mdb-filter="true">';
-        while($col=mysqli_fetch_array($result)){ 
-            $respuesta.='<option value="1">One</option>';
-            $respuesta.='<option value="2">Two</option>';
-            $respuesta.='<option value="3">Three</option>';
-            $respuesta.='<option value="4">Four</option>';
-            $respuesta.='<option value="5">Five</option>';
-            $respuesta.='<option value="6">Six</option>';
-            $respuesta.='<option value="7">Seven</option>';
-            $respuesta.='<option value="8">Eight</option>';
-            $respuesta.='<option value="9">Nine</option>';
-            $respuesta.='<option value="10">Ten</option>';
-        }//fin del while
-        $respuesta.='</select>';
-    }//fin del if
-    return $respuesta;
-}//fun de multiselect_lotes
-
 function select_fase($fase){
     $respuesta="";
 	$consulta="select distinct fase from lotes order by fase";
@@ -109,7 +84,7 @@ function select_lotes($manzana, $super_manzana, $fase, $lote){
 	desconectar();
     $num=mysqli_num_rows($resultado);
     if($num>0){
-        $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' >";
+        $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' onchange='cargar_precio_lista_lote(this.value)' >";
         $respuesta.="<option value='0'>Elige una opcion</option>";
         while($registro=mysqli_fetch_array($resultado)){
             if($lote!=""){
@@ -125,7 +100,7 @@ function select_lotes($manzana, $super_manzana, $fase, $lote){
         $respuesta.="</select>";
     }//fin del if
 	return $respuesta;
-}//fin de select super manzana
+}//fin de select lotes
 
 function select_clientes(){
     $respuesta="";

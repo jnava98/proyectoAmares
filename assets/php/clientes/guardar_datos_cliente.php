@@ -82,6 +82,7 @@ if($id_cliente!="0"){
         if($result){
             $respuesta['valor']="ok";
             $respuesta['id_cliente']=$id_cliente;
+            $respuesta['nombre_cliente']=$apellido_pa.' '.$apellido_ma.' '.$nombre;
         }else{
             $respuesta['valor']="error";
         }//fin del else
@@ -97,6 +98,7 @@ if($id_cliente!="0"){
             $col = mysqli_fetch_array($result);
             $id_cliente = $col[0];
             $respuesta['id_cliente']=$id_cliente;
+            $respuesta['nombre_cliente']=$apellido_pa.' '.$apellido_ma.' '.$nombre;
         }else{
             $respuesta['valor']="error";
         }//fin del else
@@ -112,6 +114,7 @@ if($id_cliente!="0"){
         $col = mysqli_fetch_array($result);
         $id_cliente = $col[0];
         $respuesta['id_cliente']=$id_cliente;
+        $respuesta['nombre_cliente']=$apellido_pa.' '.$apellido_ma.' '.$nombre;
     }else{
         $respuesta['valor']="error";
     }//fin del else

@@ -57,7 +57,7 @@ if(!(empty($_SESSION["usuario"]))){
                     <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
                   </div>
                   <div class="col-lg-6">
-                    <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);"> Buscar</button>&nbsp
+                    <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);" disabled> Buscar</button>&nbsp
                     <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button>&nbsp
                     <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
                   </div>
