@@ -55,6 +55,7 @@ function trae_contratos_cliente(){
 					$('#div_tabla_contratos').hide('slow').show('slow');
 					$('#div_historial_pagos').hide('slow');
 					$('#div_card_contratos').hide('slow');
+					$('#div_form_pagos').hide('slow');
 				}else{
 					//Si no encontramos ningun contrato
 					Swal.fire(
