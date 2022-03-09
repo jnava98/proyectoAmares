@@ -148,7 +148,8 @@ if(($id_contrato!="")){
         $col=mysqli_fetch_array($result);
         $clientes_antiguos = $col['clientes'];
         if($clientes_antiguos==$clientes){
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
+            echo $sql;
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
@@ -158,7 +159,7 @@ if(($id_contrato!="")){
                 $respuesta['valor']="error";
             }//fin del else
         }else{
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
@@ -179,6 +180,8 @@ if(($id_contrato!="")){
                         $result=mysqli_query(conectar(),$sql);
                         desconectar();
                     }//fin del for
+                    $respuesta['valor']="ok";
+                    $respuesta['id_contrato']=$id_contrato;
                 }else{
                     $respuesta['valor']="error";
                 }//fin del else
