@@ -100,12 +100,20 @@ function guardar_datos_precontrato(){
 								text:'Datos guardados',
 								type: 'success'
 							});
+							$('#id_contrato').val(respuesta.id_contrato);
 							//cargar_datos_contrato();
 						}else{
-							swal({
-								text:respuesta.valor,
-								type: 'error'
-							});
+							if(respuesta.valor=="warning"){
+								swal({
+									text:respuesta.mensaje,
+									type: 'warning'
+								});
+							}else{
+								swal({
+									text:"Error",
+									type: 'error'
+								});
+							}//fin del if
 							console.log(respuesta);		
 						}//fin del else
 						cargar_tabla_contratos();
@@ -226,9 +234,11 @@ function cargar_datos_cliente(id){
 		}//fin del if
 		var cliente = $('#id_cliente').val();
 		$("#agregar").prop('disabled', true);
+		$("#buscar").prop('disabled', true);
 	}else{
 		aux = 0;
 		var cliente = $('#input_cliente').val();
+		$("#agregar").prop('disabled', true);
 		$("#input_cliente").prop('disabled', true);
 		$('#input_cliente').val("");
 		$('#div_cliente_lista').hide();
@@ -421,6 +431,13 @@ function validar_entrada(id){
 }//Fin de validar entrada..
 
 function cargar_select_super_manzana(id_select_fase){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
+	$('#select_manzana').val('0');
+	$('#div_super_manzana').hide();
+	$('#select_super_manzana').val('0');
+	$('#div_select_super_manzana').hide();
 	if(document.getElementById(id_select_fase).value!="0"){
 		var fase = document.getElementById(id_select_fase).value;
 		$.ajax({
@@ -451,16 +468,15 @@ function cargar_select_super_manzana(id_select_fase){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#select_manzana').val('0');
-		$('#select_super_manzana').val('0');
-		$('#div_super_manzana').hide();
-		$('#div_select_super_manzana').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select super manzana
 
 function cargar_select_manzana(id_select_super_manzana){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
+	$('#select_manzana').val('0');
+	$('#div_super_manzana').hide();
 	if(document.getElementById(id_select_super_manzana).value!="0"){
 		var fase = document.getElementById("select_fase").value;
 		var super_manzana = document.getElementById(id_select_super_manzana).value;
@@ -492,15 +508,13 @@ function cargar_select_manzana(id_select_super_manzana){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#select_manzana').val('0');
-		$('#div_manzana').hide();
-		$('#div_select_manzana').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select manzana
 
 function cargar_select_lotes(id_select_manzana){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
 	if(document.getElementById(id_select_manzana).value!="0"){
 		var manzana = document.getElementById(id_select_manzana).value;
 		var fase = document.getElementById("select_fase").value;
@@ -533,11 +547,7 @@ function cargar_select_lotes(id_select_manzana){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#div_lotes').hide();
-		$('#div_select_lotes').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select lotes
 
 function agregar_lote(){

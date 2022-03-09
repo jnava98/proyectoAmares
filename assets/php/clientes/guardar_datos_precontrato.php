@@ -148,73 +148,112 @@ if(($id_contrato!="")){
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
+            $respuesta['id_contrato']=$id_contrato;
         }else{
             $respuesta['valor']="error";
         }//fin del else
     }else{
-        //Si no existe el cliente insertamos
-        $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
-        $result=mysqli_query(conectar(),$sql);
+        $sql = "SELECT * from contrato where id_lote LIKE '".$lote."' AND clientes LIKE '".$clientes."'";
+        $result = mysqli_query(conectar(),$sql);
         desconectar();
-        if($result){
-            $sql="SELECT max(id_contrato) from contrato";
-            $result=mysqli_query(conectar(),$sql);
+        $num = mysqli_num_rows($result);
+        if($num>0){
+            $respuesta['valor'] = "warning";
+            $respuesta['mensaje']= "Ya se guardó este contrato";
+        }else{
+            $sql = "SELECT * from contrato where id_lote LIKE '".$lote."'";
+            $result = mysqli_query(conectar(),$sql);
             desconectar();
-            $col = mysqli_fetch_array($result);
-            $id_contrato = $col[0];
-            $cadena = explode(",", $clientes);
-            $array_size = count($cadena);
-            for ($i = 0; $i<$array_size; $i++) {
-                $cliente = $cadena[$i];
-                $cadena2 = explode(" ", $cliente);
-                $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
-                $resultado = mysqli_query(conectar(),$sql);
-                desconectar();
-                $col_cliente = mysqli_fetch_array($resultado);
-                $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+            $num = mysqli_num_rows($result);
+            if($num>0){
+                $respuesta['valor'] = "warning";
+                $respuesta['mensaje']= "Ya existe un contrato relacionado con este lote";
+            }else{
+                $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();
-            }//fin del for
-            if($result){
-                $respuesta['valor']="ok";
-            }else{
-                $respuesta['valor']="error4";
+                //echo $sql;
+                if($result){
+                    $sql="SELECT max(id_contrato) from contrato";
+                    $result=mysqli_query(conectar(),$sql);
+                    desconectar();
+                    $col = mysqli_fetch_array($result);
+                    $id_contrato = $col[0];
+                    $cadena = explode(",", $clientes);
+                    $array_size = count($cadena);
+                    for ($i = 0; $i<$array_size; $i++) {
+                        $cliente = $cadena[$i];
+                        $cadena2 = explode(" ", $cliente);
+                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
+                        $resultado = mysqli_query(conectar(),$sql);
+                        desconectar();
+                        $col_cliente = mysqli_fetch_array($resultado);
+                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+                        $result=mysqli_query(conectar(),$sql);
+                        desconectar();
+                    }//fin del for
+                    if($result){
+                        $respuesta['valor']="ok";
+                        $respuesta['id_contrato']=$id_contrato;
+                    }else{
+                        $respuesta['valor']="error4";
+                    }//fin del else
+                }else{
+                    $respuesta['valor']="error1";
+                }//fin del else
             }//fin del else
-        }else{
-            $respuesta['valor']="error3";
         }//fin del else
     }//fin del else
 }else{
-    $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
-    $result=mysqli_query(conectar(),$sql);
+    $sql = "SELECT * from contrato where id_lote LIKE '".$lote."' AND clientes LIKE '".$clientes."'";
+    $result = mysqli_query(conectar(),$sql);
     desconectar();
-    //echo $sql;
-    if($result){
-        $sql="SELECT max(id_contrato) from contrato";
-        $result=mysqli_query(conectar(),$sql);
+    $num = mysqli_num_rows($result);
+    if($num>0){
+        $respuesta['valor'] = "warning";
+        $respuesta['mensaje']= "Ya se guardó este contrato";
+    }else{
+        $sql = "SELECT * from contrato where id_lote LIKE '".$lote."'";
+        $result = mysqli_query(conectar(),$sql);
         desconectar();
-        $col = mysqli_fetch_array($result);
-        $id_contrato = $col[0];
-        $cadena = explode(",", $clientes);
-        $array_size = count($cadena);
-        for ($i = 0; $i<$array_size; $i++) {
-            $cliente = $cadena[$i];
-            $cadena2 = explode(" ", $cliente);
-            $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
-            $resultado = mysqli_query(conectar(),$sql);
-            desconectar();
-            $col_cliente = mysqli_fetch_array($resultado);
-            $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+        $num = mysqli_num_rows($result);
+        if($num>0){
+            $respuesta['valor'] = "warning";
+            $respuesta['mensaje']= "Ya existe un contrato relacionado con este lote";
+        }else{
+            $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, nombre_descuento, descuento, monto_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$nombre_descuento."', '".$descuento."', '".$monto_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."')";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
-        }//fin del for
-        if($result){
-            $respuesta['valor']="ok";
-        }else{
-            $respuesta['valor']="error4";
+            //echo $sql;
+            if($result){
+                $sql="SELECT max(id_contrato) from contrato";
+                $result=mysqli_query(conectar(),$sql);
+                desconectar();
+                $col = mysqli_fetch_array($result);
+                $id_contrato = $col[0];
+                $cadena = explode(",", $clientes);
+                $array_size = count($cadena);
+                for ($i = 0; $i<$array_size; $i++) {
+                    $cliente = $cadena[$i];
+                    $cadena2 = explode(" ", $cliente);
+                    $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
+                    $resultado = mysqli_query(conectar(),$sql);
+                    desconectar();
+                    $col_cliente = mysqli_fetch_array($resultado);
+                    $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+                    $result=mysqli_query(conectar(),$sql);
+                    desconectar();
+                }//fin del for
+                if($result){
+                    $respuesta['valor']="ok";
+                    $respuesta['id_contrato']=$id_contrato;
+                }else{
+                    $respuesta['valor']="error4";
+                }//fin del else
+            }else{
+                $respuesta['valor']="error1";
+            }//fin del else
         }//fin del else
-    }else{
-        $respuesta['valor']="error1";
     }//fin del else
 }//fin del else
 

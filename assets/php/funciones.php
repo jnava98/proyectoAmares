@@ -669,7 +669,7 @@ function mostrar_formato_contrato($id_contrato){
 
 function mostrar_tabla_contratos($id_cliente){
     $html="";
-    $sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato inner join lotes as lo on co.id_lote = lo.id_lote WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
+    $sql="SELECT c.id_cliente, co.id_contrato, co.fecha_contrato, lo.fase, lo.super_manzana, lo.mza, lo.lote, ev.nombre from clientes as c inner join cliente_contrato as cc ON c.id_cliente = cc.id_cliente inner join contrato as co on cc.id_contrato = co.id_contrato inner join lotes as lo on co.id_lote = lo.id_lote inner join cat_estatus_venta as ev on co.id_estatus_venta = ev.id_estatus_venta WHERE c.id_cliente LIKE '".$id_cliente."' order by co.id_contrato"; //Consultar id de la variable
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -681,7 +681,7 @@ function mostrar_tabla_contratos($id_cliente){
                 $html.="<tr>";
                     $html.="<th style='text-align:center'>#</th>";
                     $html.="<th style='text-align:center'>Lotes Comprados</th>";
-                    $html.="<th style='text-align:center'>Fecha Contrato</th>";
+                    $html.="<th style='text-align:center'>Estatus</th>";
                     $html.="<th style='text-align:center'>Acciones</th>";
                 $html.="</tr>";
             $html.="</thead>";
@@ -689,8 +689,8 @@ function mostrar_tabla_contratos($id_cliente){
             while($col=mysqli_fetch_array($result)){
                 $html.="<tr>";
                     $html.="<td style='text-align:center'>".$i."</td>";
-                    $html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
-                    $html.="<td style='text-align:center'><input disabled='disabled' class='form-control' value='".$col['fecha_contrato']."'></input></td>";
+                    $html.="<td style='text-align:center'><input style='text-align:center' disabled='disabled' class='form-control' value='(".$col['fase']."-".$col['super_manzana']."-".$col['mza']."-".$col['lote'].")'></input></td>";
+                    $html.="<td style='text-align:center'><input style='text-align:center' disabled='disabled' class='form-control' value='".$col['nombre']."'></input></td>";
                     //Botones para las acciones
                     $html.="<td style='text-align:center'>";
                         $html.="<button id='".$col['id_contrato']."' class='btn btn-sm btn-success' onclick='cargar_datos_precontrato(this.id);'>Editar</button>";
