@@ -141,16 +141,50 @@ if(($id_contrato!="")){
     //Validamos si existe el cliente
     $sql="SELECT * from contrato where id_contrato LIKE '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
+    desconectar();
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' where id_contrato LIKE '".$id_contrato."' ";
-        $result=mysqli_query(conectar(),$sql);
-        if($result){
-            $respuesta['valor']="ok";
-            $respuesta['id_contrato']=$id_contrato;
+        $col=mysqli_fetch_array($result);
+        $clientes_antiguos = $col['clientes'];
+        if($clientes_antiguos==$clientes){
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
+            $result=mysqli_query(conectar(),$sql);
+            desconectar();
+            if($result){
+                $respuesta['valor']="ok";
+                $respuesta['id_contrato']=$id_contrato;
+            }else{
+                $respuesta['valor']="error";
+            }//fin del else
         }else{
-            $respuesta['valor']="error";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', nombre_descuento = '".$nombre_descuento."', descuento = '".$descuento."', monto_interes = '".$monto_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."' id_lote = '".$lote."' where id_contrato LIKE '".$id_contrato."' ";
+            $result=mysqli_query(conectar(),$sql);
+            desconectar();
+            if($result){
+                $sql="DELETE from cliente_contrato where id_contrato LIKE '".$id_contrato."'";
+                $result=mysqli_query(conectar(),$sql);
+                desconectar();
+                if($result){
+                    $cadena = explode(",", $clientes);
+                    $array_size = count($cadena);
+                    for ($i = 0; $i<$array_size; $i++) {
+                        $cliente = $cadena[$i];
+                        $cadena2 = explode(" ", $cliente);
+                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
+                        $resultado = mysqli_query(conectar(),$sql);
+                        desconectar();
+                        $col_cliente = mysqli_fetch_array($resultado);
+                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+                        $result=mysqli_query(conectar(),$sql);
+                        desconectar();
+                    }//fin del for
+                }else{
+                    $respuesta['valor']="error";
+                }//fin del else
+            }else{
+                $respuesta['valor']="error";
+            }//fin del else
         }//fin del else
     }else{
         $sql = "SELECT * from contrato where id_lote LIKE '".$lote."' AND clientes LIKE '".$clientes."'";
