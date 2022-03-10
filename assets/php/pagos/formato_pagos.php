@@ -28,6 +28,87 @@ if(empty($_GET["id_contrato"])){
 		Algun recargo del mes anterior		
         
 	*/
+//Comenzamos consultando el estatus del contrato
+$sql="SELECT id_estatus_venta FROM contrato WHERE id_contrato = '$id_contrato'";
+$result=mysqli_query(conectar(),$sql);
+desconectar();
+$row=mysqli_fetch_array($result);
+$id_estatus_venta = $row['id_estatus_venta'];
+
+switch($id_estatus_venta){
+    case 1:
+        //Apartado
+        $concepto=1;
+        //Tomamos los valores del contrato
+        $sql="SELECT cant_apartado FROM contrato WHERE id_contrato = '$id_contrato'";
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        $row=mysqli_fetch_array($result);
+        $cant_apartado = $row['cant_apartado'];
+        $mensualidad = $cant_apartado;
+        $tot_a_pagar = $mensualidad;
+        $interes = 0;
+        $recargo = 0;
+        $cambia_estatus=1;
+        $mensaje=null;
+        break;
+    case 2:
+        //Enganche
+        $concepto=2;
+        //Tomamos los valores del contrato
+        $sql="SELECT cant_enganche FROM contrato WHERE id_contrato = '$id_contrato'";
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        $row=mysqli_fetch_array($result);
+        $cant_enganche = $row['cant_enganche'];
+        $mensualidad = $cant_enganche;
+        $tot_a_pagar = $mensualidad;
+        $interes = 0;
+        $recargo = 0;
+        $mensaje=null;
+        break;
+    case 3:
+        //Enganche Diferido
+        $concepto=3;
+        //Tomamos los valores del contrato
+        $sql="SELECT cant_enganche, mensualidades_enganche, cant_mensual_enganche FROM pagos WHERE id_contrato = '$id_contrato'";
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        $row=mysqli_fetch_array($result);
+        $cant_enganche = $row['cant_enganche'];
+        $mensualidades_enganche = $row['mensualidades_enganche'];
+        $mensualidad = $cant_enganche;
+        $tot_a_pagar = $mensualidad;
+        $interes = 0;
+        $recargo = 0;
+        $mensaje=null;
+        //Consultamos si existe algún pago anterior      AGREGAR LA VALIDACIÓN PARA VER SI EL PAGO CAMBIA EL ESTATUS
+        $sql="SELECT  MAX(p.no_mensualidad), diferencia
+            FROM contrato c
+            INNER JOIN pagos p
+            ON c.id_contrato = p.id_contrato
+            WHERE p.id_contrato = '$id_contrato' AND p.habilitado IS true";
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        $rows = mysqli_num_rows($result);
+        //Verificamos si la consulta trajo algun pago
+        if($rows > 0){
+            //Si trajo algo, añadimos la diferencia del mes anterior
+            $row=mysqli_fetch_array($result);
+            $recargo += $row['diferencia'];
+            $interes += $diferencia * 0.02;
+        }
+        break;
+    case 4:
+        //Pendiende de firma de contrato
+        break;
+    case 5:
+        //Contrato Firmado
+        break;
+    case 6:
+        //Pagado
+        break;
+}
 
     
 //Comenzamos revisando si el contrato tiene algun pago registrado y habilitado
@@ -46,6 +127,7 @@ $sql="SELECT
 $result=mysqli_query(conectar(),$sql);
 desconectar();
 $rows = mysqli_num_rows($result);
+
 if($rows > 0){
     //Si existe algún pago...
     $epa = 1; //(Existe Pago Anterior)Nos sirve para indicar que formulario enviaremos.
@@ -58,6 +140,7 @@ if($rows > 0){
     $mensualidades_enganche = $row['mensualidades_enganche'];
     $cant_apartado = $row['cant_apartado'];
     $cant_enganche = $row['cant_enganche'];
+    
 
     //Datos que se usan en el formulario
     $int_mes_anterior = ($row['ultima_diferencia']*0.02);
@@ -90,7 +173,6 @@ $result=mysqli_query(conectar(),$sql);
 desconectar();
 $row=mysqli_fetch_array($result);
 $num=mysqli_num_rows($result);
-*/
 
 $response=Array();
 
@@ -98,7 +180,6 @@ $response=Array();
 //1 - Contrato Firmado -> Concepto - Mensualidad
 //2 - Enganche -> Concepto - Mensualidad Enganche
 //3 - Reservado -> Concepto - Mensualidad Reservado
-$concepto = '';
 
 switch ($id_estatus_venta) {
     case 1:
@@ -124,12 +205,13 @@ switch ($id_estatus_venta) {
         break;
     case 3:
         //Reservado
-        $concepto = "APARTADO";
+        $concepto = " PAGO APARTADO";
         $monto_mensual = $cant_apartado;
         $tot_a_pagar = $monto_mensual;
         $id_concepto = 1;
         break;
 }
+*/
 $response = Array();
 
 //Aqui indicamos que formulario enviaremos.
