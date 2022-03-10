@@ -151,7 +151,7 @@ function select_tipo_compra($id_tipo_compra){
     desconectar();
     $num=mysqli_num_rows($result);
     if($num>0){
-        $respuesta.='<select id="select_tipo_compra" class="form-control" >';
+        $respuesta.='<select id="select_tipo_compra" class="form-control" onchange="ocultar_n_mensualidades(this.value);" >';
             $respuesta.='<option value="0">Selecciona una opcion</option>';
         while($col=mysqli_fetch_array($result)){
             if($id_tipo_compra!=""){

@@ -1104,3 +1104,8 @@ p{
 # Tamaño de letra form
 --------------------------------------------------------------*/
 
+.inputIncompleto{
+  background-color: #FFCCCC;
+}
+
+
