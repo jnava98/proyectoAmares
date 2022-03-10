@@ -71,6 +71,7 @@ function guardar_datos_precontrato(){
 			var cantidad_enganche = $('#cant_enganche').val();
 			var fecha_enganche = $('#fecha_enganche').val();
 			var mensualidad_enganche = $('#men_enganche').val();
+			var cant_mensual_enganche = $('#cant_mensual_enganche').val();
 			var clientes = $('#txtArea_clientes').val();
 			var lote = $('#select_lotes').val();
 			var precio_venta = $('#precio_venta').val();
@@ -91,7 +92,7 @@ function guardar_datos_precontrato(){
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
-					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, monto_interes:monto_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones
+					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, monto_interes:monto_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
 				},
 				success:function(respuesta){
 					$(document).ready(function(){
@@ -100,12 +101,20 @@ function guardar_datos_precontrato(){
 								text:'Datos guardados',
 								type: 'success'
 							});
+							$('#id_contrato').val(respuesta.id_contrato);
 							//cargar_datos_contrato();
 						}else{
-							swal({
-								text:respuesta.valor,
-								type: 'error'
-							});
+							if(respuesta.valor=="warning"){
+								swal({
+									text:respuesta.mensaje,
+									type: 'warning'
+								});
+							}else{
+								swal({
+									text:"Error",
+									type: 'error'
+								});
+							}//fin del if
 							console.log(respuesta);		
 						}//fin del else
 						cargar_tabla_contratos();
@@ -123,6 +132,16 @@ function guardar_datos_precontrato(){
 				type: 'info'
 			});
 		});	
+		
+		const validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
+		for(let p = 0; p <= validacion.length; p++){
+			if(($('#'+validacion[p]).val()!="")||$('#'+validacion[p]).val()!="0"){
+				//alert(validacion[p]);
+				document.getElementById(validacion[p]).classList.add("inputIncompleto");
+			}else{
+				document.getElementById(validacion[p]).classList.remove("inputIncompleto");
+			}//else
+		}//for
 	}//fin del else
 }//fin de guardar datos cliente
 
@@ -167,26 +186,38 @@ function guardar_datos_contrato(){
 function eliminar_contrato(id_contrato){
 	//alert("Entra");
 	$(document).ready(function(){
-		//Función de Ajax
-		$.ajax({
-			url:"assets/php/clientes/eliminar_contrato.php",
-			dataType:"json",//Formato en como se manda la información
-			type:"get",
-			data:{//Información a enviar o cadena a enviar
-				id_contrato:id_contrato
-			},
-			success:function(respuesta){
-				$(document).ready(function(){
-					swal({
-						text:respuesta.mensaje,
-						type: respuesta.valor
-					});
-					cargar_tabla_contratos();
-				});	
-			},
-			error:function(respuesta){//Si surge un error
-				console.log(respuesta);
-			}
+		swal({
+			title: '¿Deseas eliminar el contrato?', 
+			type: 'question',
+			showCancelButton: true,
+			confirmButtonColor: '#144653',
+			cancelButtonColor: '#7F9174',
+			confirmButtonText: 'Si',
+			cancelButtonText: 'No'
+		}).then(function(result){
+			if(result.value){
+				//Función de Ajax
+				$.ajax({
+					url:"assets/php/clientes/eliminar_contrato.php",
+					dataType:"json",//Formato en como se manda la información
+					type:"get",
+					data:{//Información a enviar o cadena a enviar
+						id_contrato:id_contrato
+					},
+					success:function(respuesta){
+						$(document).ready(function(){
+							swal({
+								text:respuesta.mensaje,
+								type: respuesta.valor
+							});
+							cargar_tabla_contratos();
+						});	
+					},
+					error:function(respuesta){//Si surge un error
+						console.log(respuesta);
+					}
+				});
+			}//fin del if
 		});
 	});
 }//fin de guardar datos cliente
@@ -226,9 +257,11 @@ function cargar_datos_cliente(id){
 		}//fin del if
 		var cliente = $('#id_cliente').val();
 		$("#agregar").prop('disabled', true);
+		$("#buscar").prop('disabled', true);
 	}else{
 		aux = 0;
 		var cliente = $('#input_cliente').val();
+		$("#agregar").prop('disabled', true);
 		$("#input_cliente").prop('disabled', true);
 		$('#input_cliente').val("");
 		$('#div_cliente_lista').hide();
@@ -358,6 +391,16 @@ function cargar_tabla_contratos(){
 	}//fin del if
 }//fin de funcion cargar tabla contratos
 
+function ocultar_n_mensualidades(id_tipo_compra){
+	if((id_tipo_compra==1)||(id_tipo_compra==4)){
+		document.getElementById("n_mensualidades").style.display="block";
+		document.getElementById("div_n_mensualidades").style.display="block";
+	}else{
+		document.getElementById("n_mensualidades").style.display="none";
+		document.getElementById("div_n_mensualidades").style.display="none";
+	}//fin del else
+}//fin de funcion ocultar numero mensualidades
+
 function cargar_precio_lista_lote(id_lote){
 	if((id_lote!="0")||(id_lote!="")){
 		$.ajax({
@@ -382,15 +425,14 @@ function cargar_precio_lista_lote(id_lote){
 function validar_precio_venta(input_venta){
 	var precio_venta = document.getElementById(input_venta).value;
 	var precio_lista = document.getElementById("precio_lista").value;
-	if(precio_venta<=precio_lista){
-
-	}else{
+	//alert("Precio venta: "+precio_venta+" Precio lista: "+precio_lista);
+	if(Number(precio_venta)>Number(precio_lista)){
 		swal({
 			text:'El precio de venta no puede ser mayor que el precio de lista',
 			type: 'warning'
 		});
 		document.getElementById(input_venta).value = "";
-	}//fin del else
+	}//fin del if
 }//fin de validar precio venta
 
 function validar_entrada(id){
@@ -421,6 +463,13 @@ function validar_entrada(id){
 }//Fin de validar entrada..
 
 function cargar_select_super_manzana(id_select_fase){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
+	$('#select_manzana').val('0');
+	$('#div_super_manzana').hide();
+	$('#select_super_manzana').val('0');
+	$('#div_select_super_manzana').hide();
 	if(document.getElementById(id_select_fase).value!="0"){
 		var fase = document.getElementById(id_select_fase).value;
 		$.ajax({
@@ -451,16 +500,15 @@ function cargar_select_super_manzana(id_select_fase){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#select_manzana').val('0');
-		$('#select_super_manzana').val('0');
-		$('#div_super_manzana').hide();
-		$('#div_select_super_manzana').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select super manzana
 
 function cargar_select_manzana(id_select_super_manzana){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
+	$('#select_manzana').val('0');
+	$('#div_super_manzana').hide();
 	if(document.getElementById(id_select_super_manzana).value!="0"){
 		var fase = document.getElementById("select_fase").value;
 		var super_manzana = document.getElementById(id_select_super_manzana).value;
@@ -492,15 +540,13 @@ function cargar_select_manzana(id_select_super_manzana){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#select_manzana').val('0');
-		$('#div_manzana').hide();
-		$('#div_select_manzana').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select manzana
 
 function cargar_select_lotes(id_select_manzana){
+	$('#precio_venta').val('');
+	$('#select_lotes').val('0');
+	$('#div_select_lotes').hide();
 	if(document.getElementById(id_select_manzana).value!="0"){
 		var manzana = document.getElementById(id_select_manzana).value;
 		var fase = document.getElementById("select_fase").value;
@@ -533,11 +579,7 @@ function cargar_select_lotes(id_select_manzana){
 			console.log(respuesta);
 			}
 		});
-	}else{
-		$('#select_lotes').val('0');
-		$('#div_lotes').hide();
-		$('#div_select_lotes').hide();
-	}//fin del else
+	}//fin del if
 }//fin de cargar select lotes
 
 function agregar_lote(){

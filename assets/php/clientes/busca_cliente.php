@@ -16,7 +16,6 @@ if($cliente==" "||$cliente==""){
     desconectar();
     while($row=mysqli_fetch_assoc($resultado)){
         $id_cliente= $row['id_cliente'];
-        
         $nombre= $row['apellido_paterno']." ";
         $nombre.= $row['apellido_materno']." ";
         $nombre.= $row['nombre'];
