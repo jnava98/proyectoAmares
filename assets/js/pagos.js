@@ -150,6 +150,8 @@ function pago_nuevo(id_contrato){
 			id_contrato:id_contrato
 		},
 		success:function(response) {
+			if(response.mensaje != null) Swal.fire(response.mensaje,response.mensaje,'warning');
+			console.log(response)
 			$('#div_form_pagos').html(response.html);
 			//Si encontramos algun historial de pagos
 			$('#div_form_pagos').show('slow');
@@ -163,16 +165,110 @@ function pago_nuevo(id_contrato){
 
 function actualiza_datos_pago(){
 	//Calculamos el total a pagar
+	if($('#inp_recargo').val()==""){
+		$('#inp_recargo').val(0);
+	}
 	var recargo = parseFloat($('#inp_recargo').val());
+
+	if($('#inp_interes').val()==""){
+		$('#inp_interes').val(0);
+	} 
 	var interes = parseFloat($('#inp_interes').val());
+
+	if($('#inp_mensualidad').val()==""){
+		$('#inp_mensualidad').val(0);
+	} 
+
 	var mensualidad = parseFloat($('#inp_mensualidad').val());
+
+	if($('#inp_cpagada').val()==""){
+		$('#inp_cpagada').val(0);
+	} 
+	var cpagada = parseFloat($('#inp_cpagada').val());
+
+	//Calculamos el total a pagar
 	$('#inp_totpagar').val(recargo + interes + mensualidad);
 
 	//Calculamos la diferencia
 	var totpagar = parseFloat($('#inp_totpagar').val());
-	var cpagada = parseFloat($('#inp_cpagada').val());
-
-	$('#inp_diferencia').val(totpagar - cpagada);	
 	
+	$('#inp_diferencia').val(totpagar - cpagada);	
+}
 
+function guarda_pago(id_contrato,cambia_estatus){
+	//Validamos que los inputs tengan valores
+	if($('#inp_fpago').val()==""){ Swal.fire('Campos incompletos','Falta la: <b>Fecha de pago</b>','error'); return false }
+	if($('#inp_cpagada').val()=="") {Swal.fire('Campos incompletos','Falta la: <b>Cantidad pagada</b>','error'); return false}
+	if($('#inp_totpagar').val()=="") {Swal.fire('Campos incompletos','Falta el: <b>Fotal a pagar</b>','error'); return false}
+	
+	//Recibimos los datos
+
+	var input_concepto = $('#input_concepto').val()
+	var inp_fpago = $('#inp_fpago').val()
+	var inp_cpagada = $('#inp_cpagada').val()
+	var inp_formpago = $('#inp_formpago').val()
+	var inp_recargo = $('#inp_recargo').val()
+	var inp_interes = $('#inp_interes').val()
+	var inp_mensualidad = $('#inp_mensualidad').val()
+	var inp_diferencia = $('#inp_diferencia').val()
+	var inp_totpagar = $('#inp_totpagar').val()
+	var inp_comentario = $('#inp_comentario').val()
+	var input_concepto = $('#input_concepto').val()
+
+	$.ajax({
+		type:'get',
+		url:'assets/php/pagos/guardado_pagos.php',
+		data:{
+			id_contrato:id_contrato,
+			input_concepto:input_concepto,
+			inp_fpago:inp_fpago,
+			inp_cpagada:inp_cpagada,
+			inp_formpago:inp_formpago,
+			inp_recargo:inp_recargo,
+			inp_interes:inp_interes,
+			inp_mensualidad:inp_mensualidad,
+			inp_diferencia:inp_diferencia,
+			inp_totpagar:inp_totpagar,
+			inp_comentario:inp_comentario,
+			cambia_estatus:cambia_estatus
+		},
+		dataType:'json',
+		success:function(response) {
+			console.log(response);
+		},
+		error:function(response){
+			alert(response);
+			//Mensaje de error
+		}
+	})
+
+
+
+	
+	//Formula para calcular la cantidad abonada a capital y abonado a interes
+	/*	Abonado a interes:	Balance inicial(Tasa de interés/Cantidad de Mensualidades anuales)
+		Abonado a capital: Cantidad_Mensual-Abonado a interés
+	TODO: Guardado de datos.
+	Datos a ingresar en la base de datos
+
+	id_contrato
+	fecha_pago✅
+	no_mensualidad✅
+	monto_pagado✅
+	abonado_capital (obtenido por formula)
+	abonado_interes	(obtenido por formula)
+	diferencia✅
+	id_estatus_pago	(obtenido por formula)
+	comentario✅
+	id_concepto✅
+	mensualidad_historica ✅
+	fecha_mensualidad
+	fecha_captura(auto)
+	balance_inicial (obtenido por formula)
+	balance_final (obtenido por formula)
+	habilitado
+
+
+	*/
+	
 }
