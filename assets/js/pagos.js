@@ -235,6 +235,7 @@ function guarda_pago(id_contrato,cambia_estatus){
 		dataType:'json',
 		success:function(response) {
 			console.log(response);
+			consulta_historial_pagos(response.id_contrato)
 		},
 		error:function(response){
 			alert(response);

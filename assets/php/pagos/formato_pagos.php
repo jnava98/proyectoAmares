@@ -66,13 +66,13 @@ switch($id_estatus_venta){
         $cant_mensual_enganche = $row['cant_mensual_enganche'];
         $mensualidades_enganche = $row['mensualidades_enganche'];
         //Datos del formulario
-        $mensualidad = 0;
+        $mensualidad = $cant_mensual_enganche;
         $tot_a_pagar = 0;
         $interes = 0;
         $recargo = 0;
-        $mensaje=null;
+        $mensaje=null; 
         $cambia_estatus=0;
-        //Consultamos si existe algún pago anterior      TODO: AGREGAR LA VALIDACIÓN PARA VER SI EL PAGO CAMBIA EL ESTATUS
+        //Consultamos si existe algún pago anterior      TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
         $sql="SELECT  MAX(p.no_mensualidad), diferencia
             FROM contrato c
             INNER JOIN pagos p
@@ -120,7 +120,7 @@ switch($id_estatus_venta){
         desconectar();
         $rows = mysqli_num_rows($result);
         if($rows > 0){
-            //Si trajo algo, añadimos la diferencia del mes anterior 
+            //Si trajo algo, añadimos la diferencia del mes anterior  TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
             //TODO: Añadir eIII de caso de uso. (Verificar la cantidad restante a pagar)
             $row=mysqli_fetch_array($result);
             $recargo += $row['diferencia'];
@@ -159,8 +159,7 @@ switch($id_estatus_venta){
         desconectar();
         $rows = mysqli_num_rows($result);
         if($rows > 0){
-            //Si trajo algo, añadimos la diferencia del mes anterior 
-            //TODO: Añadir eIII de caso de uso. (Verificar la cantidad restante a pagar para cambiar el estatus)
+            //Si trajo algo, añadimos la diferencia del mes anterior  TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
             $row=mysqli_fetch_array($result);
             $recargo += $row['diferencia'];
             $interes += $recargo * 0.02;
