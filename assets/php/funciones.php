@@ -337,7 +337,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                         $html.='<label for="inputText" class="col-form-label">Monto Inter&eacutes($)</label>';
                     $html.='</div>';
                     $html.='<div class="col-sm-2">';
-                        $html.='<input type="number" class="form-control" id="monto_interes" value="">';
+                        $html.='<input type="number" class="form-control" id="tasa_interes" value="">';
                     $html.='</div>';
                     $html.='<div class="col-sm-1">';
                         $html.='<label for="inputText" class="col-form-label">Nombre del Broker</label>';
@@ -561,7 +561,7 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.='<label for="inputText" class="col-form-label">Monto Inter&eacutes($)</label>';
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                                $html.='<input type="number" class="form-control" id="monto_interes" value="'.$col['monto_interes'].'">';
+                                $html.='<input type="number" class="form-control" id="tasa_interes" value="'.$col['tasa_interes'].'">';
                             $html.='</div>';
                             $html.='<div class="col-sm-1">';
                                 $html.='<label for="inputText" class="col-form-label">Nombre del Broker</label>';
