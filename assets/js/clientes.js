@@ -82,7 +82,7 @@ function guardar_datos_precontrato(){
 			var dia_pago = $('#dia_pago').val();
 			var nombre_descuento = $('#nombre_descuento').val();
 			var descuento = $('#descuento').val();
-			var monto_interes = $('#monto_interes').val();
+			var tasa_interes = $('#tasa_interes').val();
 			var nombre_broker = $('#nombre_broker').val();
 			var comision_broker = $('#comision_broker').val();
 			var observaciones = $('#observaciones').val();
@@ -92,7 +92,7 @@ function guardar_datos_precontrato(){
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
-					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, monto_interes:monto_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
+					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, tasa_interes:tasa_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
 				},
 				success:function(respuesta){
 					$(document).ready(function(){
@@ -131,8 +131,7 @@ function guardar_datos_precontrato(){
 				text:'No se pueden dejar campos vacíos',
 				type: 'info'
 			});
-		});	
-		
+		});
 		const validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
 		for(let p = 0; p <= validacion.length; p++){
 			if(($('#'+validacion[p]).val()!="")||$('#'+validacion[p]).val()!="0"){
