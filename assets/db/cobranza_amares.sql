@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-03-2022 a las 04:57:43
+-- Tiempo de generación: 31-03-2022 a las 05:08:24
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -87,18 +87,19 @@ INSERT INTO `cat_estatus_venta` (`id_estatus_venta`, `nombre`) VALUES
 
 CREATE TABLE `cat_tipo_compra` (
   `id_tipo_compra` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL
+  `nombre` varchar(50) NOT NULL,
+  `tasa` float NOT NULL COMMENT 'Descuento que recibe la compra segun su tipo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `cat_tipo_compra`
 --
 
-INSERT INTO `cat_tipo_compra` (`id_tipo_compra`, `nombre`) VALUES
-(1, 'Financiado'),
-(2, 'Contado'),
-(3, 'Contado Comercial'),
-(4, 'MSI');
+INSERT INTO `cat_tipo_compra` (`id_tipo_compra`, `nombre`, `tasa`) VALUES
+(1, 'Financiado', 0),
+(2, 'Contado', 0),
+(3, 'Contado Comercial', 0),
+(4, 'MSI', 0);
 
 -- --------------------------------------------------------
 
