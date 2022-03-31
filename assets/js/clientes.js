@@ -427,10 +427,10 @@ function validar_precio_venta(input_venta){
 	//alert("Precio venta: "+precio_venta+" Precio lista: "+precio_lista);
 	if(Number(precio_venta)>Number(precio_lista)){
 		swal({
-			text:'El precio de venta no puede ser mayor que el precio de lista',
+			text:'El precio de venta es mayor que el precio de lista',
 			type: 'warning'
 		});
-		document.getElementById(input_venta).value = "";
+		//document.getElementById(input_venta).value = "";
 	}//fin del if
 }//fin de validar precio venta
 

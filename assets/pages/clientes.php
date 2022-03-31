@@ -92,8 +92,8 @@ if(!(empty($_SESSION["usuario"]))){
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-2">
-                  <button type="button" id="buscar" class="btn btn-success" onclick="cargar_datos_precontrato('0');">Agregar Compra</button>
                   <br>
+                  <button type="button" id="buscar" class="btn btn-success" onclick="cargar_datos_precontrato('0');">Agregar Compra</button>
                 </div>
               </div>
             </div>
