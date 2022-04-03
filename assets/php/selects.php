@@ -119,6 +119,23 @@ function select_clientes(){
     return $respuesta;
 }//fin de select clientes
 
+function select_descuentos(){
+    $respuesta="";
+    $sql="SELECT * from cat_descuentos order by descripcion";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $respuesta.='<select id="select_descuentos" class="form-control" >';
+            $respuesta.='<option value="0" disabled selected>Selecciona una opcion</option>';
+        while($col=mysqli_fetch_array($result)){
+            $respuesta.="<option value='".$col['descripcion']."'>".$col['descripcion']."</option>";
+        }//fin del while
+        $respuesta.='</select>';
+    }//fin del if
+    return $respuesta;
+}//fin de select clientes
+
 function select_estatus_venta($estatus_venta){
     $respuesta="";
     $sql="SELECT * from cat_estatus_venta";
@@ -151,7 +168,7 @@ function select_tipo_compra($id_tipo_compra){
     desconectar();
     $num=mysqli_num_rows($result);
     if($num>0){
-        $respuesta.='<select id="select_tipo_compra" class="form-control" onchange="ocultar_n_mensualidades(this.value);" >';
+        $respuesta.='<select id="select_tipo_compra" class="form-control" onchange="ocultar_n_mensualidades(this.value);cargar_descuento_venta(this.id);" >';
             $respuesta.='<option value="0">Selecciona una opcion</option>';
         while($col=mysqli_fetch_array($result)){
             if($id_tipo_compra!=""){

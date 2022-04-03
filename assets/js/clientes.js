@@ -400,6 +400,30 @@ function ocultar_n_mensualidades(id_tipo_compra){
 	}//fin del else
 }//fin de funcion ocultar numero mensualidades
 
+function cargar_descuento_venta(select_tipo_compra){
+	var id_tipo_compra = document.getElementById(select_tipo_compra).value;
+	if(id_tipo_compra=="0"){
+		$('#descuento_venta').val("0");
+	}else{
+		$.ajax({
+			url:"assets/php/clientes/cargar_descuento_venta.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				id_tipo_compra:id_tipo_compra
+			},
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#descuento_venta').val(respuesta.tasa);//En donde quiero mostrar la información
+				}//Fin del if  
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	}//fin del else
+}//fin de cargar descuento venta
+
 function cargar_precio_lista_lote(id_lote){
 	if((id_lote!="0")||(id_lote!="")){
 		$.ajax({
@@ -412,6 +436,7 @@ function cargar_precio_lista_lote(id_lote){
 			success:function(respuesta){
 				if(respuesta.valor=="ok"){
 					$('#precio_lista').val(respuesta.precio_lista);
+					$("#precio_venta").prop('disabled', false);
 				}//Fin del if  
 			},
 			error:function(respuesta){//Si surge un error
@@ -704,6 +729,69 @@ function quitar_cliente(){
 				}//fin del else
 			}//fin del for
 			document.getElementById("txtArea_clientes").value=aux;
+		}//fin del else
+	}//Fin else...
+}//Fin contar_responsables...
+
+function agregar_descuento(){
+	//Comprobamos que el campo no esté vacío
+	if(document.getElementById("select_descuentos").value=="0"){
+		swal({
+			text:"Debes seleccionar un descuento.",
+			type: 'warning'
+		});							
+	}else{
+		descuentos = document.getElementById("select_descuentos").value;
+		if(document.getElementById("desc_aplicados").value.length>0){ //Verificamos si ya hay un valor en el textArea
+			var arreglo_descuentos = document.getElementById("desc_aplicados").value.split(",");//Creamos un arreglo para almacenar los valores del txtArea
+			for (var i = 0; i < arreglo_descuentos.length; i++) { //Recorremos el arreglo
+				if(arreglo_descuentos[i]==document.getElementById("select_descuentos").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
+					swal({
+						text:"Este descuento ya se encuentra registrado",
+						type: 'warning'
+					});
+					descuentos="";
+				}//Fin if...
+			}//Fin for...
+			if(document.getElementById("desc_aplicados").value!=0){
+				aux=document.getElementById("desc_aplicados").value;
+				if(descuentos==""){
+					aux=aux+"";
+				}else{
+					aux=aux+",";
+				}//fin del else
+			}//Fin if...
+		}else{
+			aux="";
+		}//Fin del else...
+		aux+=descuentos;
+		document.getElementById("desc_aplicados").value=aux;
+		document.getElementById("select_descuentos").value = "0";
+	}//Fin else...
+}//Fin agregar_lote...
+
+function quitar_descuento(){
+	if(document.getElementById("desc_aplicados").value.length=="0"){ //Validamos que el txtArea no esté vacio
+		swal({
+			text:"No hay descuentos seleccionados",
+			type: 'warning'
+		});
+	}else{
+		var arreglo_descuentos = document.getElementById("desc_aplicados").value.split(","); //Generamos un arreglo con los responsables que ya hay en el textArea
+		descuentos_largo = arreglo_descuentos.length;
+		if(descuentos_largo==1){
+			document.getElementById("desc_aplicados").value="";
+		}else{
+			descuentos_largo--;
+			var aux = "";
+			for (var i = 0; i < descuentos_largo; i++) {
+				if(i==0){
+					aux+=arreglo_descuentos[i];
+				}else{
+					aux+=","+arreglo_descuentos[i];
+				}//fin del else
+			}//fin del for
+			document.getElementById("desc_aplicados").value=aux;
 		}//fin del else
 	}//Fin else...
 }//Fin contar_responsables...
