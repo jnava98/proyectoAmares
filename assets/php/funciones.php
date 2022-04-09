@@ -108,7 +108,7 @@ function mostrar_formato_cliente_vacio(){
                 $html.='</div>';
                 $html.='<div class="row mb-3">';
                     $html.='<div class="col-sm-9">';
-                        $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Datos Cliente</button>';
+                        $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_cliente();">Guardar Datos Cliente</button>';
                     $html.='</div>';
                 $html.='</div>';
             $html.='</div>';
@@ -191,7 +191,7 @@ function mostrar_formato_cliente($id_cliente){
                         $html.='</div>';
                         $html.='<div class="row mb-3">';
                             $html.='<div class="col-sm-9">';
-                                $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_cliente();">Guardar Datos Cliente</button>';
+                                $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_cliente();">Guardar Datos Cliente</button>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -283,8 +283,8 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                                 $html.=select_descuentos();
                             $html.='</div>';
                             $html.='<div class="col-sm-4">';
-                                $html.='<button type="button" id="btn_agregarResponsable" class="btn btn-success" onclick="agregar_descuento()">+</button>&nbsp';
-                                $html.='<button type="button" class="btn btn-warning" id="btn_quitarResposable" onclick="quitar_descuento()">-</button>';
+                                $html.='<button type="button" id="btn_agregarResponsable" class="btn boton_cuatro" onclick="agregar_descuento();cargar_precio_recomendado();">+</button>&nbsp';
+                                $html.='<button type="button" class="btn boton_cinco" id="btn_quitarResposable" onclick="quitar_descuento();cargar_precio_recomendado();">-</button>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -513,7 +513,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                     $html.='<div class="col-sm-4">';
                         $html.='<div class="row">';
                             $html.='<div class="col-sm-12">';
-                                $html.='<label for="inputText" class="col-form-label">Monto Inter&eacutes(%)</label>';
+                                $html.='<label for="inputText" class="col-form-label">Inter&eacutes (%)</label>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -527,7 +527,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                     $html.='<div class="col-sm-4">';
                         $html.='<div class="row">';
                             $html.='<div class="col-sm-12">';
-                                $html.='<label for="inputText" class="col-form-label">Comisi&oacuten Broker($)</label>';
+                                $html.='<label for="inputText" class="col-form-label">Comisi&oacuten Broker ($)</label>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -561,8 +561,8 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                         $html.=select_clientes();
                     $html.='</div>';
                     $html.='<div class="col-sm-2">';
-                        $html.='<button type="button" id="btn_agregarResponsable" class="btn btn-success" onclick="agregar_cliente()">+</button>&nbsp';
-                        $html.='<button type="button" class="btn btn-warning" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
+                        $html.='<button type="button" id="btn_agregarResponsable" class="btn boton_cuatro" onclick="agregar_cliente()">+</button>&nbsp';
+                        $html.='<button type="button" class="btn boton_cinco" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
                     $html.='</div>';
                     $html.='<div class="col-sm-6">';
                         $html.='<textarea id="txtArea_clientes" disabled class="form-control"></textarea>';
@@ -571,8 +571,8 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                 $html.='<br>';
                 $html.='<div class="row mb-3">';
                     $html.='<div class="col-sm-12">';
-                        $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
-                        $html.='<button type="button" class="btn btn-secondary" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
+                        $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
+                        $html.='<button type="button" class="btn boton_dos" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
                     $html.='</div>';
                 $html.='</div>';
             $html.='</div>';
@@ -692,8 +692,8 @@ function mostrar_formato_precontrato($id_contrato){
                                         $html.=select_descuentos();
                                     $html.='</div>';
                                     $html.='<div class="col-sm-4">';
-                                        $html.='<button type="button" id="btn_agregarResponsable" class="btn btn-success" onclick="agregar_descuento()">+</button>&nbsp';
-                                        $html.='<button type="button" class="btn btn-warning" id="btn_quitarResposable" onclick="quitar_descuento()">-</button>';
+                                        $html.='<button type="button" id="btn_agregarResponsable" class="btn boton_cuatro" onclick="agregar_descuento();cargar_precio_recomendado();">+</button>&nbsp';
+                                        $html.='<button type="button" class="btn boton_cinco" id="btn_quitarResposable" onclick="quitar_descuento();cargar_precio_recomendado();">-</button>';
                                     $html.='</div>';
                                 $html.='</div>';
                             $html.='</div>';
@@ -701,8 +701,31 @@ function mostrar_formato_precontrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-12">';
                             $html.='<p class="card-text">Descuentos Aplicados</p>';
-                            $html.='<div class="col-sm-6">';
-                                $html.='<textarea id="desc_aplicados" name="desc_aplicados" class="form-control" disabled></textarea>';
+                            $html.='<div class="col-sm-6">'; 
+                                $desc_aplicados = "";
+                                $sql = "SELECT * from descuentos_contrato where id_contrato like '".$id_contrato."'";
+                                $resultado = mysqli_query(conectar(),$sql);
+                                desconectar();
+                                $num = mysqli_num_rows($resultado);
+                                if($num>0){
+                                    $aux = 0;     
+                                    while($row = mysqli_fetch_array($resultado)){
+                                        $sql="SELECT descripcion FROM cat_descuentos where id_descuento like '".$row['id_descuento']."'";
+                                        $resultado_descuentos = mysqli_query(conectar(),$sql);
+                                        desconectar();
+                                        $num = mysqli_num_rows($resultado_descuentos);
+                                        if($num>0){
+                                            $row_descuentos = mysqli_fetch_array($resultado_descuentos);
+                                            if($aux!=0){
+                                                $desc_aplicados.= ",".$row_descuentos[0];
+                                            }else{
+                                                $desc_aplicados.= $row_descuentos[0];
+                                            }//fin del else
+                                        }//fin del if
+                                        $aux++;
+                                    }//fin del while
+                                }//fin del if
+                                $html.='<textarea id="desc_aplicados" name="desc_aplicados" class="form-control" disabled>'.$desc_aplicados.'</textarea>';
                             $html.='</div>';
                         $html.='</div>';
                         $html.='<br>';
@@ -922,7 +945,7 @@ function mostrar_formato_precontrato($id_contrato){
                             $html.='<div class="col-sm-4">';
                                 $html.='<div class="row">';
                                     $html.='<div class="col-sm-12">';
-                                        $html.='<label for="inputText" class="col-form-label">Monto Inter&eacutes(%)</label>';
+                                        $html.='<label for="inputText" class="col-form-label">Inter&eacutes (%)</label>';
                                     $html.='</div>';
                                 $html.='</div>';
                             $html.='</div>';
@@ -936,7 +959,7 @@ function mostrar_formato_precontrato($id_contrato){
                             $html.='<div class="col-sm-4">';
                                 $html.='<div class="row">';
                                     $html.='<div class="col-sm-12">';
-                                        $html.='<label for="inputText" class="col-form-label">Comisi&oacuten Broker($)</label>';
+                                        $html.='<label for="inputText" class="col-form-label">Comisi&oacuten Broker ($)</label>';
                                     $html.='</div>';
                                 $html.='</div>';
                             $html.='</div>';
@@ -970,8 +993,8 @@ function mostrar_formato_precontrato($id_contrato){
                                 $html.=select_clientes();
                             $html.='</div>';
                             $html.='<div class="col-sm-2">';
-                                $html.='<button type="button" id="btn_agregarResponsable" class="btn btn-success" onclick="agregar_cliente()">+</button>&nbsp';
-                                $html.='<button type="button" class="btn btn-warning" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
+                                $html.='<button type="button" id="btn_agregarResponsable" class="btn boton_cuatro" onclick="agregar_cliente()">+</button>&nbsp';
+                                $html.='<button type="button" class="btn boton_cinco" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
                             $html.='</div>';
                             $html.='<div class="col-sm-6">';
                                 $html.='<textarea id="txtArea_clientes" disabled class="form-control">'.$col['clientes'].'</textarea>';
@@ -980,8 +1003,8 @@ function mostrar_formato_precontrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-3">';
                             $html.='<div class="col-sm-12">';
-                                $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
-                                $html.='<button type="button" class="btn btn-secondary" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
+                                $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
+                                $html.='<button type="button" class="btn boton_dos" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -1064,8 +1087,9 @@ function mostrar_tabla_contratos($id_cliente){
                     $html.="<td style='text-align:center'><input style='text-align:center' disabled='disabled' class='form-control' value='".$col['nombre']."'></input></td>";
                     //Botones para las acciones
                     $html.="<td style='text-align:center'>";
-                        $html.="<button id='".$col['id_contrato']."' class='btn btn-sm btn-success' onclick='cargar_datos_precontrato(this.id);'>Editar</button>";
-                        $html.="&nbsp;&nbsp;<button id='".$col['id_contrato']."' class='btn btn-sm btn-dark' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
+                        $html.="<button id='".$col['id_contrato']."' class='btn btn-sm boton_uno' onclick='cargar_datos_precontrato(this.id);'>Editar</button>";
+                        $html.="&nbsp;<button id='".$col['id_contrato']."' class='btn btn-sm boton_dos' onclick='eliminar_contrato(this.id);'>Eliminar</button>";
+                        $html.="&nbsp;<button id='".$col['id_contrato']."' class='btn btn-sm boton_tres' onclick='imprimir_contrato(this.id);'>Imprimir</button>";
                     $html.="</td>";
                 $html.="</tr>";
                 $i++;

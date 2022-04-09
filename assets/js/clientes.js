@@ -80,8 +80,7 @@ function guardar_datos_precontrato(){
 			var monto_mensual = $('#monto_mensual').val();
 			var pago_final = $('#pago_final').val();
 			var dia_pago = $('#dia_pago').val();
-			var nombre_descuento = $('#nombre_descuento').val();
-			var descuento = $('#descuento').val();
+			var descuentos = $('#desc_aplicados').val();
 			var tasa_interes = $('#tasa_interes').val();
 			var nombre_broker = $('#nombre_broker').val();
 			var comision_broker = $('#comision_broker').val();
@@ -92,7 +91,7 @@ function guardar_datos_precontrato(){
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
-					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, nombre_descuento:nombre_descuento, descuento:descuento, tasa_interes:tasa_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
+					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, descuentos:descuentos, tasa_interes:tasa_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
 				},
 				success:function(respuesta){
 					$(document).ready(function(){
@@ -445,6 +444,31 @@ function cargar_precio_lista_lote(id_lote){
 		});
 	}//fin del if
 }//fin de cargar precio lista lote
+
+function cargar_precio_recomendado(){
+	id_lote = $("#select_lotes").val();
+	if(id_lote!="0"){
+		precio_lista = $("#precio_lista").val();
+		descuento_venta = $("#descuento_venta").val();
+		desc_aplicados = $("#desc_aplicados").val();
+		$.ajax({
+			url:"assets/php/clientes/cargar_precio_recomendado.php",
+			dataType:"json",//Formato en como se manda la información
+			type:"get",
+			data:{//Información a enviar o cadena a enviar
+				id_lote:id_lote, precio_lista:precio_lista, descuento_venta:descuento_venta, desc_aplicados:desc_aplicados
+			},
+			success:function(respuesta){
+				if(respuesta.valor=="ok"){
+					$('#precio_recomendado').val(respuesta.precio_recomendado);
+				}//Fin del if  
+			},
+			error:function(respuesta){//Si surge un error
+				console.log(respuesta);
+			}
+		});
+	}//fin del if
+}//fin de funcion cargar precio recomendado
 
 function validar_precio_venta(input_venta){
 	var precio_venta = document.getElementById(input_venta).value;

@@ -1108,4 +1108,27 @@ p{
   background-color: #FFCCCC;
 }
 
+.boton_uno{
+	background: #633800;
+	color: #FFFFFF;
+}
 
+.boton_dos{
+	background: #D76300;
+	color: #FFFFFF;
+}
+
+.boton_tres{
+	background: #FFDE58;
+	color: black;
+}
+
+.boton_cuatro{
+	background: #FFE7B5;
+	color: black;
+}
+
+.boton_cinco{
+	background: #555555;
+	color: white;
+}

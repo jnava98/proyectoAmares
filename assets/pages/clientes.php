@@ -57,9 +57,9 @@ if(!(empty($_SESSION["usuario"]))){
                     <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
                   </div>
                   <div class="col-lg-6">
-                    <button type="button" id="buscar" class="success" onclick="cargar_datos_cliente(this.id);" disabled> Buscar</button>&nbsp
-                    <button class="success" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button>&nbsp
-                    <button class="success" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
+                    <button type="button" id="buscar" class="btn boton_uno" onclick="cargar_datos_cliente(this.id);" disabled> Buscar</button>&nbsp
+                    <button class="btn boton_dos" id="agregar" onclick="cargar_datos_cliente(this.id);">Agregar</button>&nbsp
+                    <button class="btn boton_tres" id="cancelar" onclick="cancelar_busqueda(this.id);">Cancelar</button>
                   </div>
                 </div>
                 <div class="row" id="div_cliente_lista" style="display: none;">
@@ -81,7 +81,7 @@ if(!(empty($_SESSION["usuario"]))){
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="table-responsive col-lg-9" id="div_tabla_contratos">
+                <div class="table-responsive col-lg-12" id="div_tabla_contratos">
                 </div>
               </div>
             </div>
@@ -91,9 +91,9 @@ if(!(empty($_SESSION["usuario"]))){
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-2">
-                  <br>
-                  <button type="button" id="buscar" class="btn btn-success" onclick="cargar_datos_precontrato('0');">Agregar Compra</button>
+                <div class="col-lg-5">
+                  <h5 class="card-title">Agregar Nueva Promesa de Compra</h5>
+                  <button type="button" id="buscar" class="btn boton_uno" onclick="cargar_datos_precontrato('0');">Agregar Compra</button>
                 </div>
               </div>
             </div>

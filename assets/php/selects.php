@@ -84,7 +84,7 @@ function select_lotes($manzana, $super_manzana, $fase, $lote){
 	desconectar();
     $num=mysqli_num_rows($resultado);
     if($num>0){
-        $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' onchange='cargar_precio_lista_lote(this.value)' >";
+        $respuesta.="<select name='select_lotes' id='select_lotes' class='form-control' onchange='cargar_precio_lista_lote(this.value);cargar_precio_recomendado();' >";
         $respuesta.="<option value='0'>Elige una opcion</option>";
         while($registro=mysqli_fetch_array($resultado)){
             if($lote!=""){
@@ -168,7 +168,7 @@ function select_tipo_compra($id_tipo_compra){
     desconectar();
     $num=mysqli_num_rows($result);
     if($num>0){
-        $respuesta.='<select id="select_tipo_compra" class="form-control" onchange="ocultar_n_mensualidades(this.value);cargar_descuento_venta(this.id);" >';
+        $respuesta.='<select id="select_tipo_compra" class="form-control" onchange="ocultar_n_mensualidades(this.value);cargar_descuento_venta(this.id);cargar_precio_recomendado();" >';
             $respuesta.='<option value="0">Selecciona una opcion</option>';
         while($col=mysqli_fetch_array($result)){
             if($id_tipo_compra!=""){
