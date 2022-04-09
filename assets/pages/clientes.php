@@ -105,7 +105,7 @@ if(!(empty($_SESSION["usuario"]))){
       <div class="row" id="div_formato_contrato">
       </div>
     </section>
-
+  
   </main><!-- End #main -->
 
 </body>

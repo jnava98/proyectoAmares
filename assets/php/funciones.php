@@ -1069,6 +1069,10 @@ function mostrar_tabla_contratos($id_cliente){
     $num=mysqli_num_rows($result);
     if ($num>0){
         $i=1;
+        $html.='
+        <form target="_blank" action="?page=impresion_contrato" method="POST">
+            <input id="" name="" type="hidden">
+        </form>';
         $html.='<h5 class="card-title">Contratos del Cliente</h5>';
         $html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
             $html.="<thead>";
