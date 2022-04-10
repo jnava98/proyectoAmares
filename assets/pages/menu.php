@@ -3,7 +3,6 @@ function menu(){
   $html = "";
   $html .="
   <head>
-  //Favicons 
   <link href='assets/img/iconAmares.svg' rel='icon'>
   <link href='assets/img/apple-touch-icon.png' rel='apple-touch-icon'>
   <!-- Google Fonts -->

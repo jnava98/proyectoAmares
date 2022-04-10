@@ -2,54 +2,81 @@ function cancelar_busqueda(){ //Funcion para recargar la pagina
 	location.reload();
 }//fin de funcion cancelar busqueda
 
+function validar_correo(valor){
+	re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+	if(!re.exec(valor)){
+		return "No";
+	}else{
+		return "Si";
+	}//fin del else
+}//fin de validar correo
+
 function guardar_datos_cliente(){
 	//alert("Entra");
 	if(($('#nombre_cliente').val()!="")&&($('#apellidopa_cliente').val()!="")&&($('#residencia_cliente').val()!="")&&($('#nacionalidad_cliente').val()!="")&&($('#correo_cliente').val()!="")&&($('#telefono_cliente').val()!="")&&($('#direccion_cliente').val()!="")){
-		$(document).ready(function(){
-			var id_cliente = $('#id_cliente').val();
-			var nombre = $('#nombre_cliente').val();
-			var apellido_pa = $('#apellidopa_cliente').val();
-			var apellido_ma = $('#apellidoma_cliente').val();
-			var residencia = $('#residencia_cliente').val();
-			var nacionalidad = $('#nacionalidad_cliente').val();
-			var correo = $('#correo_cliente').val();
-			var direccion = $('#direccion_cliente').val();
-			var telefono = $('#telefono_cliente').val();
-			var estado_civil = $('#estadoc_cliente').val();
-			var actividad_economica = $('#act_cliente').val();
-			//Función de Ajax
-			$.ajax({
-				url:"assets/php/clientes/guardar_datos_cliente.php",
-				dataType:"json",//Formato en como se manda la información
-				type:"get",
-				data:{//Información a enviar o cadena a enviar
-					id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
-				},
-				success:function(respuesta){
-					$(document).ready(function(){
-						if(respuesta.valor=="ok"){
-							swal({
-								text:'Datos guardados',
-								type: 'success'
-							});
-							$('#id_cliente').val(respuesta.id_cliente);
-							$('#input_cliente').val(respuesta.nombre_cliente);
-							$("#input_cliente").prop('disabled', true);
-							$('#div_boton_contrato').show('slow');
-							cargar_tabla_contratos();
-						}else{
-							swal({
-								text:'Error',
-								type: 'error'
-							});
-						}//fin del else
-					});	
-				},
-				error:function(respuesta){//Si surge un error
-					console.log(respuesta);
-				}
+		if(document.getElementById('telefono_cliente').value.length>=10){
+			if(validar_correo($('#correo_cliente').val())=="Si"){
+			$(document).ready(function(){
+				var id_cliente = $('#id_cliente').val();
+				var nombre = $('#nombre_cliente').val();
+				var apellido_pa = $('#apellidopa_cliente').val();
+				var apellido_ma = $('#apellidoma_cliente').val();
+				var residencia = $('#residencia_cliente').val();
+				var nacionalidad = $('#nacionalidad_cliente').val();
+				var correo = $('#correo_cliente').val();
+				var direccion = $('#direccion_cliente').val();
+				var telefono = $('#telefono_cliente').val();
+				var estado_civil = $('#estadoc_cliente').val();
+				var actividad_economica = $('#act_cliente').val();
+				//Función de Ajax
+				$.ajax({
+					url:"assets/php/clientes/guardar_datos_cliente.php",
+					dataType:"json",//Formato en como se manda la información
+					type:"get",
+					data:{//Información a enviar o cadena a enviar
+						id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
+					},
+					success:function(respuesta){
+						$(document).ready(function(){
+							if(respuesta.valor=="ok"){
+								swal({
+									text:'Datos guardados',
+									type: 'success'
+								});
+								$('#id_cliente').val(respuesta.id_cliente);
+								$('#input_cliente').val(respuesta.nombre_cliente);
+								$("#input_cliente").prop('disabled', true);
+								$('#div_boton_contrato').show('slow');
+								cargar_tabla_contratos();
+							}else{
+								swal({
+									text:'Error',
+									type: 'error'
+								});
+							}//fin del else
+						});	
+					},
+					error:function(respuesta){//Si surge un error
+						console.log(respuesta);
+					}
+				});
 			});
-		});
+			}else{
+				$(document).ready(function(){
+					swal({
+						text:'El correo no cuenta con el formato valido',
+						type: 'info'
+					});
+				});	
+			}//fin del else
+		}else{
+			$(document).ready(function(){
+				swal({
+					text:'El telefono no cuenta con el formato valido',
+					type: 'info'
+				});
+			});	
+		}//fin del else
 	}else{
 		$(document).ready(function(){
 			swal({
