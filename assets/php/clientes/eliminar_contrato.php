@@ -22,7 +22,7 @@ if($num>0){
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if($result){
-        $respuesta['valor']="ok";
+        $respuesta['valor']="success";
         $respuesta['mensaje']="Contrato eliminado";
     }else{
         $respuesta['valor']="error";

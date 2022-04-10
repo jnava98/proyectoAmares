@@ -145,40 +145,54 @@ function guardar_datos_precontrato(){
 
 function guardar_datos_contrato(){
 	//alert("Entra");
-	$(document).ready(function(){
-		var id_cliente = $('#id_cliente').val();
-		var id_contrato = $('#id_contrato').val();
-		var fecha_contrato = $('#fecha_contrato').val();
-		var fecha_firma = $('#fecha_firma').val();
-		//Función de Ajax
-		$.ajax({
-			url:"assets/php/clientes/guardar_datos_contrato.php",
-			dataType:"json",//Formato en como se manda la información
-			type:"get",
-			data:{//Información a enviar o cadena a enviar
-				id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
-			},
-			success:function(respuesta){
-				$(document).ready(function(){
-					if(respuesta.valor=="ok"){
-						swal({
-							text:'Datos guardados',
-							type: 'success'
-						});
-					}else{
-						swal({
-							text:respuesta.valor,
-							type: 'error'
-						});
-						console.log(respuesta);		
-					}//fin del else
-				});	
-			},
-			error:function(respuesta){//Si surge un error
-				console.log(respuesta);
-			}
+	if(($('#fecha_contrato').val())<=($('#fecha_enganche').val())){
+		swal({
+			text:'La Fecha del Contrato no puede ser menor a la Fecha de Enganche',
+			type: 'warning'
 		});
-	});
+	}else{
+		if(($('#fecha_firma').val())<=($('#fecha_enganche').val())){
+			swal({
+				text:'La Fecha de la firma del contrato no puede ser menor a la Fecha de Enganche',
+				type: 'warning'
+			});
+		}else{
+			$(document).ready(function(){
+				var id_cliente = $('#id_cliente').val();
+				var id_contrato = $('#id_contrato').val();
+				var fecha_contrato = $('#fecha_contrato').val();
+				var fecha_firma = $('#fecha_firma').val();
+				//Función de Ajax
+				$.ajax({
+					url:"assets/php/clientes/guardar_datos_contrato.php",
+					dataType:"json",//Formato en como se manda la información
+					type:"get",
+					data:{//Información a enviar o cadena a enviar
+						id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
+					},
+					success:function(respuesta){
+						$(document).ready(function(){
+							if(respuesta.valor=="ok"){
+								swal({
+									text:'Datos guardados',
+									type: 'success'
+								});
+							}else{
+								swal({
+									text:respuesta.valor,
+									type: 'error'
+								});
+								console.log(respuesta);		
+							}//fin del else
+						});	
+					},
+					error:function(respuesta){//Si surge un error
+						console.log(respuesta);
+					}
+				});
+			});
+		}//fin del else
+	}//fin del else
 }//fin de guardar datos contrato
 
 function eliminar_contrato(id_contrato){

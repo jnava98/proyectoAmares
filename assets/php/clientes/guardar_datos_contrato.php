@@ -38,7 +38,6 @@ if(($id_contrato!="0")){
     if($num>0){
         //Si existe editamos
         $sql="UPDATE contrato set fecha_contrato = '".$fecha_contrato."', fecha_firma = '".$fecha_firma."' WHERE id_contrato LIKE '".$id_contrato."'";
-		echo $sql;
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";

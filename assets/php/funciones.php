@@ -210,7 +210,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
         $html.='<div class="card">';
             $html.='<div class="card-body">';
                 $html.='<h3 class="card-title">Datos de la Compra</h3>';
-                $html.='<input type="hidden" id="id_contrato" value="'.$col['id_contrato'].'">';
+                $html.='<input type="hidden" id="id_contrato" value="">';
                 $html.='<div class="row mb-12">';
                     $html.='<p class="card-text">Descripci&oacuten de la Propiedad</p>';
                     $html.='<div class="col-sm-3">';
@@ -1050,7 +1050,7 @@ function mostrar_formato_contrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-3">';
                             $html.='<div class="col-sm-9">';
-                                $html.='<button type="button" class="btn btn-primary" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
+                                $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_contrato();">Guardar Contrato</button>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
