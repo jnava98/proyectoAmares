@@ -147,7 +147,18 @@ function menu(){
           </li>
         </ul>
       </li><!-- End Forms Nav -->
-
+      <li class='nav-item'>
+      <a class='nav-link collapsed' data-bs-target='#descuentos-nav' data-bs-toggle='collapse' href='#'>
+        <i class='bi bi-journal-text'></i><span>Descuentos</span><i class='bi bi-chevron-down ms-auto'></i>
+      </a>
+      <ul id='descuentos-nav' class='nav-content collapse ' data-bs-parent='#sidebar-nav'>
+        <li>
+          <a href='?page=descuentos'>
+            <i class='bi bi-circle'></i><span>Alta de descuentos</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
       <li class='nav-item'>
         <a class='nav-link collapsed' data-bs-target='#reportes-nav' data-bs-toggle='collapse' href='#'>
           <i class='bi bi-layout-text-window-reverse'></i><span>Reportes</span><i class='bi bi-chevron-down ms-auto'></i>

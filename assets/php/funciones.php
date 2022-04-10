@@ -1126,4 +1126,66 @@ function validar_datos_precontrato($id_contrato){
 }//fin de validar datos precontrato
 
 
+function mostrar_tabla_descuentos()
+{
+    $html="";
+    $sql = "SELECT * FROM cat_descuentos d inner join cuentas_usuario u on d.uc=u.id_usuario order by id_descuento";
+    $result_descuentos = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result_descuentos);
+    if ($num>0) {     
+        $i=0;
+        $html.="<h4>Tabla de descuentos</h4>";
+        $html.="<table id='tabla_ee' class='table.table-striped table-bordered table-hover table-condensed'>";
+        $html.="<thead>";
+        $html.="<tr>";
+        $html.="<th style='text-align:center'>#</th>";
+        $html.="<th style='text-align:center'>Nombre</th>";
+        $html.="<th style='text-align:center'>Tasa (%)</th>";
+        $html.="<th style='text-align:center;'>Fecha <br>Creacion</th>";
+        $html.="<th style='text-align:center'>Fecha <br>Modificacion</th>";
+        // $html.="<th style='text-align:center'>Usuario <br>creacion</th>";
+        $html.="<th style='text-align:center'>Ultima <br>modificacion</th>";
+        $html.="<th style='text-align:center'>Acciones</th>";
+        $html.="</tr>";
+        $html.="</thead>";
+        $html.="<tbody>";
+        while ($col_descuentos=mysqli_fetch_array($result_descuentos)) {
+            $i+=1;
+            $html.="<tr>";
+            $html.="<td style='text-align:center'>".$i."</td>";
+            //DESCRIPCION DESCUENTO
+            $html.="<td><input disabled='disabled' class='form-control' name='input_descripcion&".$col_descuentos['id_descuento']."' id='input_descripcion&".$col_descuentos['id_descuento']."' value='".$col_descuentos['descripcion']."'></input></td>";
+            //TASA DESCUENTO
+            $html.="<td><input type='number' disabled='disabled' class='form-control' name='input_tasa&".$col_descuentos['id_descuento']."' id='input_tasa&".$col_descuentos['id_descuento']."' value='".$col_descuentos['tasa']."'></input></td>";
+            //FECHA CREACION
+            $html.="<td><input disabled='disabled' class='form-control' name='input_fcreacion&".$col_descuentos['id_descuento']."' id='input_fcreacion&".$col_descuentos['id_descuento']."' value='".$col_descuentos['fecha_creacion']."'></input></td>";
+            //FECHA MODIFICACION
+            $html.="<td><input disabled='disabled' class='form-control' name='input_fmodificacion&".$col_descuentos['id_descuento']."' id='input_fmodificacion&".$col_descuentos['id_descuento']."' value='".$col_descuentos['fecha_modificacion']."'></input></td>";
+            //USUARIO CREACION
+            // $html.="<td><input disabled='disabled' class='form-control' name='input_usuariocreacion&".$i."' id='input_usuariocreacion&".$i."' value='".$col_descuentos['usuario']."'></input></td>";
+            //USUARIO ULTIMA MODIFICACION
+            $sql2 = "SELECT d.id_descuento,d.uum,u.id_usuario,u.usuario FROM cat_descuentos d inner join cuentas_usuario u on d.uum=u.id_usuario where d.id_descuento='".$col_descuentos['id_descuento']."' order by fecha_creacion";
+            $result_descuentos2 = mysqli_query(conectar(),$sql2);
+            while ($col_descuentos2=mysqli_fetch_array($result_descuentos2)) {
+            $html.="<td><input disabled='disabled' class='form-control' name='input_usuariomodificacion&".$col_descuentos['id_descuento']."' id='input_nombre&".$i."' value='".$col_descuentos2['usuario']."'></input></td>";
+            }
+            $html.="<td>";
+            //BTN EDITAR DESCUENTO
+            //$html.="<button id='".$col_descuentos['id_descuento']."' onclick='editar_descuento(this.id); return false;'><span class='glyphicon glyphicon-edit' style='font-size:15px'></span></button>";
+            $html.="<button id='".$col_descuentos['id_descuento']."' onclick='editar_descuento(this.id); return false;'><span class='glyphicon glyphicon-edit' style='font-size:15px'></span></button>";
+            //BTN GUARDAR
+            $html.="&nbsp;&nbsp;<button id='".$col_descuentos['id_descuento']."' onclick='actualizar_descuento(this.id); return false;'><span class='glyphicon glyphicon-floppy-saved' style='font-size:15px'></span></button>";
+            //BTN ELIMINAR
+            $html.="&nbsp;&nbsp;<a id='".$col_descuentos['id_descuento']."' class='btn_eliminar' style='cursor:pointer; width:15px; height:15px;' onclick='eliminar_descuento(this.id); return false;'> <img src='assets/img/delete.png' style='width:25px; height:25px;'></a>";
+            $html.="</td>";
+            $html.="</tr>";
+        }//Fin del while
+        $html.="<input type='hidden' id='total_descuentos' name='total_descuentos' value='".$i."'>";
+        $html.="</tbody>";
+        $html.="</table>";
+    }//Fin del if..
+    return $html;
+}//fin de mostrar tabla descuentos
+
 ?>
