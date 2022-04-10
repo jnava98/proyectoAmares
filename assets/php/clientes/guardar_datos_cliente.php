@@ -77,7 +77,7 @@ if($id_cliente!="0"){
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE clientes set nombre = '".$nombre."', apellido_paterno = '".$apellido_pa."', apellido_materno = '".$apellido_ma."', residencia = '".$residencia."', nacionalidad = '".$nacionalidad."', correo = '".$correo."', direccion='".$direccion."', telefono = '".$telefono."', estado_civil = '".$estado_civil."', act_economica = '".$actividad_economica."' WHERE id_cliente LIKE '".$id_cliente."' ";
+        $sql="UPDATE clientes set nombre = '".trim($nombre)."', apellido_paterno = '".trim($apellido_pa)."', apellido_materno = '".trim($apellido_ma)."', residencia = '".trim($residencia)."', nacionalidad = '".trim($nacionalidad)."', correo = '".trim($correo)."', direccion='".trim($direccion)."', telefono = '".trim($telefono)."', estado_civil = '".trim($estado_civil)."', act_economica = '".trim($actividad_economica)."' WHERE id_cliente LIKE '".$id_cliente."' ";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
@@ -88,7 +88,7 @@ if($id_cliente!="0"){
         }//fin del else
     }else{
         //Si no existe el cliente insertamos
-        $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica) values ('".$nombre."', '".$apellido_pa."', '".$apellido_ma."', '".$residencia."', '".$nacionalidad."', '".$correo."', '".$direccion."', '".$telefono."', '".$estado_civil."', '".$actividad_economica."' )";
+        $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica) values ('".trim($nombre)."', '".trim($apellido_pa)."', '".trim($apellido_ma)."', '".trim($residencia)."', '".trim($nacionalidad)."', '".trim($correo)."', '".trim($direccion)."', '".trim($telefono)."', '".trim($estado_civil)."', '".trim($actividad_economica)."' )";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";

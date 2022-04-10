@@ -293,7 +293,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                 $html.='<div class="row mb-12">';
                     $html.='<p class="card-text">Descuentos Aplicados</p>';
                     $html.='<div class="col-sm-6">';
-                        $html.='<textarea id="desc_aplicados" name="desc_aplicados" class="form-control" disabled> </textarea>';
+                        $html.='<textarea id="desc_aplicados" name="desc_aplicados" class="form-control" disabled></textarea>';
                     $html.='</div>';
                 $html.='</div>';
                 $html.='<br>';
@@ -565,7 +565,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                         $html.='<button type="button" class="btn boton_cinco" id="btn_quitarResposable" onclick="quitar_cliente()">-</button>';
                     $html.='</div>';
                     $html.='<div class="col-sm-6">';
-                        $html.='<textarea id="txtArea_clientes" disabled class="form-control"></textarea>';
+                        $html.='<textarea id="txtArea_clientes" disabled class="form-control">'.$input_cliente.'</textarea>';
                     $html.='</div>';
                 $html.='</div>'; 
                 $html.='<br>';

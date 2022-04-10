@@ -420,7 +420,9 @@ function cargar_tabla_contratos(){
 						$('#div_contratos').show('slow');
 						$('#div_tabla_contratos').html(respuesta.tabla);//En donde quiero mostrar la información
 						$('#'+respuesta.id_tabla).DataTable();
-					}//Fin del if  
+					}else{
+						$('#div_contratos').hide();
+					}//fin del else
 				},
 				error:function(respuesta){//Si surge un error
 					console.log(respuesta);
