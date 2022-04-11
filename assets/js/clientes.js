@@ -160,12 +160,16 @@ function guardar_datos_precontrato(){
 		});
 		const validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
 		for(let p = 0; p <= validacion.length; p++){
-			if(($('#'+validacion[p]).val()!="")||$('#'+validacion[p]).val()!="0"){
-				//alert(validacion[p]);
-				document.getElementById(validacion[p]).classList.add("inputIncompleto");
-			}else{
-				document.getElementById(validacion[p]).classList.remove("inputIncompleto");
-			}//else
+			switch ($('#'+validacion[p]).val()) {
+				case '':
+					document.getElementById(validacion[p]).classList.add("inputIncompleto");
+					break;
+				case '0':
+					document.getElementById(validacion[p]).classList.add("inputIncompleto");
+					break;
+				default:
+					document.getElementById(validacion[p]).classList.remove("inputIncompleto");
+			}//fin del switch
 		}//for
 	}//fin del else
 }//fin de guardar datos cliente
@@ -174,50 +178,57 @@ function guardar_datos_contrato(){
 	//alert("Entra");
 	if(($('#fecha_contrato').val())<=($('#fecha_enganche').val())){
 		swal({
-			text:'La Fecha del Contrato no puede ser menor a la Fecha de Enganche',
+			text:'La fecha del contrato no puede ser menor a la fecha del enganche',
 			type: 'warning'
 		});
 	}else{
 		if(($('#fecha_firma').val())<=($('#fecha_enganche').val())){
 			swal({
-				text:'La Fecha de la firma del contrato no puede ser menor a la Fecha de Enganche',
+				text:'La fecha de la firma del contrato no puede ser menor a la fecha del enganche',
 				type: 'warning'
 			});
 		}else{
-			$(document).ready(function(){
-				var id_cliente = $('#id_cliente').val();
-				var id_contrato = $('#id_contrato').val();
-				var fecha_contrato = $('#fecha_contrato').val();
-				var fecha_firma = $('#fecha_firma').val();
-				//Función de Ajax
-				$.ajax({
-					url:"assets/php/clientes/guardar_datos_contrato.php",
-					dataType:"json",//Formato en como se manda la información
-					type:"get",
-					data:{//Información a enviar o cadena a enviar
-						id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
-					},
-					success:function(respuesta){
-						$(document).ready(function(){
-							if(respuesta.valor=="ok"){
-								swal({
-									text:'Datos guardados',
-									type: 'success'
-								});
-							}else{
-								swal({
-									text:respuesta.valor,
-									type: 'error'
-								});
-								console.log(respuesta);		
-							}//fin del else
-						});	
-					},
-					error:function(respuesta){//Si surge un error
-						console.log(respuesta);
-					}
+			if(($('#fecha_firma').val())<=($('#fecha_contrato').val())){
+				swal({
+					text:'La fecha de la firma del contrato no puede ser menor a la Fecha del contrato',
+					type: 'warning'
 				});
-			});
+			}else{
+				$(document).ready(function(){
+					var id_cliente = $('#id_cliente').val();
+					var id_contrato = $('#id_contrato').val();
+					var fecha_contrato = $('#fecha_contrato').val();
+					var fecha_firma = $('#fecha_firma').val();
+					//Función de Ajax
+					$.ajax({
+						url:"assets/php/clientes/guardar_datos_contrato.php",
+						dataType:"json",//Formato en como se manda la información
+						type:"get",
+						data:{//Información a enviar o cadena a enviar
+							id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
+						},
+						success:function(respuesta){
+							$(document).ready(function(){
+								if(respuesta.valor=="ok"){
+									swal({
+										text:'Datos guardados',
+										type: 'success'
+									});
+								}else{
+									swal({
+										text:respuesta.valor,
+										type: 'error'
+									});
+									console.log(respuesta);		
+								}//fin del else
+							});	
+						},
+						error:function(respuesta){//Si surge un error
+							console.log(respuesta);
+						}
+					});
+				});
+			}//fin del else
 		}//fin del else
 	}//fin del else
 }//fin de guardar datos contrato
@@ -436,9 +447,13 @@ function ocultar_n_mensualidades(id_tipo_compra){
 	if((id_tipo_compra==1)||(id_tipo_compra==4)){
 		document.getElementById("n_mensualidades").style.display="block";
 		document.getElementById("div_n_mensualidades").style.display="block";
+		document.getElementById("div_input_monto_mensual").style.display="block";
+		document.getElementById("div_monto_mensual").style.display="block";
 	}else{
 		document.getElementById("n_mensualidades").style.display="none";
 		document.getElementById("div_n_mensualidades").style.display="none";
+		document.getElementById("div_input_monto_mensual").style.display="none";
+		document.getElementById("div_monto_mensual").style.display="none";
 	}//fin del else
 }//fin de funcion ocultar numero mensualidades
 

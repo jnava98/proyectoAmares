@@ -196,10 +196,10 @@ if(($id_contrato!="")){
                 if($result){
                     $cadena = explode(",", $clientes);
                     $array_size = count($cadena);
-                    for ($i = 0; $i<$array_size; $i++){
+                    for ($i = 0; $i<$array_size; $i++) {
                         $cliente = $cadena[$i];
                         $cadena2 = explode(" ", $cliente);
-                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
+                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."' AND nombre LIKE '%".$cadena2[2]."%'";
                         $resultado = mysqli_query(conectar(),$sql);
                         desconectar();
                         $col_cliente = mysqli_fetch_array($resultado);
@@ -267,7 +267,7 @@ if(($id_contrato!="")){
                     for ($i = 0; $i<$array_size; $i++) {
                         $cliente = $cadena[$i];
                         $cadena2 = explode(" ", $cliente);
-                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."'";
+                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."' AND nombre LIKE '%".$cadena2[2]."%'";
                         $resultado = mysqli_query(conectar(),$sql);
                         desconectar();
                         $col_cliente = mysqli_fetch_array($resultado);
