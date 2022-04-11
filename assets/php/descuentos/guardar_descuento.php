@@ -2,10 +2,9 @@
 session_start();
 include "../conexion.php";
 include "../funciones.php";
-date_default_timezone_set("America/Cancun");
 $fecha_creacion= date("Y-m-d H:i:s");
 $fecha_modificacion= date("Y-m-d H:i:s");
-
+date_default_timezone_set ('America/Cancun');
 $usuario_creacion=$_SESSION["id"];
 $usuario_modificacion=$_SESSION["id"];
 

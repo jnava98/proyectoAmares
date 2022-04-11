@@ -106,7 +106,7 @@ include('menu.php');
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="table-responsive m-auto pb-3 pt-4" id="div_tabla_descuentos">
+                    <div class="table-responsive m-auto pb-3 pt-4 row" id="div_tabla_descuentos">
                     </div>
                 </div>
             </form>

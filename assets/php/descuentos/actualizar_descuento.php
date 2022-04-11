@@ -13,19 +13,19 @@ if(empty($_SESSION["id"])){
 if(empty($_GET['id'])){
 	$id="0";
 }else{
-    $id=$_GET['id'];
+    $id=trim($_GET['id']);
 }//fin del else
 
 if(empty($_GET['descripcion'])){
 	$descripcion="0";
 }else{
-    $descripcion=$_GET['descripcion'];
+    $descripcion=trim($_GET['descripcion']);
 }//fin del else
 
 if(empty($_GET['tasa'])){
 	$tasa="0";
 }else{
-    $tasa=$_GET['tasa'];
+    $tasa=trim($_GET['tasa']);
 }//fin del else
 
 
