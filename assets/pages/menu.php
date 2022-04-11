@@ -153,7 +153,7 @@ function menu(){
       <ul id='descuentos-nav' class='nav-content collapse ' data-bs-parent='#sidebar-nav'>
         <li>
           <a href='?page=descuentos'>
-            <i class='bi bi-circle'></i><span>Alta de descuentos</span>
+            <i class='bi bi-circle'></i><span>Administrar descuentos</span>
           </a>
         </li>
       </ul>

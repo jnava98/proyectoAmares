@@ -64,14 +64,21 @@ function guardar_descuento(){
 				success:function(respuesta){
 					
 					$(document).ready(function(){
+						
 						swal({
 							text:respuesta.mensaje,
 							type:'success'
 						});
+						
 						$('#formato_descuentos').hide("slow");
-
+						document.getElementById("nombre_descuento").value='';
+						document.getElementById("tasa_descuento").value='';
+						
 					});
+					
+					
 					cargar_tabla_descuentos();
+					
 				},
 				error:function(respuesta){//Si surge un error
 					console.log(respuesta);
@@ -80,7 +87,7 @@ function guardar_descuento(){
 		});
 	}else{
 		swal({
-			text:"Ingrese una tasa de descuento valida",
+			text:"La tasa debe ser mayor a 0 y menor que 100",
 			type:'warning'
 		});
 		return;	

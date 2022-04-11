@@ -2,6 +2,7 @@
 session_start();
 include "../conexion.php";
 include "../funciones.php";
+date_default_timezone_set("America/Cancun");
 $fecha_creacion= date("Y-m-d H:i:s");
 $fecha_modificacion= date("Y-m-d H:i:s");
 
@@ -11,13 +12,13 @@ $usuario_modificacion=$_SESSION["id"];
     if(empty($_POST["nombreDescuento"])){
 		$nombre="0";
     }else{
-        $nombre=$_POST["nombreDescuento"];
+        $nombre=trim($_POST["nombreDescuento"]);
     }
 
     if(empty($_POST["tasaDescuento"])){
         $tasa="0";
     }else{
-		$tasa=$_POST["tasaDescuento"];
+		$tasa=trim($_POST["tasaDescuento"]);
 	}//Fin del else...
 
 

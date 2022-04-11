@@ -52,10 +52,10 @@ include('menu.php');
                     <div class="col-sm-8 text-left">
                         <!-- BOTON AGREGAR DESCUENTOS -->
                         <input type="button" name="agregar_descuento" id="agregar_descuento"
-                            class="btn btn-primary texto_boton" value="Agregar"
+                            class="btn boton_dos texto_boton" value="Agregar"
                            ></input>
                         <!--  BOTON OCULTAR DESCUENTOS-->
-                        <input type="button" name="cancelar" id="cancelar" class="btn btn-danger texto_boton"
+                        <input type="button" name="cancelar" id="cancelar" class="btn boton_tres texto_boton"
                             value="Cancelar"></input>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ include('menu.php');
                                 <div class="col-lg-7">
                                     <div class="col-lg-6">
                                         <br>
-                                        <button class="btn btn-primary texto_boton" type="button" id="guardar_descuento"
+                                        <button class="btn boton_dos texto_boton" type="button" id="guardar_descuento"
                                         >Crear descuento</button>
                                         </br>
                                     </div>

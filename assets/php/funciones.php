@@ -1177,11 +1177,11 @@ function mostrar_tabla_descuentos()
             $html.="<td>";
             //BTN EDITAR DESCUENTO
             //$html.="<button id='".$col_descuentos['id_descuento']."' onclick='editar_descuento(this.id); return false;'><span class='glyphicon glyphicon-edit' style='font-size:15px'></span></button>";
-            $html.="<button id='".$col_descuentos['id_descuento']."' onclick='editar_descuento(this.id); return false;'><span class='glyphicon glyphicon-edit' style='font-size:15px'></span></button>";
+            $html.="<input type='button' id='".$col_descuentos['id_descuento']."' onclick='editar_descuento(this.id); return false;' class='btn boton_uno texto_boton' value='Editar'></input>";
             //BTN GUARDAR
-            $html.="&nbsp;&nbsp;<button id='".$col_descuentos['id_descuento']."' onclick='actualizar_descuento(this.id); return false;'><span class='glyphicon glyphicon-floppy-saved' style='font-size:15px'></span></button>";
+            $html.="<input type='button' id='".$col_descuentos['id_descuento']."' onclick='actualizar_descuento(this.id); return false;' class='btn boton_tres texto_boton' style='margin-left:10px;' value='Guardar'></input>";
             //BTN ELIMINAR
-            $html.="&nbsp;&nbsp;<a id='".$col_descuentos['id_descuento']."' class='btn_eliminar' style='cursor:pointer; width:15px; height:15px;' onclick='eliminar_descuento(this.id); return false;'> <img src='assets/img/delete.png' style='width:25px; height:25px;'></a>";
+            $html.="<input type='button' id='".$col_descuentos['id_descuento']."' class='btn boton_dos texto_boton'  onclick='eliminar_descuento(this.id); return false;'style='margin-left:10px;' value='Eliminar'></input>";
             $html.="</td>";
             $html.="</tr>";
         }//Fin del while
