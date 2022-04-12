@@ -166,8 +166,10 @@ function guardar_datos_precontrato(){
 function validar_formato_precontrato(){
 	var tipo_compra = $('#select_tipo_compra').val();
 	switch (tipo_compra) {
+		case '0':
+			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','pago_final','dia_pago'];
+			break;
 		case '2':
-			alert("Entrando");
 			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','pago_final','dia_pago'];
 			break;
 		case '3':
@@ -177,7 +179,7 @@ function validar_formato_precontrato(){
 			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
 	}//fin del switch
 	
-	for(let p = 0; p <= validacion.length; p++){
+	for(let p = 0; p < validacion.length; p++){
 		switch ($('#'+validacion[p]).val()) {
 			case '':
 				document.getElementById(validacion[p]).classList.add("inputIncompleto");
@@ -186,7 +188,9 @@ function validar_formato_precontrato(){
 				document.getElementById(validacion[p]).classList.add("inputIncompleto");
 				break;
 			default:
-				document.getElementById(validacion[p]).classList.remove("inputIncompleto");
+				if(document.getElementById(validacion[p]).classList.contains("inputIncompleto")){
+					document.getElementById(validacion[p]).classList.remove("inputIncompleto");
+				}//fin del if
 		}//fin del switch
 	}//for
 }//fin de validar formato precontrato
