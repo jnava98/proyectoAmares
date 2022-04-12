@@ -1075,7 +1075,8 @@ function mostrar_tabla_contratos($id_cliente){
         $i=1;
         $html.='
         <form target="_blank" action="?page=impresion_contrato" method="POST">
-            <input id="" name="" type="hidden">
+            <input id="input_impresion_contrato" name="input_impresion_contrato" type="hidden">
+            <button type="submit" id="enviar_formulario_impresion" style="display:none;"></button>
         </form>';
         $html.='<h5 class="card-title">Contratos del Cliente</h5>';
         $html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";

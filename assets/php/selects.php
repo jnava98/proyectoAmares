@@ -133,7 +133,7 @@ function select_descuentos(){
         }//fin del while
         $respuesta.='</select>';
     }else{
-        $respuesta.='<h5> No existen descuentos en la BD </h5>';
+        $respuesta.='<h5> No se ha registrado ning&uacute;n descuento </h5>';
     }//fin del else
     return $respuesta;
 }//fin de select clientes

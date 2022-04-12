@@ -193,60 +193,67 @@ function validar_formato_precontrato(){
 
 function guardar_datos_contrato(){
 	//alert("Entra");
-	if(($('#fecha_contrato').val())<=($('#fecha_enganche').val())){
-		swal({
-			text:'La fecha del contrato no puede ser menor a la fecha del enganche',
-			type: 'warning'
-		});
-	}else{
-		if(($('#fecha_firma').val())<=($('#fecha_enganche').val())){
+	if(($('#fecha_contrato').val()!="")&&($('#fecha_firma').val()!="")){
+		if(($('#fecha_contrato').val())<=($('#fecha_enganche').val())){
 			swal({
-				text:'La fecha de la firma del contrato no puede ser menor a la fecha del enganche',
+				text:'La fecha del contrato no puede ser menor a la fecha del enganche',
 				type: 'warning'
 			});
 		}else{
-			if(($('#fecha_firma').val())<=($('#fecha_contrato').val())){
+			if(($('#fecha_firma').val())<=($('#fecha_enganche').val())){
 				swal({
-					text:'La fecha de la firma del contrato no puede ser menor a la Fecha del contrato',
+					text:'La fecha de la firma del contrato no puede ser menor a la fecha del enganche',
 					type: 'warning'
 				});
 			}else{
-				$(document).ready(function(){
-					var id_cliente = $('#id_cliente').val();
-					var id_contrato = $('#id_contrato').val();
-					var fecha_contrato = $('#fecha_contrato').val();
-					var fecha_firma = $('#fecha_firma').val();
-					//Función de Ajax
-					$.ajax({
-						url:"assets/php/clientes/guardar_datos_contrato.php",
-						dataType:"json",//Formato en como se manda la información
-						type:"get",
-						data:{//Información a enviar o cadena a enviar
-							id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
-						},
-						success:function(respuesta){
-							$(document).ready(function(){
-								if(respuesta.valor=="ok"){
-									swal({
-										text:'Datos guardados',
-										type: 'success'
-									});
-								}else{
-									swal({
-										text:respuesta.valor,
-										type: 'error'
-									});
-									console.log(respuesta);		
-								}//fin del else
-							});	
-						},
-						error:function(respuesta){//Si surge un error
-							console.log(respuesta);
-						}
+				if(($('#fecha_firma').val())<=($('#fecha_contrato').val())){
+					swal({
+						text:'La fecha de la firma del contrato no puede ser menor a la Fecha del contrato',
+						type: 'warning'
 					});
-				});
+				}else{
+					$(document).ready(function(){
+						var id_cliente = $('#id_cliente').val();
+						var id_contrato = $('#id_contrato').val();
+						var fecha_contrato = $('#fecha_contrato').val();
+						var fecha_firma = $('#fecha_firma').val();
+						//Función de Ajax
+						$.ajax({
+							url:"assets/php/clientes/guardar_datos_contrato.php",
+							dataType:"json",//Formato en como se manda la información
+							type:"get",
+							data:{//Información a enviar o cadena a enviar
+								id_cliente:id_cliente, id_contrato:id_contrato, fecha_contrato:fecha_contrato, fecha_firma:fecha_firma
+							},
+							success:function(respuesta){
+								$(document).ready(function(){
+									if(respuesta.valor=="ok"){
+										swal({
+											text:'Datos guardados',
+											type: 'success'
+										});
+									}else{
+										swal({
+											text:respuesta.valor,
+											type: 'error'
+										});
+										console.log(respuesta);		
+									}//fin del else
+								});	
+							},
+							error:function(respuesta){//Si surge un error
+								console.log(respuesta);
+							}
+						});
+					});
+				}//fin del else
 			}//fin del else
 		}//fin del else
+	}else{
+		swal({
+			text:'Debes establecer la fecha de contrato y la fecha de firma',
+			type: 'warning'
+		});
 	}//fin del else
 }//fin de guardar datos contrato
 
@@ -288,6 +295,12 @@ function eliminar_contrato(id_contrato){
 		});
 	});
 }//fin de guardar datos cliente
+
+function imprimir_contrato(id_contrato){
+	$('#input_impresion_contrato').val(id_contrato);
+	var obj = document.getElementById("enviar_formulario_impresion");
+	obj.click();
+}//fin de funcion imprimir contrato
 
 function busca_cliente(){
 	var cliente = $('#input_cliente').val();
@@ -834,39 +847,46 @@ function quitar_cliente(){
 
 function agregar_descuento(){
 	//Comprobamos que el campo no esté vacío
-	if(document.getElementById("select_descuentos").value=="0"){
-		swal({
-			text:"Debes seleccionar un descuento.",
-			type: 'warning'
-		});							
-	}else{
-		descuentos = document.getElementById("select_descuentos").value;
-		if(document.getElementById("desc_aplicados").value.length>0){ //Verificamos si ya hay un valor en el textArea
-			var arreglo_descuentos = document.getElementById("desc_aplicados").value.split(",");//Creamos un arreglo para almacenar los valores del txtArea
-			for (var i = 0; i < arreglo_descuentos.length; i++) { //Recorremos el arreglo
-				if(arreglo_descuentos[i]==document.getElementById("select_descuentos").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
-					swal({
-						text:"Este descuento ya se encuentra registrado",
-						type: 'warning'
-					});
-					descuentos="";
-				}//Fin if...
-			}//Fin for...
-			if(document.getElementById("desc_aplicados").value!=0){
-				aux=document.getElementById("desc_aplicados").value;
-				if(descuentos==""){
-					aux=aux+"";
-				}else{
-					aux=aux+",";
-				}//fin del else
-			}//Fin if...
+	if(document.getElementById("select_descuentos")){
+		if(document.getElementById("select_descuentos").value=="0"){
+			swal({
+				text:"Debes seleccionar un descuento.",
+				type: 'warning'
+			});							
 		}else{
-			aux="";
-		}//Fin del else...
-		aux+=descuentos;
-		document.getElementById("desc_aplicados").value=aux;
-		document.getElementById("select_descuentos").value = "0";
-	}//Fin else...
+			descuentos = document.getElementById("select_descuentos").value;
+			if(document.getElementById("desc_aplicados").value.length>0){ //Verificamos si ya hay un valor en el textArea
+				var arreglo_descuentos = document.getElementById("desc_aplicados").value.split(",");//Creamos un arreglo para almacenar los valores del txtArea
+				for (var i = 0; i < arreglo_descuentos.length; i++) { //Recorremos el arreglo
+					if(arreglo_descuentos[i]==document.getElementById("select_descuentos").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
+						swal({
+							text:"Este descuento ya se encuentra registrado",
+							type: 'warning'
+						});
+						descuentos="";
+					}//Fin if...
+				}//Fin for...
+				if(document.getElementById("desc_aplicados").value!=0){
+					aux=document.getElementById("desc_aplicados").value;
+					if(descuentos==""){
+						aux=aux+"";
+					}else{
+						aux=aux+",";
+					}//fin del else
+				}//Fin if...
+			}else{
+				aux="";
+			}//Fin del else...
+			aux+=descuentos;
+			document.getElementById("desc_aplicados").value=aux;
+			document.getElementById("select_descuentos").value = "0";
+		}//Fin else...
+	}else{
+		swal({
+			text:"No se ha registrado ningun descuento.",
+			type: 'warning'
+		});	
+	}//fin del else
 }//Fin agregar_lote...
 
 function quitar_descuento(){
