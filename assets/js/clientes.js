@@ -210,7 +210,7 @@ function guardar_datos_contrato(){
 					type: 'warning'
 				});
 			}else{
-				if(($('#fecha_firma').val())<=($('#fecha_contrato').val())){
+				if(($('#fecha_firma').val())<($('#fecha_contrato').val())){
 					swal({
 						text:'La fecha de la firma del contrato no puede ser menor a la Fecha del contrato',
 						type: 'warning'
