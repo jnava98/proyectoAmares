@@ -89,7 +89,8 @@ function guardar_datos_cliente(){
 
 function guardar_datos_precontrato(){
 	//alert("Entra");
-	if(($('#cant_enganche').val()!="")&&($('#fecha_enganche').val()!="")&&($('#txtArea_clientes').val()!="")&&($('#select_lotes').val()!="0")&&($('#precio_venta').val()!="")&&($('#select_tipo_compra').val()!="0")&&($('#monto_mensual').val()!="")&&($('#pago_final').val()!="")&&($('#dia_pago').val()!="")){
+	if(($('#cant_enganche').val()!="")&&($('#fecha_enganche').val()!="")&&($('#txtArea_clientes').val()!="")&&($('#select_lotes').val()!="0")&&($('#precio_venta').val()!="")&&($('#select_tipo_compra').val()!="0")&&($('#pago_final').val()!="")&&($('#dia_pago').val()!="")){
+		validar_formato_precontrato();
 		$(document).ready(function(){
 			var id_cliente = $('#id_cliente').val();
 			var id_contrato = $('#id_contrato').val();
@@ -158,21 +159,37 @@ function guardar_datos_precontrato(){
 				type: 'info'
 			});
 		});
-		const validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
-		for(let p = 0; p <= validacion.length; p++){
-			switch ($('#'+validacion[p]).val()) {
-				case '':
-					document.getElementById(validacion[p]).classList.add("inputIncompleto");
-					break;
-				case '0':
-					document.getElementById(validacion[p]).classList.add("inputIncompleto");
-					break;
-				default:
-					document.getElementById(validacion[p]).classList.remove("inputIncompleto");
-			}//fin del switch
-		}//for
+		validar_formato_precontrato();
 	}//fin del else
 }//fin de guardar datos cliente
+
+function validar_formato_precontrato(){
+	var tipo_compra = $('#select_tipo_compra').val();
+	switch (tipo_compra) {
+		case '2':
+			alert("Entrando");
+			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','pago_final','dia_pago'];
+			break;
+		case '3':
+			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','pago_final','dia_pago'];
+			break;
+		default:
+			validacion = ['cant_enganche','fecha_enganche','txtArea_clientes','precio_venta','select_tipo_compra','monto_mensual','pago_final','dia_pago'];
+	}//fin del switch
+	
+	for(let p = 0; p <= validacion.length; p++){
+		switch ($('#'+validacion[p]).val()) {
+			case '':
+				document.getElementById(validacion[p]).classList.add("inputIncompleto");
+				break;
+			case '0':
+				document.getElementById(validacion[p]).classList.add("inputIncompleto");
+				break;
+			default:
+				document.getElementById(validacion[p]).classList.remove("inputIncompleto");
+		}//fin del switch
+	}//for
+}//fin de validar formato precontrato
 
 function guardar_datos_contrato(){
 	//alert("Entra");

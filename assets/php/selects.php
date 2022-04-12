@@ -132,7 +132,9 @@ function select_descuentos(){
             $respuesta.="<option value='".$col['descripcion']."'>".$col['descripcion']."</option>";
         }//fin del while
         $respuesta.='</select>';
-    }//fin del if
+    }else{
+        $respuesta.='<h5> No existen descuentos en la BD </h5>';
+    }//fin del else
     return $respuesta;
 }//fin de select clientes
 

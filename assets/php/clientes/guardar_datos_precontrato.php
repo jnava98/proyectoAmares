@@ -165,7 +165,7 @@ if(($id_contrato!="")){
                 $sql="DELETE from descuentos_contrato where id_contrato LIKE '".$id_contrato."'";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();
-                if($descuentos!="0"){
+                if($descuentos!=""){
                     $cadena = explode(",", $desc_aplicados);
                     $array_size = count($cadena);
                     for ($i = 0; $i<$array_size; $i++) {
@@ -211,7 +211,7 @@ if(($id_contrato!="")){
                     $sql="DELETE from descuentos_contrato where id_contrato LIKE '".$id_contrato."'";
                     $result=mysqli_query(conectar(),$sql);
                     desconectar();
-                    if($descuentos!="0"){
+                    if($descuentos!=""){
                         $cadena = explode(",", $desc_aplicados);
                         $array_size = count($cadena);
                         for ($i = 0; $i<$array_size; $i++) {
@@ -276,7 +276,7 @@ if(($id_contrato!="")){
                         desconectar();
                     }//fin del for
                     //Se actualiza la parte de descuentos
-                    if($descuentos!="0"){
+                    if($descuentos!=""){
                         $cadena = explode(",", $desc_aplicados);
                         $array_size = count($cadena);
                         for ($i = 0; $i<$array_size; $i++) {
@@ -344,7 +344,7 @@ if(($id_contrato!="")){
                     desconectar();
                 }//fin del for
                 //Se actualiza la parte de descuentos
-                if($descuentos!="0"){
+                if($descuentos!=""){
                     $cadena = explode(",", $desc_aplicados);
                     $array_size = count($cadena);
                     for ($i = 0; $i<$array_size; $i++) {

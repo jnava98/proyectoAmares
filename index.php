@@ -12,6 +12,7 @@
 	if($pagina=="crear_excel") include "assets/php/reportes/crear_excel.php";
 	if($pagina=="lotes") include "assets/pages/lotes.php";
 	if ($pagina=="descuentos") include "assets/pages/descuentos.php";
+	if($pagina=="impresion_contrato") include "assets/pages/impresion_contrato.php";
 	}else{
 		$pagina="login";
 		include "assets/pages/login.php";
