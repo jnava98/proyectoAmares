@@ -20,7 +20,6 @@ include('menu.php');
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/FontAwesome.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <script type="text/javascript" src="assets/js/descuentos.js"></script>
     <link rel="stylesheet" href="assets/css/FontAwesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
     <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
@@ -113,6 +112,7 @@ include('menu.php');
                 </div>
             </form>
         </section>
+        <script type="text/javascript" src="assets/js/descuentos.js"></script>
 </body>
 
 <?php
