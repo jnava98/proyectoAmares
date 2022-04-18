@@ -5,7 +5,7 @@ include('menu.php');
 //include "selects.php";
 //include "funciones_agenda.php";
 
-//if(!(empty($_SESSION["nombre_user"]))){
+if(!(empty($_SESSION["usuario"]))){
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,13 +14,11 @@ include('menu.php');
     <title>Descuentos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="assets/js/jquery/jquery-3.6.0.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/FontAwesome.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/FontAwesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
     <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
@@ -53,10 +51,10 @@ include('menu.php');
                     <div class="col-sm-8 text-left">
                         <!-- BOTON AGREGAR DESCUENTOS -->
                         <input type="button" name="agregar_descuento" id="agregar_descuento"
-                            class="btn boton_dos texto_boton" value="Agregar"
+                            class="btn boton_dos" value="Agregar"
                            ></input>
                         <!--  BOTON OCULTAR DESCUENTOS-->
-                        <input type="button" name="cancelar" id="cancelar" class="btn boton_tres texto_boton"
+                        <input type="button" name="cancelar" id="cancelar" class="btn boton_tres"
                             value="Cancelar"></input>
                     </div>
                 </div>
@@ -74,8 +72,7 @@ include('menu.php');
                                     <div class="col-lg-12">
                                         <label for="descuento" class="form-label">Nombre</label>
                                         <div class="input-group has-validation">
-                                            <input type="text" name="nombre_descuento" class="form-control form-control-sm"
-                                            style="font-size:12px;"
+                                            <input type="text" name="nombre_descuento" class="form-control form-control-sm fontsize-input"
                                                 id="nombre_descuento">
                                         </div>
                                     </div>
@@ -84,8 +81,7 @@ include('menu.php');
                                     <div class="col-lg-6">
                                         <label for="descuento" class="form-label">Tasa (%)</label>
                                         <div class="input-group has-validation">
-                                            <input type="number" name="tasa_descuento" class="form-control form-control-sm"
-                                            style="font-size:12px;"
+                                            <input type="number" name="tasa_descuento" class="form-control form-control-sm fontsize-input"
                                                 id="tasa_descuento" placeholder="0-100">
                                                 
                                         </div>
@@ -96,7 +92,7 @@ include('menu.php');
                                 <div class="col-lg-7">
                                     <div class="col-lg-6">
                                         <br>
-                                        <button class="btn boton_dos texto_boton" type="button" id="guardar_descuento"
+                                        <button class="btn boton_dos" type="button" id="guardar_descuento"
                                         >Crear descuento</button>
                                         </br>
                                     </div>
@@ -117,6 +113,6 @@ include('menu.php');
 
 <?php
 
-/*}else{
+}else{
     header("Location:?page=login");
 }//Fin del else...*/

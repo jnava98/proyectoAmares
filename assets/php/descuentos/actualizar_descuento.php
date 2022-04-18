@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "../conexion.php";
-
+date_default_timezone_set ('America/Cancun');
 $fecha_modificacion= date("Y-m-d H:i:s");
 
 if(empty($_SESSION["id"])){

@@ -1136,6 +1136,13 @@ p{
 
 /*font size descuentos*/
 .fontsize-input{
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
+.fontsize-btn{
+  font-size:0.74rem;
+}
+
+.p-botones{
+  padding: 8px 10px;
+}
