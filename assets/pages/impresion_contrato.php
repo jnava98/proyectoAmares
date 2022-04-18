@@ -67,7 +67,16 @@ $pdf=new FPDF();
     $pdf->SetX($X_Table_Position);
     $pdf->SetTextColor(0,0,0);
     $pdf->Cell(5,6,"c)",0,0,'C');
-    $pdf->MultiCell(170,5,utf8_decode('Que sobre "EL INMUEBLE" referido en la declaración b), se han realizado las subdivisiones pertinentes, a través de las cuales se han obtenido las manzanas de las que resulta el lote individual, objeto del presente contrato en adelante "EL LOTE", identificado como Supermanzana 4 Manzana 3 Lote 1, con una superficie de 467.88m2, y cuyas características y descripción quedan establecidas en el Anexo A.'),0,'J',0);
+    $sql="SELECT l.super_manzana, l.mza, l.lote, l.m2 from contrato as c inner join lotes as l on c.id_lote=l.id_lote where c.id_contrato like '".$id_contrato."'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $lote="";
+    $num = mysqli_num_rows($result);
+    if($num>0){
+        $row = mysqli_fetch_array($result);
+        $lote = "Supermanzana ".$row['super_manzana']." Manzana ".$row['mza']." Lote ".$row['lote'].", con una superficie de ".$row['m2']."m2";
+    }//fin del if
+    $pdf->MultiCell(170,5,utf8_decode('Que sobre "EL INMUEBLE" referido en la declaración b), se han realizado las subdivisiones pertinentes, a través de las cuales se han obtenido las manzanas de las que resulta el lote individual, objeto del presente contrato en adelante "EL LOTE", identificado como '.$lote.', y cuyas características y descripción quedan establecidas en el Anexo A.'),0,'J',0);
     $pdf->Ln();
     
     $pdf->SetY($Y_Table_Position+=34);
@@ -100,7 +109,16 @@ $pdf=new FPDF();
     $pdf->SetY($Y_Table_Position+=16);
     $pdf->SetX($X_Table_Position);
     $pdf->Cell(5,6,"b)",0,0,'C');
-    $pdf->MultiCell(170,5,utf8_decode('Que conoce la situación jurídica de "EL LOTE", identificado como Supermanzana 4 Manzana 3 Lote 1, y está conforme con las características y descripción de éste, tal y como consta en el ANEXO A del presente contrato.'),0,'J',0);
+    $sql="SELECT l.super_manzana, l.mza, l.lote, l.m2 from contrato as c inner join lotes as l on c.id_lote=l.id_lote where c.id_contrato like '".$id_contrato."'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $lote="";
+    $num = mysqli_num_rows($result);
+    if($num>0){
+        $row = mysqli_fetch_array($result);
+        $lote = "Supermanzana ".$row['super_manzana']." Manzana ".$row['mza']." Lote ".$row['lote'];
+    }//fin del if
+    $pdf->MultiCell(170,5,utf8_decode('Que conoce la situación jurídica de "EL LOTE", identificado como '.$lote.', y está conforme con las características y descripción de éste, tal y como consta en el ANEXO A del presente contrato.'),0,'J',0);
     $pdf->Ln();
     
     $pdf->SetY($Y_Table_Position+=22);
@@ -294,12 +312,12 @@ $pdf=new FPDF();
     $pdf->Ln();
     $pdf->SetY($Y_Table_Position+=20);
     $pdf->SetX($X_Table_Position);
-    $pdf->MultiCell(180,6,utf8_decode('"EL PROMITENTE COMPRADOR" autoriza que el pago indemnizatorio mencionado, sea retenido por "EL PROMITENTE VENDEDOR" de las cantidades que haya cubierto como parte del pago del precio de “EL LOTE” o bien del depósito en garantía entregado, y en su caso, una vez notificado, devolverá el saldo resultante a "EL PROMITENTE COMPRADOR" en un plazo máximo de 20 días hábiles posteriores a la notificación de terminación de contrato. Quedando obligado "EL PROMITENTE COMPRADOR" a entregar de inmediato "EL LOTE" a "EL PROMITENTE VENDEDOR" con las construcciones y mejoras que hubiere efectuado y sin derecho a indemnización alguna.'),0,'J',0);
+    $pdf->MultiCell(180,6,utf8_decode('"EL PROMITENTE COMPRADOR" autoriza que el pago indemnizatorio mencionado, sea retenido por "EL PROMITENTE VENDEDOR" de las cantidades que haya cubierto como parte del pago del precio de "EL LOTE" o bien del depósito en garantía entregado, y en su caso, una vez notificado, devolverá el saldo resultante a "EL PROMITENTE COMPRADOR" en un plazo máximo de 20 días hábiles posteriores a la notificación de terminación de contrato. Quedando obligado "EL PROMITENTE COMPRADOR" a entregar de inmediato "EL LOTE" a "EL PROMITENTE VENDEDOR" con las construcciones y mejoras que hubiere efectuado y sin derecho a indemnización alguna.'),0,'J',0);
     $pdf->Ln();
 
     $pdf->SetY($Y_Table_Position+=50);
     $pdf->SetX($X_Table_Position);
-    $pdf->MultiCell(180,6,'Adicional a lo anterior, se establece como causal de rescisión imputable a "EL PROMITENTE VENDEDOR" si cae en las siguientes causales:',0,'J',0);
+    $pdf->MultiCell(180,6,utf8_decode('Adicional a lo anterior, se establece como causal de rescisión imputable a "EL PROMITENTE VENDEDOR" si cae en las siguientes causales:'),0,'J',0);
     $pdf->Ln();
 
     $pdf->SetY($Y_Table_Position+=16);
