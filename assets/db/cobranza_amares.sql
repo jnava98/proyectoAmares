@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-03-2022 a las 05:08:24
+-- Tiempo de generación: 19-04-2022 a las 04:35:03
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.15
 
@@ -24,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cat_cuentas_bancarias`
+--
+
+CREATE TABLE `cat_cuentas_bancarias` (
+  `id_cuenta_bancaria` int(11) NOT NULL,
+  `identificador_cuenta` int(30) NOT NULL,
+  `banco` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cat_descuentos`
 --
 
@@ -36,6 +48,14 @@ CREATE TABLE `cat_descuentos` (
   `uc` int(11) NOT NULL COMMENT 'Usuario Creacion',
   `uum` int(11) NOT NULL COMMENT 'Usuario ultima modificacion'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `cat_descuentos`
+--
+
+INSERT INTO `cat_descuentos` (`id_descuento`, `descripcion`, `tasa`, `fecha_creacion`, `fecha_modificacion`, `uc`, `uum`) VALUES
+(57, 'Desc2', 10, '2022-04-11', '2022-04-17', 1, 1),
+(59, 'Gobierno', 10, '2022-04-18', '2022-04-17', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -78,6 +98,17 @@ INSERT INTO `cat_estatus_venta` (`id_estatus_venta`, `nombre`) VALUES
 (4, 'Pendiente de Firma de Contrato'),
 (5, 'Contrato Firmado'),
 (6, 'Pagado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_forma_pago`
+--
+
+CREATE TABLE `cat_forma_pago` (
+  `id_forma_pago` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -163,7 +194,8 @@ INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_ma
 (16, 'Laurena', 'Rutgers', '', 'Amsterdam', 'Holandesa', ' laurentarutgers1@gmail.com', '', '+31 655818843', '', '', '2022-03-05', 0, NULL, 0),
 (17, 'Carlos Ernesto', 'Gutierrez', 'Villaseñor', 'Canada', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05', 0, NULL, 0),
 (18, 'Roberto', 'Luna', 'Salcedo', 'Solidaridad', 'Mexicano', 'ing_roberto_luna@outlook.es', '', '3337241815', '', '', '2022-03-05', 0, NULL, 0),
-(19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05', 0, NULL, 0);
+(19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05', 0, NULL, 0),
+(20, 'Eduardo', 'Ravell ', 'May', 'Cozumel', 'Mexicana', 'eduardo@gmail.com', 'acadada', '9198381819', 'Soltero', 'Empleado', '2022-04-17', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -185,7 +217,9 @@ INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrat
 (12511, 2, 23),
 (12513, 1, 25),
 (12514, 2, 27),
-(12515, 2, 28);
+(12515, 2, 28),
+(12516, 2, 29),
+(12517, 18, 29);
 
 -- --------------------------------------------------------
 
@@ -253,7 +287,8 @@ INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_
 (23, '2022-02-28', '2022-02-01', 1000, 1, 10000, '2022-02-28', 5000, '2022-02-28', 144, 6, 5000, 0, 5500, 2, '2022-03-22', '', 0, 'Navarrete Torres Jorge Carlos', 1, '', '2022-03-05', 0, NULL, 0, 0),
 (25, '0000-00-00', '0000-00-00', 35000, 1, 3500, '2022-03-18', 3500, '2022-04-18', 144, 8, 243.05, 19.44, 3500, 3, '2022-05-18', '', 0, '', 2, '', '0000-00-00', 0, NULL, 0, 0),
 (27, '0000-00-00', '0000-00-00', 21000, 1, 0, '0000-00-00', 7600, '2022-03-14', 0, 8, 227.32, 8, 350, 2, '2022-03-31', '', 0, 'Navarrete Torres Jorge Carlos', 212, '', '2022-03-13', 975, NULL, 0, 0),
-(28, '0000-00-00', '0000-00-00', 46000, 2, 4000, '2022-03-17', 3000, '2022-03-17', 0, 6, 2000, 2500, 1500, 3, '2022-03-17', 'Jorge', 0, 'Navarrete Torres Jorge Carlos', 480, '', '2022-03-15', 2000, NULL, 0, 0);
+(28, '0000-00-00', '0000-00-00', 46000, 2, 4000, '2022-03-17', 3000, '2022-03-17', 0, 6, 2000, 2500, 1500, 3, '2022-03-17', 'Jorge', 0, 'Navarrete Torres Jorge Carlos', 480, '', '2022-03-15', 2000, NULL, 0, 0),
+(29, '0000-00-00', '0000-00-00', 20000, 1, 1, '2020-12-12', 15000, '2020-02-10', 0, 2, 4, 5, 15000, 3, '2020-02-11', 'araf', 10109, 'Navarrete Torres Jorge Carlos,Luna Salcedo Roberto', 389, 'Casa', '2022-04-18', 2, '2022-04-18', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +308,8 @@ CREATE TABLE `cuentas_usuario` (
 --
 
 INSERT INTO `cuentas_usuario` (`id_usuario`, `usuario`, `password`, `nombre`) VALUES
-(1, 'admin', 'admin', 'Administrador');
+(1, 'admin', 'admin', 'Administrador'),
+(3, 'jnava', '123', 'Jorge Navarrete');
 
 -- --------------------------------------------------------
 
@@ -286,6 +322,13 @@ CREATE TABLE `descuentos_contrato` (
   `id_contrato` int(11) NOT NULL,
   `id_descuento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `descuentos_contrato`
+--
+
+INSERT INTO `descuentos_contrato` (`id`, `id_contrato`, `id_descuento`) VALUES
+(1, 29, 59);
 
 -- --------------------------------------------------------
 
@@ -1253,19 +1296,21 @@ CREATE TABLE `pagos` (
   `fecha_captura` date NOT NULL DEFAULT current_timestamp() COMMENT 'Es la fecha en la que se capturó el pago.',
   `balance_final` float NOT NULL COMMENT 'Cantidad que el cliente debe despues de realizar el pago',
   `estatus_contrato` varchar(100) NOT NULL COMMENT 'Es el estatus que tenía el contrato antes de realizar el pago.',
-  `habilitado` int(1) NOT NULL COMMENT 'Indica si el pago está activo o si fue eliminado'
+  `habilitado` int(1) NOT NULL COMMENT 'Indica si el pago está activo o si fue eliminado',
+  `id_forma_pago` int(11) NOT NULL COMMENT 'Indica la forma de pago utilizada',
+  `tipo_cambio` varchar(30) NOT NULL COMMENT 'Indica el tipo de cambio actual del dolar',
+  `divisa` varchar(30) NOT NULL COMMENT 'Indica la moneda utilizada con la que se realizo el pago'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `pagos`
---
-
-INSERT INTO `pagos` (`id_pago`, `id_cliente`, `id_contrato`, `fecha_pago`, `no_mensualidad`, `monto_pagado`, `abonado_capital`, `abonado_interes`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`, `mensualidad_historica`, `fecha_mensualidad`, `fecha_captura`, `balance_final`, `estatus_contrato`, `habilitado`) VALUES
-(4, 2, 23, '2022-03-01', 1, 5000, 0, 0, 110, 1, 'No paga completo por x razon.', 3, 0, NULL, '2022-03-05', 0, '', 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `cat_cuentas_bancarias`
+--
+ALTER TABLE `cat_cuentas_bancarias`
+  ADD PRIMARY KEY (`id_cuenta_bancaria`);
 
 --
 -- Indices de la tabla `cat_descuentos`
@@ -1284,6 +1329,12 @@ ALTER TABLE `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_venta`
   ADD PRIMARY KEY (`id_estatus_venta`);
+
+--
+-- Indices de la tabla `cat_forma_pago`
+--
+ALTER TABLE `cat_forma_pago`
+  ADD PRIMARY KEY (`id_forma_pago`);
 
 --
 -- Indices de la tabla `cat_tipo_compra`
@@ -1367,10 +1418,16 @@ ALTER TABLE `pagos`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `cat_cuentas_bancarias`
+--
+ALTER TABLE `cat_cuentas_bancarias`
+  MODIFY `id_cuenta_bancaria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `cat_descuentos`
 --
 ALTER TABLE `cat_descuentos`
-  MODIFY `id_descuento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_descuento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_estatus_pago`
@@ -1383,6 +1440,12 @@ ALTER TABLE `cat_estatus_pago`
 --
 ALTER TABLE `cat_estatus_venta`
   MODIFY `id_estatus_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `cat_forma_pago`
+--
+ALTER TABLE `cat_forma_pago`
+  MODIFY `id_forma_pago` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cat_tipo_compra`
@@ -1400,13 +1463,13 @@ ALTER TABLE `cat_tipo_lote`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
-  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12516;
+  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12518;
 
 --
 -- AUTO_INCREMENT de la tabla `concepto`
@@ -1418,19 +1481,19 @@ ALTER TABLE `concepto`
 -- AUTO_INCREMENT de la tabla `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `cuentas_usuario`
 --
 ALTER TABLE `cuentas_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `descuentos_contrato`
 --
 ALTER TABLE `descuentos_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `lotes`
@@ -1442,7 +1505,7 @@ ALTER TABLE `lotes`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
