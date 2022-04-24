@@ -107,6 +107,22 @@ if(!(empty($_SESSION["usuario"]))){
     </section>
   
   </main><!-- End #main -->
+  <!-- Modal -->
+  <button type="button" id="boton_modal_clientes" class="btn btn-primary" style="display: none;" data-toggle="modal" data-target="#modalClientes">
+  </button>
+  <div class="modal fade col-xs-12 col-sm-12 col-md-12 col-lg-12" id="modalClientes" style="padding-top: 7%;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+              </div>
+              <div class="modal-body" id="contenidoClientes" style="height:450px;">
+              </div>
+              <div class="modal-footer">
+              </div>
+          </div>
+      </div>
+  </div>
 
 </body>
 <?php

@@ -301,9 +301,27 @@ function eliminar_contrato(id_contrato){
 }//fin de guardar datos cliente
 
 function imprimir_contrato(id_contrato){
-	$('#input_impresion_contrato').val(id_contrato);
-	var obj = document.getElementById("enviar_formulario_impresion");
-	obj.click();
+	$.ajax({
+		url:'assets/php/clientes/cargar_formato_impresion.php',
+		dataType:"json",//Formato en como se manda la información
+		type:"get",
+		data:{//Información a enviar o cadena a enviar
+			id_contrato:id_contrato
+		},
+		success:function(respuesta){
+			if(respuesta.valor=="ok"){
+				$('#contenidoClientes').html(respuesta.formato);//En donde quiero mostrar la información
+				$('#'+respuesta.id_tabla).DataTable();
+			}//fin del if
+			$('#modalClientes').modal('show'); // abrir
+			/*$('#myModalExito').modal('hide'); // cerrar
+			var obj = document.getElementById("boton_modal_clientes");
+			obj.click();*/
+		},
+		error:function(respuesta){//Si surge un error
+			console.log(respuesta);
+		}
+	});
 }//fin de funcion imprimir contrato
 
 function busca_cliente(){

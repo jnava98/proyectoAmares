@@ -1073,11 +1073,6 @@ function mostrar_tabla_contratos($id_cliente){
     $num=mysqli_num_rows($result);
     if ($num>0){
         $i=1;
-        $html.='
-        <form target="_blank" action="?page=impresion_contrato" method="POST">
-            <input id="input_impresion_contrato" name="input_impresion_contrato" type="hidden">
-            <button type="submit" id="enviar_formulario_impresion" style="display:none;"></button>
-        </form>';
         $html.='<h5 class="card-title">Contratos del Cliente</h5>';
         $html.="<table id='tabla_contratos' class='table table-responsive table-bordered table-striped table-hover table-condensed'>";
             $html.="<thead>";
@@ -1108,6 +1103,77 @@ function mostrar_tabla_contratos($id_cliente){
     }//Fin del if..
     return $html;
 }//fin de mostrar tabla usuarios
+
+function mostrar_formato_impresion($id_contrato){
+    $html="";
+    $sql="SELECT * from contrato where id_contrato like '".$id_contrato."'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $num = mysqli_num_rows($result);
+    if($num>0){
+        $col = mysqli_fetch_array($result);
+        $html.='
+        <form target="_blank" action="?page=impresion_contrato" method="POST">
+            <input id="input_impresion_contrato" name="input_impresion_contrato" value="'.$id_contrato.'" type="hidden">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row" >
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label>Idioma del Contrato:</label>';  
+                    $html.='</div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">';
+                        $html.=select_idioma_contrato();
+                    $html.='</div>
+                </div>';
+                    if($col['cant_apartado']!="0"){
+                        $precio_venta = $col['precio_venta'];
+                        $cant_apartado = $col['cant_apartado'];
+                        $aux = $cant_apartado*100;
+                        $aux = $aux/$precio_venta;
+                        $aux = $aux/100;
+                        $html.='
+                    <div class="row" >
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <label>% de Apartado:</label>
+                        </div>
+                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                            <input id="porcentaje_apartado" name="porcentaje_apartado" class="form-control" value="'.$aux.'"/>
+                        </div>
+                    </div>';
+                    }//fin del if
+                    $precio_venta = $col['precio_venta'];
+                        $cant_apartado = $col['cant_apartado'];
+                        $aux_enganche = $cant_apartado*100;
+                        $aux_enganche = $aux_enganche/$precio_venta;
+                        $aux_enganche = $aux_enganche/100;
+                    $html.='
+                <div class="row" >
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label>% de Enganche:</label>
+                    </div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                        <input id="porcentaje_enganche" name="porcentaje_enganche" class="form-control" value="'.$aux_enganche.'"/>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <button type="submit" id="enviar_formulario_impresion" class="btn boton_uno" >Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </form>';
+    }else{
+
+    }//fin del else
+    return $html;
+}//fin de mostrar formato impresion
 
 function validar_datos_precontrato($id_contrato){
     $respuesta = "";

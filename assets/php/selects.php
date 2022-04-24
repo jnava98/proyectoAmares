@@ -200,4 +200,13 @@ function select_tipo_reporte(){
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select estatus venta
+
+function select_idioma_contrato(){
+    $respuesta="";
+    $respuesta.='<select id="select_idioma_contrato" name="select_idioma_contrato" class="form-control" >';
+        $respuesta.='<option value="ESP" selected>Espa&ntilde;ol</option>';
+        $respuesta.='<option value="ING" >Ingl&eacute;s</option>';
+    $respuesta.='</select>';
+    return $respuesta;
+}//fin de select clientes
 ?>
