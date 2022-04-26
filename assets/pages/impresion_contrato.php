@@ -188,7 +188,7 @@ function contrato_esp($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enga
     $pdf->SetY($Y_Table_Position+=12);
     $pdf->SetX($X_Table_Position);
     $pdf->SetFont('Arial','B',11);
-    $sql="SELECT l.precio_lista from contrato as c inner join lotes as l on c.id_lote = l.id_lote where c.id_contrato like '".$id_contrato."' ";
+    $sql="SELECT c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote where c.id_contrato like '".$id_contrato."' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num = mysqli_num_rows($result);
@@ -655,7 +655,7 @@ function contrato_ing($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enga
     $pdf->SetY($Y_Table_Position+=12);
     $pdf->SetX($X_Table_Position);
     $pdf->SetFont('Arial','B',11);
-    $sql="SELECT l.precio_lista from contrato as c inner join lotes as l on c.id_lote = l.id_lote where c.id_contrato like '".$id_contrato."' ";
+    $sql="SELECT c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote where c.id_contrato like '".$id_contrato."' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num = mysqli_num_rows($result);
