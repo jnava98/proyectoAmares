@@ -114,7 +114,7 @@ function menu(){
     <ul class='sidebar-nav' id='sidebar-nav'>
 
       <li class='nav-item'>
-        <a class='nav-link ' href='index.html'>
+        <a class='nav-link ' href='?page=control'>
           <i class='bi bi-grid'></i>
           <span>Panel de Control</span>
         </a>
@@ -140,7 +140,7 @@ function menu(){
         </a>
         <ul id='lotes-nav' class='nav-content collapse ' data-bs-parent='#sidebar-nav'>
           <li>
-            <a href='forms-elements.html'>
+            <a href='?page=lotes'>
               <i class='bi bi-circle'></i><span>Alta de lotes</span>
             </a>
           </li>
