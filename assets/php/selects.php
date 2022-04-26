@@ -129,7 +129,7 @@ function select_descuentos(){
         $respuesta.='<select id="select_descuentos" class="form-control" >';
             $respuesta.='<option value="0" selected>Selecciona una opcion</option>';
         while($col=mysqli_fetch_array($result)){
-            $respuesta.="<option value='".$col['descripcion']."'>".$col['descripcion']."</option>";
+            $respuesta.="<option value='".$col['descripcion']."'>".$col['descripcion']." - ".$col['tasa']."%</option>";
         }//fin del while
         $respuesta.='</select>';
     }else{
