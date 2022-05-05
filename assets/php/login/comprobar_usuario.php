@@ -16,10 +16,8 @@ if(empty($_GET["password"])){
 	$password=$_GET["password"];
 }//Fin del else..
 
-
 //Declaramos la respuesta que devolveremos a login.js/login_usuario()
 $respuesta=Array();
-
 
 $sql="SELECT usuario, password, id_usuario FROM cuentas_usuario WHERE usuario LIKE '$usuario' AND password LIKE '$password'";
 $result=mysqli_query(conectar(),$sql);

@@ -206,6 +206,7 @@ function select_idioma_contrato(){
     $respuesta.='<select id="select_idioma_contrato" name="select_idioma_contrato" class="form-control" >';
         $respuesta.='<option value="ESP" selected>Espa&ntilde;ol</option>';
         $respuesta.='<option value="ING" >Ingl&eacute;s</option>';
+        $respuesta.='<option value="ambos" >Espa&ntilde;ol/Ingl&eacute;s</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select clientes

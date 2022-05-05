@@ -32,7 +32,6 @@ if(!(empty($_SESSION["usuario"]))){
     ?>
 
     <main id="main" class="main">
-
         <div class="pagetitle">
             <h1>Alta de descuentos</h1>
             <nav>
@@ -44,69 +43,76 @@ if(!(empty($_SESSION["usuario"]))){
         </div><!-- End Page Title -->
 
         <section class="container-fluid text-justify">
-            <form method='POST' target='_blank'>
+            <div id="div_lote" class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method='POST' target='_blank'>
 
-                <br>
-                <div class="form-group row">
-                    <div class="col-sm-8 text-left">
-                        <!-- BOTON AGREGAR DESCUENTOS -->
-                        <input type="button" name="agregar_descuento" id="agregar_descuento"
-                            class="btn boton_dos" value="Agregar"
-                           ></input>
-                        <!--  BOTON OCULTAR DESCUENTOS-->
-                        <input type="button" name="cancelar" id="cancelar" class="btn boton_tres"
-                            value="Cancelar"></input>
-                    </div>
-                </div>
-                <!-- FORMATO ALTA DE DESCUENTOS -->
-                <div class="form-group text-justify" id="formato_descuentos" style="overflow: hidden; display: none;">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="pt-4 pb-2">
-                                <h5 class="card-title">Crear un descuento</h5>
-                                <p>Introduce los siguientes datos para crear un descuento</p>
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-8 text-left">
+                                    <!-- BOTON AGREGAR DESCUENTOS -->
+                                    <input type="button" name="agregar_descuento" id="agregar_descuento"
+                                        class="btn boton_dos" value="Agregar"
+                                    ></input>
+                                    <!--  BOTON OCULTAR DESCUENTOS-->
+                                    <input type="button" name="cancelar" id="cancelar" class="btn boton_tres"
+                                        value="Cancelar"></input>
+                                </div>
                             </div>
-                            <form class="row g-3 needs-validation" id="form_descuentos">
-                                <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="col-lg-12">
-                                        <label for="descuento" class="form-label">Nombre</label>
-                                        <div class="input-group has-validation">
-                                            <input type="text" name="nombre_descuento" class="form-control form-control-sm fontsize-input"
-                                                id="nombre_descuento">
+                            <!-- FORMATO ALTA DE DESCUENTOS -->
+                            <div class="form-group text-justify" id="formato_descuentos" style="overflow: hidden; display: none;">
+                                <div class="">
+                                    <div class="card-body">
+                                        <div class="pt-4 pb-2">
+                                            <h5 class="card-title">Crear un descuento</h5>
+                                            <p>Introduce los siguientes datos para crear un descuento</p>
                                         </div>
+                                        <form class="row g-3 needs-validation" id="form_descuentos">
+                                            <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="col-lg-12">
+                                                    <label for="descuento" class="form-label">Nombre</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="text" name="nombre_descuento" class="form-control form-control-sm fontsize-input"
+                                                            id="nombre_descuento">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="col-lg-6">
+                                                    <label for="descuento" class="form-label">Tasa (%)</label>
+                                                    <div class="input-group has-validation">
+                                                        <input type="number" name="tasa_descuento" class="form-control form-control-sm fontsize-input"
+                                                            id="tasa_descuento" placeholder="0-100">
+                                                            
+                                                    </div>
+                                                </div>
+                                            </div>                        
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-lg-7">
+                                                <div class="col-lg-6">
+                                                    <br>
+                                                    <button class="btn boton_dos" type="button" id="guardar_descuento"
+                                                    >Crear descuento</button>
+                                                    </br>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="col-lg-6">
-                                        <label for="descuento" class="form-label">Tasa (%)</label>
-                                        <div class="input-group has-validation">
-                                            <input type="number" name="tasa_descuento" class="form-control form-control-sm fontsize-input"
-                                                id="tasa_descuento" placeholder="0-100">
-                                                
-                                        </div>
-                                    </div>
-                                </div>                        
+                            </div>
+                            <hr>
+                            <div class="">
+                                <div class="table-responsive m-auto pb-3 pt-4 row" id="div_tabla_descuentos">
                                 </div>
-                                <div class="row">
-                                <div class="col-lg-7">
-                                    <div class="col-lg-6">
-                                        <br>
-                                        <button class="btn boton_dos" type="button" id="guardar_descuento"
-                                        >Crear descuento</button>
-                                        </br>
-                                    </div>
-                                </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <div class="table-responsive m-auto pb-3 pt-4 row" id="div_tabla_descuentos">
-                    </div>
-                </div>
-            </form>
+            </div>
         </section>
         <script type="text/javascript" src="assets/js/descuentos.js"></script>
 </body>

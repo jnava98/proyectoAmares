@@ -50,10 +50,9 @@ if(!(empty($_SESSION["usuario"]))){
       <div id="div_lote" class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Consulta de Lotes</h5>
+            <h5 class="card-title">Consulta de Lotes <span class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Opciones para consultar el inventario de lotes."></span></h5>
               <div class="row">
                 <div class="col-lg-4">
-                <label for="inputText" class="col-form-label">Consulta <span class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Opciones para consultar el inventario de lotes."></span></label>
                   <select id="select_principal" class="form-control" aria-label="Selecciona la fase de los lotes que deseas consultar">
                     <option value="0" selected>Todos</option>
                     <option value="-1">Lotes reservados</option>
@@ -61,10 +60,11 @@ if(!(empty($_SESSION["usuario"]))){
                   </select>
                 </div>
               </div> 
+              <br>
               <div class="row">
-                <div class="col-sm-4 mt-2">
-                  <button class="col-sm-4 btn btn-success" id="btn_confirmar">Consultar</button>
-                  <button class="col-sm-4 btn btn-primary" data-bs-toggle='modal' data-bs-target='#modal2' id="btn_actualizar">Actualización de precios</button>
+                <div class="col-sm-8 mt-2">
+                  <button class="btn boton_uno" id="btn_confirmar">Consultar</button>
+                  <button class="btn boton_dos" data-bs-toggle='modal' data-bs-target='#modal2' id="btn_actualizar">Actualización de precios</button>
                 </div>
               </div> 
           </div>
