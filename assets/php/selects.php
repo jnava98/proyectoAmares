@@ -204,9 +204,10 @@ function select_tipo_reporte(){
 function select_idioma_contrato(){
     $respuesta="";
     $respuesta.='<select id="select_idioma_contrato" name="select_idioma_contrato" class="form-control" >';
-        $respuesta.='<option value="ESP" selected>Espa&ntilde;ol</option>';
-        $respuesta.='<option value="ING" >Ingl&eacute;s</option>';
-        $respuesta.='<option value="ambos" >Espa&ntilde;ol/Ingl&eacute;s</option>';
+        /*$respuesta.='<option value="ESP" selected>Espa&ntilde;ol</option>';
+        $respuesta.='<option value="ING" >Ingl&eacute;s</option>';*/
+        $respuesta.='<option value="cont_extra" >Contado Extranjeros</option>';
+        $respuesta.='<option value="financiado_extra" >Financiado Extranjeros</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select clientes
