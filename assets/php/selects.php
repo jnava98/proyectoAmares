@@ -203,7 +203,7 @@ function select_tipo_reporte(){
 
 function select_idioma_contrato(){
     $respuesta="";
-    $respuesta.='<select id="select_idioma_contrato" name="select_idioma_contrato" class="form-control" >';
+    $respuesta.='<select id="select_idioma_contrato" name="select_idioma_contrato" class="form-control" onchange="mostrar_div_deposito_garantia(this.id)" >';
         /*$respuesta.='<option value="ESP" selected>Espa&ntilde;ol</option>';
         $respuesta.='<option value="ING" >Ingl&eacute;s</option>';*/
         $respuesta.='<option value="cont_extra" >Contado Extranjeros</option>';

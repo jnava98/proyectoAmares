@@ -36,6 +36,12 @@ if(empty($_POST["select_idioma_contrato"])){
     $idioma=$_POST["select_idioma_contrato"];
 }//Fin del else...
 
+if(empty($_POST["deposito_garantia"])){
+    $deposito_garantia="0";
+}else{
+    $deposito_garantia=$_POST["deposito_garantia"];
+}//Fin del else...
+
 switch ($idioma){
     /*case "ING":
         echo contrato_ing($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche);
@@ -47,7 +53,7 @@ switch ($idioma){
         echo contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega);
         break;
     case "financiado_extra":
-        echo contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega);
+        echo contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega, $deposito_garantia);
         break;
 }//fin del switch
 
@@ -1835,7 +1841,7 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
 
 }
 
-function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega){
+function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega, $deposito_garantia){
     $Y_Table_Position=18;
     $X_Table_Position=15;
     
@@ -2190,12 +2196,12 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
 
     $pdf->SetY($Y_Table_Position+=34);
     $pdf->SetX($X_Table_Position-=95);
-    $pdf->MultiCell(85,5,utf8_decode('TERCERA. - A fin de garantizar el cumplimiento de las obligaciones derivadas del presente Contrato "EL PROMITENTE FIDEICOMISARIO" se obliga a entregar a "EL PROMITENTE FIDEICOMITENTE" en depósito en garantía, la cantidad equivalente al **** del precio total señalado   en la Cláusula Primera del presente Contrato. Dicho depósito será devuelto por "EL PROMITENTE FIDEICOMITENTE" una vez que "EL PROMITENTE FIDEICOMISARIO" cumpla con los pagos establecidos en la Cláusula Segunda del presente Contrato, el cual será depositado en la cuenta bancaria que señale "EL PROMITENTE FIDEICOMISARIO" para tales efectos.'),0,'J',0);
+    $pdf->MultiCell(85,5,utf8_decode('TERCERA. - A fin de garantizar el cumplimiento de las obligaciones derivadas del presente Contrato "EL PROMITENTE FIDEICOMISARIO" se obliga a entregar a "EL PROMITENTE FIDEICOMITENTE" en depósito en garantía, la cantidad equivalente al '.$deposito_garantia.'% del precio total señalado en la Cláusula Primera del presente Contrato. Dicho depósito será devuelto por "EL PROMITENTE FIDEICOMITENTE" una vez que "EL PROMITENTE FIDEICOMISARIO" cumpla con los pagos establecidos en la Cláusula Segunda del presente Contrato, el cual será depositado en la cuenta bancaria que señale "EL PROMITENTE FIDEICOMISARIO" para tales efectos.'),0,'J',0);
     $pdf->Ln();
 
     $pdf->SetY($Y_Table_Position);
     $pdf->SetX($X_Table_Position+=95);
-    $pdf->MultiCell(85,5,utf8_decode('THREE. In order to guarantee performance of its obligations hereunder, "THE PROMISSORY TRUSTEE" undertakes to deposit a sum equivalent to 20% of the total price specified in Clause One hereof, as security deposit. "THE PROMISSORY TRUSTOR" shall return said deposit once "THE PROMISSORY TRUSTEE" has met its payment obligations established in Clause Two hereof, which shall be deposited in the bank account that "THE PROMISSORY TRUSTEE" nominates for said purpose.'),0,'J',0);
+    $pdf->MultiCell(85,5,utf8_decode('THREE. In order to guarantee performance of its obligations hereunder, "THE PROMISSORY TRUSTEE" undertakes to deposit a sum equivalent to '.$deposito_garantia.'% of the total price specified in Clause One hereof, as security deposit. "THE PROMISSORY TRUSTOR" shall return said deposit once "THE PROMISSORY TRUSTEE" has met its payment obligations established in Clause Two hereof, which shall be deposited in the bank account that "THE PROMISSORY TRUSTEE" nominates for said purpose.'),0,'J',0);
     $pdf->Ln();
 
     $pdf->SetY($Y_Table_Position+=76);

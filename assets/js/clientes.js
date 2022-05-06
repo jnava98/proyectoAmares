@@ -324,6 +324,14 @@ function imprimir_contrato(id_contrato){
 	});
 }//fin de funcion imprimir contrato
 
+function mostrar_div_deposito_garantia(id_select){
+	if(document.getElementById(id_select).value=="financiado_extra"){
+		document.getElementById("div_deposito_garantia").style.display="block";
+	}else{
+		document.getElementById("div_deposito_garantia").style.display="none";
+	}//fin del else
+}//fin de funcion mostrar div deposito garantia
+
 function busca_cliente(){
 	var cliente = $('#input_cliente').val();
 	$.ajax({
