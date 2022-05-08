@@ -1,10 +1,10 @@
 <?php
 
 function conectar(){
-	$conexion=mysqli_connect("localhost","root", ""); //LOCAL
-	mysqli_select_db($conexion,"cobranza_amares")or die ("ninguna BD seleccionada");
-	//$conexion=mysqli_connect("localhost","condorc2_test","testcondor"); //HEROKU
-	//mysqli_select_db($conexion,"condorc2_cobranza_amares")or die ("ninguna BD seleccionada");
+	//$conexion=mysqli_connect("localhost","root", ""); //LOCAL
+	//mysqli_select_db($conexion,"cobranza_amares")or die ("ninguna BD seleccionada");
+	$conexion=mysqli_connect("localhost","condorc2_test","123456789"); //HEROKU
+	mysqli_select_db($conexion,"condorc2_cobranza_amares")or die ("ninguna BD seleccionada");
 
 
 	$conexion->set_charset("utf8");
