@@ -3,7 +3,7 @@
 function conectar(){
 	//$conexion=mysqli_connect("localhost","root", ""); //LOCAL
 	//mysqli_select_db($conexion,"cobranza_amares")or die ("ninguna BD seleccionada");
-	$conexion=mysqli_connect("localhost","condorc2_test","123456789"); //HEROKU
+	$conexion=mysqli_connect("condorconsultoria.com","condorc2_test","123456789");
 	mysqli_select_db($conexion,"condorc2_cobranza_amares")or die ("ninguna BD seleccionada");
 
 
