@@ -40,10 +40,10 @@ if(empty($_GET["inp_cpagada"])){
 	$inp_cpagada=$_GET["inp_cpagada"];
 }//Fin del else
 
-if(empty($_GET["inp_formpago"])){
-	$inp_formpago="0";
+if(empty($_GET["inp_cuenta"])){
+	$inp_cuenta="0";
 }else{
-	$inp_formpago=$_GET["inp_formpago"];
+	$inp_cuenta=$_GET["inp_cuenta"];
 }//Fin del else
 
 if(empty($_GET["inp_recargo"])){
@@ -147,7 +147,6 @@ switch($input_concepto){
         }else{
             $id_estatus_pago = 2;
         };
-
         //Insertamos monto pagado
         $sql = "INSERT INTO pagos (id_contrato, fecha_pago, no_mensualidad, monto_pagado, abonado_capital, abonado_interes, diferencia, id_estatus_pago,comentario, id_concepto, mensualidad_historica, fecha_mensualidad, balance_final, estatus_contrato, habilitado) 
                 VALUES ('$id_contrato','$inp_fpago','1', '$inp_cpagada', '0', '0', '$inp_diferencia', '$id_estatus_pago', '$inp_comentario','$input_concepto','0','$fecha_apartado','0','$id_estatus_venta','1')";
@@ -256,6 +255,23 @@ switch($input_concepto){
         //2 mensualidad enganche
         //3 mensualidad enganche
 }
+
+function obtieneDatosContrato($id_contrato) {
+    //Consultamos la mensualidad del contrato
+    $sql = "SELECT * FROM contrato WHERE id_contrato = '$id_contrato'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $row=mysqli_fetch_array($result);
+    return $row;    
+};
+
+function obtieneUltimoPago($id_contrato){
+    $sql ="SELECT * FROM pagos where id_contrato = '$id_contrato' and id_concepto = 3 and habilitado = 1 limit 1";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $row=mysqli_fetch_array($result);
+};
+
 
 
 

@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
 session_start();
 include('menu.php');
 if(!(empty($_SESSION["usuario"]))){
 ?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">

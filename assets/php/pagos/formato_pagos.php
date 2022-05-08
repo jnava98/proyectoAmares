@@ -178,6 +178,76 @@ $response = Array();
 
 //TODO: Agregar funcion para hacer abonos a capital.
 $html="
+<div class='card'
+    <div class='card-body'>
+        <h5 class='card-title'>Captura un pago nuevo</h5>
+        <div class='row'>
+            <div class='col-sm-4'>
+                <label for='input_concepto' class='form-label'>Concepto:</label>
+                <select class='form-select' id='input_concepto' name='input_concepto'>
+                    <option data-id_concepto='$concepto' value='$concepto' selected>$etiqueta_concepto</option>
+                    <option data-id_concepto='ab_capital' value='ab_capital'>Abono a Capital</option>
+                </select>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_cuenta' class='form-label'>Cuenta depositada:</label>
+                <select class='form-select' id='inp_cuenta' name='inp_cuenta'>
+                    <option selected>Catalogo de cuentas</option>
+                </select>
+            </div>
+            <div class='col-sm-4'>
+            <label for='inp_mensualidad' class='form-label'>Cant Mensualidad</label>
+                <input type='number' class='form-control' id='inp_mensualidad' value='$mensualidad' disabled>
+            </div>
+            
+            <div class='col-sm-4'>
+                <label for='input_fpago' class='form-label'>Fecha Pago</label>
+                <input type='date' class='form-control' id='inp_fpago'>
+            </div>    
+            <div class='col-sm-4'>
+                <label for='inp_recargo' class='form-label'>Recargo mes anterior</label>
+                <input type='number' class='form-control' onkeyup='actualiza_datos_pago()' id='inp_recargo' value='$recargo'>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_diferencia' class='form-label'>Diferencia</label>
+                <input type='number' onkeyup='actualiza_datos_pago()' class='form-control' id='inp_diferencia' disabled>
+            </div>  
+            <div class='col-sm-4'>
+                <label for='input_cpagada' class='form-label'>Cantidad Pagada</label>
+                <input type='number' class='form-control' onkeyup='actualiza_datos_pago()' value='0' id='inp_cpagada'>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_interes' class='form-label'>Interés mes anterior</label>
+                <input type='number' class='form-control' id='inp_interes' onkeyup='actualiza_datos_pago()'  value='$interes'>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_totpagar' class='form-label'>Total a pagar:</label>
+                <input type='number' class='form-control' id='inp_totpagar' value='$tot_a_pagar' disabled >
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_tipocambio' class='form-label'>Tipo de cambio:</label>
+                <input type='number' class='form-control' id='inp_tipocambio'>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_divisa' class='form-label'>Divisa:</label>
+                <input type='text' class='form-control' id='inp_divisa'>
+            </div>
+            <div class='col-sm-4'>
+                <label for='inp_comentario' class='form-label'>Comentario</label>
+                <textarea class='form-control' id='inp_comentario' rows='3'></textarea>
+            </div>
+            <div class='row mb-4'>
+                <div class='col-sm-4'>
+                    <button type='button' class='btn btn-primary' onclick='guarda_pago($id_contrato,$cambia_estatus);'>Guardar Pago</button>
+                </div>
+            </div>
+            
+
+";
+
+
+
+$html2="
 <div class='card'>
         <div class='card-body'>
             <h5 class='card-title'>Captura un pago nuevo.</h5>
