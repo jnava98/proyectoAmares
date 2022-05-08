@@ -2709,3 +2709,76 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
 
 }
 
+function recibo_pago(){
+    $Y_Table_Position=18;
+    $X_Table_Position=15;
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Line(20, 45, 210-20, 45); // 20mm from each edge
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position+=10);
+    $pdf->SetFont('Arial','B',16);
+    $pdf->SetTextColor(0,0,0);
+
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->MultiCell(180,5,utf8_decode('RECIBO DE PAGO'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position-=10);
+    $pdf->MultiCell(180,5,utf8_decode('Nombre de la empresa: Amares Riviera Maya'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->MultiCell(180,5,utf8_decode('Fecha: xxxx/xx/xx'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $formatter = new NumeroALetras();
+    $valor = 400;
+    $valor_letras = $formatter->toMoney($valor, 2, 'DÓLARES', 'CENTAVOS');
+    $pdf->MultiCell(180,5,utf8_decode('Cantidad pagada: '.$valor.' '.$valor_letras),0,'J',0);
+    $pdf->Ln();
+
+    $sql="SELECT c.nombre, c.apellido_paterno, c.apellido_materno, co.id_contrato, c.correo, c.direccion, c.telefono from contrato as co inner join cliente_contrato as cc on co.id_contrato=cc.id_contrato inner join clientes as c on c.id_cliente = cc.id_cliente where co.id_contrato like '".$id_contrato."'";
+    $result = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result);
+    if($num>0){
+        $pdf->SetFont('Arial','B',14);
+        $pdf->SetY($Y_Table_Position+=30);
+        $pdf->SetX($X_Table_Position);
+        $pdf->MultiCell(180,5,utf8_decode('Clientes'),0,'J',0);
+        $pdf->Ln();
+        while($col=mysqli_fetch_array($result)){
+            $pdf->SetY($Y_Table_Position+=15);
+            $pdf->SetX($X_Table_Position);
+            $pdf->SetFont('Arial','B',12);
+            $pdf->MultiCell(180,5,utf8_decode('Nombre del cliente: '.$col['nombre']." ".$col['apellido_paterno']." ".$col['apellido_materno']),0,'J',0);
+            $pdf->Ln();
+
+            $pdf->SetY($Y_Table_Position+=10);
+            $pdf->SetX($X_Table_Position);
+            $pdf->MultiCell(180,5,utf8_decode('Dirección: '.$col['direccion']),0,'J',0);
+            $pdf->Ln();
+
+            $pdf->SetY($Y_Table_Position+=10);
+            $pdf->SetX($X_Table_Position);
+            $pdf->MultiCell(180,5,utf8_decode('Correo: '.$col['correo']),0,'J',0);
+            $pdf->Ln();
+
+            $pdf->SetY($Y_Table_Position+=10);
+            $pdf->SetX($X_Table_Position);
+            $pdf->MultiCell(180,5,utf8_decode('Teléfono: '.$col['telefono']),0,'J',0);
+            $pdf->Ln();
+        }//fin del while
+    }//fin del if  
+}
+

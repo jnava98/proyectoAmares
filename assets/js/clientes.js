@@ -517,30 +517,6 @@ function ocultar_n_mensualidades(id_tipo_compra){
 	}//fin del else
 }//fin de funcion ocultar numero mensualidades
 
-function cargar_descuento_venta(select_tipo_compra){
-	var id_tipo_compra = document.getElementById(select_tipo_compra).value;
-	if(id_tipo_compra=="0"){
-		$('#descuento_venta').val("0");
-	}else{
-		$.ajax({
-			url:"assets/php/clientes/cargar_descuento_venta.php",
-			dataType:"json",//Formato en como se manda la información
-			type:"get",
-			data:{//Información a enviar o cadena a enviar
-				id_tipo_compra:id_tipo_compra
-			},
-			success:function(respuesta){
-				if(respuesta.valor=="ok"){
-					$('#descuento_venta').val(respuesta.tasa);//En donde quiero mostrar la información
-				}//Fin del if  
-			},
-			error:function(respuesta){//Si surge un error
-				console.log(respuesta);
-			}
-		});
-	}//fin del else
-}//fin de cargar descuento venta
-
 function cargar_precio_lista_lote(id_lote){
 	if((id_lote!="0")||(id_lote!="")){
 		$.ajax({
@@ -567,14 +543,13 @@ function cargar_precio_recomendado(){
 	id_lote = $("#select_lotes").val();
 	if(id_lote!="0"){
 		precio_lista = $("#precio_lista").val();
-		descuento_venta = $("#descuento_venta").val();
 		desc_aplicados = $("#desc_aplicados").val();
 		$.ajax({
 			url:"assets/php/clientes/cargar_precio_recomendado.php",
 			dataType:"json",//Formato en como se manda la información
 			type:"get",
 			data:{//Información a enviar o cadena a enviar
-				id_lote:id_lote, precio_lista:precio_lista, descuento_venta:descuento_venta, desc_aplicados:desc_aplicados
+				id_lote:id_lote, precio_lista:precio_lista, desc_aplicados:desc_aplicados
 			},
 			success:function(respuesta){
 				if(respuesta.valor=="ok"){

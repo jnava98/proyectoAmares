@@ -249,13 +249,6 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
-                    $html.='<div class="col-md-3">';
-                        $html.='<div class="row">';
-                            $html.='<div class="col-sm-12">';
-                                $html.='<label for="inputText" class="col-form-label">Descuento Venta</label>';
-                            $html.='</div>';
-                        $html.='</div>';
-                    $html.='</div>';
                     $html.='<div class="col-md-5">';
                         $html.='<div class="row">';
                             $html.='<div class="col-sm-12">';
@@ -267,13 +260,6 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                         $html.='<div class="row">';
                             $html.='<div class="col-sm-12">';
                                 $html.=select_tipo_compra("");
-                            $html.='</div>';
-                        $html.='</div>';
-                    $html.='</div>';
-                    $html.='<div class="col-md-3">';
-                        $html.='<div class="row">';
-                            $html.='<div class="col-sm-12">';
-                                $html.='<input type="text" class="form-control" id="descuento_venta" name="descuento_venta" value="" disabled>';
                             $html.='</div>';
                         $html.='</div>';
                     $html.='</div>';
@@ -653,13 +639,6 @@ function mostrar_formato_precontrato($id_contrato){
                                     $html.='</div>';
                                 $html.='</div>';
                             $html.='</div>';
-                            $html.='<div class="col-md-3">';
-                                $html.='<div class="row">';
-                                    $html.='<div class="col-sm-12">';
-                                        $html.='<label for="inputText" class="col-form-label">Descuento Venta</label>';
-                                    $html.='</div>';
-                                $html.='</div>';
-                            $html.='</div>';
                             $html.='<div class="col-md-5">';
                                 $html.='<div class="row">';
                                     $html.='<div class="col-sm-12">';
@@ -673,21 +652,7 @@ function mostrar_formato_precontrato($id_contrato){
                                         $html.=select_tipo_compra($col['id_tipo_compra']);
                                     $html.='</div>';
                                 $html.='</div>';
-                            $html.='</div>';
-                            $html.='<div class="col-md-3">';
-                                $html.='<div class="row">';
-                                    $html.='<div class="col-sm-12">';
-                                        $sql="SELECT tasa from cat_tipo_compra where id_tipo_compra LIKE '".$col['id_tipo_compra']."'";
-                                        $resultado_tasa = mysqli_query(conectar(),$sql);
-                                        desconectar();
-                                        $num=mysqli_num_rows($resultado_tasa);
-                                        if($num>0){
-                                            $row = mysqli_fetch_array($resultado_tasa);
-                                        }//fin del if
-                                        $html.='<input type="number" class="form-control" id="descuento_venta" name="descuento_venta" value="'.$row[0].'" disabled>';
-                                    $html.='</div>';
-                                $html.='</div>';
-                            $html.='</div>';
+                            $html.='</div>';    
                             $html.='<div class="col-md-5">';
                                 $html.='<div class="row">';
                                     $html.='<div class="col-sm-8">';
