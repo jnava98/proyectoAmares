@@ -74,6 +74,9 @@ switch ($idioma){
     case "financiado":
         echo contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega, $deposito_garantia);
         break;
+    case "cont":
+        echo contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega);
+        break;
 }//fin del switch
 
 /*function contrato_esp($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche){

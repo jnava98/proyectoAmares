@@ -208,6 +208,7 @@ function select_idioma_contrato(){
         $respuesta.='<option value="cont_extra" >Contado Extranjeros</option>';
         $respuesta.='<option value="financiado_extra" >Financiado Extranjeros</option>';
         $respuesta.='<option value="financiado" >Financiado</option>';
+        $respuesta.='<option value="cont" >Contado</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select clientes

@@ -1096,7 +1096,9 @@ function mostrar_formato_impresion($id_contrato){
                     $cant_apartado = $col['cant_apartado'];
                     $aux = $cant_apartado*100;
                     $aux = $aux/$precio_venta;
-                    $aux = $aux/100;
+                    $aux = number_format($aux, 2);
+
+                    //$aux = $aux/100;
                     $html.='
                 <div class="row" >
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -1110,10 +1112,10 @@ function mostrar_formato_impresion($id_contrato){
                 </div>';
                 }//fin del if
                 $precio_venta = $col['precio_venta'];
-                    $cant_apartado = $col['cant_apartado'];
-                    $aux_enganche = $cant_apartado*100;
+                    $cant_enganche = $col['cant_enganche'];
+                    $aux_enganche = $cant_enganche*100;
                     $aux_enganche = $aux_enganche/$precio_venta;
-                    $aux_enganche = $aux_enganche/100;
+                    $aux_enganche = number_format($aux_enganche, 2);
                 $html.='
                 <div class="row" >
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
