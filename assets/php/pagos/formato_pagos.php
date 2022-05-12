@@ -15,7 +15,6 @@ $datosContrato = traeDatosContrato($id_contrato);
 $ultimoPago = traeUltimoPago($id_contrato);
 $cuentasBancarias = traeCatCuentasBancarias();
 $conceptos = traeCatConceptos();
-
 // TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
 if ($ultimoPago==false) {
     //Datos del formulario
@@ -133,7 +132,6 @@ switch($datosContrato['id_estatus_venta']){
 }*/
 
 $response = Array();
-
 //TODO: Agregar funcion para hacer abonos a capital.
 $html="
 <div class='card'>

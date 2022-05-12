@@ -235,9 +235,7 @@ $ultimoPago = traeUltimoPago($id_contrato);
             $fecha_ultima_mensualidad;
 
             $fecha_mensualidad;
-        }
-
-        $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
+            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
         diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
         balance_final, estatus_contrato, habilitado
             ) 
@@ -245,6 +243,9 @@ $ultimoPago = traeUltimoPago($id_contrato);
                 '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
                 '$balance_final', '$estatus_contrato','1')";
         $result=mysqli_query(conectar(),$sql);
+        }
+
+        
 
 
 
