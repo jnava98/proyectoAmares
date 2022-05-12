@@ -39,7 +39,7 @@ if($id_contrato==" "||$id_contrato==""){
         ON p.id_concepto = catconc.id_concepto
         INNER JOIN cat_cuentas_bancarias cb
         ON p.id_cuenta_bancaria = cb.id_cuenta_bancaria
-        WHERE c.id_contrato = '$id_contrato' ORDER BY p.no_mensualidad DESC"; 
+        WHERE c.id_contrato = '$id_contrato' AND p.habilitado = 1 ORDER BY p.no_mensualidad DESC"; 
     $resultado=mysqli_query(conectar(),$consulta);
     desconectar();
     $response = Array();
@@ -107,6 +107,7 @@ if($id_contrato==" "||$id_contrato==""){
         $html.= "
         <tr>
             <th scope='row'>#</th>
+            <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>

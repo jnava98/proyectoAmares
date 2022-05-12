@@ -156,6 +156,7 @@ $ultimoPago = traeUltimoPago($id_contrato);
         if ($ultimoPago == true) {
             $ultima_mensualidad = $ultimoPago['no_mensualidad'];
             $fecha_ultima_mensualidad = $ultimoPago['fecha_mensualidad'];
+            $balance = $ultimoPago['balance_final'];
             $fecha_mensualidad = date("Y-m-d",strtotime($fecha_ultima_mensualidad."+ 1 month"));
 
             //Comenzamos a generar los datos para insertar

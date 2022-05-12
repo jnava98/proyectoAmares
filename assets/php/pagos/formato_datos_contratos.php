@@ -21,6 +21,7 @@ if($id_contrato==" "||$id_contrato==""){
 //ELIMINAR LA TABLA LOTES-CONTRATO
     $consulta = "SELECT
     c.id_contrato,
+    c.precio_venta,
     cl.nombre,
     cl.apellido_paterno,
     cl.apellido_materno,
@@ -49,6 +50,7 @@ $row=mysqli_fetch_assoc($resultado);
 desconectar();
 
 $fase = $row['fase'];
+$p_venta = $row['precio_venta'];
 $estatus_venta = $row['estatus_venta'];
 $tipo_compra = $row['tipo_compra'];
 $cant_enganche = $row['cant_enganche'];
@@ -65,17 +67,17 @@ $result = mysqli_query(conectar(),$sql);
 desconectar();
 $num = mysqli_num_rows($result);
 if($num!=0){
-    $sql_capital = "SELECT sum(abonado_capital) from pagos where id_contrato like '".$id_contrato."' ";
+    $sql_capital = "SELECT sum(abonado_capital) from pagos where id_contrato = $id_contrato and habilitado = 1 ";
     $result_capital = mysqli_query(conectar(),$sql_capital);
     desconectar();
     $col_capital = mysqli_fetch_array($result_capital);
     $abonado_capital = $col_capital[0];
-    $sql_intereses = "SELECT sum(abonado_interes) from pagos where id_contrato like '".$id_contrato."' ";
+    $sql_intereses = "SELECT sum(abonado_interes) from pagos where id_contrato = $id_contrato and habilitado = 1 ";
     $result_intereses = mysqli_query(conectar(),$sql_intereses);
     desconectar();
     $col_intereses = mysqli_fetch_array($result_intereses);
     $abonado_intereses = $col_intereses[0];
-    $sql_deuda = "SELECT max(id_pago) from pagos where id_contrato like '".$id_contrato."' ";
+    $sql_deuda = "SELECT max(id_pago) from pagos where id_contrato = $id_contrato and habilitado = 1 ";
     $result_deuda = mysqli_query(conectar(),$sql_deuda);
     desconectar();
     $col_deuda = mysqli_fetch_array($result_deuda);
@@ -89,7 +91,7 @@ if($num!=0){
 }else{
     $abonado_capital="NO DISPONIBLE";
     $abonado_intereses="NO DISPONIBLE";
-    $deuda_restante="NO DISPONIBLE";
+    $deuda_restante=$p_venta;
 }//fin del else
 
 
@@ -149,6 +151,7 @@ $html="
                 <div class='col-sm-2'>
                     <input type='text' class='form-control' id='abo_int' value='$deuda_restante' disabled>
                 </div>
+                
             </div>
                 <button data-id_contrato='' class='col-sm-2 btn btn-primary' onclick='pago_nuevo(".$row['id_contrato'].")'>Agregar Pago Nuevo</button>
               </div>
