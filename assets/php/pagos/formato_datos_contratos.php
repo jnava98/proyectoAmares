@@ -75,9 +75,21 @@ if($num!=0){
     desconectar();
     $col_intereses = mysqli_fetch_array($result_intereses);
     $abonado_intereses = $col_intereses[0];
+    $sql_deuda = "SELECT max(id_pago) from pagos where id_contrato like '".$id_contrato."' ";
+    $result_deuda = mysqli_query(conectar(),$sql_deuda);
+    desconectar();
+    $col_deuda = mysqli_fetch_array($result_deuda);
+    $id_pago = $col_deuda[0];
+    $sql_deuda = "SELECT balance_final from pagos where id_pago like '".$id_pago."' ";
+    $result_deuda = mysqli_query(conectar(),$sql_deuda);
+    desconectar();
+    $row_deuda = mysqli_fetch_array($result_deuda);
+    $deuda_restante = $row_deuda[0];
+
 }else{
     $abonado_capital="NO DISPONIBLE";
     $abonado_intereses="NO DISPONIBLE";
+    $deuda_restante="NO DISPONIBLE";
 }//fin del else
 
 
@@ -132,6 +144,10 @@ $html="
                 <label for='abo_int' class='col-sm-2 col-form-label'>Abonado Intereses</label>
                 <div class='col-sm-2'>
                     <input type='text' class='form-control' id='abo_int' value='$abonado_intereses' disabled>
+                </div>
+                <label for='abo_int' class='col-sm-2 col-form-label'>Deuda Restante</label>
+                <div class='col-sm-2'>
+                    <input type='text' class='form-control' id='abo_int' value='$deuda_restante' disabled>
                 </div>
             </div>
                 <button data-id_contrato='' class='col-sm-2 btn btn-primary' onclick='pago_nuevo(".$row['id_contrato'].")'>Agregar Pago Nuevo</button>

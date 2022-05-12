@@ -467,7 +467,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                     $html.='</div>';
                 $html.='</div>';   
                 $html.='<div class="row mb-12">';
-                    $html.='<div id="n_mensualidades" class="col-sm-3">';
+                    $html.='<div id="div_n_mensualidades2" class="col-sm-3">';
                         $html.='<div class="row">';
                             $html.='<div class="col-sm-12">';
                                 $html.='<input type="number" class="form-control" id="n_mensualidades" value="">';
@@ -880,10 +880,10 @@ function mostrar_formato_precontrato($id_contrato){
                             $html.='</div>';
                         $html.='</div>';   
                         $html.='<div class="row mb-12">';
-                            $html.='<div id="n_mensualidades" class="col-sm-3">';
+                            $html.='<div id="div_n_mensualidades2" class="col-sm-3">';
                                 $html.='<div class="row">';
-                                    $html.='<div id="n_mensualidades" class="col-sm-12">';
-                                        $html.='<input type="number" class="form-control" value="'.$col['mensualidades'].'">';
+                                    $html.='<div class="col-sm-12">';
+                                        $html.='<input type="number" id="n_mensualidades" class="form-control" value="'.$col['mensualidades'].'">';
                                     $html.='</div>';
                                 $html.='</div>';
                             $html.='</div>';
@@ -1091,30 +1091,30 @@ function mostrar_formato_impresion($id_contrato){
                         $html.=select_idioma_contrato();
                     $html.='</div>
                 </div>';
-                    if($col['cant_apartado']!="0"){
-                        $precio_venta = $col['precio_venta'];
-                        $cant_apartado = $col['cant_apartado'];
-                        $aux = $cant_apartado*100;
-                        $aux = $aux/$precio_venta;
-                        $aux = $aux/100;
-                        $html.='
-                    <div class="row" >
-                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                        </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <label>% de Apartado:</label>
-                        </div>
-                        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                            <input id="porcentaje_apartado" name="porcentaje_apartado" class="form-control" value="'.$aux.'"/>
-                        </div>
-                    </div>';
-                    }//fin del if
+                if($col['cant_apartado']!="0"){
                     $precio_venta = $col['precio_venta'];
-                        $cant_apartado = $col['cant_apartado'];
-                        $aux_enganche = $cant_apartado*100;
-                        $aux_enganche = $aux_enganche/$precio_venta;
-                        $aux_enganche = $aux_enganche/100;
+                    $cant_apartado = $col['cant_apartado'];
+                    $aux = $cant_apartado*100;
+                    $aux = $aux/$precio_venta;
+                    $aux = $aux/100;
                     $html.='
+                <div class="row" >
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <label>% de Apartado:</label>
+                    </div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                        <input id="porcentaje_apartado" name="porcentaje_apartado" class="form-control" value="'.$aux.'"/>
+                    </div>
+                </div>';
+                }//fin del if
+                $precio_venta = $col['precio_venta'];
+                    $cant_apartado = $col['cant_apartado'];
+                    $aux_enganche = $cant_apartado*100;
+                    $aux_enganche = $aux_enganche/$precio_venta;
+                    $aux_enganche = $aux_enganche/100;
+                $html.='
                 <div class="row" >
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     </div>
@@ -1135,7 +1135,7 @@ function mostrar_formato_impresion($id_contrato){
                         <input type="date" id="fecha_entrega" name="fecha_entrega" class="form-control" value=""/>
                     </div>
                 </div>
-                <div class="row" id="div_deposito_garantia" style="display:none;" >
+                <div class="row" id="div_deposito_garantia">
                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     </div>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">

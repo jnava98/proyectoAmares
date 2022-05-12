@@ -505,12 +505,12 @@ function cargar_tabla_contratos(){
 
 function ocultar_n_mensualidades(id_tipo_compra){
 	if((id_tipo_compra==1)||(id_tipo_compra==4)){
-		document.getElementById("n_mensualidades").style.display="block";
+		document.getElementById("div_n_mensualidades2").style.display="block";
 		document.getElementById("div_n_mensualidades").style.display="block";
 		document.getElementById("div_input_monto_mensual").style.display="block";
 		document.getElementById("div_monto_mensual").style.display="block";
 	}else{
-		document.getElementById("n_mensualidades").style.display="none";
+		document.getElementById("div_n_mensualidades2").style.display="none";
 		document.getElementById("div_n_mensualidades").style.display="none";
 		document.getElementById("div_input_monto_mensual").style.display="none";
 		document.getElementById("div_monto_mensual").style.display="none";
