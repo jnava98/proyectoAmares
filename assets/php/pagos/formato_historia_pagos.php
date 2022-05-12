@@ -15,7 +15,8 @@ if($id_contrato==" "||$id_contrato==""){
 //Diferencia
 //Concepto
 //Observaciones
-    $consulta = "SELECT
+    $consulta = "SELECT 
+        p.id_pago,
         p.no_mensualidad,
         catconc.nombre as concepto,
         c.dia_pago,
@@ -44,6 +45,11 @@ if($id_contrato==" "||$id_contrato==""){
     desconectar();
     $response = Array();
     $html="";
+    //Formulario para impresion del recibo de pago
+    $html.='<form target="_blank" action="?page=impresion_recibo_pago" method="POST">
+            <input id="input_id_pago" name="input_id_pago" value="" type="hidden"/>
+            <button id="enviar_formulario_recibo_pago" type="submit" style="display:none;"></button>
+            </form>';
     $num = mysqli_num_rows($resultado);
     $html.="
         <table id='table_pagos' class='table table-responsive table-bordered table-striped table-hover table-condensed table-responsive'>
@@ -62,6 +68,7 @@ if($id_contrato==" "||$id_contrato==""){
                     <th scope='col'>Diferencia</th>
                     <th scope='col'>Estatus</th>
                     <th scope='col'>Comentarios</th>
+                    <th scope='col'>Imprimir recibo</th>
                     </tr>
                 </thead>
                 <tbody id='body_table_pagos'>
@@ -70,6 +77,7 @@ if($id_contrato==" "||$id_contrato==""){
 
     if($num > 0){
         while($row=mysqli_fetch_assoc($resultado)){
+            $id_pago = $row['id_pago']; //Numero de la mensualidad
             $banco = $row['banco']." - ".$row['identificador_cuenta'];
             $no_mensualidad = $row['no_mensualidad']; //Numero de la mensualidad
             $concepto = $row['concepto']; //Numero de la mensualidad
@@ -99,6 +107,7 @@ if($id_contrato==" "||$id_contrato==""){
                     <td>".$diferencia."</td>
                     <td>".$estatus_pago."</td>
                     <td>".$comentario."</td>
+                    <td><button id='".$id_pago."' class='btn boton_tres' onclick='recibo_pago(this.id);' >Imprimir</button></td>
                 </tr>
             ";
         };//fin del while
@@ -107,6 +116,7 @@ if($id_contrato==" "||$id_contrato==""){
         $html.= "
         <tr>
             <th scope='row'>#</th>
+            <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>

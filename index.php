@@ -13,6 +13,7 @@
 	if($pagina=="lotes") include "./assets/pages/lotes.php";
 	if ($pagina=="descuentos") include "./assets/pages/descuentos.php";
 	if($pagina=="impresion_contrato") include "./assets/pages/impresion_contrato.php";
+	if($pagina=="impresion_recibo_pago") include "./assets/php/pagos/impresion_recibo_pago.php";
 	}else{
 		$pagina="login";
 		include "./assets/pages/login.php";

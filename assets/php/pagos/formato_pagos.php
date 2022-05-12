@@ -22,7 +22,11 @@ if ($ultimoPago==false) {
     $cambia_estatus=0;
     //Consultamos el monto mensual del contrato
     $a="si";
-    $mensualidad = $datosContrato['monto_mensual'];
+    if($datosContrato['monto_mensual']=="0"){
+        $mensualidad = $datosContrato['pago_final'];
+    }else{
+        $mensualidad = $datosContrato['monto_mensual'];
+    }//fin del else
     $recargo = 0;
     $interes = 0;
     $tot_a_pagar = $mensualidad;
@@ -32,12 +36,16 @@ if ($ultimoPago==false) {
     $a="no";
     $cambia_estatus = 0;
     $mensaje=null;
-    $mensualidad = $datosContrato['monto_mensual'];
+    if($datosContrato['monto_mensual']=="0"){
+        $mensualidad = $datosContrato['pago_final'];
+    }else{
+        $mensualidad = $datosContrato['monto_mensual'];
+    }//fin del else
     $recargo = $ultimoPago['diferencia'];
     $interes = $recargo * 0.02;
     $tot_a_pagar = $interes + $recargo + $datosContrato['monto_mensual'];
 
-}
+}//fin del else
 
 
 /*

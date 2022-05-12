@@ -111,6 +111,12 @@ function consulta_historial_pagos(id_contrato){
 	
 };
 
+function recibo_pago(id_pago){
+	document.getElementById("input_id_pago").value = id_pago;
+	var obj = document.getElementById("enviar_formulario_recibo_pago");
+	obj.click();
+}//fin de funcion imprimir contrato
+
 function consulta_datos_contrato(id_contrato){
 	$.ajax({
 		type:'get',
@@ -181,9 +187,9 @@ function actualiza_datos_pago(){
 
 	var mensualidad = parseFloat($('#inp_mensualidad').val());
 
-	if($('#inp_cpagada').val()==""){
+	/*if($('#inp_cpagada').val()==""){
 		$('#inp_cpagada').val(0);
-	} 
+	} */
 	var cpagada = parseFloat($('#inp_cpagada').val());
 
 	//Calculamos el total a pagar
