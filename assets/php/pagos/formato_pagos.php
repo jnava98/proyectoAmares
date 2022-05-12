@@ -11,13 +11,38 @@ if(empty($_GET["id_contrato"])){
 }//Fin del else
 
 //Comenzamos consultando el estatus del contrato
-$sql="SELECT id_estatus_venta FROM contrato WHERE id_contrato = '$id_contrato'";
-$result=mysqli_query(conectar(),$sql);
-desconectar();
-$row=mysqli_fetch_array($result);
-$id_estatus_venta = $row['id_estatus_venta'];
+$datosContrato = traeDatosContrato($id_contrato);
+$ultimoPago = traeUltimoPago($id_contrato);
+$cuentasBancarias = traeCatCuentasBancarias();
+$conceptos = traeCatConceptos();
 
-switch($id_estatus_venta){
+// TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
+if ($ultimoPago==false) {
+    //Datos del formulario
+    $mensaje=null;
+    $cambia_estatus=0;
+    //Consultamos el monto mensual del contrato
+    $a="si";
+    $mensualidad = $datosContrato['monto_mensual'];
+    $recargo = 0;
+    $interes = 0;
+    $tot_a_pagar = $mensualidad;
+    //Consultamos pagos anteriores
+    
+}else{
+    $a="no";
+    $cambia_estatus = 0;
+    $mensaje=null;
+    $mensualidad = $datosContrato['monto_mensual'];
+    $recargo = $ultimoPago['diferencia'];
+    $interes = $recargo * 0.02;
+    $tot_a_pagar = $interes + $recargo + $datosContrato['monto_mensual'];
+
+}
+
+
+/*
+switch($datosContrato['id_estatus_venta']){
     case 1:
         //Apartado
         $etiqueta_concepto = "Pago Apartado";
@@ -36,16 +61,12 @@ switch($id_estatus_venta){
         $cambia_estatus=1; //TODO: Verificar cuando el pago va a cambiar el estatus
         $mensaje=null;
         break;
-    case 2:
-        //Enganche
-        $etiqueta_concepto = "Pago Enganche";
+    case 2||3||4:
+        //Enganche, Enganche Mensualidad, Pendiente de Firma
+        $etiqueta_concepto = "Pago mensualidad";
         $concepto=2;
         //Tomamos los valores del contrato
-        $sql="SELECT cant_enganche FROM contrato WHERE id_contrato = '$id_contrato'";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $row=mysqli_fetch_array($result);
-        $cant_enganche = $row['cant_enganche'];
+        $cant_enganche = $datosContrato['cant_enganche'];
         //Datos del formulario
         $mensualidad = $cant_enganche;
         $tot_a_pagar = $mensualidad;
@@ -54,48 +75,11 @@ switch($id_estatus_venta){
         $mensaje=null;
         $cambia_estatus=1;
         break;
-    case 3:
-        //Enganche Diferido
-        $etiqueta_concepto = "Mensualidad Enganche";
-        $concepto=3;
-        //Tomamos los valores del contrato
-        $sql="SELECT cant_enganche, mensualidades_enganche, cant_mensual_enganche FROM contrato WHERE id_contrato = '$id_contrato'";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $row=mysqli_fetch_array($result);
-        $cant_mensual_enganche = $row['cant_mensual_enganche'];
-        $mensualidades_enganche = $row['mensualidades_enganche'];
-        //Datos del formulario
-        $mensualidad = $cant_mensual_enganche;
-        $tot_a_pagar = 0;
-        $interes = 0;
-        $recargo = 0;
-        $mensaje=null; 
-        $cambia_estatus=0;
-        //Consultamos si existe algún pago anterior      TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
-        $sql="SELECT  MAX(p.no_mensualidad), diferencia
-            FROM contrato c
-            INNER JOIN pagos p
-            ON c.id_contrato = p.id_contrato
-            WHERE p.id_contrato = '$id_contrato' AND p.habilitado IS true";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $rows = mysqli_num_rows($result);
-        //Verificamos si la consulta trajo algun pago
-        if($rows > 0){
-            //Si trajo algo, añadimos la diferencia del mes anterior
-            $row=mysqli_fetch_array($result);
-            $recargo += $row['diferencia'];
-            $interes += $recargo * 0.02;
-            $tot_a_pagar += $interes + $recargo;
-        }
-        $tot_a_pagar += $mensualidad;
-        $mensualidad = $cant_mensual_enganche;
-        break;
+    
     case 4:
         // 4 = Pendiende de firma de contrato
         $concepto=4;
-        $etiqueta_concepto = "Mensualidad";
+        $etiqueta_concepto = "Pago Mensualidad";
         $mensaje = "Falta registrar fecha de firma y fecha de contrato";
         //Datos del formulario
         $mensualidad = 0;
@@ -104,26 +88,13 @@ switch($id_estatus_venta){
         $recargo = 0;
         $cambia_estatus=0;
         //Consultamos el monto mensual del contrato
-        $sql="SELECT monto_mensual FROM contrato WHERE id_contrato = '$id_contrato'";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $row=mysqli_fetch_array($result);
-        $monto_mensual=$row['monto_mensual'];
+        $monto_mensual = $datosContrato['monto_mensual'];
         $mensualidad = $monto_mensual;
         //Consultamos pagos anteriores
-        $sql="SELECT  MAX(p.no_mensualidad), diferencia
-            FROM contrato c
-            INNER JOIN pagos p
-            ON c.id_contrato = p.id_contrato
-            WHERE p.id_contrato = '$id_contrato' AND p.habilitado IS true";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $rows = mysqli_num_rows($result);
-        if($rows > 0){
+        if(!is_null($ultimoPago)){
             //Si trajo algo, añadimos la diferencia del mes anterior  TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
             //TODO: Añadir eIII de caso de uso. (Verificar la cantidad restante a pagar)
-            $row=mysqli_fetch_array($result);
-            $recargo += $row['diferencia'];
+            $recargo += $ultimoPago['diferencia'];
             $interes += $recargo * 0.02;
             $tot_a_pagar += $interes + $recargo;
         }
@@ -143,25 +114,12 @@ switch($id_estatus_venta){
         $mensaje=null;
         $cambia_estatus=0;
         //Consultamos el monto mensual del contrato
-        $sql="SELECT monto_mensual FROM contrato WHERE id_contrato = '$id_contrato'";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $row=mysqli_fetch_array($result);
-        $monto_mensual=$row['monto_mensual'];
+        $monto_mensual=$datosContrato['monto_mensual'];
         $mensualidad = $monto_mensual;
         //Consultamos pagos anteriores
-        $sql="SELECT  MAX(p.no_mensualidad), diferencia
-            FROM contrato c
-            INNER JOIN pagos p
-            ON c.id_contrato = p.id_contrato
-            WHERE p.id_contrato = '$id_contrato' AND p.habilitado IS true";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $rows = mysqli_num_rows($result);
-        if($rows > 0){
+        if(!is_null($ultimoPago)){
             //Si trajo algo, añadimos la diferencia del mes anterior  TODO: Agregar formula para calcular el interes por retraso (2%/30.5)*dias_vencidos
-            $row=mysqli_fetch_array($result);
-            $recargo += $row['diferencia'];
+            $recargo += $ultimoPago['diferencia'];
             $interes += $recargo * 0.02;
             $tot_a_pagar += $interes + $recargo;
         }
@@ -172,27 +130,27 @@ switch($id_estatus_venta){
         //Pagado
         $mensaje = "Este contrato ya se encuentra pagado";
         break;
-}
+}*/
 
 $response = Array();
 
 //TODO: Agregar funcion para hacer abonos a capital.
 $html="
-<div class='card'
+<div class='card'>
     <div class='card-body'>
+        
         <h5 class='card-title'>Captura un pago nuevo</h5>
         <div class='row'>
             <div class='col-sm-4'>
                 <label for='input_concepto' class='form-label'>Concepto:</label>
                 <select class='form-select' id='input_concepto' name='input_concepto'>
-                    <option data-id_concepto='$concepto' value='$concepto' selected>$etiqueta_concepto</option>
-                    <option data-id_concepto='ab_capital' value='ab_capital'>Abono a Capital</option>
+                    $conceptos
                 </select>
             </div>
             <div class='col-sm-4'>
                 <label for='inp_cuenta' class='form-label'>Cuenta depositada:</label>
                 <select class='form-select' id='inp_cuenta' name='inp_cuenta'>
-                    <option selected>Catalogo de cuentas</option>
+                $cuentasBancarias
                 </select>
             </div>
             <div class='col-sm-4'>
@@ -205,7 +163,7 @@ $html="
                 <input type='date' class='form-control' id='inp_fpago'>
             </div>    
             <div class='col-sm-4'>
-                <label for='inp_recargo' class='form-label'>Recargo mes anterior</label>
+                <label for='inp_recargo' class='form-label'>Saldo mes anterior</label>
                 <input type='number' class='form-control' onkeyup='actualiza_datos_pago()' id='inp_recargo' value='$recargo'>
             </div>
             <div class='col-sm-4'>
@@ -246,9 +204,10 @@ $html="
 ";
 
 
-
+/*
 $html2="
-<div class='card'>
+    <div class='card'>
+
         <div class='card-body'>
             <h5 class='card-title'>Captura un pago nuevo.</h5>
             <div class='row mb-3'>
@@ -312,11 +271,80 @@ $html2="
             </div>
         </div>
     </div>
-    ";
+    ";*/
 $response['html'] = $html;
 $response['mensaje'] = $mensaje;
 $response['cambia_estatus'] = $cambia_estatus;
-$response['id_estatus_venta'] = $id_estatus_venta;
+$response['id_estatus_venta'] = $datosContrato['id_estatus_venta'];
 
 echo json_encode($response);
+
+
+function traeDatosContrato($id_contrato){
+    $sql="SELECT * FROM contrato WHERE id_contrato = '$id_contrato'";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    if ($result==true) {
+        $row=mysqli_fetch_array($result);
+        return $row;
+    }else{
+        return false;
+    }
+};
+
+function traeUltimoPago($id_contrato){
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY no_mensualidad DESC LIMIT 1";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    if ($result==true) {
+        $row=mysqli_fetch_array($result);
+        return $row;
+    }else{
+        return false;
+    }
+    
+};
+
+function traeCatCuentasBancarias(){
+    $sql="SELECT * FROM cat_cuentas_bancarias";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $options = "";
+
+    if ($result==true) {
+        while($cuentasBancarias=mysqli_fetch_array($result)) {
+            $id = $cuentasBancarias['id_cuenta_bancaria'];
+            $banco = $cuentasBancarias['banco'];
+            $numero = $cuentasBancarias['identificador_cuenta'];
+           $options .= "<option value='$id'>$banco - $numero</option>";
+        }
+    }
+    else{
+        $options .="<option value=''>No se encontraron cuentas bancarias</option>";
+    }
+    return $options;
+    
+}
+function traeCatConceptos(){
+    $sql="SELECT * FROM concepto";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $options = "";
+
+    if ($result==true) {
+        while($concepto=mysqli_fetch_array($result)) {
+            $id = $concepto['id_concepto'];
+            $nombre = $concepto['nombre'];
+           $options .= "<option value='$id'>$nombre</option>";
+        }
+    }
+    else{
+        $options .="<option value=''>No se encontraron conceptos</option>";
+    }
+    return $options;
+    
+}
+
+
+
 ?>

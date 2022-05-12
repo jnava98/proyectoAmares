@@ -134,11 +134,9 @@ if(empty($_GET["descuentos"])){
 	$desc_aplicados=$_GET["descuentos"];
 }//Fin del else
 
-if($fecha_apartado==""){
+
     $estatus_venta = "2";
-}else{
-    $estatus_venta = "3";
-}//fin del else
+
 
 //Fecha de hoy
 $hoy = date("Y-m-d");

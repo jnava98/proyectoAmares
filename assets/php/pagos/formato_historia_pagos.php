@@ -19,11 +19,17 @@ if($id_contrato==" "||$id_contrato==""){
         p.no_mensualidad,
         catconc.nombre as concepto,
         c.dia_pago,
-        p.fecha_pago, 
+        p.fecha_pago,
+        p.abonado_capital,
+        p.abonado_interes,
+        p.divisa,
+        p.tipo_cambio, 
         p.monto_pagado,
         c.monto_mensual,
         p.diferencia, 
         cep.nombre,
+        cb.identificador_cuenta,
+        cb.banco,
         p.comentario 
         FROM pagos p INNER JOIN contrato c
         ON p.id_contrato = c.id_contrato
@@ -31,6 +37,8 @@ if($id_contrato==" "||$id_contrato==""){
         ON p.id_estatus_pago = cep.id_estatus_pago
         INNER JOIN concepto catconc
         ON p.id_concepto = catconc.id_concepto
+        INNER JOIN cat_cuentas_bancarias cb
+        ON p.id_cuenta_bancaria = cb.id_cuenta_bancaria
         WHERE c.id_contrato = '$id_contrato' ORDER BY p.no_mensualidad DESC"; 
     $resultado=mysqli_query(conectar(),$consulta);
     desconectar();
@@ -44,7 +52,12 @@ if($id_contrato==" "||$id_contrato==""){
                     <th scope='col'>#</th>
                     <th scope='col'>Concepto</th>
                     <th scope='col'>Fecha pago</th>
+                    <th scope='col'>Cuenta Bancaria</th>
                     <th scope='col'>$ Pagada</th>
+                    <th scope='col'>Divisa</th>
+                    <th scope='col'>Tipo Cambio</th>
+                    <th scope='col'>Abonado Capital</th>
+                    <th scope='col'>Abonado Interés</th>
                     <th scope='col'>Monto Mensual</th>
                     <th scope='col'>Diferencia</th>
                     <th scope='col'>Estatus</th>
@@ -54,13 +67,19 @@ if($id_contrato==" "||$id_contrato==""){
                 <tbody id='body_table_pagos'>
                 
         ";
+
     if($num > 0){
         while($row=mysqli_fetch_assoc($resultado)){
+            $banco = $row['banco']." - ".$row['identificador_cuenta'];
             $no_mensualidad = $row['no_mensualidad']; //Numero de la mensualidad
             $concepto = $row['concepto']; //Numero de la mensualidad
             $dia_pago = $row['dia_pago']; //Dia estipulado en el contrato
             $fecha_pago = $row['fecha_pago']; //Fecha en la que paga el cliente
             $monto_pagado = $row['monto_pagado']; //Cantidad que paga el cliente
+            $divisa = $row['divisa']; //Divisa
+            $tipo_cambio = $row['tipo_cambio']; //Tipo cambio
+            $abonado_capital = $row['abonado_capital']; //Ab capital
+            $abonado_interes = $row['abonado_interes']; //Ab interes
             $monto_mensual = $row['monto_mensual'];//Cantidad mensual del contrato
             $diferencia = $row['diferencia'];//Cantidad mensual del contrato
             $estatus_pago = $row['nombre'];//Estatus del pago
@@ -70,7 +89,12 @@ if($id_contrato==" "||$id_contrato==""){
                     <th scope='row'>".$no_mensualidad."</th>
                     <td>".$concepto."</td>
                     <td>".$fecha_pago."</td>
+                    <td>".$banco."</td>
                     <td>".$monto_pagado."</td>
+                    <td>".$divisa."</td>
+                    <td>".$tipo_cambio."</td>
+                    <td>".$abonado_capital."</td>
+                    <td>".$abonado_interes."</td>
                     <td>".$monto_mensual."</td>
                     <td>".$diferencia."</td>
                     <td>".$estatus_pago."</td>
@@ -83,6 +107,10 @@ if($id_contrato==" "||$id_contrato==""){
         $html.= "
         <tr>
             <th scope='row'>#</th>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>

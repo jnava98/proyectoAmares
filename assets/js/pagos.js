@@ -204,7 +204,8 @@ function guarda_pago(id_contrato,cambia_estatus){
 	//Recibimos los datos
 
 	var input_concepto = $('#input_concepto').val()
-	var inp_fpago = $('#inp_fpago').val()
+	var input_concepto = $('#input_concepto').val()
+	var inp_cuenta = $('#inp_cuenta').val()
 	var inp_cpagada = $('#inp_cpagada').val()
 	var inp_formpago = $('#inp_formpago').val()
 	var inp_recargo = $('#inp_recargo').val()
@@ -214,6 +215,9 @@ function guarda_pago(id_contrato,cambia_estatus){
 	var inp_totpagar = $('#inp_totpagar').val()
 	var inp_comentario = $('#inp_comentario').val()
 	var input_concepto = $('#input_concepto').val()
+	var inp_fpago = $('#inp_fpago').val()
+	var inp_divisa = $('#inp_divisa').val()
+	var inp_tipocambio = $('#inp_tipocambio').val()
 
 	$.ajax({
 		type:'get',
@@ -221,7 +225,7 @@ function guarda_pago(id_contrato,cambia_estatus){
 		data:{
 			id_contrato:id_contrato,
 			input_concepto:input_concepto,
-			inp_fpago:inp_fpago,
+			inp_cuenta:inp_cuenta,
 			inp_cpagada:inp_cpagada,
 			inp_formpago:inp_formpago,
 			inp_recargo:inp_recargo,
@@ -230,6 +234,9 @@ function guarda_pago(id_contrato,cambia_estatus){
 			inp_diferencia:inp_diferencia,
 			inp_totpagar:inp_totpagar,
 			inp_comentario:inp_comentario,
+			inp_fpago:inp_fpago,
+			inp_tipocambio:inp_tipocambio,
+			inp_divisa:inp_divisa,
 			cambia_estatus:cambia_estatus
 		},
 		dataType:'json',

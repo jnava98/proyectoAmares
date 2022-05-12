@@ -27,11 +27,16 @@ if(empty($_GET["id_contrato"])){
 }else{
 	$id_contrato=$_GET["id_contrato"];
 }//Fin del else
-
 if(empty($_GET["inp_fpago"])){
 	$inp_fpago="0";
 }else{
 	$inp_fpago=$_GET["inp_fpago"];
+}//Fin del else
+
+if(empty($_GET["inp_cuenta"])){
+	$inp_fpago="0";
+}else{
+	$inp_cuenta=$_GET["inp_cuenta"];
 }//Fin del else
 
 if(empty($_GET["inp_cpagada"])){
@@ -77,7 +82,7 @@ if(empty($_GET["inp_totpagar"])){
 }//Fin del else
 
 if(empty($_GET["inp_comentario"])){
-	$inp_comentario="0";
+	$inp_comentario="";
 }else{
 	$inp_comentario=$_GET["inp_comentario"];
 }//Fin del else
@@ -86,6 +91,16 @@ if(empty($_GET["cambia_estatus"])){
 	$cambia_estatus="0";
 }else{
 	$cambia_estatus=$_GET["cambia_estatus"];
+}//Fin del else
+if(empty($_GET["inp_tipocambio"])){
+	$inp_tipocambio="0";
+}else{
+	$inp_tipocambio=$_GET["inp_tipocambio"];
+}//Fin del else
+if(empty($_GET["inp_divisa"])){
+	$inp_divisa="0";
+}else{
+	$inp_divisa=$_GET["inp_divisa"];
 }//Fin del else
 
 /*
@@ -125,10 +140,116 @@ $cambia_estatus =  $_GET["cambia_estatus"];
 	balance_final (obtenido por formula)
     estatus_contrato
 	habilitado✅
-
-
 */
-//Comenzamos con el concepto del pago
+
+$datosContrato = traeDatosContrato($id_contrato);
+$ultimoPago = traeUltimoPago($id_contrato);
+
+        //Obtenemos los datos del contrato
+        $cant_mensual_enganche = $datosContrato['monto_mensual'];
+        $total_pagar = $datosContrato['precio_venta'];
+        $fecha_mensualidad = $datosContrato['dia_pago'];
+        $estatus_contrato = $datosContrato['id_estatus_venta'];
+        $balance = $datosContrato['precio_venta'];
+        $tasa_interes = $datosContrato['tasa_interes'];
+        //Consultamos si existe un pago anterior
+        if ($ultimoPago == true) {
+            $ultima_mensualidad = $ultimoPago['no_mensualidad'];
+            $fecha_ultima_mensualidad = $ultimoPago['fecha_mensualidad'];
+            $fecha_mensualidad = date("Y-m-d",strtotime($fecha_ultima_mensualidad."+ 1 month"));
+
+            //Comenzamos a generar los datos para insertar
+            $fecha_pago = $inp_fpago;
+            $cuenta = $inp_cuenta;
+            $no_mensualidad = $ultima_mensualidad + 1;
+            $monto_pagado = $inp_cpagada;
+            $divisa = $inp_divisa;
+            $tipo_cambio = $inp_tipocambio;
+            $abonado_interes = $balance*(($tasa_interes/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $diferencia = $inp_diferencia;
+            if($inp_diferencia == "" || $inp_diferencia == 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $comentario = $inp_comentario;
+            $concepto = $input_concepto;
+            $mensualidad_historica = $inp_mensualidad;
+
+            $fecha_captura = date("Y-m-d");
+            $balance_final = $balance - $abonado_capital;
+            
+            $fecha_ultima_mensualidad;
+
+            $fecha_mensualidad;
+
+            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
+        diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
+        balance_final, estatus_contrato, habilitado, fecha_captura
+            ) 
+        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$abonado_capital','$abonado_interes',
+                '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
+                '$balance_final', '$estatus_contrato','1',$fecha_captura)";
+        $result=mysqli_query(conectar(),$sql);
+
+        }else{
+            //CUANDO ES EL PRIMER PAGO
+            
+            $fecha_pago = $inp_fpago;
+
+            $cuenta = $inp_cuenta;
+
+            $no_mensualidad = 1;
+
+            $monto_pagado = $inp_cpagada;
+
+            $divisa = $inp_divisa;
+
+            $tipo_cambio = $inp_tipocambio;
+
+            $abonado_interes = $balance*(($tasa_interes/100)/12); 
+
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+
+            $diferencia = $inp_diferencia;
+
+            if($inp_diferencia == "" || $inp_diferencia == 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+
+            $comentario = $inp_comentario;
+
+            $concepto = $input_concepto;
+
+            $mensualidad_historica = $inp_mensualidad;
+
+            $fecha_mensualidad = date("Y-m-d",strtotime($fecha_mensualidad."+ 1 month")); 
+
+            $fecha_captura = date("Y-m-d");
+
+            $balance_final = $balance - $abonado_capital;
+            
+            $fecha_ultima_mensualidad;
+
+            $fecha_mensualidad;
+        }
+
+        $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
+        diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
+        balance_final, estatus_contrato, habilitado
+            ) 
+        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$abonado_capital','$abonado_interes',
+                '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
+                '$balance_final', '$estatus_contrato','1')";
+        $result=mysqli_query(conectar(),$sql);
+
+
+
+
+/*Comenzamos con el concepto del pago
 //Dependiendo del concepto es la información que vamos a guardar-
 switch($input_concepto){
     case 1:
@@ -169,18 +290,7 @@ switch($input_concepto){
 
         break;
     case 3:
-        //Enganche Mensualidad
-        //Consultamos la mensualidad del contrato
-        $sql = "SELECT cant_mensual_enganche, cant_enganche, fecha_enganche, id_estatus_venta FROM contrato WHERE id_contrato = '$id_contrato'";
-        $result=mysqli_query(conectar(),$sql);
-        desconectar();
-        $row=mysqli_fetch_array($result);
-        $cant_mensual_enganche = $row['cant_mensual_enganche'];
-        $total_pagar_enganche = $row['cant_enganche'];
-        $fecha_mensualidad = $row['fecha_enganche'];
-        $estatus_contrato = $row['id_estatus_venta'];
-        $ultima_mensualidad = 0;
-        //Consultamos si existe un pago anterior de tipo mensualidad enganche
+    
         $sql ="SELECT * FROM pagos where id_contrato = '$id_contrato' and id_concepto = 3 and habilitado = 1 limit 1"; //TODO: Optimizar
         //$sql = "SELECT no_mensualidad = (SELECT max(no_mensualidad) from pagos) from pagos where id_contrato = '$id_contrato' and id_concepto = 3 and habilitado = 1";
         $result=mysqli_query(conectar(),$sql);
@@ -219,6 +329,8 @@ switch($input_concepto){
 
         //Obtenemos la fecha correspondiente a la mensualidad del enganche
         $ultima_mensualidad++;
+
+        
         
         //Insertamos el pago
         $sql = "INSERT INTO pagos (id_contrato, fecha_pago, no_mensualidad, abonado_capital, abonado_interes,
@@ -254,23 +366,33 @@ switch($input_concepto){
         //1 apartado
         //2 mensualidad enganche
         //3 mensualidad enganche
-}
+}*/
 
-function obtieneDatosContrato($id_contrato) {
-    //Consultamos la mensualidad del contrato
-    $sql = "SELECT * FROM contrato WHERE id_contrato = '$id_contrato'";
+function traeDatosContrato($id_contrato){
+    $sql="SELECT * FROM contrato WHERE id_contrato = '$id_contrato'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
-    $row=mysqli_fetch_array($result);
-    return $row;    
+    if ($result==true) {
+        $row=mysqli_fetch_array($result);
+        return $row;
+    }else{
+        return false;
+    }
 };
 
-function obtieneUltimoPago($id_contrato){
-    $sql ="SELECT * FROM pagos where id_contrato = '$id_contrato' and id_concepto = 3 and habilitado = 1 limit 1";
+function traeUltimoPago($id_contrato){
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY no_mensualidad DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
-    $row=mysqli_fetch_array($result);
+    if ($result==true) {
+        $row=mysqli_fetch_array($result);
+        return $row;
+    }else{
+        return false;
+    }
+    
 };
+
 
 
 
@@ -371,8 +493,7 @@ values ($id_contrato,$inp_fpago,$ultima_mensualidad,$abonado_capital,$abonado_in
 
 
 
-
-
+ob_clean();
 $datosSalida = Array();
 //$datosSalida['abonado_interes'] = $abonado_interes;
 //$datosSalida['ultima_mensualidad'] = $ultima_mensualidad;
@@ -382,7 +503,7 @@ $datosSalida = Array();
 //$datosSalida['monto_mensual'] = $monto_mensual;
 //$datosSalida['balance_final'] = $balance_final;
 //$datosSalida['interes'] = $interes;
-$datosSalida['sql'] = $sql;;
+$datosSalida['sql'] = $sql;
 $datosSalida['id_contrato'] = $id_contrato;
 $datosSalida['inp_diferencia'] = $inp_diferencia;
 //$datosSalida['cambia_estatus'] = $cambia_estatus;
