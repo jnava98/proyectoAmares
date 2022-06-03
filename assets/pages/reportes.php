@@ -353,7 +353,7 @@ if(!(empty($_SESSION["usuario"]))){
                   <?php echo select_tipo_reporte(); ?>
                 </div>
                 <div class="col-lg-5">
-                  <button type="button" id="tipo_reporte" name="tipo_reporte" class="btn btn-success" onclick="cargar_tabla_reporte()">Exportar a excel</button>
+                  <button type="button" id="tipo_reporte" name="tipo_reporte" class="btn boton_uno" onclick="cargar_tabla_reporte()">Generar Reporte</button>
                 </div>
               </div>
               <br>
@@ -371,12 +371,13 @@ if(!(empty($_SESSION["usuario"]))){
                   <input type="date" id="fecha_dos" name="fecha_dos" class="form-control">
                 </div>
               </div>
+              <br>
               <div class="row">
                 <div id="div_reportes" class="col-lg-12" style="display:none;">
                   <div class="card">
                     <div class="card-body">
                       <div class="row">
-                        <div class="table-responsive col-lg-9" id="div_tabla_reportes">
+                        <div class="table-responsive col-lg-12" id="div_tabla_reportes">
                         </div>
                       </div>
                     </div>

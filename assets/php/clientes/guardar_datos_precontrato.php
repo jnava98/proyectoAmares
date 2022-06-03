@@ -255,6 +255,9 @@ if(($id_contrato!="")){
                 desconectar();
                 //echo $sql;
                 if($result){
+                    $sql="UPDATE lote set estatus = '1' where id_lote like '".$lote."'";
+                    $result=mysqli_query(conectar(),$sql);
+                    desconectar();
                     $sql="SELECT max(id_contrato) from contrato";
                     $result=mysqli_query(conectar(),$sql);
                     desconectar();
@@ -323,6 +326,9 @@ if(($id_contrato!="")){
             desconectar();
             //echo $sql;
             if($result){
+                $sql="UPDATE lote set estatus = '1' where id_lote like '".$lote."'";
+                $result=mysqli_query(conectar(),$sql);
+                desconectar();
                 $sql="SELECT max(id_contrato) from contrato";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();

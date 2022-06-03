@@ -1,6 +1,6 @@
 function cargar_tabla_reporte(){
     if(document.getElementById("select_tipo_reporte").value!="0"){
-        if((document.getElementById("select_tipo_reporte").value=="ventas_mensuales")||(document.getElementById("select_tipo_reporte").value=="ventas_mensuales_unidades")||(document.getElementById("select_tipo_reporte").value=="reservas_mensuales")){
+        if((document.getElementById("select_tipo_reporte").value=="ingresos")||(document.getElementById("select_tipo_reporte").value=="ingresos_unidades")||(document.getElementById("select_tipo_reporte").value=="reservas_mensuales")||(document.getElementById("select_tipo_reporte").value=="ingresos_ambos")){
             fecha_uno = document.getElementById("fecha_uno").value;
             fecha_dos = document.getElementById("fecha_dos").value;
             tipo_reporte = document.getElementById("select_tipo_reporte").value;
@@ -25,12 +25,12 @@ function cargar_tabla_reporte(){
 						$('#div_tabla_reportes').html(respuesta.tabla);//En donde quiero mostrar la información
 						$('#'+respuesta.id_tabla).DataTable({
                             dom: 'Bfrtip',
-        			        buttons: ['csv', 'excel', 'pdf', 'print']
+        			        buttons: ['excel', 'pdf', 'print']
                         });
 					}else{
                         $(document).ready(function(){
                             swal.fire({
-                                text:'Error',
+                                text:respuesta.valor,
                                 icon: 'error'
                             });
                         });
@@ -53,7 +53,7 @@ function cargar_tabla_reporte(){
 
 function mostrar_input_fecha(){
     $(document).ready(function(){
-        if(($("#select_tipo_reporte").val()=="ventas_mensuales")||($("#select_tipo_reporte").val()=="ventas_mensuales_unidades")||($("#select_tipo_reporte").val()=="reservas_mensuales")){
+        if(($("#select_tipo_reporte").val()=="ingresos")||($("#select_tipo_reporte").val()=="ingresos_unidades")||($("#select_tipo_reporte").val()=="reservas_mensuales")||($("#select_tipo_reporte").val()=="ingresos_ambos")){
             $("#inputs_fechas").show('slow');
         }else{
             $("#inputs_fechas").hide();
