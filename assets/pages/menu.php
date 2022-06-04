@@ -159,6 +159,18 @@ function menu(){
       </ul>
     </li><!-- End Forms Nav -->
     <li class='nav-item'>
+      <a class='nav-link collapsed' data-bs-target='#cuentas-nav' data-bs-toggle='collapse' href='#'>
+        <i class='bi bi-journal-text'></i><span>Cuentas Bancarias</span><i class='bi bi-chevron-down ms-auto'></i>
+      </a>
+      <ul id='cuentas-nav' class='nav-content collapse ' data-bs-parent='#sidebar-nav'>
+        <li>
+          <a href='?page=cuentas_bancarias'>
+            <i class='bi bi-circle'></i><span>Administrar cuentas bancarias</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+    <li class='nav-item'>
       <a class='nav-link collapsed' data-bs-target='#pagos-nav' data-bs-toggle='collapse' href='#'>
         <i class='bi bi-cash-coin'></i><span>Pagos</span><i class='bi bi-chevron-down ms-auto'></i>
       </a>
