@@ -14,7 +14,7 @@ function cargar_tabla_cuentas_bancarias(){
 				if(respuesta.valor=="ok"){
 					$('#div_tabla_cuentas_bancarias').html(respuesta.tabla);//En donde quiero mostrar la información
                     $('#'+respuesta.id_tabla).DataTable();
-					console.log('exito');
+					
 				}//Fin del if  
 			},
 			error:function(respuesta,error){//Si surge un error
@@ -51,9 +51,9 @@ function guardar_cuenta(){
 	const identificador_cuenta = document.getElementById("identificador_cuenta").value;
 	const nombre_banco = document.getElementById("nombre_banco").value;
 	const cuenta_divisa = document.getElementById("cuenta_divisa").value;
-	console.log('antes de entrar')
+	
 	if(identificador_cuenta.length!==0 && nombre_banco.length!==0 && cuenta_divisa.length!==0){
-		console.log('despues entrar')
+		
 		$(document).ready(function(){
 			//Defino las variables
 			//Función de Ajax
