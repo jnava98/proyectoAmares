@@ -6,7 +6,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 5 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."%'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -29,7 +29,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 3 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 3 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."%'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -52,7 +52,7 @@ function crear_lista_usuarios_notificar(){
     //Hoy deben realizar su pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."%'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -75,7 +75,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 2 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 2 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."%'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -98,7 +98,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 5 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."%'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -117,12 +117,16 @@ function crear_lista_usuarios_notificar(){
         }//fin del while
     }//fin del if
 }//fin de crear lista de usuarios notificar
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 function enviar_correos(){
     // primero hay que incluir la clase phpmailer para poder instanciar
     //un objeto de la misma
-    require "includes/class.phpmailer.php";
-    $mail = new phpmailer();
+    require '../../vendor/php-mailer/Exception.php';
+    require '../../vendor/php-mailer/PHPMailer.php';
+    require '../../vendor/php-mailer/SMTP.php';
+    $mail = new PHPMailer(true);
     
     $sql="SELECT * FROM notificaciones WHERE estatus LIKE '0' LIMIT 20";
     $result=mysqli_query(conectar(),$sql);
@@ -130,30 +134,26 @@ function enviar_correos(){
     $num = mysqli_num_rows($result);
     if($num>0){
         while($col=mysqli_fetch_array($result)){
-            //Definimos las propiedades y llamamos a los métodos 
-            //correspondientes del objeto mail
-            //Con PluginDir le indicamos a la clase phpmailer donde se 
-            //encuentra la clase smtp que como he comentado al principio de 
-            //este ejemplo va a estar en el subdirectorio includes
-            $mail->PluginDir = "includes/";
-            //Con la propiedad Mailer le indicamos que vamos a usar un 
-            //servidor smtp
-            $mail->Mailer = "smtp";
+          
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $mail->isSMTP();     
             //Asignamos a Host el nombre de nuestro servidor smtp
-            $mail->Host = "smtp.hotpop.com";
+            $mail->Host = "smtp.gmail.com";
             //Le indicamos que el servidor smtp requiere autenticación
             $mail->SMTPAuth = true;
             //Le decimos cual es nuestro nombre de usuario y password
-            $mail->Username = "micuenta@HotPOP.com"; 
-            $mail->Password = "mipassword";
+            $mail->Username = "condorconsultoria.pruebas@gmail.com"; 
+            $mail->Password = "dhtzigeowaoqopwu";
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->CharSet = 'UTF-8';
             //Indicamos cual es nuestra dirección de correo y el nombre que 
             //queremos que vea el usuario que lee nuestro correo
-            $mail->From = "prueba@amaresrivieramaya.com";
-            $mail->FromName = "Jorge Navarrete";
+            $mail->setFrom('condorconsultoria.pruebas@gmail.com', 'Notificacion');
             //el valor por defecto 10 de Timeout es un poco escaso dado que voy a usar 
             //una cuenta gratuita, por tanto lo pongo a 30  
             $mail->Timeout=30;
-            $sql="SELECT correo FROM clientes where id_cliente LIKE = '".$col['id_cliente']."'";
+            $sql="SELECT correo FROM clientes where id_cliente LIKE  '".$col['id_cliente']."'";
             $resultado = mysqli_query(conectar(),$sql);
             desconectar();
             $num = mysqli_num_rows($resultado);
@@ -166,6 +166,7 @@ function enviar_correos(){
             //Asignamos asunto y cuerpo del mensaje
             //El cuerpo del mensaje lo ponemos en formato html, haciendo 
             //que se vea en negrita
+            $mail->isHTML(true);  
             $mail->Subject = "Prueba de correo";
             $mail->Body = "<b>Mensaje de prueba mandado con phpmailer en formato html</b>";
             //Definimos AltBody por si el destinatario del correo no admite email con formato html 
