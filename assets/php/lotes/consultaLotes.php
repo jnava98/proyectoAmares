@@ -7,11 +7,19 @@ $response = [];
 $todos = 0;
 $reservados = -1;
 $disponibles = -2;
+$vendidos = -3;
+$bloqueados = -4;
 //los numeros positivos equivalen a la fase que se quiere consultar.
 
 switch ($data) {
     case $todos:
         $sql = "SELECT * FROM lotes ORDER BY fase ASC, super_manzana ASC,mza ASC,lote ASC";
+        break;
+    case $bloqueados:
+        $sql = "SELECT * FROM lotes WHERE estatus = 3 ORDER BY fase ASC, super_manzana ASC, mza ASC, lote ASC";
+        break;
+    case $vendidos:
+        $sql = "SELECT * FROM lotes WHERE estatus = 2 ORDER BY fase ASC, super_manzana ASC, mza ASC, lote ASC";
         break;
     case $reservados:
         $sql = "SELECT * FROM lotes WHERE estatus = 1 ORDER BY fase ASC, super_manzana ASC, mza ASC, lote ASC";
@@ -31,7 +39,7 @@ switch ($data) {
     case 4:
         $sql = "SELECT * FROM lotes where fase = 4 ORDER BY fase ASC, super_manzana ASC,mza ASC,lote ASC";
         break;
-}
+}//fin del switch
 
 $resultado=mysqli_query(conectar(),$sql);
 desconectar();
@@ -59,16 +67,26 @@ if($resultado!=true){
                             </thead>
                             <tbody>";
     while($row=mysqli_fetch_assoc($resultado)){
+        
+        if($row['estatus']==3){
+            $estatus = "BLOQUEADO";
+            $disabled = "disabled";
+        }
+
+        if($row['estatus']==2){
+            $estatus = "VENDIDO";
+            $disabled = "disabled";
+        }
 
         if($row['estatus']==1){
             $estatus = "RESERVADO";
             $disabled = "disabled";
-        } 
+        }
 
         if($row['estatus']==0){
             $estatus = "DISPONIBLE";
             $disabled = "";
-        } 
+        }
 
         $identificador = $row['fase']."-".$row['super_manzana']."-".$row['mza']."-".$row['lote'];
 

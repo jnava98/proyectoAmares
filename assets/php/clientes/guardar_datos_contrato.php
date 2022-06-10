@@ -36,11 +36,19 @@ if(($id_contrato!="0")){
     $result=mysqli_query(conectar(),$sql);
     $num=mysqli_num_rows($result);
     if($num>0){
+        $col = mysqli_fetch_array($result);
+        $id_lote = $col['id_lote'];
         //Si existe editamos
         $sql="UPDATE contrato set fecha_contrato = '".$fecha_contrato."', fecha_firma = '".$fecha_firma."' WHERE id_contrato LIKE '".$id_contrato."'";
         $result=mysqli_query(conectar(),$sql);
         if($result){
-            $respuesta['valor']="ok";
+            $sql="UPDATE lotes set estatus = '2' where id_lote like '".$id_lote."'";
+            $result=mysqli_query(conectar(),$sql);
+            if($result){
+                $respuesta['valor']="ok";
+            }else{
+                $respuesta['valor']="error";
+            }//fin del else
         }else{
             $respuesta['valor']="error";
         }//fin del else

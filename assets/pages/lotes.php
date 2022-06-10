@@ -58,6 +58,8 @@ if(!(empty($_SESSION["usuario"]))){
                     <option value="0" selected>Todos</option>
                     <option value="-1">Lotes reservados</option>
                     <option value="-2">Lotes disponibles</option>
+                    <option value="-3">Lotes vendidos</option>
+                    <option value="-4">Lotes bloqueados</option>
                   </select>
                 </div>
               </div> 

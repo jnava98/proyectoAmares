@@ -347,7 +347,7 @@ function reporte_ingresos_ambos($fecha_uno, $fecha_dos){
 
 function reporte_reservas_mensuales($fecha_uno, $fecha_dos){
 	$html="";
-	$html.="<h4>Reporte Ventas Mensuales</h4>"; 
+	$html.="<h4>Reporte Reservas Mensuales</h4>"; 
 	$html.="<table id='tabla_reporte_ventas_mensuales' class='table table-responsive table-bordered table-striped table-hover table-condensed dataTable no-footer'>
 		<thead>
 			<tr>

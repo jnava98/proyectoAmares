@@ -134,13 +134,10 @@ if(empty($_GET["descuentos"])){
 	$desc_aplicados=$_GET["descuentos"];
 }//Fin del else
 
-
-    $estatus_venta = "2";
-
+$estatus_venta = "1";
 
 //Fecha de hoy
 $hoy = date("Y-m-d");
-
 $respuesta=Array();
 
 //Programar guardado para las tabla lotes-contrato, cliente-contrato
@@ -155,7 +152,7 @@ if(($id_contrato!="")){
         $col=mysqli_fetch_array($result);
         $clientes_antiguos = $col['clientes'];
         if($clientes_antiguos==$clientes){
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', dia_pago = '".$dia_pago."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
@@ -184,7 +181,7 @@ if(($id_contrato!="")){
                 $respuesta['valor']="error";
             }//fin del else
         }else{
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', id_estatus_venta = '".$estatus_venta."', dia_pago = '".$dia_pago."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', dia_pago = '".$dia_pago."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
