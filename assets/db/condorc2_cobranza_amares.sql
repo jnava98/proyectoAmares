@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.7
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 24, 2022 at 07:02 PM
--- Server version: 5.7.23-23
--- PHP Version: 7.3.32
+-- Host: 127.0.0.1
+-- Generation Time: Jun 10, 2022 at 10:36 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,17 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `cat_cuentas_bancarias` (
   `id_cuenta_bancaria` int(11) NOT NULL,
   `identificador_cuenta` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `banco` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+  `banco` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `moneda` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `cat_cuentas_bancarias`
 --
 
-INSERT INTO `cat_cuentas_bancarias` (`id_cuenta_bancaria`, `identificador_cuenta`, `banco`) VALUES
-(2, 'NINGUNA', 'NINGUNA'),
-(5, '111_cuentabancomer', 'BANCOMER'),
-(6, '222222222', 'SANTANDER');
+INSERT INTO `cat_cuentas_bancarias` (`id_cuenta_bancaria`, `identificador_cuenta`, `banco`, `moneda`) VALUES
+(1, '111111', 'SANTANDER', 'EUR'),
+(2, '33333', 'BANXICO', 'MEX');
 
 -- --------------------------------------------------------
 
@@ -106,12 +105,10 @@ CREATE TABLE `cat_estatus_venta` (
 --
 
 INSERT INTO `cat_estatus_venta` (`id_estatus_venta`, `nombre`) VALUES
-(1, 'Apartado'),
-(2, 'Enganche'),
-(3, 'Enganche Mensualidad'),
-(4, 'Pendiente de Firma de Contrato'),
-(5, 'Contrato Firmado'),
-(6, 'Pagado');
+(1, 'En promesa de compra'),
+(2, 'Apartado'),
+(3, 'Enganche'),
+(4, 'Pagado');
 
 -- --------------------------------------------------------
 
@@ -248,10 +245,9 @@ CREATE TABLE `concepto` (
 INSERT INTO `concepto` (`id_concepto`, `nombre`) VALUES
 (1, 'APARTADO'),
 (2, 'ENGANCHE'),
-(3, 'MENSUALIDAD ENGANCHE'),
-(4, 'MENSUALIDAD CONTRATO'),
-(5, 'ABONO A CAPITAL'),
-(6, 'PAGO FINAL');
+(3, 'MENSUALIDAD CONTRATO'),
+(4, 'PAGO FINAL'),
+(5, 'ABONO CAPITAL');
 
 -- --------------------------------------------------------
 
@@ -293,7 +289,7 @@ CREATE TABLE `contrato` (
 --
 
 INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `tasa_interes`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_broker`, `comision_broker`, `clientes`, `id_lote`, `observaciones`, `fecha_captura`, `cant_mensual_enganche`, `fecha_modificacion`, `uc`, `uum`) VALUES
-(41, '0000-00-00', '0000-00-00', 7000, 1, 100, '2022-05-01', 900, '2022-05-07', 144, 0, 54.72, 2, 1000, 2, '2022-05-15', 'Broker de muestra', 0.05, 'Martinez Maza Ana Carolina ,Toraya Novelo Luis', 1, '', '2022-05-12', 0, '2022-05-19', 1, 1),
+(41, '0000-00-00', '0000-00-00', 7000, 1, 500, '2022-05-01', 900, '2022-05-07', 144, 9, 54.72, 2, 1000, 2, '2022-05-15', 'Broker de muestra', 0.05, 'Martinez Maza Ana Carolina ,Toraya Novelo Luis', 1, '', '2022-05-12', 100, '2022-06-10', 1, 1),
 (42, '0000-00-00', '0000-00-00', 33200, 2, 3200, '2022-05-12', 10000, '2022-05-12', 0, 1, 0, 0, 20000, 2, '2022-05-13', '', 0, 'Toraya Novelo Cesar Julian', 368, '', '2022-05-12', 10000, '2022-05-12', 1, 1),
 (43, '2022-05-30', '2022-05-30', 25000, 3, 5000, '2022-05-23', 15000, '2022-05-24', 0, 5, 0, 10, 5000, 2, '2025-05-31', 'Chio', 2500, 'perez mat pepito', 276, 'paga su esposa', '2022-05-19', 3000, '2022-05-19', 1, 1),
 (44, '2022-06-11', '2022-06-11', 46356.3, 1, 5000, '2022-05-14', 9271.26, '2022-06-03', 144, 1, 401.43, 0, 401.43, 2, '2022-07-10', '', 0, 'perez mat pepito', 604, 'paga el hijo', '2022-05-19', 4271.26, '2022-05-19', 1, 1),
@@ -1322,6 +1318,7 @@ CREATE TABLE `pagos` (
   `fecha_pago` date NOT NULL,
   `id_cuenta_bancaria` int(11) NOT NULL,
   `no_mensualidad` int(11) NOT NULL COMMENT 'Contador de las mensualidades del contrato',
+  `cant_inicial` float NOT NULL,
   `monto_pagado` float NOT NULL,
   `divisa` varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL COMMENT 'Nombre de la moneda con la que se pagó',
   `tipo_cambio` int(11) NOT NULL COMMENT 'Valor de la moneda en la que se pagó',
@@ -1343,15 +1340,16 @@ CREATE TABLE `pagos` (
 -- Dumping data for table `pagos`
 --
 
-INSERT INTO `pagos` (`id_pago`, `id_contrato`, `fecha_pago`, `id_cuenta_bancaria`, `no_mensualidad`, `monto_pagado`, `divisa`, `tipo_cambio`, `abonado_capital`, `abonado_interes`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`, `mensualidad_historica`, `fecha_mensualidad`, `fecha_captura`, `balance_final`, `estatus_contrato`, `habilitado`) VALUES
-(39, 41, '2022-05-19', 5, 1, 54.72, '', 0, 43.0533, 11.6667, 0, 1, '', 1, 54.72, '2022-06-15', '0000-00-00', 6956.95, '2', 1),
-(40, 41, '2022-05-21', 5, 2, 54.72, '', 0, 43.1251, 11.5949, 0, 1, '', 1, 54.72, '2022-07-15', '0000-00-00', 6913.82, '2', 1),
-(41, 41, '2022-05-27', 5, 3, 54.72, '', 0, 43.197, 11.523, 0, 1, '', 1, 54.72, '2022-08-15', '0000-00-00', 6870.62, '2', 1),
-(42, 41, '2022-05-20', 5, 4, 40, '', 0, 28.549, 11.451, 14.72, 2, '', 1, 54.72, '2022-09-15', '0000-00-00', 6842.07, '2', 1),
-(43, 41, '2022-05-27', 5, 5, 54.72, '', 0, 43.3166, 11.4035, 15.0144, 2, '', 1, 54.72, '2022-10-15', '0000-00-00', 6798.75, '2', 1),
-(44, 41, '2022-05-21', 5, 6, 150, '', 0, 138.669, 11.3313, -79.9653, 2, '', 1, 54.72, '2022-11-15', '0000-00-00', 6660.08, '2', 1),
-(45, 49, '2021-11-22', 5, 1, 103814, '', 0, 103559, 254.667, -103160, 2, 'PAGO EN PESOS', 1, 654.03, '2022-01-10', '0000-00-00', -65359.3, '2', 1),
-(46, 49, '2021-12-02', 6, 2, 65708, '', 0, 66143.7, -435.729, -170277, 2, 'PAGO EN PESOS', 2, 654.03, '2022-02-10', '0000-00-00', -131503, '2', 1);
+INSERT INTO `pagos` (`id_pago`, `id_contrato`, `fecha_pago`, `id_cuenta_bancaria`, `no_mensualidad`, `cant_inicial`, `monto_pagado`, `divisa`, `tipo_cambio`, `abonado_capital`, `abonado_interes`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`, `mensualidad_historica`, `fecha_mensualidad`, `fecha_captura`, `balance_final`, `estatus_contrato`, `habilitado`) VALUES
+(1, 41, '0000-00-00', 1, 0, 0, 100, '', 0, 0, 0, 0, 1, '', 1, 0, NULL, '0000-00-00', 0, '', 0),
+(100, 41, '0000-00-00', 1, 0, 0, 100, '', 0, 0, 0, 0, 1, '', 1, 0, NULL, '0000-00-00', 0, '', 0),
+(101, 41, '2022-06-10', 2, 1, 900, 900, 'MEX', 1, 900, 0, 0, 1, '', 2, 900, '2022-07-10', '0000-00-00', -900, '2', 0),
+(102, 41, '2022-06-10', 1, 1, 100, 100, 'EUR', 1, 88.3333, 11.6667, 400, 2, '', 1, 500, '2022-06-15', '0000-00-00', 6911.67, '2', 0),
+(103, 41, '2022-06-09', 1, 1, 400, 400, 'EUR', 1, 388.333, 11.6667, 100, 2, '', 1, 500, '2022-06-15', '0000-00-00', 6611.67, '2', 1),
+(104, 41, '2022-06-10', 1, 2, 100, 100, 'EUR', 1, 88.9806, 11.0195, 0, 1, '', 1, 100, '2022-07-15', '0000-00-00', 6522.69, '2', 1),
+(105, 41, '2022-06-10', 1, 3, 100, 100, 'EUR', 1, 89.1289, 10.8712, 0, 1, '', 2, 100, '2022-08-15', '0000-00-00', 6433.56, '2', 1),
+(106, 41, '2022-06-10', 1, 4, 100, 100, 'EUR', 1, 89.2774, 10.7226, 0, 1, '', 2, 100, '2022-09-15', '0000-00-00', 6344.28, '2', 1),
+(107, 41, '2022-06-17', 1, 5, 700, 700, 'EUR', 1, 689.426, 10.5738, -600, 2, '', 2, 100, '2022-10-15', '0000-00-00', 5654.85, '2', 1);
 
 --
 -- Indexes for dumped tables
@@ -1514,7 +1512,7 @@ ALTER TABLE `cliente_contrato`
 -- AUTO_INCREMENT for table `concepto`
 --
 ALTER TABLE `concepto`
-  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_concepto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `contrato`
@@ -1544,7 +1542,7 @@ ALTER TABLE `lotes`
 -- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- Constraints for dumped tables
