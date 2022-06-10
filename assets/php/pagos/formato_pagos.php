@@ -62,7 +62,7 @@ $html="
             <div class='col-sm-4'>
                 <label for='input_concepto' class='form-label'>Concepto:</label>
                 <select class='form-select' onchange='cambiaConcepto($id_contrato,this.value)'  id='input_concepto' name='input_concepto'>
-                <option value='0'>Seleccione una opción.</option>
+                    <option value='0'>Seleccione una opción.</option>
                     $conceptos
                 </select>
             </div>

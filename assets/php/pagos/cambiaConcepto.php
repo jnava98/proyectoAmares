@@ -57,26 +57,50 @@ switch ($id_concepto) {
                 if($restantexPagar > $datosContrato->cant_mensual_enganche){
                     $cantidadxPagar = $datosContrato->cant_mensual_enganche;
                 }else{
+                    $cantidadxPagar = $restantexPagar;
                     if($restantexPagar == 0){
                         $mensaje = "Enganche pagado.";
                         $mensaje2 = "El enganche ya se encuentra pagado.";
                     }
-                    $cantidadxPagar = $restantexPagar;
-                    
                 }
-                // //Traemos la sumatoria de los pagos de ese concepto
-                // $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-                // $totalPagado = $datosTotalPagado->totalPagado;
-                // //Traemos la cantidad estipulada en el contrato
-                // $montoTotal = $datosContrato->cant_enganche;
-                // $cantidadxPagar = $montoTotal-$totalPagado;
             }else{
                 //Si es el primer pago...
                 $cantidadxPagar = $datosContrato->cant_mensual_enganche;
             }
         }
+    break;
+    case $mensualidadContrato:
+        //Validamos que haya una mensualidad definida.
+        if ($datosContrato->monto_mensual!=0) {
+            //Validamos si existe un ultimo pago.
+            $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
+            if($ultimoPago!=false){
+                
+            }else{
+               
+            }
+        }else{
+            //Validamos si existe un ultimo pago.
+            $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
+            if($ultimoPago!=false){
+                $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
+                $restantexPagar = ($datosContrato->precio_venta - $datosTotalPagado->totalPagado);
+                if($restantexPagar > $datosContrato->cant_mensual_enganche){
+                    $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+                }else{
+                    $cantidadxPagar = $restantexPagar;
+                    if($restantexPagar == 0){
+                        $mensaje = "Contrato pagado.";
+                        $mensaje2 = "El contrato ya se encuentra pagado.";
+                    }
+                }
+            }else{
+                //Si es el primer pago...
+                $cantidadxPagar = $datosContrato->pago_final;
+            }
 
-        //Si es el primer pago...
+        }
+
 
     break;
 }
