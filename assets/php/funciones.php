@@ -1246,4 +1246,61 @@ function mostrar_tabla_descuentos()
     return $html;
 }//fin de mostrar tabla descuentos
 
+
+function mostrar_tabla_cuentas_bancarias()
+{
+    $html="";
+    $sql = "SELECT * FROM cat_cuentas_bancarias cb order by id_cuenta_bancaria";
+    $result_cuentas = mysqli_query(conectar(),$sql);
+    desconectar();
+    $num=mysqli_num_rows($result_cuentas);
+    if ($num>0) {     
+        $i=0;
+        $html.="<h4>Tabla de cuentas bancarias</h4>";
+        $html.="<table id='tabla_cuentas_bancarias' class='table table-responsive table-bordered table-striped table-hover table-condensed dataTable no-footer col-md-12 col-lg-12'>";
+        $html.="<thead>";
+        $html.="<tr>";
+        $html.="<th class='text-center '>#</th>";
+        $html.="<th class='text-center '>Identifcador Cuenta</th>";
+        $html.="<th class='text-center '>Banco</th>";
+        $html.="<th class='text-center '>Divisa</th>";
+        $html.="<th class='text-center '>Ultima <br>Modificacion</th>";
+        $html.="<th class='text-center ' style='width: 200.052px;'>Acciones</th>";
+        $html.="</tr>";
+        $html.="</thead>";
+        $html.="<tbody>";
+        while ($col_cuentas=mysqli_fetch_array($result_cuentas)) {
+            $i+=1;
+            $html.="<tr>";
+            $html.="<td class='text-center'>".$i."</td>";
+            //IDENTIFICADOR CUENTA
+            $html.="<td  ><input disabled='disabled' class='form-control text-center' name='input_identificador&".$col_cuentas['id_cuenta_bancaria']."' id='input_identificador&".$col_cuentas['id_cuenta_bancaria']."' value='".$col_cuentas['identificador_cuenta']."'></input></td>";
+            //BANCO
+            $html.="<td><input type='text' disabled='disabled' class='form-control text-center' name='input_banco&".$col_cuentas['id_cuenta_bancaria']."' id='input_banco&".$col_cuentas['id_cuenta_bancaria']."' value='".$col_cuentas['banco']."'></input></td>";
+             //DIVISA
+             $html.="<td><input type='text' disabled='disabled' class='form-control text-center' name='input_divisa&".$col_cuentas['id_cuenta_bancaria']."' id='input_divisa&".$col_cuentas['id_cuenta_bancaria']."' value='".$col_cuentas['divisa']."'></input></td>";
+            //USUARIO CREACION
+            // $html.="<td><input disabled='disabled' class='form-control' name='input_usuariocreacion&".$i."' id='input_usuariocreacion&".$i."' value='".$col_descuentos['usuario']."'></input></td>";
+            //USUARIO ULTIMA MODIFICACION
+            $sql2 = "SELECT cb.id_cuenta_bancaria,cb.uum,u.id_usuario,u.usuario FROM cat_cuentas_bancarias cb inner join cuentas_usuario u on cb.uum=u.id_usuario where cb.id_cuenta_bancaria='".$col_cuentas['id_cuenta_bancaria']."' order by fecha_creacion";
+            $result_cuentas2 = mysqli_query(conectar(),$sql2);
+            while ($col_cuentas2=mysqli_fetch_array($result_cuentas2)) {
+            $html.="<td><input disabled='disabled' class='form-control text-center' name='input_usuariomodificacion&".$col_cuentas['id_cuenta_bancaria']."' id='input_usuariomodificacion&".$col_cuentas['id_cuenta_bancaria']."' value='".$col_cuentas2['usuario']."'></input></td>";
+            }
+            $html.="<td style='text-align:center'>";
+            //BTN EDITAR CUENTA
+            $html.="<input  type='button' id='".$col_cuentas['id_cuenta_bancaria']."' onclick='editar_cuenta_bancaria(this.id); return false;' class='btn boton_uno fontsize-btn p-botones' value='Editar'></input>";
+            //BTN GUARDAR
+            $html.="<input type='button' id='".$col_cuentas['id_cuenta_bancaria']."' onclick='actualizar_cuenta_bancaria(this.id); return false;' class='btn boton_tres fontsize-btn p-botones' style='margin-left:5px;' value='Guardar'></input>";
+            //BTN ELIMINAR
+            $html.="<input  type='button' id='".$col_cuentas['id_cuenta_bancaria']."'  onclick='eliminar_cuenta(this.id); return false;' class='btn boton_dos fontsize-btn p-botones'  style='margin-left:5px;' value='Eliminar'></input>";
+            $html.="</td>";
+            $html.="</tr>";
+        }//Fin del while
+        $html.="<input type='hidden' id='total_cuentas' name='total_cuentas' value='".$i."'>";
+        $html.="</tbody>";
+        $html.="</table>";
+    }//Fin del if..
+    return $html;
+}//fin de mostrar tabla cuentas bancarias
 ?>

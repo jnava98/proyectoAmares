@@ -1,9 +1,8 @@
 <?php
-
 /*
-Función: cargar_contratos.php
-Invocada por: js/clientes.js/cargar_datos_cliente()
-Objetivo: Trae todos los contratos que tiene un cliente.
+Función: cargar_reportes.php
+Invocada por: js/reportes.js/cargar_tabla_repotes()
+Objetivo: Carga el reporte seleccionado en el select.
 */
 	include "../conexion.php";
 	include "funciones_reportes.php";
@@ -25,26 +24,37 @@ Objetivo: Trae todos los contratos que tiene un cliente.
             $respuesta['tabla']=reporte_lotes();
             $respuesta['id_tabla']="tabla_lotes";
 			break;
-		case "ventas_mensuales_unidades":
+		case "ingresos_unidades":
 			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
 			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
-			if(($fecha_uno=="0")&&($fecha_dos=="0")){
-				$respuesta['valor']="error";
+			if(($fecha_uno=="0")||($fecha_dos=="0")){
+				$respuesta['valor']="Debes seleccionar ambas fechas";
 			}else{
 				$respuesta['valor']="ok";
-				$respuesta['tabla']=reporte_ventas_mensuales_unidades($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_ventas_mensuales_unidades";
+				$respuesta['tabla']=reporte_ingresos_unidades($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_reporte_ingresos_unidades";
 			}//fin del else
 			break;
-		case "ventas_mensuales":
+		case "ingresos":
 			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
 			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
-			if(($fecha_uno=="0")&&($fecha_dos=="0")){
-				$respuesta['valor']="error";
+		if(($fecha_uno=="0")||($fecha_dos=="0")){
+				$respuesta['valor']="Debes seleccionar ambas fechas";
 			}else{
 				$respuesta['valor']="ok";
-				$respuesta['tabla']=reporte_ventas_mensuales($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_ventas_mensuales";
+				$respuesta['tabla']=reporte_ingresos($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_reporte_ingresos";
+			}//fin del else
+			break;
+		case "ingresos_ambos":
+			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
+			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
+			if(($fecha_uno=="0")||($fecha_dos=="0")){
+				$respuesta['valor']="Debes seleccionar ambas fechas";
+			}else{
+				$respuesta['valor']="ok";
+				$respuesta['tabla']=reporte_ingresos_ambos($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_reporte_ingresos_ambos";
 			}//fin del else
 			break;
 		case "reservas_mensuales":
@@ -60,5 +70,4 @@ Objetivo: Trae todos los contratos que tiene un cliente.
 			break;
 	}//fin del switch
     echo json_encode($respuesta);
-	
 ?>

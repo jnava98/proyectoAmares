@@ -194,8 +194,9 @@ function select_tipo_reporte(){
     $respuesta.='<option value="0">Selecciona una opcion</option>';
     $respuesta.='<option value="clientes">Clientes</option>';
     $respuesta.='<option value="lotes">Lotes</option>';
-    $respuesta.='<option value="ventas_mensuales_unidades">Ventas Mensuales(Unidades)</option>';
-    $respuesta.='<option value="ventas_mensuales">Ventas Mensuales($)</option>';
+    $respuesta.='<option value="ingresos_unidades">Ingresos (Unidades)</option>';
+    $respuesta.='<option value="ingresos_ambos">Ingresos ($ y Unidades)</option>';
+    $respuesta.='<option value="ingresos">Ingresos ($)</option>';
     $respuesta.='<option value="reservas_mensuales">Reservas Mensuales(Unidades)</option>';
     $respuesta.='</select>';
     return $respuesta;

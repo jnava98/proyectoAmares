@@ -1847,7 +1847,7 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
     $pdf->Cell(40,6,'ANEXO B',0,'J');
     $pdf->Ln();
     
-    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago from contrato where id_contrato like '".$id_contrato."'";
+    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago, precio_venta from contrato where id_contrato like '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -1859,6 +1859,7 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
         $cant_mensual_enganche = $col['cant_mensual_enganche'];
         $fecha_enganche = $col['fecha_enganche'];
         $dia_pago = $col['dia_pago'];
+        $precio_venta = $col['precio_venta'];
 
         $pdf->SetY($Y_Table_Position+=10);
         $pdf->SetX($X_Table_Position);
@@ -1934,6 +1935,12 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
                 case "1":
                     $primera_hoja = 24;
                 break;
+                case "0":
+                    $primera_hoja = 24;
+                break;
+                default:
+                    $primera_hoja = 16;
+                break;
             }//fin del switch
             $aux=0;
             $filas=0;
@@ -1978,9 +1985,10 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
                 $pdf->Cell(10,8,utf8_decode($i),1,0,'C',0);
                 $fecha_aux = date("d/m/Y", strtotime($dia_pago."+ ".$i." month"));
                 $pdf->Cell(40,8,utf8_decode($fecha_aux),1,0,'C',0);
-                $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
+                $pdf->Cell(65,8,utf8_decode($precio_venta),1,0,'C',0);
                 $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
                 $pdf->Ln();
+                $precio_venta-=$monto_mensual;
                 $filas++;
             }//fin del for
         }//fin del else
@@ -1998,10 +2006,524 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
     $pdf->SetX($X_Table_Position);
     $pdf->Cell(40,6,'ANEXO C',0,'J');
     $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Internal Building Regulations'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restrictions: Restrictions are divided into lots adjacent and lots not adjacent to the main avenue.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots not adjacent to the main avenue: The following restrictions must be observed for all habitable buildings: front restriction 7m; rear restriction 7m and side restriction 1.50m. Garages may be incorporated into the front restriction, provided that they have a palm-leaf or wooden roof. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots adjacent to the main avenue: The following restrictions must be observed for all habitable board buildings: front restriction: 7m; rear restriction 7m;, restriction on the side of the avenue 5 m and restriction on the other side 1.50m. Garages and terraces may be incorporated into the front and rear restrictions, provided that they have palm-leaf and/or wooden roofs.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme. In addition to white, the following colors may be used on the exterior and the façades of the exclusive property of the condominium. Tones of these colors may vary, provided that they remain within the same color range and are authorized by the architecture and building committee. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
 
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme on façades. Smooth and texturized finishes may be used as exterior finishes, together with natural stone or stone that is as similar as possible in color and texture to those shown in the table below:  '),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Light-colored stone
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    River stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Natural stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mayan cream 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Shell
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Tumbled travertine marble
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Masonry 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Perimeter walls: A perimeter wall may be built to a height no more than 1 m and must be finished with regional finishes (we suggest stone). If residents require greater height to maintain their privacy, they may install green mesh and/or vegetation above. Said vegetation will be maintained as part of the land. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Meter and garbage area: A light wall must be built to house electricity meters and garbage areas, as specified in the relevant exhibit. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Land use restrictions: The maximum soil occupancy coefficient is 35% of the surface area of the lot and buildings must be restricted to two floors; the maximum soil use coefficient allowed will be 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Parking: All residences must have at least one parking bay on the lot, access to which shall be the responsibility of residents and measure no more than 2.5 m for one parking bay and 5 m for two parking bays; only permeable material may be used. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Service areas: All service areas, cloths lines, utilities, garbage areas, etc., must not be visible from the outside of neighboring residences.  '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Building height: The maximum height of residences may be no more than 9 m from the level of the sidewalk.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Roofs: Only three types of roofs may be used for residences: '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Completely tiled flat roofs. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Fifty percent flat roof and 50% sloping roof, with roof tiles. Tiles may be finished in terracotta or may be of the traditional curved type.  '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Seventy percent flat roof and 30% palm-leafed roof of the total.'),0,'J',0);
+    $pdf->Ln();
+
+    //Anexo C ingles
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Cell(40,6,'ANEXO C',0,'J');
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Reglamento interno de construcción'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restricciones: Las restricciones se dividen en lotes medianeros y lotes colindantes con avenida principal.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes medianeros: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, laterales 1.50m. Se podrá construir en la restricción frontal cocheras siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes colindantes con AV. Principal: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, restricción lateral hacia la avenida 5m y restricción lateral de 1.50m. Se podrá construir en la restricción frontal y posterior cocheras y terrazas siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de colores: Además del blanco, los colores de pintura que se podrán utilizar en el exterior y en las fachadas de las unidades de propiedad exclusiva del condominio estarán basados en la siguiente paleta, pudiendo variar los tonos de los mismos, siempre y cuando pertenezcan a la misma gama y con previa autorización del Comité de Arquitectura y Construcción. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
+
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de acabados en fachadas: En cuanto a los acabados exteriores, pueden utilizarse aplanados lisos y texturizados, así como recubrimientos con piedras naturales o lo más similar posible en color y textura a los que se muestran en la siguiente tabla:'),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Clara
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Rajuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Natural
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Crema Maya
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Conchuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mármol travertino tomboleado
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mampostería
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Bardas perimetrales: Se podrá colocar una barda perimetral con las colindancias de 1m de altura con acabados de la región (se sugiere piedra). Si se requiere mayor altura por privacidad se podrá colocar una malla color verde tipo "rejacero" y/o la instalación de vegetación. Esta vegetación quedará bajo mantenimiento del predio. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Murete de medidores y área de basura: Se deberá construir un murete para las acometidas de electricidad y área de basura. Según detalle en el anexo correspondiente.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Limitaciones del uso de suelo: El COS máximo permitido es del 35% de la superficie del lote, pudiendo únicamente construir dos niveles / El CUS máximo permitido será del 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Estacionamientos: Toda vivienda deberá contar con al menos un lugar de estacionamiento dentro de su lote. El acceso a este será responsabilidad del condómino y será de 2.5m para un cajón y de 5m para dos cajones. Únicamente se podrá usar materiales permeables. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Patios de servicio: Todo patio de servicio, tendederos de ropa, instalaciones de servicio, depósitos de basura, etc. No podrán estar visibles desde el exterior de las unidades colindantes. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Alturas de construcción: La altura máxima de las residencias a construir no podrán sobrepasar los 9 m de altura, sobre nivel de banqueta. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Cubiertas: Solo se permiten 3 opciones para el uso de cubiertas en las residencias. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en el 100% de las losas.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 50% y techos inclinados en un 50% del total de losas. Dichas losas deberán ir cubiertas con tejas color terracota y de tipo curva tradicional. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 70% y palapas en un 30% del total de losas.'),0,'J',0);
+    $pdf->Ln();
     $pdf->Output();
 
-}
+}//fin de funcion contrato contado extranjero
 
 function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega, $deposito_garantia){
     $Y_Table_Position=18;
@@ -2855,7 +3377,7 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
     $pdf->Cell(40,6,'ANEXO B',0,'J');
     $pdf->Ln();
     
-    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago from contrato where id_contrato like '".$id_contrato."'";
+    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago, precio_venta from contrato where id_contrato like '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -2867,6 +3389,7 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
         $cant_mensual_enganche = $col['cant_mensual_enganche'];
         $fecha_enganche = $col['fecha_enganche'];
         $dia_pago = $col['dia_pago'];
+        $precio_venta = $col['precio_venta'];
 
         $pdf->SetY($Y_Table_Position+=10);
         $pdf->SetX($X_Table_Position);
@@ -2942,6 +3465,12 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
                 case "1":
                     $primera_hoja = 24;
                 break;
+                case "0":
+                    $primera_hoja = 24;
+                break;
+                default:
+                    $primera_hoja = 16;
+                break;
             }//fin del switch
             $aux=0;
             $filas=0;
@@ -2986,9 +3515,10 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
                 $pdf->Cell(10,8,utf8_decode($i),1,0,'C',0);
                 $fecha_aux = date("d/m/Y", strtotime($dia_pago."+ ".$i." month"));
                 $pdf->Cell(40,8,utf8_decode($fecha_aux),1,0,'C',0);
-                $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
+                $pdf->Cell(65,8,utf8_decode($precio_venta),1,0,'C',0);
                 $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
                 $pdf->Ln();
+                $precio_venta-=$monto_mensual;
                 $filas++;
             }//fin del for
         }//fin del else
@@ -3006,10 +3536,524 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
     $pdf->SetX($X_Table_Position);
     $pdf->Cell(40,6,'ANEXO C',0,'J');
     $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Internal Building Regulations'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restrictions: Restrictions are divided into lots adjacent and lots not adjacent to the main avenue.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots not adjacent to the main avenue: The following restrictions must be observed for all habitable buildings: front restriction 7m; rear restriction 7m and side restriction 1.50m. Garages may be incorporated into the front restriction, provided that they have a palm-leaf or wooden roof. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots adjacent to the main avenue: The following restrictions must be observed for all habitable board buildings: front restriction: 7m; rear restriction 7m;, restriction on the side of the avenue 5 m and restriction on the other side 1.50m. Garages and terraces may be incorporated into the front and rear restrictions, provided that they have palm-leaf and/or wooden roofs.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme. In addition to white, the following colors may be used on the exterior and the façades of the exclusive property of the condominium. Tones of these colors may vary, provided that they remain within the same color range and are authorized by the architecture and building committee. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
 
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme on façades. Smooth and texturized finishes may be used as exterior finishes, together with natural stone or stone that is as similar as possible in color and texture to those shown in the table below:  '),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Light-colored stone
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    River stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Natural stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mayan cream 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Shell
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Tumbled travertine marble
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Masonry 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Perimeter walls: A perimeter wall may be built to a height no more than 1 m and must be finished with regional finishes (we suggest stone). If residents require greater height to maintain their privacy, they may install green mesh and/or vegetation above. Said vegetation will be maintained as part of the land. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Meter and garbage area: A light wall must be built to house electricity meters and garbage areas, as specified in the relevant exhibit. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Land use restrictions: The maximum soil occupancy coefficient is 35% of the surface area of the lot and buildings must be restricted to two floors; the maximum soil use coefficient allowed will be 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Parking: All residences must have at least one parking bay on the lot, access to which shall be the responsibility of residents and measure no more than 2.5 m for one parking bay and 5 m for two parking bays; only permeable material may be used. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Service areas: All service areas, cloths lines, utilities, garbage areas, etc., must not be visible from the outside of neighboring residences.  '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Building height: The maximum height of residences may be no more than 9 m from the level of the sidewalk.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Roofs: Only three types of roofs may be used for residences: '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Completely tiled flat roofs. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Fifty percent flat roof and 50% sloping roof, with roof tiles. Tiles may be finished in terracotta or may be of the traditional curved type.  '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Seventy percent flat roof and 30% palm-leafed roof of the total.'),0,'J',0);
+    $pdf->Ln();
+
+    //Anexo C ingles
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Cell(40,6,'ANEXO C',0,'J');
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Reglamento interno de construcción'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restricciones: Las restricciones se dividen en lotes medianeros y lotes colindantes con avenida principal.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes medianeros: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, laterales 1.50m. Se podrá construir en la restricción frontal cocheras siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes colindantes con AV. Principal: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, restricción lateral hacia la avenida 5m y restricción lateral de 1.50m. Se podrá construir en la restricción frontal y posterior cocheras y terrazas siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de colores: Además del blanco, los colores de pintura que se podrán utilizar en el exterior y en las fachadas de las unidades de propiedad exclusiva del condominio estarán basados en la siguiente paleta, pudiendo variar los tonos de los mismos, siempre y cuando pertenezcan a la misma gama y con previa autorización del Comité de Arquitectura y Construcción. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
+
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de acabados en fachadas: En cuanto a los acabados exteriores, pueden utilizarse aplanados lisos y texturizados, así como recubrimientos con piedras naturales o lo más similar posible en color y textura a los que se muestran en la siguiente tabla:'),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Clara
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Rajuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Natural
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Crema Maya
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Conchuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mármol travertino tomboleado
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mampostería
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Bardas perimetrales: Se podrá colocar una barda perimetral con las colindancias de 1m de altura con acabados de la región (se sugiere piedra). Si se requiere mayor altura por privacidad se podrá colocar una malla color verde tipo "rejacero" y/o la instalación de vegetación. Esta vegetación quedará bajo mantenimiento del predio. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Murete de medidores y área de basura: Se deberá construir un murete para las acometidas de electricidad y área de basura. Según detalle en el anexo correspondiente.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Limitaciones del uso de suelo: El COS máximo permitido es del 35% de la superficie del lote, pudiendo únicamente construir dos niveles / El CUS máximo permitido será del 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Estacionamientos: Toda vivienda deberá contar con al menos un lugar de estacionamiento dentro de su lote. El acceso a este será responsabilidad del condómino y será de 2.5m para un cajón y de 5m para dos cajones. Únicamente se podrá usar materiales permeables. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Patios de servicio: Todo patio de servicio, tendederos de ropa, instalaciones de servicio, depósitos de basura, etc. No podrán estar visibles desde el exterior de las unidades colindantes. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Alturas de construcción: La altura máxima de las residencias a construir no podrán sobrepasar los 9 m de altura, sobre nivel de banqueta. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Cubiertas: Solo se permiten 3 opciones para el uso de cubiertas en las residencias. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en el 100% de las losas.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 50% y techos inclinados en un 50% del total de losas. Dichas losas deberán ir cubiertas con tejas color terracota y de tipo curva tradicional. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 70% y palapas en un 30% del total de losas.'),0,'J',0);
+    $pdf->Ln();
     $pdf->Output();
 
-}
+}//fin de funcion contrato financiado extranjero
 
 function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega, $deposito_garantia){
     $Y_Table_Position=18;
@@ -3863,7 +4907,7 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
     $pdf->Cell(40,6,'ANEXO B',0,'J');
     $pdf->Ln();
     
-    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago from contrato where id_contrato like '".$id_contrato."'";
+    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago, precio_venta from contrato where id_contrato like '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -3875,6 +4919,7 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
         $cant_mensual_enganche = $col['cant_mensual_enganche'];
         $fecha_enganche = $col['fecha_enganche'];
         $dia_pago = $col['dia_pago'];
+        $precio_venta = $col['precio_venta'];
 
         $pdf->SetY($Y_Table_Position+=10);
         $pdf->SetX($X_Table_Position);
@@ -3950,6 +4995,12 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
                 case "1":
                     $primera_hoja = 24;
                 break;
+                case "0":
+                    $primera_hoja = 24;
+                break;
+                default:
+                    $primera_hoja = 16;
+                break;
             }//fin del switch
             $aux=0;
             $filas=0;
@@ -3994,30 +5045,546 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
                 $pdf->Cell(10,8,utf8_decode($i),1,0,'C',0);
                 $fecha_aux = date("d/m/Y", strtotime($dia_pago."+ ".$i." month"));
                 $pdf->Cell(40,8,utf8_decode($fecha_aux),1,0,'C',0);
-                $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
+                $pdf->Cell(65,8,utf8_decode($precio_venta),1,0,'C',0);
                 $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
                 $pdf->Ln();
+                $precio_venta-=$monto_mensual;
                 $filas++;
             }//fin del for
         }//fin del else
     }//fin del if
     
-    //Anexo C
-    $pdf->AddPage();
-    $pdf->SetY($Y_Table_Position=18);
-    $pdf->SetX($X_Table_Position=15);
-    $pdf->SetY($Y_Table_Position);
-    $pdf->SetX($X_Table_Position);
-    $pdf->Image('assets/img/Amares.png',155,15,40,15);
-    $pdf->Ln();
-    $pdf->SetY($Y_Table_Position+=20);
-    $pdf->SetX($X_Table_Position);
-    $pdf->Cell(40,6,'ANEXO C',0,'J');
-    $pdf->Ln();
+   //Anexo C
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=20);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Cell(40,6,'ANEXO C',0,'J');
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=14);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(180,8,utf8_decode('Internal Building Regulations'),0,1,'C',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=16);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"1. ",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Restrictions: Restrictions are divided into lots adjacent and lots not adjacent to the main avenue.'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=14);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"a.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Lots not adjacent to the main avenue: The following restrictions must be observed for all habitable buildings: front restriction 7m; rear restriction 7m and side restriction 1.50m. Garages may be incorporated into the front restriction, provided that they have a palm-leaf or wooden roof. '),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=26);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"b.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Lots adjacent to the main avenue: The following restrictions must be observed for all habitable board buildings: front restriction: 7m; rear restriction 7m;, restriction on the side of the avenue 5 m and restriction on the other side 1.50m. Garages and terraces may be incorporated into the front and rear restrictions, provided that they have palm-leaf and/or wooden roofs.'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=36);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"2.	",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Color scheme. In addition to white, the following colors may be used on the exterior and the façades of the exclusive property of the condominium. Tones of these colors may vary, provided that they remain within the same color range and are authorized by the architecture and building committee. '),0,'J',0);
+   $pdf->Ln();
+   //Imagen de los colores pastel
+   $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
+
+   //36
+   $pdf->SetY($Y_Table_Position+=82);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"3.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Color scheme on façades. Smooth and texturized finishes may be used as exterior finishes, together with natural stone or stone that is as similar as possible in color and texture to those shown in the table below:  '),0,'J',0);
+   $pdf->Ln();
+
+   //Nueva pagina para los tipos de piedra
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   //Primera piedra
+   $pdf->SetY($Y_Table_Position+=16);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Light-colored stone
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Segunda piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   River stone 
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Tercera piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Natural stone 
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Cuarta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Mayan cream 
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Quinta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Galarza
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Sexta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Shell
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Septima piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Tumbled travertine marble
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Octava piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Masonry 
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+
+   //Nueva pagina
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=20);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"4.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Perimeter walls: A perimeter wall may be built to a height no more than 1 m and must be finished with regional finishes (we suggest stone). If residents require greater height to maintain their privacy, they may install green mesh and/or vegetation above. Said vegetation will be maintained as part of the land. '),0,'J',0);
+   $pdf->Ln();
+   
+   $pdf->SetY($Y_Table_Position+=30);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"5.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Meter and garbage area: A light wall must be built to house electricity meters and garbage areas, as specified in the relevant exhibit. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=18);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"6.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Land use restrictions: The maximum soil occupancy coefficient is 35% of the surface area of the lot and buildings must be restricted to two floors; the maximum soil use coefficient allowed will be 70%. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=24);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"7.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Parking: All residences must have at least one parking bay on the lot, access to which shall be the responsibility of residents and measure no more than 2.5 m for one parking bay and 5 m for two parking bays; only permeable material may be used. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=30);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"8.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Service areas: All service areas, cloths lines, utilities, garbage areas, etc., must not be visible from the outside of neighboring residences.  '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=24);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"9.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Building height: The maximum height of residences may be no more than 9 m from the level of the sidewalk.'),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=22);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"10.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Roofs: Only three types of roofs may be used for residences: '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=6);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"a.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Completely tiled flat roofs. '),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=6);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"b.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Fifty percent flat roof and 50% sloping roof, with roof tiles. Tiles may be finished in terracotta or may be of the traditional curved type.  '),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=12);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"c.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Seventy percent flat roof and 30% palm-leafed roof of the total.'),0,'J',0);
+   $pdf->Ln();
+
+   //Anexo C ingles
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=20);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Cell(40,6,'ANEXO C',0,'J');
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=14);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(180,8,utf8_decode('Reglamento interno de construcción'),0,1,'C',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=16);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"1. ",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Restricciones: Las restricciones se dividen en lotes medianeros y lotes colindantes con avenida principal.'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=14);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"a.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Lotes medianeros: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, laterales 1.50m. Se podrá construir en la restricción frontal cocheras siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=26);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"b.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Lotes colindantes con AV. Principal: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, restricción lateral hacia la avenida 5m y restricción lateral de 1.50m. Se podrá construir en la restricción frontal y posterior cocheras y terrazas siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=36);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"2.	",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Paleta de colores: Además del blanco, los colores de pintura que se podrán utilizar en el exterior y en las fachadas de las unidades de propiedad exclusiva del condominio estarán basados en la siguiente paleta, pudiendo variar los tonos de los mismos, siempre y cuando pertenezcan a la misma gama y con previa autorización del Comité de Arquitectura y Construcción. '),0,'J',0);
+   $pdf->Ln();
+   //Imagen de los colores pastel
+   $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
+
+   //36
+   $pdf->SetY($Y_Table_Position+=82);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"3.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Paleta de acabados en fachadas: En cuanto a los acabados exteriores, pueden utilizarse aplanados lisos y texturizados, así como recubrimientos con piedras naturales o lo más similar posible en color y textura a los que se muestran en la siguiente tabla:'),0,'J',0);
+   $pdf->Ln();
+
+   //Nueva pagina para los tipos de piedra
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   //Primera piedra
+   $pdf->SetY($Y_Table_Position+=16);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Chapa Clara
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Segunda piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Rajuela
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Tercera piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Chapa Natural
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Cuarta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Crema Maya
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Quinta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Galarza
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Sexta piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Conchuela
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Septima piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Mármol travertino tomboleado
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+   //Octava piedra
+   $pdf->SetY($Y_Table_Position+=29);
+   $pdf->SetX($X_Table_Position-=100);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(180,6,utf8_decode('
+   
+   Mampostería
+   
+   '),1,'J',0);
+   $pdf->SetY($Y_Table_Position+=1);
+   $pdf->SetX($X_Table_Position+=100);
+   $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+   $pdf->Ln();
+
+   //Nueva pagina
+   $pdf->AddPage();
+   $pdf->SetY($Y_Table_Position=18);
+   $pdf->SetX($X_Table_Position=15);
+   $pdf->SetY($Y_Table_Position);
+   $pdf->SetX($X_Table_Position);
+   $pdf->Image('assets/img/Amares.png',155,15,40,15);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=20);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"4.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Bardas perimetrales: Se podrá colocar una barda perimetral con las colindancias de 1m de altura con acabados de la región (se sugiere piedra). Si se requiere mayor altura por privacidad se podrá colocar una malla color verde tipo "rejacero" y/o la instalación de vegetación. Esta vegetación quedará bajo mantenimiento del predio. '),0,'J',0);
+   $pdf->Ln();
+   
+   $pdf->SetY($Y_Table_Position+=30);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"5.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Murete de medidores y área de basura: Se deberá construir un murete para las acometidas de electricidad y área de basura. Según detalle en el anexo correspondiente.'),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=18);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"6.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Limitaciones del uso de suelo: El COS máximo permitido es del 35% de la superficie del lote, pudiendo únicamente construir dos niveles / El CUS máximo permitido será del 70%. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=24);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"7.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Estacionamientos: Toda vivienda deberá contar con al menos un lugar de estacionamiento dentro de su lote. El acceso a este será responsabilidad del condómino y será de 2.5m para un cajón y de 5m para dos cajones. Únicamente se podrá usar materiales permeables. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=30);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"8.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Patios de servicio: Todo patio de servicio, tendederos de ropa, instalaciones de servicio, depósitos de basura, etc. No podrán estar visibles desde el exterior de las unidades colindantes. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=24);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"9.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Alturas de construcción: La altura máxima de las residencias a construir no podrán sobrepasar los 9 m de altura, sobre nivel de banqueta. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=22);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(10,6,"10.",0,0,'J');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(170,6,utf8_decode('Cubiertas: Solo se permiten 3 opciones para el uso de cubiertas en las residencias. '),0,'J',0);
+   $pdf->Ln();
+
+   $pdf->SetY($Y_Table_Position+=6);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"a.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Techos planos en el 100% de las losas.'),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=6);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"b.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 50% y techos inclinados en un 50% del total de losas. Dichas losas deberán ir cubiertas con tejas color terracota y de tipo curva tradicional. '),0,'J',0);
+   $pdf->Ln();
+   $pdf->SetY($Y_Table_Position+=12);
+   $pdf->SetX($X_Table_Position);
+   $pdf->SetFont('Arial','B',12);
+   $pdf->Cell(20,6,"c.",0,0,'R');
+   $pdf->SetFont('Arial','',12);
+   $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 70% y palapas en un 30% del total de losas.'),0,'J',0);
+   $pdf->Ln();
 
     $pdf->Output();
 
-}
+}//fin de funcion contrato financiado
 
 function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_enganche, $fecha_entrega){
     $Y_Table_Position=18;
@@ -4828,7 +6395,7 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
     $pdf->Cell(40,6,'ANEXO B',0,'J');
     $pdf->Ln();
     
-    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago from contrato where id_contrato like '".$id_contrato."'";
+    $sql="SELECT mensualidades, monto_mensual, mensualidades_enganche, cant_mensual_enganche, fecha_enganche, dia_pago, precio_venta from contrato where id_contrato like '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -4840,6 +6407,7 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
         $cant_mensual_enganche = $col['cant_mensual_enganche'];
         $fecha_enganche = $col['fecha_enganche'];
         $dia_pago = $col['dia_pago'];
+        $precio_venta = $col['precio_venta'];
 
         $pdf->SetY($Y_Table_Position+=10);
         $pdf->SetX($X_Table_Position);
@@ -4915,6 +6483,12 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
                 case "1":
                     $primera_hoja = 24;
                 break;
+                case "0":
+                    $primera_hoja = 24;
+                break;
+                default:
+                    $primera_hoja = 16;
+                break;
             }//fin del switch
             $aux=0;
             $filas=0;
@@ -4959,13 +6533,203 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
                 $pdf->Cell(10,8,utf8_decode($i),1,0,'C',0);
                 $fecha_aux = date("d/m/Y", strtotime($dia_pago."+ ".$i." month"));
                 $pdf->Cell(40,8,utf8_decode($fecha_aux),1,0,'C',0);
-                $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
+                $pdf->Cell(65,8,utf8_decode($precio_venta),1,0,'C',0);
                 $pdf->Cell(65,8,utf8_decode($monto_mensual),1,0,'C',0);
                 $pdf->Ln();
+                $precio_venta-=$monto_mensual;
                 $filas++;
             }//fin del for
         }//fin del else
     }//fin del if
+    
+    //Datos de los pagos y transferencias
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,6,utf8_decode('DATOS BANCARIOS PARA TRANSFERENCIAS'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('FOUR CARDINALS DEVELOPMENTS MEXICO S.A. DE C. V. '),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('BANCO BBVA: Sucursal 1840, Banca de Empresas y Gobierno. Ctra. Federal 2100 Reg 100 Col Ejidal L45, Centro Maya. Playa del Carmen, Quintana Roo. México.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('TRANSFERENCIAS NACIONALES'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CUENTA EN PESOS: BANCO BBVA'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CUENTA: 0117372671 '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CLABE: 012694001173726711 '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT BBVA MEXICO: BCMRMXMMPYM '),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('TRANSFERENCIAS INTERNACIONALES EN USD'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CUENTA EN DOLARES: BANCO BBVA '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CUENTA: 0117447892'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CLABE: 012694001174478929'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT BBVA MEXICO: BCMRMXMMPYM'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('INTERMEDIARY BANK NAME JPMORGAN CHASE BANK, NEW YORK, N.Y. (Banco Intermediario ó Corresponsal) '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('BANK CODE (ABA) 021000021'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT CODE (Código Swift) (CHASUS33)'),0,1,'J',0);
+    $pdf->Ln();
+    
+    //Datos de los pagos en ingles
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,6,utf8_decode('BANK INFORMATION'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('FOUR CARDINALS DEVELOPMENTS MEXICO S.A. DE C. V. '),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('ACCOUNT IN DOLLARS: BANK BBVA '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('ACCOUNT: 0117447892'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('CLABE: 012694001174478929'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT BBVA MEXICO: BCMRMXMMPYM'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('INTERMEDIARY BANK NAME JPMORGAN CHASE BANK, NEW YORK, N.Y. (Banco Intermediario ó Corresponsal) '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('BANK CODE (ABA) 021000021'),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT CODE (Código Swift) (CHASUS33)'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('PAYMENT LINK'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('https://en.amaresrivieramaya.com/'),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('BANK: CITIBANK '),0,1,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('ABA: 021000089 '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->Cell(180,6,utf8_decode('SWIFT: CITIUS33XXX '),0,1,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('BRANCH ADDRESS: 111 Wall St 10043, New York City, N.Y. USA, Zip Code 10005 For Futher Credit or payment details: FINAL BENEFICIARY NUMBER: 00113211221 FOUR CARDINALS DEVELOPMENTS MEXICO S.A. DE C.V.'),0,'J',0);
+    $pdf->Ln();
 
     //Anexo C
     $pdf->AddPage();
@@ -4979,9 +6743,523 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
     $pdf->SetX($X_Table_Position);
     $pdf->Cell(40,6,'ANEXO C',0,'J');
     $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Internal Building Regulations'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restrictions: Restrictions are divided into lots adjacent and lots not adjacent to the main avenue.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots not adjacent to the main avenue: The following restrictions must be observed for all habitable buildings: front restriction 7m; rear restriction 7m and side restriction 1.50m. Garages may be incorporated into the front restriction, provided that they have a palm-leaf or wooden roof. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lots adjacent to the main avenue: The following restrictions must be observed for all habitable board buildings: front restriction: 7m; rear restriction 7m;, restriction on the side of the avenue 5 m and restriction on the other side 1.50m. Garages and terraces may be incorporated into the front and rear restrictions, provided that they have palm-leaf and/or wooden roofs.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme. In addition to white, the following colors may be used on the exterior and the façades of the exclusive property of the condominium. Tones of these colors may vary, provided that they remain within the same color range and are authorized by the architecture and building committee. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
 
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Color scheme on façades. Smooth and texturized finishes may be used as exterior finishes, together with natural stone or stone that is as similar as possible in color and texture to those shown in the table below:  '),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Light-colored stone
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    River stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Natural stone 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mayan cream 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Shell
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Tumbled travertine marble
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Masonry 
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Perimeter walls: A perimeter wall may be built to a height no more than 1 m and must be finished with regional finishes (we suggest stone). If residents require greater height to maintain their privacy, they may install green mesh and/or vegetation above. Said vegetation will be maintained as part of the land. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Meter and garbage area: A light wall must be built to house electricity meters and garbage areas, as specified in the relevant exhibit. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Land use restrictions: The maximum soil occupancy coefficient is 35% of the surface area of the lot and buildings must be restricted to two floors; the maximum soil use coefficient allowed will be 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Parking: All residences must have at least one parking bay on the lot, access to which shall be the responsibility of residents and measure no more than 2.5 m for one parking bay and 5 m for two parking bays; only permeable material may be used. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Service areas: All service areas, cloths lines, utilities, garbage areas, etc., must not be visible from the outside of neighboring residences.  '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Building height: The maximum height of residences may be no more than 9 m from the level of the sidewalk.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Roofs: Only three types of roofs may be used for residences: '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Completely tiled flat roofs. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Fifty percent flat roof and 50% sloping roof, with roof tiles. Tiles may be finished in terracotta or may be of the traditional curved type.  '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Seventy percent flat roof and 30% palm-leafed roof of the total.'),0,'J',0);
+    $pdf->Ln();
+
+    //Anexo C ingles
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Cell(40,6,'ANEXO C',0,'J');
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(180,8,utf8_decode('Reglamento interno de construcción'),0,1,'C',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"1. ",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Restricciones: Las restricciones se dividen en lotes medianeros y lotes colindantes con avenida principal.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=14);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes medianeros: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, laterales 1.50m. Se podrá construir en la restricción frontal cocheras siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=26);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Lotes colindantes con AV. Principal: Se deberá respetar las siguientes restricciones para toda construcción habitable. Restricción frontal 7m, posterior 7m, restricción lateral hacia la avenida 5m y restricción lateral de 1.50m. Se podrá construir en la restricción frontal y posterior cocheras y terrazas siempre y cuando se utilicen cubiertas ligeras. (palapas y/o pérgolas de madera).'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=36);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"2.	",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de colores: Además del blanco, los colores de pintura que se podrán utilizar en el exterior y en las fachadas de las unidades de propiedad exclusiva del condominio estarán basados en la siguiente paleta, pudiendo variar los tonos de los mismos, siempre y cuando pertenezcan a la misma gama y con previa autorización del Comité de Arquitectura y Construcción. '),0,'J',0);
+    $pdf->Ln();
+    //Imagen de los colores pastel
+    $pdf->Image('assets/img/paleta_de_colores.png',55,180,100,40);
+
+    //36
+    $pdf->SetY($Y_Table_Position+=82);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"3.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Paleta de acabados en fachadas: En cuanto a los acabados exteriores, pueden utilizarse aplanados lisos y texturizados, así como recubrimientos con piedras naturales o lo más similar posible en color y textura a los que se muestran en la siguiente tabla:'),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina para los tipos de piedra
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    //Primera piedra
+    $pdf->SetY($Y_Table_Position+=16);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Clara
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra1.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Segunda piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Rajuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra2.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Tercera piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Chapa Natural
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra3.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Cuarta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Crema Maya
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra4.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Quinta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Galarza
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra5.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Sexta piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Conchuela
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra6.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Septima piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mármol travertino tomboleado
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra7.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+    //Octava piedra
+    $pdf->SetY($Y_Table_Position+=29);
+    $pdf->SetX($X_Table_Position-=100);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(180,6,utf8_decode('
+    
+    Mampostería
+    
+    '),1,'J',0);
+    $pdf->SetY($Y_Table_Position+=1);
+    $pdf->SetX($X_Table_Position+=100);
+    $pdf->MultiCell(60,6,$pdf->Image('assets/img/piedra8.png', $pdf->GetX(), $pdf->GetY(),39,28),0,'J',0);
+    $pdf->Ln();
+
+    //Nueva pagina
+    $pdf->AddPage();
+    $pdf->SetY($Y_Table_Position=18);
+    $pdf->SetX($X_Table_Position=15);
+    $pdf->SetY($Y_Table_Position);
+    $pdf->SetX($X_Table_Position);
+    $pdf->Image('assets/img/Amares.png',155,15,40,15);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=20);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"4.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Bardas perimetrales: Se podrá colocar una barda perimetral con las colindancias de 1m de altura con acabados de la región (se sugiere piedra). Si se requiere mayor altura por privacidad se podrá colocar una malla color verde tipo "rejacero" y/o la instalación de vegetación. Esta vegetación quedará bajo mantenimiento del predio. '),0,'J',0);
+    $pdf->Ln();
+    
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"5.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Murete de medidores y área de basura: Se deberá construir un murete para las acometidas de electricidad y área de basura. Según detalle en el anexo correspondiente.'),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=18);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"6.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Limitaciones del uso de suelo: El COS máximo permitido es del 35% de la superficie del lote, pudiendo únicamente construir dos niveles / El CUS máximo permitido será del 70%. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"7.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Estacionamientos: Toda vivienda deberá contar con al menos un lugar de estacionamiento dentro de su lote. El acceso a este será responsabilidad del condómino y será de 2.5m para un cajón y de 5m para dos cajones. Únicamente se podrá usar materiales permeables. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=30);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"8.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Patios de servicio: Todo patio de servicio, tendederos de ropa, instalaciones de servicio, depósitos de basura, etc. No podrán estar visibles desde el exterior de las unidades colindantes. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=24);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"9.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Alturas de construcción: La altura máxima de las residencias a construir no podrán sobrepasar los 9 m de altura, sobre nivel de banqueta. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=22);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(10,6,"10.",0,0,'J');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(170,6,utf8_decode('Cubiertas: Solo se permiten 3 opciones para el uso de cubiertas en las residencias. '),0,'J',0);
+    $pdf->Ln();
+
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"a.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en el 100% de las losas.'),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=6);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"b.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 50% y techos inclinados en un 50% del total de losas. Dichas losas deberán ir cubiertas con tejas color terracota y de tipo curva tradicional. '),0,'J',0);
+    $pdf->Ln();
+    $pdf->SetY($Y_Table_Position+=12);
+    $pdf->SetX($X_Table_Position);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(20,6,"c.",0,0,'R');
+    $pdf->SetFont('Arial','',12);
+    $pdf->MultiCell(160,6,utf8_decode('Techos planos en un 70% y palapas en un 30% del total de losas.'),0,'J',0);
+    $pdf->Ln();
     $pdf->Output();
 
-}
+}//fin de funxion contrato contado
 
 
