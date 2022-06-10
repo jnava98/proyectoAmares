@@ -3,7 +3,7 @@ session_start();
 include('menu.php');
 if(!(empty($_SESSION["usuario"]))){
 ?>
-<!DOCTYPE html>
+<!DOCTYPE htm
 <html lang="en">
 
 <head>
@@ -16,7 +16,7 @@ if(!(empty($_SESSION["usuario"]))){
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="assets/js/pagos.js"></script>
+  <script defer type="text/javascript" src="assets/js/pagos.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>

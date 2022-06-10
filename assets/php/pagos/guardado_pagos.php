@@ -102,6 +102,11 @@ if(empty($_GET["inp_divisa"])){
 }else{
 	$inp_divisa=$_GET["inp_divisa"];
 }//Fin del else
+if(empty($_GET["cant_inicial"])){
+	$cant_inicial="0";
+}else{
+    $cant_inicial=$_GET["cant_inicial"];
+}
 
 /*
 $input_concepto =  $_GET["input_concepto"];
@@ -185,11 +190,11 @@ $ultimoPago = traeUltimoPago($id_contrato);
 
             $fecha_mensualidad;
 
-            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
+            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
         diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
         balance_final, estatus_contrato, habilitado, fecha_captura
             ) 
-        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$abonado_capital','$abonado_interes',
+        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
                 '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
                 '$balance_final', '$estatus_contrato','1',$fecha_captura)";
         $result=mysqli_query(conectar(),$sql);
@@ -215,7 +220,7 @@ $ultimoPago = traeUltimoPago($id_contrato);
 
             $diferencia = $inp_diferencia;
 
-            if($inp_diferencia == "" || $inp_diferencia == 0){
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
                 $id_estatus_pago = 1;
             }else{
                 $id_estatus_pago = 2;
@@ -236,11 +241,11 @@ $ultimoPago = traeUltimoPago($id_contrato);
             $fecha_ultima_mensualidad;
 
             $fecha_mensualidad;
-            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, abonado_capital, abonado_interes,
+            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
         diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
         balance_final, estatus_contrato, habilitado
             ) 
-        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$abonado_capital','$abonado_interes',
+        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
                 '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
                 '$balance_final', '$estatus_contrato','1')";
         $result=mysqli_query(conectar(),$sql);
@@ -505,9 +510,11 @@ $datosSalida = Array();
 //$datosSalida['monto_mensual'] = $monto_mensual;
 //$datosSalida['balance_final'] = $balance_final;
 //$datosSalida['interes'] = $interes;
-$datosSalida['sql'] = $sql;
+$datosSalida['sql'] = utf8_encode($sql);
 $datosSalida['id_contrato'] = $id_contrato;
 $datosSalida['inp_diferencia'] = $inp_diferencia;
+$datosSalida['result'] = $result;
+
 //$datosSalida['cambia_estatus'] = $cambia_estatus;
 
 

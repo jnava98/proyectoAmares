@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 11, 2022 at 10:37 PM
+-- Generation Time: May 24, 2022 at 07:02 PM
 -- Server version: 5.7.23-23
 -- PHP Version: 7.3.32
 
@@ -39,7 +39,8 @@ CREATE TABLE `cat_cuentas_bancarias` (
 --
 
 INSERT INTO `cat_cuentas_bancarias` (`id_cuenta_bancaria`, `identificador_cuenta`, `banco`) VALUES
-(5, '111111111', 'BANCOMER'),
+(2, 'NINGUNA', 'NINGUNA'),
+(5, '111_cuentabancomer', 'BANCOMER'),
 (6, '222222222', 'SANTANDER');
 
 -- --------------------------------------------------------
@@ -64,7 +65,11 @@ CREATE TABLE `cat_descuentos` (
 
 INSERT INTO `cat_descuentos` (`id_descuento`, `descripcion`, `tasa`, `fecha_creacion`, `fecha_modificacion`, `uc`, `uum`) VALUES
 (3, 'Friends And Family', 5, '2022-04-26', '2022-04-26', 1, 1),
-(4, 'Preventa', 5, '2022-04-26', '2022-04-26', 1, 1);
+(4, 'Preventa', 10, '2022-04-26', '2022-05-19', 1, 1),
+(5, 'Dir vtas', 3, '2022-05-19', '2022-05-19', 1, 1),
+(6, 'contado', 5, '2022-05-19', '2022-05-19', 1, 1),
+(7, 'compra broker', 6, '2022-05-20', '2022-05-20', 1, 1),
+(8, 'Direccion de ventas', 1.66666, '2022-05-23', '2022-05-23', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -179,7 +184,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_materno`, `residencia`, `nacionalidad`, `correo`, `direccion`, `telefono`, `estado_civil`, `act_economica`, `fecha_captura`, `uc`, `fecha_modificacion`, `uum`) VALUES
-(1, 'Cesar Julian', 'Toraya', 'Novelo', 'Mérida', 'Mexicana', 'cesartn12@gmail.com', '', '999 360 0284', 'Soltero', 'Desarrollador', '2022-03-05', 0, NULL, 0),
+(1, 'Cesar Julian', 'Toraya', 'Novelo', 'Mérida', 'Mexicana', 'cesartn12@gmail.com', 'C. 87 #660h x 68 y 66 La Herradura IV, Ciudad Caucel, Merida Yucatan', '999 360 0284', 'Soltero', 'Desarrollador', '2022-03-05', 0, NULL, 0),
 (2, 'Jorge Carlos', 'Navarrete', 'Torres', 'Mérida', 'Mexicana', 'jorgecnt98@gmail.com', 'asdfasdf', '999 579 9501', 'Casado', 'Desarrollador', '2022-03-05', 0, NULL, 0),
 (3, 'Maritzel Beatriz', 'Euan', 'Solis', 'Uman', 'Mexicana', 'maritzels@gmail.com', '', '9991409186', 'Soltera', 'Administrador de Proyectos', '2022-03-05', 0, NULL, 0),
 (4, 'Ana Carolina ', 'Martinez', 'Maza', 'Mocochá', 'Mexicana', 'karo@gmail.com', '', '999 397 1844', 'Soltera', 'Coordinadora ', '2022-03-05', 0, NULL, 0),
@@ -193,7 +198,13 @@ INSERT INTO `clientes` (`id_cliente`, `nombre`, `apellido_paterno`, `apellido_ma
 (17, 'Carlos Ernesto', 'Gutierrez', 'Villaseñor', 'Canada', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05', 0, NULL, 0),
 (18, 'Roberto', 'Luna', 'Salcedo', 'Solidaridad', 'Mexicano', 'ing_roberto_luna@outlook.es', '', '3337241815', '', '', '2022-03-05', 0, NULL, 0),
 (19, 'Olga Maria', 'Rocha ', 'Leon', 'Colombiana', 'Mexicano', 'neno.gutierrez.03@gmail.com', '', '9057836955', '', '', '2022-03-05', 0, NULL, 0),
-(20, 'Luis', 'Toraya', 'Novelo', 'Mérida', 'Mexicano', 'luigitoraya@gmail.com', 'C. 45 x 23 y 24 Frac. Del Parque, Mérida, Yucatán', '9992600284', 'Soltero', 'Estudiante', '2022-04-10', 0, NULL, NULL);
+(20, 'Luis', 'Toraya', 'Novelo', 'Mérida', 'Mexicano', 'luigitoraya@gmail.com', 'C. 45 x 23 y 24 Frac. Del Parque, Mérida, Yucatán', '9992600284', 'Soltero', 'Estudiante', '2022-04-10', 0, NULL, NULL),
+(21, 'pepito', 'perez', 'mat', 'Playa del Carmen', 'Mexicana', 'pep@hotmail.com', 'AV115', '9984422150', 'Soltero', '', '0000-00-00', 0, NULL, NULL),
+(22, 'BERENICE VALERIE', 'CHARNY', 'AGUIRRE', 'Puerto Aventuras', 'Mexicana', 'berechar@gmail.com', 'Caleta Xelha Dep 4 Mz 18 Lt 57 CP 77713 Puerto Aventuras, Quintana Roo', '9848029357', 'Soltero', '', '0000-00-00', 0, NULL, NULL),
+(23, 'LAURA LAURIE ', 'MARION ', 'DUMONT', 'Ciudad de Mexico', 'Francesa', 'laura.dumont@hotmail.fr', 'Av Jose Vasconcelos  9202 Colonia Condesa 06140 Ciudad de Mexico', '5535575311', 'soltera', '', '0000-00-00', 0, NULL, NULL),
+(24, 'ANA MARIA', 'MARTINERZ', 'OLMEDO', 'CANCUN', 'MEXICANA', 'mtzana2010@hotmail.com', 'SM330 M58 L31 M 58 L31 FUENTE DE LA SALUD SM330 RESID AQUA 77500', '984 157 8578', 'SOLTERO', '', '0000-00-00', 0, NULL, NULL),
+(25, 'ANA BERTHA ', 'MARTINEZ', 'ABUNDIS', 'Fresno 170 SANTA MARIA LA RIVERA CUAHUTEMOC 06400', 'MEXICANA', 'tesor2050@gmail.com', 'FRESNO 170 SANTA MA LA RIVERA 06400', '9841121650', 'CASADA', 'EMPRESARIA', '0000-00-00', 0, NULL, NULL),
+(26, 'JUAN RUBEN ', 'MENDOZA', ' RODRIGUEZ ', 'Solidaridad ', 'Mexicana ', 'jrnecedad@hotmail.com', 'Av 35 nte Lt 10 Mz 118 Num 226, Gonzalo Guerrero C.P. 77710 Solidaridad, Quintana Roo', '5533347316', 'Soltero', '', '0000-00-00', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -213,7 +224,11 @@ CREATE TABLE `cliente_contrato` (
 
 INSERT INTO `cliente_contrato` (`id_cliente_contrato`, `id_cliente`, `id_contrato`) VALUES
 (12537, 4, 41),
-(12538, 20, 41);
+(12538, 20, 41),
+(12539, 1, 42),
+(12540, 21, 43),
+(12541, 21, 44),
+(12545, 25, 49);
 
 -- --------------------------------------------------------
 
@@ -278,7 +293,16 @@ CREATE TABLE `contrato` (
 --
 
 INSERT INTO `contrato` (`id_contrato`, `fecha_contrato`, `fecha_firma`, `precio_venta`, `id_tipo_compra`, `cant_apartado`, `fecha_apartado`, `cant_enganche`, `fecha_enganche`, `mensualidades`, `mensualidades_enganche`, `monto_mensual`, `tasa_interes`, `pago_final`, `id_estatus_venta`, `dia_pago`, `nombre_broker`, `comision_broker`, `clientes`, `id_lote`, `observaciones`, `fecha_captura`, `cant_mensual_enganche`, `fecha_modificacion`, `uc`, `uum`) VALUES
-(41, '0000-00-00', '0000-00-00', 7000, 1, 100, '2022-05-01', 900, '2022-05-07', 0, 0, 1000, 2, 1000, 2, '2022-05-15', 'Broker de muestra', 0.05, 'Martinez Maza Ana Carolina ,Toraya Novelo Luis', 1, '', '2022-05-12', 0, '2022-05-12', 1, 1);
+(41, '0000-00-00', '0000-00-00', 7000, 1, 100, '2022-05-01', 900, '2022-05-07', 144, 0, 54.72, 2, 1000, 2, '2022-05-15', 'Broker de muestra', 0.05, 'Martinez Maza Ana Carolina ,Toraya Novelo Luis', 1, '', '2022-05-12', 0, '2022-05-19', 1, 1),
+(42, '0000-00-00', '0000-00-00', 33200, 2, 3200, '2022-05-12', 10000, '2022-05-12', 0, 1, 0, 0, 20000, 2, '2022-05-13', '', 0, 'Toraya Novelo Cesar Julian', 368, '', '2022-05-12', 10000, '2022-05-12', 1, 1),
+(43, '2022-05-30', '2022-05-30', 25000, 3, 5000, '2022-05-23', 15000, '2022-05-24', 0, 5, 0, 10, 5000, 2, '2025-05-31', 'Chio', 2500, 'perez mat pepito', 276, 'paga su esposa', '2022-05-19', 3000, '2022-05-19', 1, 1),
+(44, '2022-06-11', '2022-06-11', 46356.3, 1, 5000, '2022-05-14', 9271.26, '2022-06-03', 144, 1, 401.43, 0, 401.43, 2, '2022-07-10', '', 0, 'perez mat pepito', 604, 'paga el hijo', '2022-05-19', 4271.26, '2022-05-19', 1, 1),
+(45, '2022-06-01', '2022-06-01', 45400.5, 2, 5000, '2022-05-17', 13620.2, '2022-05-31', 0, 0, 0, 0, 4540.05, 2, '2022-07-10', '', 0, 'CHARNY  AGUIRRE BERENICE VALERIE ', 624, '', '2022-05-19', 0, '2022-05-19', 1, 1),
+(46, '2022-06-06', '2022-06-06', 46356.3, 1, 5000, '2022-05-17', 9271.26, '2022-06-03', 144, 0, 401.43, 0, 401.43, 2, '2022-07-10', '', 0, 'MARION  DUMONT LAURA LAURIE ', 602, '', '2022-05-20', 0, '2022-05-20', 1, 1),
+(47, '2022-06-06', '2022-06-06', 52816.5, 1, 5000, '2022-05-17', 9271.23, '2022-06-03', 144, 0, 401.43, 0, 401.43, 2, '2022-07-10', '', 0, 'MARION  DUMONT LAURA LAURIE ', 605, '', '2022-05-20', 0, '2022-05-20', 1, 1),
+(48, '2022-05-20', '2022-05-20', 44926.8, 2, 24680.2, '2022-05-13', 40434.1, '2022-05-17', 0, 0, 0, 0, 4492.68, 2, '2022-05-13', '', 0, 'MARTINERZ  OLMEDO ANA MARIA ', 489, 'compra de broker se descuenta el 6% de comision ', '2022-05-20', 0, '2022-05-20', 1, 1),
+(49, '0000-00-00', '0000-00-00', 38200, 1, 5000, '2021-11-20', 8064, '2021-12-09', 60, 1, 654.03, 8, 654.03, 2, '2021-12-10', 'Cesar', 3, 'MARTINEZ ABUNDIS ANA BERTHA ', 382, 'esta mal el precio', '2022-05-23', 3064, '2022-05-23', 1, 1),
+(50, '2022-06-16', '2022-06-16', 47790, 1, 5000, '2022-05-17', 9558, '2022-06-15', 144, 1, 413.84, 0, 413.84, 2, '2022-07-15', '', 0, 'MENDOZA  RODRIGUEZ  JUAN RUBEN ', 405, 'descuento del 1.6666% por direccion  de ventas ', '2022-05-23', 0, '2022-05-23', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -325,7 +349,24 @@ INSERT INTO `descuentos_contrato` (`id`, `id_contrato`, `id_descuento`) VALUES
 (15, 35, 1),
 (16, 36, 1),
 (21, 37, 0),
-(22, 38, 0);
+(22, 38, 0),
+(23, 42, 3),
+(24, 42, 4),
+(25, 43, 3),
+(26, 43, 4),
+(27, 44, 4),
+(28, 44, 5),
+(29, 45, 4),
+(30, 45, 6),
+(31, 46, 4),
+(32, 46, 5),
+(33, 47, 4),
+(34, 47, 5),
+(35, 48, 4),
+(36, 48, 6),
+(37, 48, 7),
+(38, 50, 4),
+(39, 50, 8);
 
 -- --------------------------------------------------------
 
@@ -388,7 +429,7 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 (28, '1', '1', '5', '6', 723.05, 253.07, 506.14, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 2800, 0, 0, 0, NULL),
 (29, '1', '1', '5', '7', 758.54, 265.49, 530.98, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 2900, 0, 0, 0, NULL),
 (30, '1', '1', '5', '8', 608.31, 212.91, 425.82, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 3000, 0, 0, 0, NULL),
-(31, '1', '1', '5', '9', 659.14, 230.7, 461.4, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 3100, 0, 0, 0, NULL),
+(31, '3', '2', '5', '9', 659.14, 230.7, 461.4, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 5000, 3100, 0, 0, NULL),
 (32, '1', '1', '5', '10', 659.14, 230.7, 461.4, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 3200, 0, 0, 0, NULL),
 (33, '1', '1', '5', '11', 659.14, 230.7, 461.4, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 3300, 0, 0, 0, NULL),
 (34, '1', '1', '5', '12', 874.08, 305.93, 611.86, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 3400, 0, 0, 0, NULL),
@@ -762,7 +803,7 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 (402, '2', '1', '24', '12', 874.08, 305.93, 611.86, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 40200, 0, 0, 0, NULL),
 (403, '2', '1', '25', '1', 874.08, 305.93, 611.86, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 40300, 0, 0, 0, NULL),
 (404, '2', '1', '25', '2', 659.14, 230.7, 461.4, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 40400, 0, 0, 0, NULL),
-(405, '2', '1', '25', '3', 659.14, 230.7, 461.4, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 40500, 0, 0, 0, NULL),
+(405, '2', '1', '25', '3', 659.14, 230.7, 461.4, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 54000, 40500, 0, 0, NULL),
 (406, '2', '1', '25', '4', 659.14, 230.7, 461.4, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 40600, 0, 0, 0, NULL),
 (407, '2', '1', '25', '5', 600.81, 210.28, 420.57, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 40700, 0, 0, 0, NULL),
 (408, '2', '1', '25', '6', 723.05, 253.07, 506.14, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 40800, 0, 0, 0, NULL),
@@ -847,7 +888,7 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 (486, '2', '5', '4', '12', 716.46, 250.76, 501.52, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 48600, 0, 0, 0, NULL),
 (487, '2', '5', '5', '1', 716.46, 250.76, 501.52, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 48700, 0, 0, 0, NULL),
 (488, '2', '5', '5', '2', 716.46, 250.76, 501.52, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 48800, 0, 0, 0, NULL),
-(489, '2', '5', '5', '3', 716.46, 250.76, 501.52, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 48900, 0, 0, 0, NULL),
+(489, '2', '5', '5', '3', 716.46, 250.76, 501.52, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 55900, 48900, 0, 0, NULL),
 (490, '2', '5', '5', '4', 716.46, 250.76, 501.52, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 49000, 0, 0, 0, NULL),
 (491, '2', '5', '5', '5', 716.46, 250.76, 501.52, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 49100, 0, 0, 0, NULL),
 (492, '2', '5', '5', '6', 716.46, 250.76, 501.52, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 49200, 0, 0, 0, NULL),
@@ -960,9 +1001,9 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 (599, '2', '5', '14', '5', 680.63, 238.22, 476.44, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 59900, 0, 0, 0, NULL),
 (600, '2', '5', '14', '6', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 60000, 0, 0, 0, NULL),
 (601, '2', '5', '14', '7', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 60100, 0, 0, 0, NULL),
-(602, '2', '5', '14', '8', 680.63, 238.22, 476.44, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 60200, 0, 0, 0, NULL),
+(602, '2', '5', '14', '8', 680.63, 238.22, 476.44, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 53100, 60200, 0, 0, NULL),
 (603, '2', '5', '14', '9', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 60300, 0, 0, 0, NULL),
-(604, '2', '5', '14', '10', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 60400, 0, 0, 0, NULL),
+(604, '2', '5', '14', '10', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 53100, 53100, 0, 0, NULL),
 (605, '2', '5', '14', '11', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 60500, 0, 0, 0, NULL),
 (606, '2', '5', '14', '12', 895.57, 313.45, 626.9, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 60600, 0, 0, 0, NULL),
 (607, '2', '5', '15', '1', 895.57, 313.45, 626.9, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 60700, 0, 0, 0, NULL),
@@ -982,7 +1023,7 @@ INSERT INTO `lotes` (`id_lote`, `fase`, `super_manzana`, `mza`, `lote`, `m2`, `c
 (621, '2', '5', '16', '3', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 62100, 0, 0, 0, NULL),
 (622, '2', '5', '16', '4', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 62200, 0, 0, 0, NULL),
 (623, '2', '5', '16', '5', 680.63, 238.22, 476.44, 'HABITACIONAL', 2, '0000-00-00', 'BLOQUEADO', 62300, 0, 0, 0, NULL),
-(624, '2', '5', '16', '6', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 62400, 0, 0, 0, NULL),
+(624, '2', '5', '16', '6', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 53100, 53100, 0, 0, NULL),
 (625, '2', '5', '16', '7', 680.63, 238.22, 476.44, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 62500, 0, 0, 0, NULL),
 (626, '2', '5', '16', '8', 680.63, 238.22, 476.44, 'HABITACIONAL', 3, '0000-00-00', 'BLOQUEADO', 62600, 0, 0, 0, NULL),
 (627, '2', '5', '16', '9', 680.63, 238.22, 476.44, 'HABITACIONAL', 1, '0000-00-00', 'BLOQUEADO', 62700, 0, 0, 0, NULL),
@@ -1299,6 +1340,20 @@ CREATE TABLE `pagos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `pagos`
+--
+
+INSERT INTO `pagos` (`id_pago`, `id_contrato`, `fecha_pago`, `id_cuenta_bancaria`, `no_mensualidad`, `monto_pagado`, `divisa`, `tipo_cambio`, `abonado_capital`, `abonado_interes`, `diferencia`, `id_estatus_pago`, `comentario`, `id_concepto`, `mensualidad_historica`, `fecha_mensualidad`, `fecha_captura`, `balance_final`, `estatus_contrato`, `habilitado`) VALUES
+(39, 41, '2022-05-19', 5, 1, 54.72, '', 0, 43.0533, 11.6667, 0, 1, '', 1, 54.72, '2022-06-15', '0000-00-00', 6956.95, '2', 1),
+(40, 41, '2022-05-21', 5, 2, 54.72, '', 0, 43.1251, 11.5949, 0, 1, '', 1, 54.72, '2022-07-15', '0000-00-00', 6913.82, '2', 1),
+(41, 41, '2022-05-27', 5, 3, 54.72, '', 0, 43.197, 11.523, 0, 1, '', 1, 54.72, '2022-08-15', '0000-00-00', 6870.62, '2', 1),
+(42, 41, '2022-05-20', 5, 4, 40, '', 0, 28.549, 11.451, 14.72, 2, '', 1, 54.72, '2022-09-15', '0000-00-00', 6842.07, '2', 1),
+(43, 41, '2022-05-27', 5, 5, 54.72, '', 0, 43.3166, 11.4035, 15.0144, 2, '', 1, 54.72, '2022-10-15', '0000-00-00', 6798.75, '2', 1),
+(44, 41, '2022-05-21', 5, 6, 150, '', 0, 138.669, 11.3313, -79.9653, 2, '', 1, 54.72, '2022-11-15', '0000-00-00', 6660.08, '2', 1),
+(45, 49, '2021-11-22', 5, 1, 103814, '', 0, 103559, 254.667, -103160, 2, 'PAGO EN PESOS', 1, 654.03, '2022-01-10', '0000-00-00', -65359.3, '2', 1),
+(46, 49, '2021-12-02', 6, 2, 65708, '', 0, 66143.7, -435.729, -170277, 2, 'PAGO EN PESOS', 2, 654.03, '2022-02-10', '0000-00-00', -131503, '2', 1);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -1417,7 +1472,7 @@ ALTER TABLE `cat_cuentas_bancarias`
 -- AUTO_INCREMENT for table `cat_descuentos`
 --
 ALTER TABLE `cat_descuentos`
-  MODIFY `id_descuento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_descuento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cat_estatus_pago`
@@ -1429,7 +1484,7 @@ ALTER TABLE `cat_estatus_pago`
 -- AUTO_INCREMENT for table `cat_estatus_venta`
 --
 ALTER TABLE `cat_estatus_venta`
-  MODIFY `id_estatus_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_estatus_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cat_tipo_compra`
@@ -1447,13 +1502,13 @@ ALTER TABLE `cat_tipo_lote`
 -- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `cliente_contrato`
 --
 ALTER TABLE `cliente_contrato`
-  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12539;
+  MODIFY `id_cliente_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12547;
 
 --
 -- AUTO_INCREMENT for table `concepto`
@@ -1465,7 +1520,7 @@ ALTER TABLE `concepto`
 -- AUTO_INCREMENT for table `contrato`
 --
 ALTER TABLE `contrato`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `cuentas_usuario`
@@ -1477,7 +1532,7 @@ ALTER TABLE `cuentas_usuario`
 -- AUTO_INCREMENT for table `descuentos_contrato`
 --
 ALTER TABLE `descuentos_contrato`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `lotes`
@@ -1489,7 +1544,7 @@ ALTER TABLE `lotes`
 -- AUTO_INCREMENT for table `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
