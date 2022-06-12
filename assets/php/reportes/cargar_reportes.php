@@ -68,6 +68,28 @@ Objetivo: Carga el reporte seleccionado en el select.
 				$respuesta['id_tabla']="tabla_reporte_reservas_mensuales";
 			}//fin del else
 			break;
+		case "reservas_pendientes":
+			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
+			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
+			if(($fecha_uno=="0")&&($fecha_dos=="0")){
+				$respuesta['valor']="error";
+			}else{
+				$respuesta['valor']="ok";
+				$respuesta['tabla']=reporte_reservas_pendientes($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_reporte_reservas_mensuales";
+			}//fin del else
+			break;
+		case "contratos_elaborados":
+			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
+			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
+			if(($fecha_uno=="0")&&($fecha_dos=="0")){
+				$respuesta['valor']="error";
+			}else{
+				$respuesta['valor']="ok";
+				$respuesta['tabla']=contratos_elaborados($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_contratos_elaborados";
+			}//fin del else
+			break;
 	}//fin del switch
     echo json_encode($respuesta);
 ?>

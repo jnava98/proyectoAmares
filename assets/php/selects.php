@@ -198,6 +198,8 @@ function select_tipo_reporte(){
     $respuesta.='<option value="ingresos_ambos">Ingresos ($ y Unidades)</option>';
     $respuesta.='<option value="ingresos">Ingresos ($)</option>';
     $respuesta.='<option value="reservas_mensuales">Reservas Mensuales(Unidades)</option>';
+    $respuesta.='<option value="reservas_pendientes">Reservas Pendientes de Contrato(Unidades)</option>';
+    $respuesta.='<option value="contratos_elaborados">Contratos Elaborados</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select estatus venta

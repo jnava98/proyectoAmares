@@ -6,7 +6,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 5 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -18,7 +18,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus) values ('".$hoy."', '".$col['id_cliente']."', '0') ";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus, id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0', '".$col['id_contrato']."') ";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
@@ -29,7 +29,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 3 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 3 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -52,7 +52,7 @@ function crear_lista_usuarios_notificar(){
     //Hoy deben realizar su pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -75,7 +75,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 2 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 2 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -98,7 +98,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 5 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_pago LIKE  '%-".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
