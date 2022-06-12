@@ -17,12 +17,12 @@ Objetivo: Carga el reporte seleccionado en el select.
 		case "clientes":
             $respuesta['valor']="ok";
             $respuesta['tabla']=reporte_clientes();
-            $respuesta['id_tabla']="tabla_clientes";
+            $respuesta['id_tabla']="tabla_reportes";
 			break;
 		case "lotes":
             $respuesta['valor']="ok";
             $respuesta['tabla']=reporte_lotes();
-            $respuesta['id_tabla']="tabla_lotes";
+            $respuesta['id_tabla']="tabla_reportes";
 			break;
 		case "ingresos_unidades":
 			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
@@ -32,7 +32,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=reporte_ingresos_unidades($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_ingresos_unidades";
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 		case "ingresos":
@@ -43,7 +43,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=reporte_ingresos($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_ingresos";
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 		case "ingresos_ambos":
@@ -54,7 +54,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=reporte_ingresos_ambos($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_ingresos_ambos";
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 		case "reservas_mensuales":
@@ -65,7 +65,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=reporte_reservas_mensuales($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_reservas_mensuales";
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 		case "reservas_pendientes":
@@ -76,7 +76,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=reporte_reservas_pendientes($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_reporte_reservas_mensuales";
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 		case "contratos_elaborados":
@@ -87,7 +87,18 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}else{
 				$respuesta['valor']="ok";
 				$respuesta['tabla']=contratos_elaborados($fecha_uno, $fecha_dos);
-				$respuesta['id_tabla']="tabla_contratos_elaborados";
+				$respuesta['id_tabla']="tabla_reportes";
+			}//fin del else
+			break;
+		case "promesas_contratos":
+			if(empty($_GET["fecha_uno"])){ $fecha_uno="0"; }else{ $fecha_uno=$_GET["fecha_uno"]; }//Fin del else
+			if(empty($_GET["fecha_dos"])){ $fecha_dos="0"; }else{ $fecha_dos=$_GET["fecha_dos"]; }//Fin del else
+			if(($fecha_uno=="0")&&($fecha_dos=="0")){
+				$respuesta['valor']="error";
+			}else{
+				$respuesta['valor']="ok";
+				$respuesta['tabla']=promesas_contratos($fecha_uno, $fecha_dos);
+				$respuesta['id_tabla']="tabla_reportes";
 			}//fin del else
 			break;
 	}//fin del switch

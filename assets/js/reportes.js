@@ -1,6 +1,6 @@
 function cargar_tabla_reporte(){
     if(document.getElementById("select_tipo_reporte").value!="0"){
-        if((document.getElementById("select_tipo_reporte").value=="ingresos")||(document.getElementById("select_tipo_reporte").value=="ingresos_unidades")||(document.getElementById("select_tipo_reporte").value=="reservas_mensuales")||(document.getElementById("select_tipo_reporte").value=="ingresos_ambos")||(document.getElementById("select_tipo_reporte").value=="reservas_pendientes")||(document.getElementById("select_tipo_reporte").value=="contratos_elaborados")){
+        if((document.getElementById("select_tipo_reporte").value=="ingresos")||(document.getElementById("select_tipo_reporte").value=="ingresos_unidades")||(document.getElementById("select_tipo_reporte").value=="reservas_mensuales")||(document.getElementById("select_tipo_reporte").value=="ingresos_ambos")||(document.getElementById("select_tipo_reporte").value=="reservas_pendientes")||(document.getElementById("select_tipo_reporte").value=="contratos_elaborados")||(document.getElementById("select_tipo_reporte").value=="promesas_contratos")){
             fecha_uno = document.getElementById("fecha_uno").value;
             fecha_dos = document.getElementById("fecha_dos").value;
             tipo_reporte = document.getElementById("select_tipo_reporte").value;
@@ -53,7 +53,8 @@ function cargar_tabla_reporte(){
 
 function mostrar_input_fecha(){
     $(document).ready(function(){
-        if(($("#select_tipo_reporte").val()=="ingresos")||($("#select_tipo_reporte").val()=="ingresos_unidades")||($("#select_tipo_reporte").val()=="reservas_mensuales")||($("#select_tipo_reporte").val()=="ingresos_ambos")||($("#select_tipo_reporte").val()=="reservas_pendientes")||($("#select_tipo_reporte").val()=="contratos_elaborados")){
+        var reporte = $("#select_tipo_reporte").val();
+        if((reporte=="ingresos")||(reporte=="ingresos_unidades")||(reporte=="reservas_mensuales")||(reporte=="ingresos_ambos")||(reporte=="reservas_pendientes")||(reporte=="contratos_elaborados")||(reporte=="promesas_contratos")){
             $("#inputs_fechas").show('slow');
         }else{
             $("#inputs_fechas").hide();

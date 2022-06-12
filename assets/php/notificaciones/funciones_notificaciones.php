@@ -6,7 +6,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 5 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lote as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
+    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$nueva_fecha."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -29,7 +29,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 3 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 3 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lote as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
+    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$nueva_fecha."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -52,7 +52,7 @@ function crear_lista_usuarios_notificar(){
     //Hoy deben realizar su pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lote as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
+    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -75,7 +75,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 2 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 2 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lote as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
+    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";$sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lote as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -98,7 +98,7 @@ function crear_lista_usuarios_notificar(){
     //Pago vencido 5 días
     $nueva_fecha = date("Y-m-d",strtotime($hoy."- 5 days"));
     $aux = date("d", strtotime($nueva_fecha));
-    $sql="SELECT co.id_contrato, cc.id_cliente FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato WHERE dia_notificacion LIKE  '".$aux."'";
+    $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$hoy."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
@@ -133,8 +133,7 @@ function enviar_correos(){
     desconectar();
     $num = mysqli_num_rows($result);
     if($num>0){
-        while($col=mysqli_fetch_array($result)){
-          
+        while($col=mysqli_fetch_array($result)){          
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
             $mail->isSMTP();     
             //Asignamos a Host el nombre de nuestro servidor smtp

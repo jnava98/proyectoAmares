@@ -1960,12 +1960,11 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
                     $aux=0;
                     $filas=0;
                 }//fin del if
-                if($filas==28){
+                if($filas==27){
                     $aux=1;
                 }//fin del if
                 if($aux==1){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -1974,6 +1973,12 @@ function contrato_contado_extranjero($pdf, $id_contrato, $porcentaje_apartado, $
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
@@ -3477,7 +3482,6 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
             for($i = 1; $i <= $mensualidades; $i++){
                 if($i==($primera_hoja+1)){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -3486,16 +3490,21 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
                 }//fin del if
-                if($filas==28){
+                if($filas==27){
                     $aux=1;
                 }//fin del if
                 if($aux==1){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -3504,6 +3513,12 @@ function contrato_financiado_extranjero($pdf, $id_contrato, $porcentaje_apartado
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
@@ -5007,7 +5022,6 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
             for($i = 1; $i <= $mensualidades; $i++){
                 if($i==($primera_hoja+1)){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -5016,16 +5030,21 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
                 }//fin del if
-                if($filas==28){
+                if($filas==27){
                     $aux=1;
                 }//fin del if
                 if($aux==1){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -5034,6 +5053,12 @@ function contrato_financiado($pdf, $id_contrato, $porcentaje_apartado, $porcenta
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
@@ -6495,7 +6520,6 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
             for($i = 1; $i <= $mensualidades; $i++){
                 if($i==($primera_hoja+1)){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -6504,16 +6528,21 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
                 }//fin del if
-                if($filas==28){
+                if($filas==27){
                     $aux=1;
                 }//fin del if
                 if($aux==1){
                     $pdf->AddPage();
-                    //$pdf->RotatedImage('assets/img/Amares.png',50,70,120,30,0);
                     $pdf->SetY($Y_Table_Position=18);
                     $pdf->SetX($X_Table_Position=15);
                     $pdf->SetY($Y_Table_Position);
@@ -6522,6 +6551,12 @@ function contrato_contado($pdf, $id_contrato, $porcentaje_apartado, $porcentaje_
                     $pdf->Ln();
                     $pdf->SetY($Y_Table_Position+=20);
                     $pdf->SetX($X_Table_Position);
+                    $pdf->SetFont('Arial','B',9);
+                    $pdf->SetTextColor(255,255,255);
+                    $pdf->Cell(10,8,"#",1,0,'C',1);
+                    $pdf->Cell(40,8,"Fecha",1,0,'C',1);
+                    $pdf->Cell(65,8,"Balance Inicial",1,0,'C',1);
+                    $pdf->Cell(65,8,"Monto USD",1,0,'C',1);
                     $pdf->Ln();
                     $aux=0;
                     $filas=0;
