@@ -28,13 +28,16 @@ if(empty($_POST["input_id_pago"])){
     $id_pago=$_POST["input_id_pago"];
 }//Fin del else...
 
-$sql="SELECT id_contrato, monto_pagado, fecha_pago from pagos where id_pago like '".$id_pago."'";
+$sql="SELECT id_contrato, monto_pagado, fecha_pago, id_concepto, divisa, tipo_cambio from pagos where id_pago like '".$id_pago."'";
 $result=mysqli_query(conectar(),$sql);
 desconectar();
 $row = mysqli_fetch_array($result);
 $id_contrato = $row['id_contrato'];
 $monto_pagado = $row['monto_pagado'];
 $fecha_pago = $row['fecha_pago'];
+$id_concepto = $row['id_concepto'];
+$divisa = $row['divisa'];
+$tipo_cambio = $row['tipo_cambio'];
 
 $Y_Table_Position=18;
     $X_Table_Position=15;
@@ -113,15 +116,14 @@ $Y_Table_Position=18;
         $pdf->Ln();
         $pdf->SetY($Y_Table_Position);
         $pdf->SetX($X_Table_Position+=50);
-        $formatter = new NumeroALetras();
-        $valor_letras = $formatter->toMoney($monto_pagado, 2, 'DÓLARES', 'CENTAVOS');
-        $pdf->MultiCell(130,5,utf8_decode($monto_pagado.' USD.'),0,'J',0);
+        $pdf->MultiCell(130,5,utf8_decode($monto_pagado.' '.$divisa),0,'J',0);
         $pdf->Ln();
         $pdf->SetY($Y_Table_Position+=10);
         $pdf->SetX($X_Table_Position);
         $formatter = new NumeroALetras();
-        $valor_letras = $formatter->toMoney($monto_pagado, 2, 'DÓLARES', 'CENTAVOS');
-        $pdf->MultiCell(130,5,utf8_decode($valor_letras."."),0,'J',0);
+        $valor_aux = $monto_pagado * $tipo_cambio;
+        $valor_letras = $formatter->toMoney($valor_aux, 2, 'DÓLARES', 'CENTAVOS');
+        $pdf->MultiCell(130,5,utf8_decode("Equivalente a: ".$valor_letras."."),0,'J',0);
         $pdf->Ln();
 
         $pdf->SetFont('Arial','',12);
@@ -136,7 +138,12 @@ $Y_Table_Position=18;
         $num = mysqli_num_rows($result);
         if($num>0){
             $row = mysqli_fetch_array($result);
-            $lote = "Supermanzana ".$row['super_manzana']." Manzana ".$row['mza']." Lote ".$row['lote'];
+            $sql="SELECT nombre from concepto where id_concepto like '".$id_concepto."'";
+            $result_concepto = mysqli_query(conectar(),$sql);
+            desconectar();
+            $row_concepto = mysqli_fetch_array($result_concepto);
+            $nombre_concepto = $row_concepto['nombre'];
+            $lote = $nombre_concepto." del Proyecto Amares correspondiente a Supermanzana ".$row['super_manzana']." Manzana ".$row['mza']." Lote ".$row['lote'];
         }//fin del if
         $pdf->SetY($Y_Table_Position);
         $pdf->SetX($X_Table_Position+=50);
