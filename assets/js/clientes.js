@@ -28,13 +28,14 @@ function guardar_datos_cliente(){
 				var telefono = $('#telefono_cliente').val();
 				var estado_civil = $('#estadoc_cliente').val();
 				var actividad_economica = $('#act_cliente').val();
+				var rfc = $('#rfc_cliente').val();
 				//Función de Ajax
 				$.ajax({
 					url:"assets/php/clientes/guardar_datos_cliente.php",
 					dataType:"json",//Formato en como se manda la información
 					type:"get",
 					data:{//Información a enviar o cadena a enviar
-						id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica
+						id_cliente:id_cliente, nombre:nombre, apellido_pa:apellido_pa, apellido_ma:apellido_ma, residencia:residencia, nacionalidad:nacionalidad, direccion:direccion,correo:correo, telefono:telefono, estado_civil:estado_civil, actividad_economica:actividad_economica, rfc:rfc
 					},
 					success:function(respuesta){
 						$(document).ready(function(){

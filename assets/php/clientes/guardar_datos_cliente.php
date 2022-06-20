@@ -68,6 +68,12 @@ if(empty($_GET["actividad_economica"])){
 	$actividad_economica=$_GET["actividad_economica"];
 }//Fin del else
 
+if(empty($_GET["rfc"])){
+	$rfc="";
+}else{
+	$rfc=$_GET["rfc"];
+}//Fin del else
+
 $respuesta=Array();
 
 if($id_cliente!="0"){
@@ -77,7 +83,7 @@ if($id_cliente!="0"){
     $num=mysqli_num_rows($result);
     if($num>0){
         //Si existe editamos
-        $sql="UPDATE clientes set nombre = '".trim($nombre)."', apellido_paterno = '".trim($apellido_pa)."', apellido_materno = '".trim($apellido_ma)."', residencia = '".trim($residencia)."', nacionalidad = '".trim($nacionalidad)."', correo = '".trim($correo)."', direccion='".trim($direccion)."', telefono = '".trim($telefono)."', estado_civil = '".trim($estado_civil)."', act_economica = '".trim($actividad_economica)."' WHERE id_cliente LIKE '".$id_cliente."' ";
+        $sql="UPDATE clientes set nombre = '".trim($nombre)."', apellido_paterno = '".trim($apellido_pa)."', apellido_materno = '".trim($apellido_ma)."', residencia = '".trim($residencia)."', nacionalidad = '".trim($nacionalidad)."', correo = '".trim($correo)."', direccion='".trim($direccion)."', telefono = '".trim($telefono)."', estado_civil = '".trim($estado_civil)."', act_economica = '".trim($actividad_economica)."', rfc = '".trim($rfc)."' WHERE id_cliente LIKE '".$id_cliente."' ";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
@@ -88,7 +94,7 @@ if($id_cliente!="0"){
         }//fin del else
     }else{
         //Si no existe el cliente insertamos
-        $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica) values ('".trim($nombre)."', '".trim($apellido_pa)."', '".trim($apellido_ma)."', '".trim($residencia)."', '".trim($nacionalidad)."', '".trim($correo)."', '".trim($direccion)."', '".trim($telefono)."', '".trim($estado_civil)."', '".trim($actividad_economica)."' )";
+        $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica, rfc) values ('".trim($nombre)."', '".trim($apellido_pa)."', '".trim($apellido_ma)."', '".trim($residencia)."', '".trim($nacionalidad)."', '".trim($correo)."', '".trim($direccion)."', '".trim($telefono)."', '".trim($estado_civil)."', '".trim($actividad_economica)."', '".trim($rfc)."' )";
         $result=mysqli_query(conectar(),$sql);
         if($result){
             $respuesta['valor']="ok";
@@ -104,7 +110,7 @@ if($id_cliente!="0"){
         }//fin del else
     }//fin del else
 }else{
-    $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica) values ('".$nombre."', '".$apellido_pa."', '".$apellido_ma."', '".$residencia."', '".$nacionalidad."', '".$correo."', '".$direccion."', '".$telefono."', '".$estado_civil."', '".$actividad_economica."' )";
+    $sql="INSERT into clientes (nombre, apellido_paterno, apellido_materno, residencia, nacionalidad, correo, direccion, telefono, estado_civil, act_economica, rfc) values ('".$nombre."', '".$apellido_pa."', '".$apellido_ma."', '".$residencia."', '".$nacionalidad."', '".$correo."', '".$direccion."', '".$telefono."', '".$estado_civil."', '".$actividad_economica."', '".$rfc."' )";
     $result=mysqli_query(conectar(),$sql);
     if($result){
         $respuesta['valor']="ok";

@@ -107,6 +107,12 @@ function mostrar_formato_cliente_vacio(){
                     $html.='</div>';
                 $html.='</div>';
                 $html.='<div class="row mb-3">';
+                    $html.='<label for="inputText" class="col-sm-2 col-form-label">RFC</label>';
+                    $html.='<div class="col-sm-10">';
+                        $html.='<input type="text" class="form-control" id="rfc_cliente">';
+                    $html.='</div>';
+                $html.='</div>';
+                $html.='<div class="row mb-3">';
                     $html.='<div class="col-sm-9">';
                         $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_cliente();">Guardar Datos Cliente</button>';
                     $html.='</div>';
@@ -187,6 +193,12 @@ function mostrar_formato_cliente($id_cliente){
                             $html.='<label for="inputText" class="col-sm-2 col-form-label">Actividad Económica</label>';
                             $html.='<div class="col-sm-10">';
                                 $html.='<input type="text" class="form-control" id="act_cliente" value="'.$col['act_economica'].'">';
+                            $html.='</div>';
+                        $html.='</div>';
+                        $html.='<div class="row mb-3">';
+                            $html.='<label for="inputText" class="col-sm-2 col-form-label">RFC</label>';
+                            $html.='<div class="col-sm-10">';
+                                $html.='<input type="text" class="form-control" id="rfc_cliente" value="'.$col['rfc'].'">';
                             $html.='</div>';
                         $html.='</div>';
                         $html.='<div class="row mb-3">';
