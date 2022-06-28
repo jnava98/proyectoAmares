@@ -9,13 +9,26 @@ if(!(empty($_SESSION["usuario"]))){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Amares Cobranza - Panel de Control</title>
+  <title>Amares Cobranza - Lotes</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+  
+  <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="assets/js/panel_control.js"></script>  
+  <!--<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>-->
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
+  <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
+  
 </head>
 
-<body>
+<body onload="carga_tabla_notificaciones();">
 
 <?php
 menu();
@@ -246,44 +259,7 @@ menu();
                   </ul>
                 </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Clientes por Notificar <span>| Hoy</span></h5>
-
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Correo</th>
-                        <th scope="col">Monto</th>
-                        <th scope="col">Estatus Notificación</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row"><a href="#">#2457</a></th>
-                        <td>Jorge Navarrete</td>
-                        <td><a href="#" class="text-primary">jcnt98@gmail.com</a></td>
-                        <td>$600</td>
-                        <td><span class="badge bg-success">Notificado</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2147</a></th>
-                        <td>Cesar Toraya</td>
-                        <td><a href="#" class="text-primary">cesartn12@gmail.com</a></td>
-                        <td>$47</td>
-                        <td><span class="badge bg-warning">Pending</span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#">#2049</a></th>
-                        <td>Maritzel Solis</td>
-                        <td><a href="#" class="text-primary">Maritz13@gmail.com</a></td>
-                        <td>$200</td>
-                        <td><span class="badge bg-danger">Error en la notificación</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-
+                <div id="div_tabla_notificaciones" class="card-body">
                 </div>
 
               </div>
