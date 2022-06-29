@@ -18,7 +18,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion,id_cliente,estatus,id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0', '".$col['id_contrato']."') ";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus, id_contrato, tipo_notificacion) values ('".$hoy."', '".$col['id_cliente']."', '0', '".$col['id_contrato']."', '1') ";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
@@ -42,7 +42,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."') ";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus, id_contrato, tipo_notificacion) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."', '2') ";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
@@ -66,7 +66,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."') ";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato, tipo_notificacion) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."', '3') ";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
@@ -90,7 +90,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."')";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato, tipo_notificacion) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."', '4')";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
@@ -114,7 +114,7 @@ function crear_lista_usuarios_notificar(){
             $num = mysqli_num_rows($resultado);
             if($num>0){
             }else{
-                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus,id_contrato) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."') ";
+                $sql="INSERT into notificaciones (fecha_notificacion, id_cliente, estatus, id_contrato, tipo_notificacion) values ('".$hoy."', '".$col['id_cliente']."', '0','".$col['id_contrato']."', '5') ";
                 $resultado = mysqli_query(conectar(),$sql);
                 desconectar();
             }//fin del else
