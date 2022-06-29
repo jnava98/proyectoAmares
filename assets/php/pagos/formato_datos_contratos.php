@@ -15,7 +15,7 @@ if($id_contrato==" "||$id_contrato==""||$id_contrato==0) return false;
         $tipo_compra = $datosContrato['tipo_compra'];
         $cant_enganche = $datosContrato['cant_enganche'];
         $dia_pago = $datosContrato['dia_pago'];
-        $nombre_completo = $datosContrato['nombre'];
+        $nombre_completo = $datosContrato['nombre']." ".$datosContrato['apellido_paterno']." ".$datosContrato['apellido_materno'];
         $lote = $datosContrato['fase']."-".$datosContrato['super_manzana']."-".$datosContrato['mza']."-".$datosContrato['lote'];  
         
         $deuda_restante = traeDeudaRestante($id_contrato);
@@ -86,7 +86,9 @@ if($id_contrato==" "||$id_contrato==""||$id_contrato==0) return false;
             c.id_contrato,
             c.precio_venta,
             c.cant_apartado,
-            (cl.nombre+' '+cl.apellido_paterno+' '+cl.apellido_materno) as nombre,
+            cl.nombre,
+            cl.apellido_paterno,
+            cl.apellido_materno,
             c.dia_pago,
             l.fase,
             l.super_manzana, 

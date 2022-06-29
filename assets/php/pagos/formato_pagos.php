@@ -181,7 +181,7 @@ function traeCatCuentasBancarias(){
             $id = $cuentasBancarias['id_cuenta_bancaria'];
             $banco = $cuentasBancarias['banco'];
             $numero = $cuentasBancarias['identificador_cuenta'];
-            $moneda = $cuentasBancarias['moneda'];
+            $moneda = $cuentasBancarias['divisa'];
             $options .= "<option data-moneda='$moneda' value='$id'>$banco - $numero - $moneda</option>";
         }
     }

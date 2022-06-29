@@ -75,9 +75,20 @@ switch ($id_concepto) {
             //Validamos si existe un ultimo pago.
             $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
             if($ultimoPago!=false){
-                
+                $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
+                $restantexPagar = ($datosContrato->precio_venta - $datosTotalPagado->totalPagado);
+                if($restantexPagar > $datosContrato->monto_mensual){
+                    $cantidadxPagar = $datosContrato->monto_mensual;
+                }else{
+                    $cantidadxPagar = $restantexPagar;
+                    if($restantexPagar == 0){
+                        $mensaje = "Contrato pagado.";
+                        $mensaje2 = "El contrato ya se encuentra pagado.";
+                    }
+                }                
             }else{
-               
+               //Si es el primer pago...
+               $cantidadxPagar = $datosContrato->monto_mensual; 
             }
         }else{
             //Validamos si existe un ultimo pago.
@@ -85,8 +96,8 @@ switch ($id_concepto) {
             if($ultimoPago!=false){
                 $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
                 $restantexPagar = ($datosContrato->precio_venta - $datosTotalPagado->totalPagado);
-                if($restantexPagar > $datosContrato->cant_mensual_enganche){
-                    $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+                if($restantexPagar > $datosContrato->monto_mensual){
+                    $cantidadxPagar = $datosContrato->monto_mensual;
                 }else{
                     $cantidadxPagar = $restantexPagar;
                     if($restantexPagar == 0){
@@ -115,7 +126,7 @@ echo json_encode($response);
 
 function consultaPagoxConcepto($id_contrato,$id_concepto){
     //Consulta si existe algún pago de un concepto en específico
-    $sql="SELECT * FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1 LIMIT 1";
+    $sql="SELECT * FROM pagos WHERE id_contrato = $id_contrato AND id_concepto in ($id_concepto,5) AND habilitado = 1 LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $row = mysqli_fetch_assoc($result);

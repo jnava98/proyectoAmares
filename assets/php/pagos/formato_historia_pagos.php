@@ -65,7 +65,7 @@ if($id_contrato==" "||$id_contrato==""){
                     <td>$pago->monto_pagado</td>
                     <td>$pago->abonado_capital</td>
                     <td>$pago->abonado_interes</td>
-                    <td>$pago->monto_mensual</td>
+                    <td>$pago->mensualidad_historica</td>
                     <td>$pago->diferencia</td>
                     <td>$pago->estatus_pago</td>
                     <td>$pago->comentario</td>
@@ -121,6 +121,7 @@ function consultaHistorialPagos($id_contrato){
     p.tipo_cambio, 
     p.monto_pagado,
     c.monto_mensual,
+    p.mensualidad_historica,
     p.diferencia, 
     cep.nombre,
     cb.identificador_cuenta,
@@ -150,7 +151,7 @@ function consultaHistorialPagos($id_contrato){
         
 }
 function traeUltimoPago($id_contrato){
-    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY no_mensualidad DESC LIMIT 1";
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY id_pago DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if ($result==true) {

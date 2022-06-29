@@ -213,6 +213,7 @@ function guardaAbono(id_contrato){
 			// $('#div_form_pagos').show('slow');
 		},
 		error:function(response){
+			consulta_historial_pagos(id_contrato);
 			console.log(response.error);
 		}
 	})

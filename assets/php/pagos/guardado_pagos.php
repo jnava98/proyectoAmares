@@ -129,22 +129,6 @@ $cambia_estatus =  $_GET["cambia_estatus"];
 	TODO: Guardado de datos.
 	Datos a ingresar en la base de datos
 
-	id_contrato
-	fecha_pago✅
-	no_mensualidad✅
-	monto_pagado✅
-	abonado_capital (obtenido por formula)
-	abonado_interes	(obtenido por formula)
-	diferencia✅
-	id_estatus_pago	(obtenido por formula)
-	comentario✅
-	id_concepto✅
-	mensualidad_historica
-	fecha_mensualidad✅
-	fecha_captura(auto)
-	balance_final (obtenido por formula)
-    estatus_contrato
-	habilitado✅
 */
 
 $datosContrato = traeDatosContrato($id_contrato);
@@ -174,7 +158,7 @@ $ultimoPago = traeUltimoPago($id_contrato);
             $abonado_interes = $balance*(($tasa_interes/100)/12);
             $abonado_capital = $inp_cpagada-$abonado_interes;
             $diferencia = $inp_diferencia;
-            if($inp_diferencia == "" || $inp_diferencia == 0){
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
                 $id_estatus_pago = 1;
             }else{
                 $id_estatus_pago = 2;
@@ -190,6 +174,12 @@ $ultimoPago = traeUltimoPago($id_contrato);
 
             $fecha_mensualidad;
 
+            if ($concepto!=3) {
+                
+                $abonado_capital = 0;
+                $abonado_interes = 0;
+                $balance_final = $ultimoPago['balance_final'];
+            }
             $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
         diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
         balance_final, estatus_contrato, habilitado, fecha_captura
@@ -241,6 +231,12 @@ $ultimoPago = traeUltimoPago($id_contrato);
             $fecha_ultima_mensualidad;
 
             $fecha_mensualidad;
+            if ($concepto!=3) {
+                $abonado_capital = 0;
+                $abonado_interes = 0;
+                $balance_final = $balance;
+            }
+
             $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
         diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
         balance_final, estatus_contrato, habilitado
@@ -388,7 +384,7 @@ function traeDatosContrato($id_contrato){
 };
 
 function traeUltimoPago($id_contrato){
-    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY no_mensualidad DESC LIMIT 1";
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado = 1 ORDER BY no_mensualidad DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if ($result==true) {

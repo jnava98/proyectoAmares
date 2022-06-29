@@ -79,7 +79,7 @@ $response['id_contrato'] =  $id_contrato;
 echo json_encode($response); 
 
 function traeUltimoPago($id_contrato){
-    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true AND id_concepto ORDER BY no_mensualidad DESC LIMIT 1";
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado = 1 ORDER BY id_pago DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if ($result==true) {
