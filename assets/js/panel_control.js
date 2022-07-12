@@ -53,7 +53,90 @@ function cargar_grafica_lotes_vendidos(){
         success:function(respuesta){
             $(document).ready(function(){
                 if(respuesta.valor=="ok"){
-                    console.log(respuesta);
+                    //console.log(respuesta);
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#div_grafica_lote"), {
+                            series: [{
+                                name: 'Premium',
+                                data: respuesta.Premium,
+                            }, {
+                                name: 'Estándar',
+                                data: respuesta.Estandar,
+                            }, {
+                                name: 'Plus',
+                                data: respuesta.Plus,
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                toolbar: {
+                                show: false
+                                },
+                            },
+                            markers: {
+                                size: 4
+                            },
+                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                            fill: {
+                                type: "gradient",
+                                gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.3,
+                                opacityTo: 0.4,
+                                stops: [0, 90, 100]
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth',
+                                width: 2
+                            },
+                            xaxis: {
+                                type: 'date',
+                                categories: ["Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"]
+                            },
+                            tooltip: {
+                                x: {
+                                format: 'dd/MM/yy'
+                                },
+                            },
+                            toolbar: {
+                                show: true,
+                                offsetX: 0,
+                                offsetY: 0,
+                                tools: {
+                                download: true,
+                                selection: true,
+                                zoom: true,
+                                zoomin: true,
+                                zoomout: true,
+                                pan: true,
+                                reset: true | '<img src="/static/icons/reset.png" width="20">',
+                                customIcons: []
+                                },
+                                export: {
+                                    csv: {
+                                        filename: undefined,
+                                        columnDelimiter: ',',
+                                        headerCategory: 'category',
+                                        headerValue: 'value',
+                                        dateFormatter(timestamp) {
+                                        return new Date(timestamp).toDateString()
+                                        }
+                                    },
+                                    svg: {
+                                        filename: undefined,
+                                    },
+                                    png: {
+                                        filename: undefined,
+                                    }
+                                },
+                                autoSelected: 'zoom' 
+                            },
+                        }).render();
+                    });
                 }//fin del if
             });	
         },
@@ -62,89 +145,3 @@ function cargar_grafica_lotes_vendidos(){
         }//fin de error
     });//fin de ajax
 }//fin de funcion carga tabla notificaciones
-
-function grafica_lotes(){
-    document.addEventListener("DOMContentLoaded", () => {
-        new ApexCharts(document.querySelector("#div_grafica_lote"), {
-            series: [{
-                name: 'Premium',
-                data: [31, 40, 28, 51, 42, 82, 56]
-            }, {
-                name: 'Estándar',
-                data: [11, 32, 45, 32, 34, 52, 41]
-            }, {
-                name: 'Plus',
-                data: [15, 11, 32, 18, 9, 24, 11]
-            }],
-            chart: {
-                height: 350,
-                type: 'area',
-                toolbar: {
-                show: false
-                },
-            },
-            markers: {
-                size: 4
-            },
-            colors: ['#4154f1', '#2eca6a', '#ff771d'],
-            fill: {
-                type: "gradient",
-                gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.3,
-                opacityTo: 0.4,
-                stops: [0, 90, 100]
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 2
-            },
-            xaxis: {
-                type: 'date',
-                categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"]
-            },
-            tooltip: {
-                x: {
-                format: 'dd/MM/yy'
-                },
-            },
-            toolbar: {
-                show: true,
-                offsetX: 0,
-                offsetY: 0,
-                tools: {
-                download: true,
-                selection: true,
-                zoom: true,
-                zoomin: true,
-                zoomout: true,
-                pan: true,
-                reset: true | '<img src="/static/icons/reset.png" width="20">',
-                customIcons: []
-                },
-                export: {
-                    csv: {
-                        filename: undefined,
-                        columnDelimiter: ',',
-                        headerCategory: 'category',
-                        headerValue: 'value',
-                        dateFormatter(timestamp) {
-                        return new Date(timestamp).toDateString()
-                        }
-                    },
-                    svg: {
-                        filename: undefined,
-                    },
-                    png: {
-                        filename: undefined,
-                    }
-                },
-                autoSelected: 'zoom' 
-            },
-        }).render();
-    });
-}

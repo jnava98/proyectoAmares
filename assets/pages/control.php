@@ -148,11 +148,6 @@ menu();
 
                   <!-- Line Chart -->
                   <div id="div_grafica_lote">
-
-                  <script>
-                    
-                  </script>
-                  <!-- End Line Chart -->
                   </div>
 
                 </div>
