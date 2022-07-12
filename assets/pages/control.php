@@ -28,7 +28,7 @@ if(!(empty($_SESSION["usuario"]))){
   
 </head>
 
-<body onload="carga_tabla_notificaciones();">
+<body onload="carga_tabla_notificaciones();cargar_indicadores_lotes();">
 
 <?php
 menu();
@@ -60,7 +60,7 @@ menu();
               <div class="card info-card revenue-card">
 
                 <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <!--<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
@@ -69,7 +69,7 @@ menu();
                     <li><a class="dropdown-item" href="#">Today</a></li>
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
+                  </ul>-->
                 </div>
 
                 <div class="card-body">
@@ -79,10 +79,9 @@ menu();
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">aumento</span>
-
+                    <div id="div_ingreso_lote" class="ps-3">
+                      
+                      <!--<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">aumento</span>-->
                     </div>
                   </div>
                 </div>
@@ -95,7 +94,7 @@ menu();
 
               <div class="card info-card customers-card">
 
-                <div class="filter">
+                <!--<div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -106,19 +105,16 @@ menu();
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
-                </div>
-
+                </div>-->
                 <div class="card-body">
-                  <h5 class="card-title">Lotes Vendidos <span>| Este Año</span></h5>
+                  <h5 class="card-title">Lotes Vendidos <span>| Este Mes</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
+                      <i class="bi bi-graph-up-arrow"></i>
                     </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decremento</span>
-
+                    <div id="div_lotes_vendidos" class="ps-3">
+                      <!--<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decremento</span>-->
                     </div>
                   </div>
 
@@ -131,7 +127,7 @@ menu();
             <div class="col-12">
               <div class="card">
 
-                <div class="filter">
+                <!--<div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -142,7 +138,7 @@ menu();
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
-                </div>
+                </div>-->
 
                 <div class="card-body">
                   <h5 class="card-title">Lotes Vendidos <span>|2022</span></h5>
@@ -246,7 +242,7 @@ menu();
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
+                <!--<div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -257,7 +253,7 @@ menu();
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
-                </div>
+                </div>-->
 
                 <div id="div_tabla_notificaciones" class="card-body">
                 </div>
@@ -266,7 +262,7 @@ menu();
             </div><!-- End Recent Sales -->
 
             <!-- Mensualidades por Vencer -->
-            <div class="col-12">
+            <!--<div class="col-12">
               <div class="card top-selling overflow-auto">
 
                 <div class="filter">
@@ -337,7 +333,7 @@ menu();
                 </div>
 
               </div>
-            </div><!-- End Top Selling -->
+            </div>-->
 
           </div>
         </div><!-- End Left side columns -->
