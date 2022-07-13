@@ -21,7 +21,7 @@ if($num>0){
         $fecha_dos = date("Y-m-d",strtotime($fecha_uno."+ 1 month"));
         for ($i = 0; $i <= 5; $i++) {
             $sql="SELECT count(*) from contrato as c inner join lotes as l on c.id_lote = l.id_lote inner join cat_tipo_lote as ctl where c.fecha_firma >= '$fecha_uno' && c.fecha_firma < '$fecha_dos' && ctl.id_tipo_lote like '".$col['id_tipo_lote']."'";//Consultar id de la variable
-            //echo $sql;
+            echo $sql;
             $result_lotes=mysqli_query(conectar(),$sql);
             desconectar();
             $num=mysqli_num_rows($result_lotes);
