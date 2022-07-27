@@ -4,6 +4,48 @@ include "../conexion.php";
 include "../funciones.php";
 include "../selects.php";
 
+function mes($numero_mes){
+    switch($numero_mes){
+        case "01":
+            $respuesta = "Enero";
+        break;
+        case "02":
+            $respuesta = "Febrero";
+        break;
+        case "03":
+            $respuesta = "Marzo";
+        break;
+        case "04":
+            $respuesta = "Abril";
+        break;
+        case "05":
+            $respuesta = "Mayo";
+        break;
+        case "06":
+            $respuesta = "Junio";
+        break;
+        case "07":
+            $respuesta = "Julio";
+        break;
+        case "08":
+            $respuesta = "Agosto";
+        break;
+        case "09":
+            $respuesta = "Septiembre";
+        break;
+        case "10":
+            $respuesta = "Octubre";
+        break;
+        case "11":
+            $respuesta = "Noviembre";
+        break;
+        case "12":
+            $respuesta = "Diciembre";
+        break;
+    }//fin del switch
+    return $respuesta;
+}//fin de funcion mes
+
 $respuesta=Array();
 $meses = Array("", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 $hoy = date("Y-m-d");
@@ -36,22 +78,19 @@ if($num>0){
             $fecha_dos = date("Y-m-d",strtotime($fecha_dos."+ 1 month"));
         }//fin del for  
     }//fin del while
-    /*$mes = date("m",strtotime($hoy."- 5 month"));
-    for ($i = 0; $i <= 5; $i++) {
-        $aux_mes = $meses[$mes];
-        $aux_mes=$meses[(date('m',strtotime($mes))*1)];
-        
+    $mes = date("m",strtotime($hoy."- 5 month"));
+    for($i = 0; $i <= 5; $i++) {
+        if($mes>="13"){
+            $mes = "01";
+        }//fin del if
+        $aux_mes = mes($mes);
         $respuesta['meses'][$i]=$aux_mes;
-
-        $mes = date("m",strtotime($mes."+ 1 month"));
-    }//fin del for  */
+        $mes = $mes+1;
+    }//fin del for
 
 }else{
     $respuesta['valor']="error";
 }//fin del else
 
-
-
-//$respuesta['premium'][]="";
 echo json_encode($respuesta);
 ?>

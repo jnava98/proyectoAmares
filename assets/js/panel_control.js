@@ -12,7 +12,7 @@ function carga_tabla_notificaciones(){
 				    $('#tabla_clientes_notificaciones').DataTable();
                 }else{
                     $('#div_tabla_notificaciones').html(respuesta.formato);//En donde quiero mostrar la información
-                    console.log(respuesta);		
+                    //console.log(respuesta);		
                 }//fin del else
             });	
         },
@@ -53,7 +53,6 @@ function cargar_grafica_lotes_vendidos(){
         success:function(respuesta){
             $(document).ready(function(){
                 if(respuesta.valor=="ok"){
-                    console.log(respuesta);
                     new ApexCharts(document.querySelector("#div_grafica_lote"), {
                         series: [{
                             name: 'Premium',
@@ -94,7 +93,7 @@ function cargar_grafica_lotes_vendidos(){
                         },
                         xaxis: {
                             type: 'date',
-                            categories: ["Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"]
+                            categories: [respuesta.meses[0], respuesta.meses[1], respuesta.meses[2], respuesta.meses[3], respuesta.meses[4], respuesta.meses[5],]
                         },
                         tooltip: {
                             x: {
