@@ -197,7 +197,7 @@ function traeCatCuentasBancarias(){
     
 }
 function traeCatConceptos(){
-    $sql="SELECT * FROM concepto where id_concepto != 5 order by id_concepto asc";
+    $sql="SELECT * FROM concepto where id_concepto != 4 order by id_concepto asc";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $options = "";

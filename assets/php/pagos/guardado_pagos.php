@@ -151,6 +151,9 @@ const contado = 2;
 const contadoComercial = 3;
 const msi = 4;
 
+if ($input_concepto == 0) {
+    return false;
+}
 
 if ($datosContrato['id_tipo_compra'] == contadoComercial || contado) {
     $no_mensualidad = 1;

@@ -22,7 +22,7 @@ const MSI = 4;
 const APARTADO = 1;
 const ENGANCHE = 2;
 const MENSUALIDAD_CONTRATO = 3;
-const PAGO_FINAL = 4;
+const PAGO_FINAL = 5;
 
 $datosContrato = traeDatosContrato($id_contrato);
 $ultimoPagoxConcepto = consultaPagoxConcepto($id_contrato,$id_concepto);
@@ -100,7 +100,12 @@ if ($datosContrato->id_tipo_compra == CONTADO || $datosContrato->id_tipo_compra 
         }
     }
     if ($id_concepto == MENSUALIDAD_CONTRATO) {
-        if ($ultimoPago==false) {
+        $mensaje = "No hay mensualidades.";
+        $mensaje2 = "Los contratos de contado no tienen mensualidades, solo pago final.";
+
+    }
+    if ($id_concepto == PAGO_FINAL) {
+        if ($ultimoPago==false) {   
             $cantidadxPagar = $datosContrato->precio_venta;
             $saldoMesAnterior = 0;
             $interesMesAnterior = 0;
