@@ -107,6 +107,16 @@ if(empty($_GET["cant_inicial"])){
 }else{
     $cant_inicial=$_GET["cant_inicial"];
 }
+if(empty($_GET["input_concepto"])){
+	$input_concepto="0";
+}else{
+	$input_concepto=$_GET["input_concepto"];
+}//Fin del else
+if(empty($_GET["inp_formapago"])){
+	$inp_formapago="0";
+}else{
+	$inp_formapago=$_GET["inp_formapago"];
+}//Fin del else
 
 /*
 $input_concepto =  $_GET["input_concepto"];
@@ -121,7 +131,7 @@ $inp_diferencia =  $_GET["inp_diferencia"];
 $inp_totpagar =  $_GET["inp_totpagar"];
 $inp_comentario =  $_GET["inp_comentario"];
 $cambia_estatus =  $_GET["cambia_estatus"];
-
+inp_formapago
 
 //Formula para calcular la cantidad abonada a capital y abonado a interes
 		Abonado a interes:	Balance inicial(Tasa de interés/Cantidad de Mensualidades anuales)
@@ -131,121 +141,158 @@ $cambia_estatus =  $_GET["cambia_estatus"];
 
 */
 
+
 $datosContrato = traeDatosContrato($id_contrato);
 $ultimoPago = traeUltimoPago($id_contrato);
 
-        //Obtenemos los datos del contrato
-        $cant_mensual_enganche = $datosContrato['monto_mensual'];
-        $total_pagar = $datosContrato['precio_venta'];
-        $fecha_mensualidad = $datosContrato['dia_pago'];
-        $estatus_contrato = $datosContrato['id_estatus_venta'];
-        $balance = $datosContrato['precio_venta'];
-        $tasa_interes = $datosContrato['tasa_interes'];
-        //Consultamos si existe un pago anterior
-        if ($ultimoPago == true) {
-            $ultima_mensualidad = $ultimoPago['no_mensualidad'];
-            $fecha_ultima_mensualidad = $ultimoPago['fecha_mensualidad'];
-            $balance = $ultimoPago['balance_final'];
-            $fecha_mensualidad = date("Y-m-d",strtotime($fecha_ultima_mensualidad."+ 1 month"));
+//TIPOS DE CONTRATO O TIPOS DE VENTA
+const financiado = 1;
+const contado = 2;
+const contadoComercial = 3;
+const msi = 4;
 
-            //Comenzamos a generar los datos para insertar
-            $fecha_pago = $inp_fpago;
-            $cuenta = $inp_cuenta;
-            $no_mensualidad = $ultima_mensualidad + 1;
-            $monto_pagado = $inp_cpagada;
-            $divisa = $inp_divisa;
-            $tipo_cambio = $inp_tipocambio;
-            $abonado_interes = $balance*(($tasa_interes/100)/12);
-            $abonado_capital = $inp_cpagada-$abonado_interes;
-            $diferencia = $inp_diferencia;
-            if($inp_diferencia == "" || $inp_diferencia <= 0){
-                $id_estatus_pago = 1;
-            }else{
-                $id_estatus_pago = 2;
-            };
-            $comentario = $inp_comentario;
-            $concepto = $input_concepto;
-            $mensualidad_historica = $inp_mensualidad;
 
-            $fecha_captura = date("Y-m-d");
-            $balance_final = $balance - $abonado_capital;
+if ($datosContrato['id_tipo_compra'] == contadoComercial || contado) {
+    $no_mensualidad = 1;
+    $abonado_interes = 0; 
+    $abonado_capital = $inp_cpagada;
+    $balance_final = $datosContrato['precio_venta'] - $abonado_capital;
+    if($inp_diferencia == "" || $inp_diferencia <= 0){
+        $id_estatus_pago = 1;
+    }else{
+        $id_estatus_pago = 2;
+    };
+    $estatus_contrato = $datosContrato['id_estatus_venta'];
+    
+    $fecha_mensualidad = date("Y-m-d");//En una compra de contado no hay mensualidades, colocamos la fecha en que se captura el pago.
+
+    if ($ultimoPago == true) {
+        $no_mensualidad = $ultimoPago['no_mensualidad'] + 1;
+        $balance_final = $ultimoPago['balance_final'] - $abonado_capital;  
+    }
+    if ($inp_cpagada <=0 && $inp_diferencia < 0) {
+        //Si tenemos un saldo a favor y no se introduce una cantidad pagada. Se toma el saldo a favor para pagar.
+        $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_diferencia,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,0,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
+    }else{
+        $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
+    }
+
+}
+
+
+
+        // //Obtenemos los datos del contrato
+        // $cant_mensual_enganche = $datosContrato['monto_mensual'];
+        // $total_pagar = $datosContrato['precio_venta'];
+        // $fecha_mensualidad = $datosContrato['dia_pago'];
+        // $estatus_contrato = $datosContrato['id_estatus_venta'];
+        // $balance = $datosContrato['precio_venta'];
+        // $tasa_interes = $datosContrato['tasa_interes'];
+        // //Consultamos si existe un pago anterior
+        // if ($ultimoPago == true) {
+        //     $ultima_mensualidad = $ultimoPago['no_mensualidad'];
+        //     $fecha_ultima_mensualidad = $ultimoPago['fecha_mensualidad'];
+        //     $balance = $ultimoPago['balance_final'];
+        //     $fecha_mensualidad = date("Y-m-d",strtotime($fecha_ultima_mensualidad."+ 1 month"));
+
+        //     //Comenzamos a generar los datos para insertar
+        //     $fecha_pago = $inp_fpago;
+        //     $cuenta = $inp_cuenta;
+        //     $no_mensualidad = $ultima_mensualidad + 1;
+        //     $monto_pagado = $inp_cpagada;
+        //     $divisa = $inp_divisa;
+        //     $tipo_cambio = $inp_tipocambio;
+        //     $abonado_interes = $balance*(($tasa_interes/100)/12);
+        //     $abonado_capital = $inp_cpagada-$abonado_interes;
+        //     $diferencia = $inp_diferencia;
+        //     if($inp_diferencia == "" || $inp_diferencia <= 0){
+        //         $id_estatus_pago = 1;
+        //     }else{
+        //         $id_estatus_pago = 2;
+        //     };
+        //     $comentario = $inp_comentario;
+        //     $concepto = $input_concepto;
+        //     $mensualidad_historica = $inp_mensualidad;
+
+        //     $fecha_captura = date("Y-m-d");
+        //     $balance_final = $balance - $abonado_capital;
             
-            $fecha_ultima_mensualidad;
+        //     $fecha_ultima_mensualidad;
 
-            $fecha_mensualidad;
+        //     $fecha_mensualidad;
 
-            if ($concepto!=3) {
+        //     if ($concepto!=3) {
                 
-                $abonado_capital = 0;
-                $abonado_interes = 0;
-                $balance_final = $ultimoPago['balance_final'];
-            }
-            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
-        diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
-        balance_final, estatus_contrato, habilitado, fecha_captura
-            ) 
-        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
-                '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
-                '$balance_final', '$estatus_contrato','1',$fecha_captura)";
-        $result=mysqli_query(conectar(),$sql);
+        //         $abonado_capital = 0;
+        //         $abonado_interes = 0;
+        //         $balance_final = $ultimoPago['balance_final'];
+        //     }
+        //     $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
+        // diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
+        // balance_final, estatus_contrato, habilitado, fecha_captura
+        //     ) 
+        // values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
+        //         '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
+        //         '$balance_final', '$estatus_contrato','1',$fecha_captura)";
+        // $result=mysqli_query(conectar(),$sql);
 
-        }else{
-            //CUANDO ES EL PRIMER PAGO
+        // }else{
+        //     //CUANDO ES EL PRIMER PAGO
             
-            $fecha_pago = $inp_fpago;
+        //     $fecha_pago = $inp_fpago;
 
-            $cuenta = $inp_cuenta;
+        //     $cuenta = $inp_cuenta;
 
-            $no_mensualidad = 1;
+        //     $no_mensualidad = 1;
 
-            $monto_pagado = $inp_cpagada;
+        //     $monto_pagado = $inp_cpagada;
 
-            $divisa = $inp_divisa;
+        //     $divisa = $inp_divisa;
 
-            $tipo_cambio = $inp_tipocambio;
+        //     $tipo_cambio = $inp_tipocambio;
 
-            $abonado_interes = $balance*(($tasa_interes/100)/12); 
+        //     $abonado_interes = $balance*(($tasa_interes/100)/12); 
 
-            $abonado_capital = $inp_cpagada-$abonado_interes;
+        //     $abonado_capital = $inp_cpagada-$abonado_interes;
 
-            $diferencia = $inp_diferencia;
+        //     $diferencia = $inp_diferencia;
 
-            if($inp_diferencia == "" || $inp_diferencia <= 0){
-                $id_estatus_pago = 1;
-            }else{
-                $id_estatus_pago = 2;
-            };
+        //     if($inp_diferencia == "" || $inp_diferencia <= 0){
+        //         $id_estatus_pago = 1;
+        //     }else{
+        //         $id_estatus_pago = 2;
+        //     };
 
-            $comentario = $inp_comentario;
+        //     $comentario = $inp_comentario;
 
-            $concepto = $input_concepto;
+        //     $concepto = $input_concepto;
 
-            $mensualidad_historica = $inp_mensualidad;
+        //     $mensualidad_historica = $inp_mensualidad;
 
-            $fecha_mensualidad = date("Y-m-d",strtotime($fecha_mensualidad."+ 1 month")); 
+        //     $fecha_mensualidad = date("Y-m-d",strtotime($fecha_mensualidad."+ 1 month")); 
 
-            $fecha_captura = date("Y-m-d");
+        //     $fecha_captura = date("Y-m-d");
 
-            $balance_final = $balance - $abonado_capital;
+        //     $balance_final = $balance - $abonado_capital;
             
-            $fecha_ultima_mensualidad;
+        //     $fecha_ultima_mensualidad;
 
-            $fecha_mensualidad;
-            if ($concepto!=3) {
-                $abonado_capital = 0;
-                $abonado_interes = 0;
-                $balance_final = $balance;
-            }
+        //     $fecha_mensualidad;
+        //     if ($concepto!=3) {
+        //         $abonado_capital = 0;
+        //         $abonado_interes = 0;
+        //         $balance_final = $balance;
+        //     }
 
-            $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
-        diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
-        balance_final, estatus_contrato, habilitado
-            ) 
-        values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
-                '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
-                '$balance_final', '$estatus_contrato','1')";
-        $result=mysqli_query(conectar(),$sql);
-        }
+        //     $sql = "INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad,monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes,
+        // diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad,
+        // balance_final, estatus_contrato, habilitado
+        //     ) 
+        // values ('$id_contrato','$inp_fpago','$cuenta','$no_mensualidad','$inp_cpagada','$divisa','$tipo_cambio',$cant_inicial,'$abonado_capital','$abonado_interes',
+        //         '$inp_diferencia', '$id_estatus_pago', '$inp_comentario', '$input_concepto', '$inp_mensualidad', '$fecha_mensualidad', 
+        //         '$balance_final', '$estatus_contrato','1')";
+        // $result=mysqli_query(conectar(),$sql);
+        // }
 
         
 
@@ -384,7 +431,7 @@ function traeDatosContrato($id_contrato){
 };
 
 function traeUltimoPago($id_contrato){
-    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado = 1 ORDER BY no_mensualidad DESC LIMIT 1";
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado = 1 ORDER BY id_pago DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if ($result==true) {
@@ -396,6 +443,19 @@ function traeUltimoPago($id_contrato){
     
 };
 
+function guardaPago($id_contrato,$fecha_pago,$id_cuenta_bancaria,$no_mensualidad,$monto_pagado,$divisa,$tipo_cambio,$cant_inicial,$abonado_capital,$abonado_interes,$diferencia,$id_estatus_pago,$comentario,$id_concepto,$mensualidad_historica,$fecha_mensualidad,$balance_final,$forma_pago,$estatus_contrato){
+   
+    $fecha_captura = date('Y-m-d');
+
+    $sql=" INSERT INTO pagos (id_contrato, fecha_pago, id_cuenta_bancaria, no_mensualidad, monto_pagado, divisa, tipo_cambio, cant_inicial, abonado_capital, abonado_interes, diferencia, id_estatus_pago, comentario, id_concepto, mensualidad_historica, fecha_mensualidad, fecha_captura, balance_final, forma_pago, estatus_contrato, habilitado) values ($id_contrato,'$fecha_pago',$id_cuenta_bancaria,$no_mensualidad,$monto_pagado,'$divisa',$tipo_cambio,$cant_inicial,$abonado_capital,$abonado_interes,$diferencia,$id_estatus_pago,'$comentario',$id_concepto,$mensualidad_historica,$fecha_mensualidad,'$fecha_captura',$balance_final,'$forma_pago',$estatus_contrato,1)";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    if ($result==true){
+        return true;
+    }else{
+        return $sql;
+    }
+}
 
 
 
@@ -506,10 +566,11 @@ $datosSalida = Array();
 //$datosSalida['monto_mensual'] = $monto_mensual;
 //$datosSalida['balance_final'] = $balance_final;
 //$datosSalida['interes'] = $interes;
-$datosSalida['sql'] = utf8_encode($sql);
+// $datosSalida['sql'] = utf8_encode($sql);
+$datosSalida['guardado'] = $guardadoPago;
 $datosSalida['id_contrato'] = $id_contrato;
 $datosSalida['inp_diferencia'] = $inp_diferencia;
-$datosSalida['result'] = $result;
+// $datosSalida['result'] = $result;
 
 //$datosSalida['cambia_estatus'] = $cambia_estatus;
 

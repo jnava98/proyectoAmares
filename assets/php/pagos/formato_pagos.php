@@ -114,6 +114,11 @@ $html="
                 <label for='inp_comentario' class='form-label'>Comentario</label>
                 <textarea class='form-control' id='inp_comentario' rows='3'></textarea>
             </div>
+            <div class='col-sm-4'>
+                <label for=' ' class='form-label'>Forma de pago</label>
+                <textarea class='form-control' id='inp_formapago' rows='3'></textarea>
+            </div>
+
             <div class='row'>
                 <div class='col-sm-4'>
                 <label for='inp_mensualidad' class='form-label'>Cant Mensualidad</label>
@@ -157,7 +162,7 @@ function traeDatosContrato($id_contrato){
 };
 
 function traeUltimoPago($id_contrato){
-    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY no_mensualidad DESC LIMIT 1";
+    $sql="SELECT  * FROM pagos WHERE id_contrato = '$id_contrato' AND habilitado IS true ORDER BY id_pago DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if ($result==true) {

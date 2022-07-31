@@ -151,7 +151,9 @@ function cambiaConcepto(id_contrato, id_concepto){
 		},
 		success:function(response) {
 			console.log(response)
+			$("#inp_interes").val(response.interesMesAnterior);
 			$("#inp_mensualidad").val(response.cantidadxPagar);
+			$("#inp_recargo").val(response.saldoMesAnterior);
 			if(response.cantidadxPagar==0){
 				Swal.fire(response.mensaje, response.mensaje2);
 				$("#input_concepto").val(0);
@@ -349,8 +351,8 @@ function actualiza_datos_pago(){
 	var cpagada = parseFloat($('#inp_cpagada').val());
 
 	//Calculamos el total a pagar
-	$('#inp_totpagar').val(recargo + interes + mensualidad);
-
+		$('#inp_totpagar').val(recargo + interes + mensualidad);
+	
 	//Calculamos la diferencia
 	var totpagar = parseFloat($('#inp_totpagar').val());
 	
@@ -370,43 +372,26 @@ function guarda_pago(id_contrato,cambia_estatus){
 	
 	//Recibimos los datos
 
-	var input_concepto = $('#input_concepto').val()
-	var input_concepto = $('#input_concepto').val()
-	var inp_cuenta = $('#inp_cuenta').val()
-	var inp_cpagada = $('#inp_cpagada').val()
-	var inp_formpago = $('#inp_formpago').val()
-	var inp_recargo = $('#inp_recargo').val()
-	var inp_interes = $('#inp_interes').val()
-	var inp_mensualidad = $('#inp_mensualidad').val()
-	var inp_diferencia = $('#inp_diferencia').val()
-	var inp_totpagar = $('#inp_totpagar').val()
-	var inp_comentario = $('#inp_comentario').val()
-	var input_concepto = $('#input_concepto').val()
-	var inp_fpago = $('#inp_fpago').val()
-	var inp_divisa = $('#inp_divisa').val()
-	var inp_tipocambio = $('#inp_tipocambio').val()
-	var inp_tipocambio = $('#inp_tipocambio').val()
-	var cant_inicial = $("#cantInicial").val()
-
 	$.ajax({
 		type:'get',
 		url:'assets/php/pagos/guardado_pagos.php',
 		data:{
 			id_contrato:id_contrato,
-			input_concepto:input_concepto,
-			inp_cuenta:inp_cuenta,
-			inp_cpagada:inp_cpagada,
-			inp_formpago:inp_formpago,
-			inp_recargo:inp_recargo,
-			inp_interes:inp_interes,
-			inp_mensualidad:inp_mensualidad,
-			inp_diferencia:inp_diferencia,
-			inp_totpagar:inp_totpagar,
-			inp_comentario:inp_comentario,
-			inp_fpago:inp_fpago,
-			inp_tipocambio:inp_tipocambio,
-			inp_divisa:inp_divisa,
-			cant_inicial:cant_inicial,
+			input_concepto:$('#input_concepto').val(),
+			inp_cuenta:$('#inp_cuenta').val(),
+			inp_cpagada:$('#inp_cpagada').val(),
+			inp_formpago:$('#inp_formpago').val(),
+			inp_recargo:$('#inp_recargo').val(),
+			inp_interes:$('#inp_interes').val(),
+			inp_mensualidad:$('#inp_mensualidad').val(),
+			inp_diferencia:$('#inp_diferencia').val(),
+			inp_totpagar:$('#inp_totpagar').val(),
+			inp_comentario:$('#inp_comentario').val(),
+			inp_fpago:$('#inp_fpago').val(),
+			inp_tipocambio:$('#inp_tipocambio').val(),
+			inp_divisa:$('#inp_divisa').val(),
+			cant_inicial:$("#cantInicial").val(),
+			inp_formapago:$("#inp_formapago").val(),
 			cambia_estatus:cambia_estatus
 		},
 		dataType:'json',

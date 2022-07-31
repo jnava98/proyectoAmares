@@ -22,10 +22,18 @@ if($id_contrato==" "||$id_contrato==""||$id_contrato==0) return false;
         $abonado = traeAbonadoCapitaleInteres($id_contrato);
         $abonado_capital = $abonado['abonadoCapital'];
         $abonado_intereses = $abonado['abonadoInteres'];
-    }else{
-        $abonado_capital="NO DISPONIBLE";
-        $abonado_intereses="NO DISPONIBLE";
-        $deuda_restante=$p_venta;
+        if ($deuda_restante === false) {
+            $deuda_restante=$p_venta;
+        }
+
+        if ($abonado_capital == null) {
+            $abonado_capital="NO DISPONIBLE";  
+        }
+
+        if ($abonado_intereses == null) {
+            $abonado_intereses="NO DISPONIBLE";
+        }
+       
     }
     $html="
     <div class='card-body'>
@@ -122,7 +130,7 @@ if($id_contrato==" "||$id_contrato==""||$id_contrato==0) return false;
     }
     
     function traeAbonadoCapitaleInteres($id_contrato){
-        $sql = "SELECT sum(abonado_interes) as abonadoCapital, sum(abonado_capital) as abonadoInteres from pagos where id_contrato = $id_contrato and habilitado = 1 ";
+        $sql = "SELECT sum(abonado_interes) as abonadoInteres, sum(abonado_capital) as abonadoCapital  from pagos where id_contrato = $id_contrato and habilitado = 1 ";
         $result=mysqli_query(conectar(),$sql);
         desconectar();
         $num=mysqli_num_rows($result);
