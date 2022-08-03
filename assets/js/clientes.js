@@ -13,7 +13,7 @@ function validar_correo(valor){
 
 function guardar_datos_cliente(){
 	//alert("Entra");
-	if(($('#nombre_cliente').val()!="")&&($('#apellidopa_cliente').val()!="")&&($('#residencia_cliente').val()!="")&&($('#nacionalidad_cliente').val()!="")&&($('#correo_cliente').val()!="")&&($('#telefono_cliente').val()!="")&&($('#direccion_cliente').val()!="")){
+	if(($('#nombre_cliente').val()!="")&&($('#apellidopa_cliente').val()!="")&&($('#residencia_cliente').val()!="")&&($('#nacionalidad_cliente').val()!="")&&($('#correo_cliente').val()!="")&&($('#telefono_cliente').val()!="")){
 		if(document.getElementById('telefono_cliente').value.length>=10){
 			if(validar_correo($('#correo_cliente').val())=="Si"){
 			$(document).ready(function(){
