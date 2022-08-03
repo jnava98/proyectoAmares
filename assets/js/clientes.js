@@ -199,13 +199,13 @@ function validar_formato_precontrato(){
 function guardar_datos_contrato(){
 	//alert("Entra");
 	if(($('#fecha_contrato').val()!="")&&($('#fecha_firma').val()!="")){
-		if(($('#fecha_contrato').val())<=($('#fecha_enganche').val())){
+		if(($('#fecha_contrato').val())<($('#fecha_enganche').val())){
 			swal({
 				text:'La fecha del contrato no puede ser menor a la fecha del enganche',
 				type: 'warning'
 			});
 		}else{
-			if(($('#fecha_firma').val())<=($('#fecha_enganche').val())){
+			if(($('#fecha_firma').val())<($('#fecha_enganche').val())){
 				swal({
 					text:'La fecha de la firma del contrato no puede ser menor a la fecha del enganche',
 					type: 'warning'
