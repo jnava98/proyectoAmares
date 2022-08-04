@@ -571,7 +571,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                 $html.='<br>';
                 $html.='<div class="row mb-3">';
                     $html.='<div class="col-sm-12">';
-                        $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
+                        $html.='<button type="button" class="btn boton_uno" onclick="validar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
                         $html.='<button type="button" class="btn boton_dos" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
                     $html.='</div>';
                 $html.='</div>';
@@ -984,7 +984,7 @@ function mostrar_formato_precontrato($id_contrato){
                         $html.='<br>';
                         $html.='<div class="row mb-3">';
                             $html.='<div class="col-sm-12">';
-                                $html.='<button type="button" class="btn boton_uno" onclick="guardar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
+                                $html.='<button type="button" class="btn boton_uno" onclick="validar_datos_precontrato();">Guardar Datos Compra</button>&nbsp';
                                 $html.='<button type="button" class="btn boton_dos" onclick="cargar_datos_contrato();">Registrar datos contrato</button>';
                             $html.='</div>';
                         $html.='</div>';

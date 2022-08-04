@@ -88,8 +88,53 @@ function guardar_datos_cliente(){
 	}//fin del else
 }//fin de guardar datos cliente
 
+function validar_datos_precontrato(){
+	var precio_venta = $('#precio_venta').val();
+	var cantidad_apartado = $('#cant_apartado').val();
+	var cantidad_enganche = $('#cant_enganche').val();
+	var mensualidad_enganche = $('#men_enganche').val();
+	var cant_mensual_enganche = $('#cant_mensual_enganche').val();	
+	var n_mensualidades = $('#n_mensualidades').val();
+	var monto_mensual = $('#monto_mensual').val();
+	var pago_final = $('#pago_final').val();
+	var aux_suma;
+	//Validamos que la sumatoria de las mensualidades del enganche y el monto mensual del enganche sean iguales
+	if(mensualidad_enganche==""){ mensualidad_enganche = "0"; }//fin del if
+	if(cant_mensual_enganche==""){ cant_mensual_enganche = "0"; }//fin del if
+	if(n_mensualidades==""){ n_mensualidades = "0"; }//fin del if
+	if(monto_mensual==""){ monto_mensual = "0"; }//fin del if
+	if(mensualidad_enganche!="0"){
+		aux_enganche = (mensualidad_enganche*cant_mensual_enganche);
+		if(cantidad_enganche!=aux_enganche){
+			swal({
+				text: 'Las cantidades del Enganche no coinciden',
+				type: 'warning'
+			});
+		}else{
+			aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
+			if(aux_suma == precio_venta){
+				guardar_datos_precontrato();
+			}else{
+				swal({
+					text: 'La sumatoria de las cantidades no coinciden con el precio de venta',
+					type: 'warning'
+				});
+			}//fin del else
+		}//fin del else
+	}else{
+		aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
+		if(aux_suma == precio_venta){
+			guardar_datos_precontrato();
+		}else{
+			swal({
+				text: 'La sumatoria de las cantidades no coinciden con el precio de venta',
+				type: 'warning'
+			});
+		}//fin del else
+	}//fin del else
+}//fin de funcion validar datos precontrato
+
 function guardar_datos_precontrato(){
-	//alert("Entra");
 	if(($('#cant_enganche').val()!="")&&($('#fecha_enganche').val()!="")&&($('#txtArea_clientes').val()!="")&&($('#select_lotes').val()!="0")&&($('#precio_venta').val()!="")&&($('#select_tipo_compra').val()!="0")&&($('#pago_final').val()!="")&&($('#dia_pago').val()!="")){
 		validar_formato_precontrato();
 		$(document).ready(function(){
@@ -150,8 +195,8 @@ function guardar_datos_precontrato(){
 				},
 				error:function(respuesta){//Si surge un error
 					console.log(respuesta);
-				}
-			});
+				}//fin de error
+			});//fin de ajax
 		});
 	}else{
 		$(document).ready(function(){
