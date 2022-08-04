@@ -112,8 +112,8 @@ function validar_datos_precontrato(){
 			});
 		}else{
 			aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
-			aux_1 - aux_suma + 3;
-			aux_2 - aux_suma - 3;
+			aux_1 = aux_suma + 3;
+			aux_2 = aux_suma - 3;
 			if((precio_venta <= aux_1)&&(precio_venta >= aux_2)){
 				guardar_datos_precontrato();
 			}else{
@@ -125,8 +125,8 @@ function validar_datos_precontrato(){
 		}//fin del else
 	}else{
 		aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
-		aux_1 - aux_suma + 3;
-		aux_2 - aux_suma - 3;
+		aux_1 = aux_suma + 3;
+		aux_2 = aux_suma - 3;
 		if((precio_venta <= aux_1)&&(precio_venta >= aux_2)){
 			guardar_datos_precontrato();
 		}else{
