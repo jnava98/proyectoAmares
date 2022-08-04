@@ -33,6 +33,7 @@ if($id_contrato==" "||$id_contrato==""){
                         <th scope='col'>Monto Mensual</th>
                         <th scope='col'>Diferencia</th>
                         <th scope='col'>Estatus</th>
+                        <th scope='col'>Balance Final</th>
                         <th scope='col'>Comentarios</th>
                         <th scope='col'>Imprimir recibo</th>
                     </tr>
@@ -68,6 +69,7 @@ if($id_contrato==" "||$id_contrato==""){
                     <td>$pago->mensualidad_historica</td>
                     <td>$pago->diferencia</td>
                     <td>$pago->estatus_pago</td>
+                    <td>$pago->balance_final</td>
                     <td>$pago->comentario</td>
                     <td>
                         <button id='$pago->id_pago' class='btn boton_tres' onclick='recibo_pago(this.id);' >Imprimir</button>
@@ -81,6 +83,7 @@ if($id_contrato==" "||$id_contrato==""){
         //Si la consulta no trajo nada devolvemos
         $html.= "
         <tr>
+            <td class='text-center'>-</td>
             <td class='text-center'>-</td>
             <td class='text-center'>-</td>
             <td class='text-center'>-</td>
@@ -126,7 +129,8 @@ function consultaHistorialPagos($id_contrato){
     cep.nombre,
     cb.identificador_cuenta,
     cb.banco,
-    p.comentario ,
+    p.comentario,
+    p.balance_final,
     cep.nombre as estatus_pago
     FROM pagos p INNER JOIN contrato c
     ON p.id_contrato = c.id_contrato
