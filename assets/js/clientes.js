@@ -123,7 +123,7 @@ function validar_datos_precontrato(){
 		}//fin del else
 	}else{
 		aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
-		if(aux_suma == precio_venta){
+		if(aux_suma == precio_venta){ 
 			guardar_datos_precontrato();
 		}else{
 			swal({
