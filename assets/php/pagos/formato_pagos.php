@@ -99,13 +99,13 @@ $html="
             </div>
             <div class='col-sm-4'>
                 <label for='inp_recargo' class='form-label'>Saldo mes anterior</label>
-                <input type='number' class='form-control' oninput='actualiza_datos_pago()' id='inp_recargo' value='$recargo'>
+                <input type='number' class='form-control' oninput='actualiza_datos_pago()' id='inp_recargo' value=''>
             </div>
             
             
             <div class='col-sm-4'>
                 <label for='inp_interes' class='form-label'>Interés mes anterior</label>
-                <input type='number' class='form-control' id='inp_interes' oninput='actualiza_datos_pago()'  value='$interes'>
+                <input type='number' class='form-control' id='inp_interes' oninput='actualiza_datos_pago()'  value=''>
             </div>
             
             
@@ -122,7 +122,7 @@ $html="
             <div class='row'>
                 <div class='col-sm-4'>
                 <label for='inp_mensualidad' class='form-label'>Cant Mensualidad</label>
-                    <input type='number' class='form-control' id='inp_mensualidad' oninput='actualiza_datos_pago()' value='$mensualidad' disabled>
+                    <input type='number' class='form-control' id='inp_mensualidad' oninput='actualiza_datos_pago()' value='' disabled>
                 </div>
                 <div class='col-sm-4'>
                     <label for='inp_diferencia' class='form-label'>Diferencia</label>
@@ -130,7 +130,7 @@ $html="
                 </div>
                 <div class='col-sm-4'>
                     <label for='inp_totpagar' class='form-label'>Total a pagar:</label>
-                    <input type='number' class='form-control' id='inp_totpagar' value='$tot_a_pagar' disabled >
+                    <input type='number' class='form-control' id='inp_totpagar' value='' disabled >
                 </div>
             </div>
 
