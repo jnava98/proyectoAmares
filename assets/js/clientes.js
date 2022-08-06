@@ -89,27 +89,42 @@ function guardar_datos_cliente(){
 }//fin de guardar datos cliente
 
 function validar_datos_precontrato(){
+	var tipo_compra = $('#select_tipo_compra').val();
 	var precio_venta = $('#precio_venta').val();
 	var cantidad_apartado = $('#cant_apartado').val();
 	var cantidad_enganche = $('#cant_enganche').val();
 	var mensualidad_enganche = $('#men_enganche').val();
-	var cant_mensual_enganche = $('#cant_mensual_enganche').val();	
+	var cant_mensual_enganche = $('#cant_mensual_enganche').val();
 	var n_mensualidades = $('#n_mensualidades').val();
 	var monto_mensual = $('#monto_mensual').val();
 	var pago_final = $('#pago_final').val();
 	var aux_suma;
-	//Validamos que la sumatoria de las mensualidades del enganche y el monto mensual del enganche sean iguales
-	if(mensualidad_enganche==""){ mensualidad_enganche = "0"; }//fin del if
-	if(cant_mensual_enganche==""){ cant_mensual_enganche = "0"; }//fin del if
-	if(n_mensualidades==""){ n_mensualidades = "0"; }//fin del if
-	if(monto_mensual==""){ monto_mensual = "0"; }//fin del if
-	if(mensualidad_enganche!="0"){
-		aux_enganche = (mensualidad_enganche*cant_mensual_enganche);
-		if(cantidad_enganche!=aux_enganche){
-			swal({
-				text: 'Las cantidades del Enganche no coinciden',
-				type: 'warning'
-			});
+	//Validamos que la sumatoria de las mensualidades del enganche y el monto mensual del enganche sean iguales\
+	if(tipo_compra!= "1"){
+		if(mensualidad_enganche==""){ mensualidad_enganche = "0"; }//fin del if
+		if(cant_mensual_enganche==""){ cant_mensual_enganche = "0"; }//fin del if
+		if(n_mensualidades==""){ n_mensualidades = "0"; }//fin del if
+		if(monto_mensual==""){ monto_mensual = "0"; }//fin del if
+		if(mensualidad_enganche!="0"){
+			aux_enganche = (mensualidad_enganche*cant_mensual_enganche);
+			if(cantidad_enganche!=aux_enganche){
+				swal({
+					text: 'Las cantidades del Enganche no coinciden',
+					type: 'warning'
+				});
+			}else{
+				aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
+				aux_1 = aux_suma + 3;
+				aux_2 = aux_suma - 3;
+				if((precio_venta <= aux_1)&&(precio_venta >= aux_2)){
+					guardar_datos_precontrato();
+				}else{
+					swal({
+						text: 'La sumatoria de las cantidades no coinciden con el precio de venta',
+						type: 'warning'
+					});
+				}//fin del else
+			}//fin del else
 		}else{
 			aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
 			aux_1 = aux_suma + 3;
@@ -124,17 +139,7 @@ function validar_datos_precontrato(){
 			}//fin del else
 		}//fin del else
 	}else{
-		aux_suma = Number(cantidad_apartado) + (Number(n_mensualidades)*Number(monto_mensual)) + Number(pago_final) + Number(cantidad_enganche);
-		aux_1 = aux_suma + 3;
-		aux_2 = aux_suma - 3;
-		if((precio_venta <= aux_1)&&(precio_venta >= aux_2)){
-			guardar_datos_precontrato();
-		}else{
-			swal({
-				text: 'La sumatoria de las cantidades no coinciden con el precio de venta',
-				type: 'warning'
-			});
-		}//fin del else
+		guardar_datos_precontrato();
 	}//fin del else
 }//fin de funcion validar datos precontrato
 
