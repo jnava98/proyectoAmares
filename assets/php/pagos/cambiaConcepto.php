@@ -39,7 +39,7 @@ if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
     if ($id_concepto == APARTADO) {
         if ($datosContrato->cant_apartado == 0 || $datosContrato->cant_apartado == null) {
             $mensaje = "Contrato sin apartado.";
-            $mensaje2 = "No se especificó una cantiad para el apartado en el contrato de este lote.";
+            $mensaje2 = "No se especificó una cantidad para el apartado en el contrato de este lote.";
         }
         if ($ultimoPagoxConcepto == false) {
             $cantidadxPagar = $datosContrato->cant_apartado;
@@ -48,7 +48,7 @@ if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
              $totalEstipuladoxConcepto = $datosContrato->cant_apartado;
              if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                 $mensaje = "Apartado pagado.";
-                $mensaje2 = "El apartado ya fué pagado.";
+                $mensaje2 = "El apartado ya fue pagado.";
              }else{
                 $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                 if ($ultimoPago['diferencia'] < 0) {
@@ -67,7 +67,7 @@ if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                     $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fué pagado.";
+                    $mensaje2 = "El enganche ya fue pagado.";
                  }else{
                     $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                     if ($ultimoPago['diferencia'] < 0) {
@@ -84,7 +84,7 @@ if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                     $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fué pagado.";
+                    $mensaje2 = "El enganche ya fue pagado.";
                  }else{
                     $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                     $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
@@ -235,7 +235,7 @@ if ($datosContrato->id_tipo_compra == CONTADO) {
              $totalEstipuladoxConcepto = $datosContrato->cant_apartado;
              if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                 $mensaje = "Apartado pagado.";
-                $mensaje2 = "El apartado ya fué pagado.";
+                $mensaje2 = "El apartado ya fue pagado.";
              }else{
                 $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                 if ($ultimoPago['diferencia'] < 0) {
@@ -253,7 +253,7 @@ if ($datosContrato->id_tipo_compra == CONTADO) {
                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                     $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fué pagado.";
+                    $mensaje2 = "El enganche ya fue pagado.";
                  }else{
                     $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                     if ($ultimoPago['diferencia'] < 0) {
@@ -270,7 +270,7 @@ if ($datosContrato->id_tipo_compra == CONTADO) {
                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
                     $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fué pagado.";
+                    $mensaje2 = "El enganche ya fue pagado.";
                  }else{
                     $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
                     $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
@@ -339,7 +339,7 @@ if ($datosContrato->id_tipo_compra == CONTADO) {
 //              //Traemos la cantidad estipulada en el contrato
 //              $montoTotal = $datosContrato->cant_apartado;
 //              $mensaje = "Apartado pagado.";
-//              $mensaje2 = "El apartado ya fué pagado.";
+//              $mensaje2 = "El apartado ya fue pagado.";
 //              $cantidadxPagar = $montoTotal-$totalPagado;
 //         }
 
@@ -353,7 +353,7 @@ if ($datosContrato->id_tipo_compra == CONTADO) {
 //         //     //Traemos la cantidad estipulada en el contrato
 //         //     $montoTotal = $datosContrato->cant_apartado;
 //         //     $mensaje = "Apartado pagado.";
-//         //     $mensaje2 = "El apartado ya fué pagado.";
+//         //     $mensaje2 = "El apartado ya fue pagado.";
 //         //     $cantidadxPagar = $montoTotal-$totalPagado;
 //         // }else{
 //         //     //Si es el primer pago...
