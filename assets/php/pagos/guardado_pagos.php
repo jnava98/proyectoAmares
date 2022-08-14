@@ -321,7 +321,25 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
             
             $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
         }   
+        if ($inp_cpagada < $inp_mensualidad && $inp_diferencia >= 0) {
+            $balance = $datosContrato['precio_venta'];
+            if ($ultimoPago == true) {
+                $balance = $ultimoPago['balance_final'];
+            }
+            $abonado_interes = $balance*((2/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $balance_final = $balance-$abonado_capital;
+
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
             
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
+            
+        }    
         
 
         // //Formula para calcular interes.
