@@ -37,7 +37,7 @@ if(($id_cliente!="0")){
 		}//Fin del else
 	}else{
         $respuesta['valor']="ok";
-        $respuesta['formato']=mostrar_formato_precontrato_vacio($input_cliente);
+        $respuesta['formato']=mostrar_formato_precontrato_vacio($input_cliente, $id_cliente);
 	}//fin del else
 }else{
 
