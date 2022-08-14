@@ -27,6 +27,9 @@ const PAGO_FINAL = 5;
 $datosContrato = traeDatosContrato($id_contrato);
 $ultimoPagoxConcepto = consultaPagoxConcepto($id_contrato,$id_concepto);
 $ultimoPago = consultaUltimoPago($id_contrato);
+if ($ultimoPago == false) {
+    $ultimoPago['diferencia'] = 0;
+}
 $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
 $mensaje = "";
 $mensaje2 = "";
@@ -35,458 +38,515 @@ $saldoMesAnterior = 0;
 $interesMesAnterior = 0;
 $aux = 0;
 
-if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
-    if ($id_concepto == APARTADO) {
-        if ($datosContrato->cant_apartado == 0 || $datosContrato->cant_apartado == null) {
-            $mensaje = "Contrato sin apartado.";
-            $mensaje2 = "No se especificó una cantidad para el apartado en el contrato de este lote.";
+if ($id_concepto == APARTADO) {
+    if ($datosContrato->cant_apartado == 0) {
+        $mensaje = "Contrato sin apartado.";
+        $mensaje2 = "No se especificó una cantidad para el apartado en el contrato de este lote.";
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    if ($datosTotalPagado->totalPagado === null) {
+        $cantidadxPagar = $datosContrato->cant_apartado;
+        if ($ultimoPago['diferencia'] < 0) {
+            $saldoMesAnterior = $ultimoPago['diferencia'];
         }
-        if ($ultimoPagoxConcepto == false) {
-            $cantidadxPagar = $datosContrato->cant_apartado;
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    if ($datosTotalPagado->totalPagado != null) {
+        if ($datosTotalPagado->totalPagado >= $datosContrato->cant_apartado) {
+            $mensaje = "Apartado pagado.";
+            $mensaje2 = "El apartado ya fue pagado.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
         }else{
-             $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-             $totalEstipuladoxConcepto = $datosContrato->cant_apartado;
-             if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                $mensaje = "Apartado pagado.";
-                $mensaje2 = "El apartado ya fue pagado.";
-             }else{
-                $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+            $cantidadxPagar = $datosContrato->cant_apartado-$datosTotalPagado->totalPagado;
+            if ($ultimoPago['diferencia'] < 0) {
+                $saldoMesAnterior = $ultimoPago['diferencia'];
+            }
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+    }  
+}
+if ($id_concepto == ENGANCHE) {
+    //Verificamos si se definió apartado
+    if ($datosContrato->cant_apartado != 0) {
+        //Verificamos si ya se pago el apartado
+        $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
+        if ($totalPagadoApartado->totalPagado === null || $totalPagadoApartado->totalPagado < $datosContrato->cant_apartado) {
+            $mensaje = "Verificación de pago.";
+            $mensaje2 = "No es posible pagar el enganche si el apartado no ha sido pagado.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+    }
+    //ENGANCHE A 1 PAGO.
+    if ($datosContrato->mensualidades_enganche == 0 || $datosContrato->mensualidades_enganche ==1 || $datosContrato->cant_mensual_enganche==0) {
+        //Verificamos si ya pagó todo el enganche
+        if ($datosTotalPagado->totalPagado === null) {
+            $cantidadxPagar = $datosContrato->cant_enganche;
+            if ($ultimoPago['diferencia'] < 0) {
+                $saldoMesAnterior = $ultimoPago['diferencia'];
+            }
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+        if ($datosTotalPagado != null) {
+            if ($datosTotalPagado->totalPagado >= $datosContrato->cant_enganche) {
+                $mensaje = "Enganche pagado.";
+                $mensaje2 = "El enganche ya fue pagado.";
+                exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+            }else{
+                $cantidadxPagar = $datosContrato->cant_enganche-$datosTotalPagado->totalPagado;
                 if ($ultimoPago['diferencia'] < 0) {
                     $saldoMesAnterior = $ultimoPago['diferencia'];
                 }
-             }   
-        }
-    }
-    if ($id_concepto == ENGANCHE) {
-
-        if ($datosContrato->mensualidades_enganche == 0 || $datosContrato->mensualidades_enganche ==1 || $datosContrato->cant_mensual_enganche==0) {
-            if ($ultimoPagoxConcepto == false) {
-                $cantidadxPagar = $datosContrato->cant_enganche;
-            }else{
-                $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-                $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
-                if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                    $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fue pagado.";
-                 }else{
-                    $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
-                    if ($ultimoPago['diferencia'] < 0) {
-                        $saldoMesAnterior = $ultimoPago['diferencia'];
-                    }
-                 }
-            }
-        }else{
-            //ENGANCHE POR MENSUALIDADES
-            if ($ultimoPagoxConcepto == false) {
-                $cantidadxPagar = $datosContrato->cant_mensual_enganche;
-            }else{
-                $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-                $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
-                if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                    $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fue pagado.";
-                 }else{
-                    $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
-                    $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
-                    if ($restantexPagar >= $cant_mensual_enganche) {
-                        $cantidadxPagar = $cant_mensual_enganche;
-                    }else {
-                        $cantidadxPagar = $restantexPagar;
-                    }
-                    if ($ultimoPago['diferencia'] < 0) {
-                        $saldoMesAnterior = $ultimoPago['diferencia'];
-                    }
-                 }
+                exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
             }
         }
-    }
-    if ($id_concepto == MENSUALIDAD_CONTRATO) {
-        //Verificamos que existan pagos.
-        if ($ultimoPago == false) {
-            $mensaje = "Verificación de pago.";
-            $mensaje2 = "No es posible pagar una mensualidad si no existen pagos registrados antes.";
-        }else {
-            //Verificamos que el enganche este pagado por completo.
-            $totalEstipuladoEnganche = $datosContrato->cant_enganche;
-            $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
-            if ($totalPagadoEnganche->totalPagado === null || $totalPagadoEnganche <= $totalEstipuladoEnganche) {
-                $mensaje = "Verificación de pago.";
-                $mensaje2 = "No es posible pagar una mensualidad si el enganche no ha sido pagado.";
+    }else{
+        //ENGANCHE POR MENSUALIDADES
+        if ($datosTotalPagado->totalPagado === null) {
+            $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+            if ($ultimoPago['diferencia'] < 0) {
+                $saldoMesAnterior = $ultimoPago['diferencia'];
             }
-            //Verificamos si existe algun pago de mensualidad
-            $ultimoPagoxConcepto = consultaPagoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
-            if ($ultimoPagoxConcepto === false) {
-                $cantidadxPagar = $datosContrato->monto_mensual;    
-                if ($ultimoPago['diferencia'] < 0) {
-                    $saldoMesAnterior = $ultimoPago['diferencia'];
-                }
-            }else{
-                //Verificamos que si el cliente ya pago las mensualidades por completo
-                $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
-                $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
-                $totalPagadoMensualidades = $totalPagadoxConcepto->totalPagado;
-
-                if ($totalPagadoMensualidades >= $totalEstipuladoMensualidades) {
-                    $aux = "$totalPagadoMensualidades -- $totalEstipuladoMensualidades";
-                    $mensaje = "Verificación de pago.";
-                    $mensaje2 = "Las mensualidades ya han sido pagadas.";
-                }
-
-                if ($totalPagadoMensualidades <= $totalEstipuladoMensualidades) {
-                    $restantexPagar = $totalEstipuladoMensualidades-$totalPagadoMensualidades;
-                    if ($restantexPagar < $datosContrato->monto_mensual) {
-                        $cantidadxPagar = $restantexPagar;
-                    }else{
-                        $cantidadxPagar = $datosContrato->monto_mensual;
-                    }
-                    if ($ultimoPago['diferencia'] < 0) {
-                        $saldoMesAnterior = $ultimoPago['diferencia'];
-                    }
-                }
-            }
-            
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
         }
-
-        
-    }
-
-    if ($id_concepto == PAGO_FINAL) {
-        //Verificamos que existan pagos.
-        if ($ultimoPago == false) {
-            $mensaje = "Verificación de pago.";
-            $mensaje2 = "No es posible realizar el pago final si no existen pagos registrados antes.";
-        }else{
-             //Verificamos que el enganche este pagado por completo.
-             $totalEstipuladoEnganche = $datosContrato->cant_enganche;
-             $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
-             if ($totalPagadoEnganche->totalPagado === null || $totalPagadoEnganche <= $totalEstipuladoEnganche) {
-                 $mensaje = "Verificación de pago.";
-                 $mensaje2 = "No es posible realizar el pago final si el enganche no ha sido pagado.";
-             }
-            //Verificamos que las mensualidades ya hayan sido pagadas.
-            $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
-            $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
-            $totalPagadoMensualidades = $totalPagadoxConcepto->totalPagado;
-            if ($totalPagadoMensualidades === null ||$totalPagadoMensualidades <= $totalEstipuladoMensualidades) {
-                $mensaje = "Verificación de pago.";
-                $mensaje2 = "No es posible realizar el pago final si las mensualidades no han sido pagado.";
-            }
-            //Verificamos si el cliente ya pago por completo el pago final.
-            $totalEstipuladoPagoFinal = $datosContrato->pago_final;
-            $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,PAGO_FINAL);
-            $totalPagadoPagoFinal = $totalPagadoxConcepto->totalPagado;
-            if ($totalPagadoPagoFinal >= $totalEstipuladoPagoFinal) {
-                $mensaje = "Verificación de pago.";
-                $mensaje2 = "El monto definido para el pago final ya ha sido pagado por completo.";
-            }
-            if ($totalPagadoPagoFinal <= $totalEstipuladoPagoFinal) {
-                $restantexPagar = $totalEstipuladoPagoFinal - $totalPagadoPagoFinal;
-                if ($restantexPagar < $datosContrato->pago_final) {
+        if ($datosTotalPagado != null) {
+            if ($datosTotalPagado->totalPagado >= $datosContrato->cant_enganche) {
+                $mensaje = "Enganche pagado.";
+                $mensaje2 = "El enganche ya fue pagado.";
+                exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+            }else{
+                $restantexPagar = $datosContrato->cant_enganche-$datosTotalPagado->totalPagado;
+                if ($restantexPagar >= $datosContrato->cant_mensual_enganche) {
+                    $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+                }else {
                     $cantidadxPagar = $restantexPagar;
-                }else{
-                    $cantidadxPagar = $datosContrato->pago_final;
                 }
                 if ($ultimoPago['diferencia'] < 0) {
                     $saldoMesAnterior = $ultimoPago['diferencia'];
                 }
+                exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
             }
         }
-        
-        // if ($ultimoPago == false) {
-        //     $mensaje = "Verificación de pago.";
-        //     $mensaje2 = "No es posible realizar el pago final si no existen pagos registrados antes.";
-        // }else{
-        //     $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
-        //     $totalEstipuladoEnganche = $datosContrato->cant_enganche;
-        //     if ($totalPagadoEnganche >= $totalEstipuladoEnganche) {
-        //         //Verificamos que las mensualidades ya esten pagadas.
-        //         $totalPagadoMensualidades = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
-        //         $totalEstipuladoMensualidades = ($datosContrato->monto_mensual * $datosContrato->mensualidades);
-        //         if ($totalPagadoMensualidades >= $totalEstipuladoMensualidades) {
-        //             $cantidadxPagar = $datosContrato->monto_mensual;
-        //         }
-        //         if ($ultimoPago['diferencia'] < 0) {
-        //             $saldoMesAnterior = $ultimoPago['diferencia'];
-        //         }
-        //         if ($ultimoPago['balance_final']<=0) {
-        //             $cantidadxPagar = 0;
-        //             $saldoMesAnterior = 0;
-        //             $interesMesAnterior = 0;
-        //             $mensaje = "Contrato Pagado.";
-        //             $mensaje2 = "El cliente ya pagó por completo el contrato.";
-        //         }
-        //     }
-        // }
+    }
+}
+if ($id_concepto == MENSUALIDAD_CONTRATO) {
+    //Verificamos que el contrato no sea de contado.
+    if ($datosContrato->id_tipo_compra == CONTADO) {
+        $mensaje = "Verificación de pago.";
+        $mensaje2 = "Los contratos de contado no tienen mensualidades, solo pago final.";
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    //Verificamos si se definio un apartado y que ya haya sido pagado
+    if ($datosContrato->cant_apartado != 0) {
+        //Verificamos si ya se pago el apartado
+        $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
+        if ($totalPagadoApartado->totalPagado === null || $totalPagadoApartado->totalPagado < $datosContrato->cant_apartado) {
+            $mensaje = "Verificación de pago.";
+            $mensaje2 = "No es posible pagar mensualidades si el apartado no ha sido pagado.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+    }
+    //Verificamos que el enganche ya haya sido pagado
+    $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
+    if (($totalPagadoEnganche->totalPagado === null) || ($totalPagadoEnganche->totalPagado < $datosContrato->cant_enganche)) {
+        $mensaje = "Verificación de pago.";
+        $mensaje2 = "No es posible pagar mensualidades si el enganche no ha sido pagado. $totalPagadoEnganche->totalPagado";
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+
+    if ($datosTotalPagado->totalPagado === null) {
+        $cantidadxPagar = $datosContrato->monto_mensual;
+        if ($ultimoPago['diferencia'] < 0) {
+            $saldoMesAnterior = $ultimoPago['diferencia'];
+        }
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    if ($datosTotalPagado != null) {
+        $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
+        if ($datosTotalPagado->totalPagado >= $totalEstipuladoMensualidades) {
+            $mensaje = "Verificación de pago.";
+            $mensaje2 = "Las mensualidades ya han sido pagadas.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }else{
+            $restantexPagar = $totalEstipuladoMensualidades-$datosTotalPagado->totalPagado;
+            if ($restantexPagar >= $datosContrato->monto_mensual) {
+                $cantidadxPagar = $datosContrato->monto_mensual;
+            }else {
+                $cantidadxPagar = $restantexPagar;
+            }
+            if ($ultimoPago['diferencia'] < 0) {
+                $saldoMesAnterior = $ultimoPago['diferencia'];
+            }
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+    }
+}
+
+if ($id_concepto == PAGO_FINAL) {
+    //Verificamos que haya definido un apartado y que ya haya sido pagado.
+    if ($datosContrato->cant_apartado != 0) {
+        //Verificamos si ya se pago el apartado
+        $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
+        if ($totalPagadoApartado->totalPagado === null || $totalPagadoApartado->totalPagado < $datosContrato->cant_apartado) {
+            $mensaje = "Verificación de pago.";
+            $mensaje2 = "No es posible pagar el pago final si el apartado no ha sido pagado.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
+    }
+    //Verificamos que el enganche ya haya sido pagado.
+    $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
+    if ($totalPagadoEnganche->totalPagado === null || $totalPagadoEnganche->totalPagado <= $datosContrato->cant_enganche) {
+        $mensaje = "Verificación de pago.";
+        $mensaje2 = "No es posible pagar mensualidades si el enganche no ha sido pagado.";
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    //Verificamos que las mensualidades ya hayan sido pagadas.
+    $totalPagadoMensualidades = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+    if ($totalPagadoMensualidades->totalPagado === null || $totalPagadoMensualidades->totalPagado < ($datosContrato->monto_mensual*$datosContrato->mensualidades)) {
+        $mensaje = "Verificación de pago.";
+        $mensaje2 = "No es posible hacer el pago final si no se han pagado las mensualidades.";
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    //Verificacion normal...
+    
+    if ($datosTotalPagado->totalPagado === null) {
+        $cantidadxPagar = $datosContrato->pago_final;
+        exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+    }
+    if ($datosTotalPagado != null) {
+        if ($datosTotalPagado->totalPagado >= $datosContrato->pago_final) {
+            $mensaje = "Verificación de pago.";
+            $mensaje2 = "El contrato ya se ha pagado por completo.";
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }else{
+            $restantexPagar = $datosContrato->pago_final-$datosTotalPagado->totalPagado;
+            if ($restantexPagar >= $datosContrato->pago_final) {
+                $cantidadxPagar = $datosContrato->pago_final;
+            }else {
+                $cantidadxPagar = $restantexPagar;
+            }
+            if ($ultimoPago['diferencia'] < 0) {
+                $saldoMesAnterior = $ultimoPago['diferencia'];
+            }
+            exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+        }
     }
 }
 
 
-if ($datosContrato->id_tipo_compra == CONTADO) {
-    
-    if ($id_concepto == APARTADO) {
-        if ($datosContrato->cant_apartado == 0 || $datosContrato->cant_apartado == null) {
-            $mensaje = "Contrato sin apartado.";
-            $mensaje2 = "No se especificó una cantid ad para el apartado en el contrato de este lote.";
-        }
-        if ($ultimoPagoxConcepto == false) {
-            $cantidadxPagar = $datosContrato->cant_apartado;
-        }else{
-             $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-             $totalEstipuladoxConcepto = $datosContrato->cant_apartado;
-             if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                $mensaje = "Apartado pagado.";
-                $mensaje2 = "El apartado ya fue pagado.";
-             }else{
-                $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
-                if ($ultimoPago['diferencia'] < 0) {
-                    $saldoMesAnterior = $ultimoPago['diferencia'];
-                }
-             }   
-        }
-    }
-    if ($id_concepto == ENGANCHE) {
-        if ($datosContrato->mensualidades_enganche == 0 || $datosContrato->mensualidades_enganche ==1 || $datosContrato->cant_mensual_enganche==0) {
-            if ($ultimoPagoxConcepto == false) {
-                $cantidadxPagar = $datosContrato->cant_enganche;
-            }else{
-                $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-                $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
-                if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                    $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fue pagado.";
-                 }else{
-                    $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
-                    if ($ultimoPago['diferencia'] < 0) {
-                        $saldoMesAnterior = $ultimoPago['diferencia'];
-                    }
-                 }
-            }
-        }else{
-            //ENGANCHE POR MENSUALIDADES
-            if ($ultimoPagoxConcepto == false) {
-                $cantidadxPagar = $datosContrato->cant_mensual_enganche;
-            }else{
-                $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
-                $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
-                if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
-                    $mensaje = "Enganche pagado.";
-                    $mensaje2 = "El enganche ya fue pagado.";
-                 }else{
-                    $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
-                    $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
-                    if ($restantexPagar >= $cant_mensual_enganche) {
-                        $cantidadxPagar = $cant_mensual_enganche;
-                    }else {
-                        $cantidadxPagar = $restantexPagar;
-                    }
-                    if ($ultimoPago['diferencia'] < 0) {
-                        $saldoMesAnterior = $ultimoPago['diferencia'];
-                    }
-                 }
-            }
-        }
-    }
-    if ($id_concepto == MENSUALIDAD_CONTRATO) {
-        $mensaje = "No hay mensualidades.";
-        $mensaje2 = "Los contratos de contado no tienen mensualidades, solo pago final.";
-
-    }
-    if ($id_concepto == PAGO_FINAL) {
-        if ($ultimoPago==false) {   
-            $cantidadxPagar = $datosContrato->precio_venta;
-            $saldoMesAnterior = 0;
-            $interesMesAnterior = 0;
-        }else{
-            if ($ultimoPago['diferencia'] < 0) {
-                $saldoMesAnterior = $ultimoPago['diferencia'];
-            }else {
-                $saldoMesAnterior = 0;
-                $interesMesAnterior = 0;
-            }
-            if ($ultimoPago['balance_final']<=0) {
-                $cantidadxPagar = 0;
-                $saldoMesAnterior = 0;
-                $interesMesAnterior = 0;
-                $mensaje = "Contrato Pagado.";
-                $mensaje2 = "El cliente ya pagó por completo el contrato.";
-            }else{
-                $cantidadxPagar = $ultimoPago['balance_final'];
-            }
-            
-            
-        }
-    }
-
-}//Fin contado y contado comercial.
 
 
 
 
-
-// switch ($id_concepto) {
-//     case $apartado:
-        
+// if ($datosContrato->id_tipo_compra == CONTADO_COMERCIAL) {
+//     if ($id_concepto == APARTADO) {
 //         if ($datosContrato->cant_apartado == 0 || $datosContrato->cant_apartado == null) {
-//             $mensaje = "No hay apartado";
-//             $mensaje2 = "No se especificó una cantiad para el apartado en el contrato de este lote.";
+//             $mensaje = "Contrato sin apartado.";
+//             $mensaje2 = "No se especificó una cantidad para el apartado en el contrato de este lote.";
 //         }
-//         if ($ultimoPago == false) {
+//         if ($ultimoPagoxConcepto == false) {
 //             $cantidadxPagar = $datosContrato->cant_apartado;
 //         }else{
-//              //Traemos la sumatoria de los pagos de ese concepto
-//              $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-//              $totalPagado = $datosTotalPagado->totalPagado;
-//              //Traemos la cantidad estipulada en el contrato
-//              $montoTotal = $datosContrato->cant_apartado;
-//              $mensaje = "Apartado pagado.";
-//              $mensaje2 = "El apartado ya fue pagado.";
-//              $cantidadxPagar = $montoTotal-$totalPagado;
+//              $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
+//              $totalEstipuladoxConcepto = $datosContrato->cant_apartado;
+//              if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
+//                 $mensaje = "Apartado pagado.";
+//                 $mensaje2 = "El apartado ya fue pagado.";
+//              }else{
+//                 $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                 if ($ultimoPago['diferencia'] < 0) {
+//                     $saldoMesAnterior = $ultimoPago['diferencia'];
+//                 }
+//              }   
 //         }
+//     }
+//     if ($id_concepto == ENGANCHE) {
 
-        
-//         //Validamos si existe algun pago de apartado
-       
-//         // if ($ultimoPago!=false) {
-//         //     //Traemos la sumatoria de los pagos de ese concepto
-//         //     $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-//         //     $totalPagado = $datosTotalPagado->totalPagado;
-//         //     //Traemos la cantidad estipulada en el contrato
-//         //     $montoTotal = $datosContrato->cant_apartado;
-//         //     $mensaje = "Apartado pagado.";
-//         //     $mensaje2 = "El apartado ya fue pagado.";
-//         //     $cantidadxPagar = $montoTotal-$totalPagado;
-//         // }else{
-//         //     //Si es el primer pago...
-//         //     $cantidadxPagar = $datosContrato->cant_apartado;
-//         // }
-//         break;
-//    case $enganche:
-//         //Validamos si está definida la cantidad mensual del enganche.
 //         if ($datosContrato->mensualidades_enganche == 0 || $datosContrato->mensualidades_enganche ==1 || $datosContrato->cant_mensual_enganche==0) {
 //             if ($ultimoPagoxConcepto == false) {
 //                 $cantidadxPagar = $datosContrato->cant_enganche;
 //             }else{
-//                 $totalPagado = 
-//             }
-
-//             //TOTAL DEL ENGANCHE
-//             $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
-//             if ($ultimoPago!=false) {
-//                 $cantidadxPagar = 0;
-//                 $mensaje = "Enganche pagado.";
-//                 $mensaje2 = "El enganche ya se encuentra pagado o no se estipularon mensualidades para este concepto en el contrato.";
-//             }else{
-//                 $cantidadxPagar = $datosContrato->cant_enganche;
+//                 $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
+//                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
+//                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
+//                     $mensaje = "Enganche pagado.";
+//                     $mensaje2 = "El enganche ya fue pagado.";
+//                  }else{
+//                     $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                     if ($ultimoPago['diferencia'] < 0) {
+//                         $saldoMesAnterior = $ultimoPago['diferencia'];
+//                     }
+//                  }
 //             }
 //         }else{
-//             //Si hay mensualidades estipuladas...
-//             //Validamos si existe algún pago
-//             $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
-//             if ($ultimoPago!=false) {
-//                 //Validamos si lo restante por pagar es mayor a lo definido mensual. De ser así colocamos la cantidad del contrato, si no colocamos lo restante.
-//                 $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-//                 $restantexPagar = ($datosContrato->cant_enganche - $datosTotalPagado->totalPagado);
-//                 if($restantexPagar > $datosContrato->cant_mensual_enganche){
-//                     $cantidadxPagar = $datosContrato->cant_mensual_enganche;
-//                 }else{
-//                     $cantidadxPagar = $restantexPagar;
-//                     if($restantexPagar == 0){
-//                         $mensaje = "Enganche pagado.";
-//                         $mensaje2 = "El enganche ya se encuentra pagado.";
-//                     }
-//                 }
-//             }else{
-//                 //Si es el primer pago...
+//             //ENGANCHE POR MENSUALIDADES
+//             if ($ultimoPagoxConcepto == false) {
 //                 $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+//             }else{
+//                 $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
+//                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
+//                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
+//                     $mensaje = "Enganche pagado.";
+//                     $mensaje2 = "El enganche ya fue pagado.";
+//                  }else{
+//                     $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                     $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
+//                     if ($restantexPagar >= $cant_mensual_enganche) {
+//                         $cantidadxPagar = $cant_mensual_enganche;
+//                     }else {
+//                         $cantidadxPagar = $restantexPagar;
+//                     }
+//                     if ($ultimoPago['diferencia'] < 0) {
+//                         $saldoMesAnterior = $ultimoPago['diferencia'];
+//                     }
+//                  }
 //             }
 //         }
-//     break;
-//     case $mensualidadContrato:
-        
-
-//         if ($datosContrato->id_tipo_compra == contado || $datosContrato->id_tipo_compra == contadoComercial) {
-//             if ($ultimoPago==false) {
-//                 $cantidadxPagar = $datosContrato->precio_venta;
-//                 $saldoMesAnterior = 0;
-//                 $interesMesAnterior = 0;
-//             }else{
-//                 if ($ultimoPago['balance_final']<=0) {
-//                     $cantidadxPagar = 0;
-//                     $saldoMesAnterior = 0;
-//                     $interesMesAnterior = 0;
-//                     $mensaje = "Contrato Pagado.";
-//                     $mensaje2 = "El cliente ya pagó por completo el contrato.";
-//                 }
-//                 $cantidadxPagar = $ultimoPago['balance_final'];
+//     }
+//     if ($id_concepto == MENSUALIDAD_CONTRATO) {
+//         //Verificamos que existan pagos.
+//         if ($ultimoPago == false) {
+//             $mensaje = "Verificación de pago.";
+//             $mensaje2 = "No es posible pagar una mensualidad si no existen pagos registrados antes.";
+//         }else {
+//             //Verificamos que el enganche este pagado por completo.
+//             $totalEstipuladoEnganche = $datosContrato->cant_enganche;
+//             $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
+//             if ($totalPagadoEnganche->totalPagado === null || $totalPagadoEnganche <= $totalEstipuladoEnganche) {
+//                 $mensaje = "Verificación de pago.";
+//                 $mensaje2 = "No es posible pagar una mensualidad si el enganche no ha sido pagado.";
+//             }
+//             //Verificamos si existe algun pago de mensualidad
+//             $ultimoPagoxConcepto = consultaPagoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+//             if ($ultimoPagoxConcepto === false) {
+//                 $cantidadxPagar = $datosContrato->monto_mensual;    
 //                 if ($ultimoPago['diferencia'] < 0) {
 //                     $saldoMesAnterior = $ultimoPago['diferencia'];
-//                 }else {
-//                     $saldoMesAnterior = 0;
-//                     $interesMesAnterior = 0;
-//                 }
-//             }
-//         }
-
-
-
-//         if ($datosContrato->id_tipo_compra == financiado || $datosContrato->id_tipo_compra == msi) {
-//              //Validamos que haya una mensualidad definida.
-//             if ($datosContrato->monto_mensual!=0) {
-//                 //Validamos si existe un ultimo pago.
-//                 $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
-//                 if($ultimoPago!=false){
-//                     $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-//                     $restantexPagar = ($datosContrato->precio_venta - $datosTotalPagado->totalPagado);
-//                     if($restantexPagar > $datosContrato->monto_mensual){
-//                         $cantidadxPagar = $datosContrato->monto_mensual;
-//                     }else{
-//                         $cantidadxPagar = $restantexPagar;
-//                         if($restantexPagar == 0){
-//                             $mensaje = "Contrato pagado.";
-//                             $mensaje2 = "El contrato ya se encuentra pagado.";
-//                         }
-//                     }                
-//                 }else{
-//                 //Si es el primer pago...
-//                 $cantidadxPagar = $datosContrato->monto_mensual; 
 //                 }
 //             }else{
-//                 //Validamos si existe un ultimo pago.
-//                 $ultimoPago = consultaPagoxConcepto($id_contrato,$id_concepto);
-//                 if($ultimoPago!=false){
-//                     $datosTotalPagado = totalPagadoxConcepto($id_contrato,$id_concepto);
-//                     $restantexPagar = ($datosContrato->precio_venta - $datosTotalPagado->totalPagado);
-//                     if($restantexPagar > $datosContrato->monto_mensual){
-//                         $cantidadxPagar = $datosContrato->monto_mensual;
-//                     }else{
+//                 //Verificamos que si el cliente ya pago las mensualidades por completo
+//                 $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
+//                 $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+//                 $totalPagadoMensualidades = $totalPagadoxConcepto->totalPagado;
+
+//                 if ($totalPagadoMensualidades >= $totalEstipuladoMensualidades) {
+//                     $aux = "$totalPagadoMensualidades -- $totalEstipuladoMensualidades";
+//                     $mensaje = "Verificación de pago.";
+//                     $mensaje2 = "Las mensualidades ya han sido pagadas.";
+//                 }
+
+//                 if ($totalPagadoMensualidades <= $totalEstipuladoMensualidades) {
+//                     $restantexPagar = $totalEstipuladoMensualidades-$totalPagadoMensualidades;
+//                     if ($restantexPagar < $datosContrato->monto_mensual) {
 //                         $cantidadxPagar = $restantexPagar;
-//                         if($restantexPagar == 0){
-//                             $mensaje = "Contrato pagado.";
-//                             $mensaje2 = "El contrato ya se encuentra pagado.";
-//                         }
+//                     }else{
+//                         $cantidadxPagar = $datosContrato->monto_mensual;
 //                     }
+//                     if ($ultimoPago['diferencia'] < 0) {
+//                         $saldoMesAnterior = $ultimoPago['diferencia'];
+//                     }
+//                 }
+//             }
+            
+//         }
+
+        
+//     }
+
+//     if ($id_concepto == PAGO_FINAL) {
+//         //Verificamos que existan pagos.
+//         if ($ultimoPago == false) {
+//             $mensaje = "Verificación de pago.";
+//             $mensaje2 = "No es posible realizar el pago final si no existen pagos registrados antes.";
+//         }else{
+//              //Verificamos que el enganche este pagado por completo.
+//              $totalEstipuladoEnganche = $datosContrato->cant_enganche;
+//              $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
+//              if ($totalPagadoEnganche->totalPagado === null || $totalPagadoEnganche <= $totalEstipuladoEnganche) {
+//                  $mensaje = "Verificación de pago.";
+//                  $mensaje2 = "No es posible realizar el pago final si el enganche no ha sido pagado.";
+//              }
+//             //Verificamos que las mensualidades ya hayan sido pagadas.
+//             $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
+//             $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+//             $totalPagadoMensualidades = $totalPagadoxConcepto->totalPagado;
+//             if ($totalPagadoMensualidades === null ||$totalPagadoMensualidades <= $totalEstipuladoMensualidades) {
+//                 $mensaje = "Verificación de pago.";
+//                 $mensaje2 = "No es posible realizar el pago final si las mensualidades no han sido pagado.";
+//             }
+//             //Verificamos si el cliente ya pago por completo el pago final.
+//             $totalEstipuladoPagoFinal = $datosContrato->pago_final;
+//             $totalPagadoxConcepto = totalPagadoxConcepto($id_contrato,PAGO_FINAL);
+//             $totalPagadoPagoFinal = $totalPagadoxConcepto->totalPagado;
+//             if ($totalPagadoPagoFinal >= $totalEstipuladoPagoFinal) {
+//                 $mensaje = "Verificación de pago.";
+//                 $mensaje2 = "El monto definido para el pago final ya ha sido pagado por completo.";
+//             }
+//             if ($totalPagadoPagoFinal <= $totalEstipuladoPagoFinal) {
+//                 $restantexPagar = $totalEstipuladoPagoFinal - $totalPagadoPagoFinal;
+//                 if ($restantexPagar < $datosContrato->pago_final) {
+//                     $cantidadxPagar = $restantexPagar;
 //                 }else{
-//                     //Si es el primer pago...
 //                     $cantidadxPagar = $datosContrato->pago_final;
+//                 }
+//                 if ($ultimoPago['diferencia'] < 0) {
+//                     $saldoMesAnterior = $ultimoPago['diferencia'];
 //                 }
 //             }
 //         }
-
-       
-
-
-//     break;
+        
+//         // if ($ultimoPago == false) {
+//         //     $mensaje = "Verificación de pago.";
+//         //     $mensaje2 = "No es posible realizar el pago final si no existen pagos registrados antes.";
+//         // }else{
+//         //     $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
+//         //     $totalEstipuladoEnganche = $datosContrato->cant_enganche;
+//         //     if ($totalPagadoEnganche >= $totalEstipuladoEnganche) {
+//         //         //Verificamos que las mensualidades ya esten pagadas.
+//         //         $totalPagadoMensualidades = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+//         //         $totalEstipuladoMensualidades = ($datosContrato->monto_mensual * $datosContrato->mensualidades);
+//         //         if ($totalPagadoMensualidades >= $totalEstipuladoMensualidades) {
+//         //             $cantidadxPagar = $datosContrato->monto_mensual;
+//         //         }
+//         //         if ($ultimoPago['diferencia'] < 0) {
+//         //             $saldoMesAnterior = $ultimoPago['diferencia'];
+//         //         }
+//         //         if ($ultimoPago['balance_final']<=0) {
+//         //             $cantidadxPagar = 0;
+//         //             $saldoMesAnterior = 0;
+//         //             $interesMesAnterior = 0;
+//         //             $mensaje = "Contrato Pagado.";
+//         //             $mensaje2 = "El cliente ya pagó por completo el contrato.";
+//         //         }
+//         //     }
+//         // }
+//     }
 // }
 
-$response = []; 
-$response['aux'] = $aux;
-$response['interesMesAnterior'] = $interesMesAnterior;
-$response['saldoMesAnterior'] = $saldoMesAnterior;
-$response['cantidadxPagar'] = $cantidadxPagar;
-$response['mensaje'] = $mensaje;
-$response['mensaje2'] = $mensaje2;
 
-echo json_encode($response);
+// if ($datosContrato->id_tipo_compra == CONTADO) {
+    
+//     if ($id_concepto == ENGANCHE) {
+//         if ($datosContrato->mensualidades_enganche == 0 || $datosContrato->mensualidades_enganche ==1 || $datosContrato->cant_mensual_enganche==0) {
+//             if ($ultimoPagoxConcepto == false) {
+//                 $cantidadxPagar = $datosContrato->cant_enganche;
+//             }else{
+//                 $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
+//                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
+//                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
+//                     $mensaje = "Enganche pagado.";
+//                     $mensaje2 = "El enganche ya fue pagado.";
+//                  }else{
+//                     $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                     if ($ultimoPago['diferencia'] < 0) {
+//                         $saldoMesAnterior = $ultimoPago['diferencia'];
+//                     }
+//                  }
+//             }
+//         }else{
+//             //ENGANCHE POR MENSUALIDADES
+//             if ($ultimoPagoxConcepto == false) {
+//                 $cantidadxPagar = $datosContrato->cant_mensual_enganche;
+//             }else{
+//                 $totalPagadoxConcepto = $datosTotalPagado->totalPagado;
+//                 $totalEstipuladoxConcepto = $datosContrato->cant_enganche;
+//                 if ($totalPagadoxConcepto >= $totalEstipuladoxConcepto) {
+//                     $mensaje = "Enganche pagado.";
+//                     $mensaje2 = "El enganche ya fue pagado.";
+//                  }else{
+//                     $restantexPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                     $cant_mensual_enganche = $datosContrato->cant_mensual_enganche;
+//                     if ($restantexPagar >= $cant_mensual_enganche) {
+//                         $cantidadxPagar = $cant_mensual_enganche;
+//                     }else {
+//                         $cantidadxPagar = $restantexPagar;
+//                     }
+//                     if ($ultimoPago['diferencia'] < 0) {
+//                         $saldoMesAnterior = $ultimoPago['diferencia'];
+//                     }
+//                  }
+//             }
+//         }
+//     }
+//     if ($id_concepto == MENSUALIDAD_CONTRATO) {
+//         $mensaje = "No hay mensualidades.";
+//         $mensaje2 = "Los contratos de contado no tienen mensualidades, solo pago final.";
+
+//     }
+//     if ($id_concepto == PAGO_FINAL) {
+//         if ($ultimoPago==false) {   
+//             $cantidadxPagar = $datosContrato->precio_venta;
+//             $saldoMesAnterior = 0;
+//             $interesMesAnterior = 0;
+//         }else{
+//             if ($ultimoPago['diferencia'] < 0) {
+//                 $saldoMesAnterior = $ultimoPago['diferencia'];
+//             }else {
+//                 $saldoMesAnterior = 0;
+//                 $interesMesAnterior = 0;
+//             }
+//             if ($ultimoPago['balance_final']<=0) {
+//                 $cantidadxPagar = 0;
+//                 $saldoMesAnterior = 0;
+//                 $interesMesAnterior = 0;
+//                 $mensaje = "Contrato Pagado.";
+//                 $mensaje2 = "El cliente ya pagó por completo el contrato.";
+//             }else{
+//                 $cantidadxPagar = $ultimoPago['balance_final'];
+//             }
+            
+            
+//         }
+//     }
+
+// }//Fin contado y contado comercial.
+
+// if ($datosContrato->id_tipo_compra == FINANCIADO) {
+    
+//     if ($id_concepto == APARTADO) {
+//         if ($datosContrato->cant_apartado == 0 || $datosContrato->cant_apartado == null) {
+//             $mensaje = "Contrato sin apartado.";
+//             $mensaje2 = "No se especificó una cantidad para el apartado en el contrato de este lote.";
+//             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
+//         }
+//         if ($datosTotalPagado->totalPagado == null) {
+//             $cantidadxPagar = $datosContrato->cant_apartado;
+//         }
+//         if ($datosTotalPagado->totalPagado != null) {
+//             if ($datosTotalPagado->totalPagado >= $datosContrato->cant_apartado) {
+//                 $mensaje = "Apartado pagado.";
+//                 $mensaje2 = "El apartado ya fue pagado.";
+//             }else{
+//                 $cantidadxPagar = $totalEstipuladoxConcepto-$totalPagadoxConcepto;
+//                 if ($ultimoPago['diferencia'] < 0) {
+//                     $saldoMesAnterior = $ultimoPago['diferencia'];
+//                 }
+//             }
+//         }
+        
+//     }
+// }
+
+function response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2){
+    $response = [];  
+    $response['aux'] = $aux;
+    $response['interesMesAnterior'] = $interesMesAnterior;
+    $response['saldoMesAnterior'] = $saldoMesAnterior;
+    $response['cantidadxPagar'] = $cantidadxPagar;
+    $response['mensaje'] = $mensaje;
+    $response['mensaje2'] = $mensaje2;
+
+    echo json_encode($response);
+}
+
+// $response = []; 
+// $response['aux'] = $aux;
+// $response['interesMesAnterior'] = $interesMesAnterior;
+// $response['saldoMesAnterior'] = $saldoMesAnterior;
+// $response['cantidadxPagar'] = $cantidadxPagar;
+// $response['mensaje'] = $mensaje;
+// $response['mensaje2'] = $mensaje2;
+
+
 
 function consultaPagoxConcepto($id_contrato,$id_concepto){
     //Consulta si existe algún pago de un concepto en específico
@@ -518,7 +578,7 @@ function consultaUltimoPago($id_contrato){
 
 
 function totalPagadoxConcepto($id_contrato,$id_concepto){
-    $sql="SELECT sum(monto_pagado) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1";
+    $sql="SELECT sum(abonado_capital) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $row = mysqli_fetch_assoc($result);
@@ -539,4 +599,4 @@ function traeDatosContrato($id_contrato){
     }else{
         return false;
     }
-};  
+}
