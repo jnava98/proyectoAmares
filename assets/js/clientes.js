@@ -156,6 +156,7 @@ function guardar_datos_precontrato(){
 			var mensualidad_enganche = $('#men_enganche').val();
 			var cant_mensual_enganche = $('#cant_mensual_enganche').val();
 			var clientes = $('#txtArea_clientes').val();
+			var arreglo_id_clientes = $('#txt_id_clientes').val();
 			var lote = $('#select_lotes').val();
 			var precio_venta = $('#precio_venta').val();
 			var tipo_compra = $('#select_tipo_compra').val();
@@ -174,7 +175,7 @@ function guardar_datos_precontrato(){
 				dataType:"json",//Formato en como se manda la información
 				type:"get",
 				data:{//Información a enviar o cadena a enviar
-					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, descuentos:descuentos, tasa_interes:tasa_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche
+					id_cliente:id_cliente, id_contrato:id_contrato, cantidad_apartado:cantidad_apartado, fecha_apartado:fecha_apartado, cantidad_enganche:cantidad_enganche, fecha_enganche:fecha_enganche, mensualidad_enganche:mensualidad_enganche, clientes:clientes, lote:lote, precio_venta:precio_venta, tipo_compra:tipo_compra, n_mensualidades:n_mensualidades, monto_mensual:monto_mensual, pago_final:pago_final, dia_pago:dia_pago, descuentos:descuentos, tasa_interes:tasa_interes, nombre_broker:nombre_broker, comision_broker:comision_broker, observaciones:observaciones, cant_mensual_enganche:cant_mensual_enganche, arreglo_id_clientes:arreglo_id_clientes
 				},
 				success:function(respuesta){
 					$(document).ready(function(){
@@ -437,7 +438,7 @@ function cargar_datos_cliente(id){
 			},
 			error:function(respuesta){//Si surge un error
 				console.log(respuesta);
-			}
+			}//fin de error
 		});
 	}else{
 		swal({
@@ -823,37 +824,47 @@ function quitar_lote(){
 
 function agregar_cliente(){
 	//Comprobamos que el campo no esté vacío
-	if(document.getElementById("select_clientes").value=="0"){
+	cliente = document.getElementById("select_clientes").value;
+	if(cliente=="0"){
 		swal({
 			text:"Debes seleccionar un cliente.",
 			type: 'warning'
 		});							
 	}else{
-		cliente = document.getElementById("select_clientes").value
+		var aux_cliente = cliente.split("-");
+		var nombre_cliente = aux_cliente[1];
+		var id_cliente = aux_cliente[0];
 		if(document.getElementById("txtArea_clientes").value.length>0){ //Verificamos si ya hay un valor en el textArea
 			var arreglo_clientes = document.getElementById("txtArea_clientes").value.split(","); //Creamos un arreglo para almacenar los valores del txtArea
 			for (var i = 0; i < arreglo_clientes.length; i++) { //Recorremos el arreglo
-				if(arreglo_clientes[i]==document.getElementById("select_clientes").value){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
+				if(arreglo_clientes[i]==nombre_cliente){ //Comparamos que el valor seleccionado no sea igual a uno que ya esté en el arreglo
 					swal({
 						text:"Este cliente ya se encuentra registrado",
 						type: 'warning'
 					});
-					cliente="";
+					nombre_cliente="";
+					id_cliente = "";
 				}//Fin if...
 			}//Fin for...
 			if(document.getElementById("txtArea_clientes").value!=0){
 				aux=document.getElementById("txtArea_clientes").value;
-				if(cliente==""){
+				aux_dos=document.getElementById("txt_id_clientes").value;
+				if(nombre_cliente==""){
 					aux=aux+"";
+					aux_dos=aux_dos+"";
 				}else{
 					aux=aux+",";
+					aux_dos=aux_dos+",";
 				}//fin del else
 			}//Fin if...
 		}else{
 			aux="";
+			aux_dos="";
 		}//Fin del else...
-		aux+=cliente;
+		aux+=nombre_cliente;
+		aux_dos+=id_cliente;
 		document.getElementById("txtArea_clientes").value=aux;
+		document.getElementById("txt_id_clientes").value=aux_dos;
 		document.getElementById("select_clientes").value = "0";
 	}//Fin else...
 }//Fin agregar_lote...
@@ -866,20 +877,26 @@ function quitar_cliente(){
 		});
 	}else{
 		var arreglo_clientes = document.getElementById("txtArea_clientes").value.split(","); //Generamos un arreglo con los responsables que ya hay en el textArea
+		var arreglo_id_clientes = document.getElementById("txt_id_clientes").value.split(",");
 		clientes_largo = arreglo_clientes.length;
 		if(clientes_largo==1){
 			document.getElementById("txtArea_clientes").value="";
+			document.getElementById("txt_id_clientes").value="";
 		}else{
 			clientes_largo--;
 			var aux = "";
+			var aux_dos = "";
 			for (var i = 0; i < clientes_largo; i++) {
 				if(i==0){
 					aux+=arreglo_clientes[i];
+					aux_dos+=arreglo_id_clientes[i];
 				}else{
 					aux+=","+arreglo_clientes[i];
+					aux_dos+=","+arreglo_id_clientes[i];
 				}//fin del else
 			}//fin del for
 			document.getElementById("txtArea_clientes").value=aux;
+			document.getElementById("txt_id_clientes").value=aux_dos;
 		}//fin del else
 	}//Fin else...
 }//Fin contar_responsables...

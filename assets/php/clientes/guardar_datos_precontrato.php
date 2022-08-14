@@ -134,6 +134,12 @@ if(empty($_GET["descuentos"])){
 	$desc_aplicados=$_GET["descuentos"];
 }//Fin del else
 
+if(empty($_GET["arreglo_id_clientes"])){
+	$arreglo_id_clientes="";
+}else{
+	$arreglo_id_clientes=$_GET["arreglo_id_clientes"];
+}//Fin del else
+
 $estatus_venta = "1";
 
 //Fecha de hoy
@@ -187,47 +193,42 @@ if(($id_contrato!="")){
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
-                $sql="DELETE from cliente_contrato where id_contrato LIKE '".$id_contrato."'";
+                $sql="DELETE from cliente_contrato WHERE id_contrato like '".$id_contrato."' ";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();
                 if($result){
-                    $cadena = explode(",", $clientes);
+                    $cadena = explode(",", $arreglo_id_clientes);
                     $array_size = count($cadena);
                     for ($i = 0; $i<$array_size; $i++) {
-                        $cliente = $cadena[$i];
-                        $cadena2 = explode(" ", $cliente);
-                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."' AND nombre LIKE '%".$cadena2[2]."%'";
-                        $resultado = mysqli_query(conectar(),$sql);
-                        desconectar();
-                        $col_cliente = mysqli_fetch_array($resultado);
-                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
+                        $aux_id_cliente = $cadena[$i];
+                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$aux_id_cliente."', '".$id_contrato."') ";
                         $result=mysqli_query(conectar(),$sql);
                         desconectar();
                     }//fin del for
-                    //Se actualiza la parte de descuentos
-                    $sql="DELETE from descuentos_contrato where id_contrato LIKE '".$id_contrato."'";
-                    $result=mysqli_query(conectar(),$sql);
-                    desconectar();
-                    if($descuentos!=""){
-                        $cadena = explode(",", $desc_aplicados);
-                        $array_size = count($cadena);
-                        for ($i = 0; $i<$array_size; $i++) {
-                            $descuento = $cadena[$i];
-                            $sql="SELECT id_descuento FROM cat_descuentos WHERE descripcion LIKE '".$descuento."' ";
-                            $resultado = mysqli_query(conectar(),$sql);
-                            desconectar();
-                            $col = mysqli_fetch_array($resultado);
-                            $id_descuento = $col[0];
-                            $sql="INSERT into descuentos_contrato (id_contrato, id_descuento) values ('".$id_contrato."', '".$id_descuento."')";
-                            $resultado = mysqli_query(conectar(),$sql);
-                            desconectar();
-                        }//fin del for
-                    }//fin del if
-                    $respuesta['valor']="ok";
-                    $respuesta['id_contrato']=$id_contrato;
                 }else{
                     $respuesta['valor']="error";
                 }//fin del else
+                //Se actualiza la parte de descuentos
+                $sql="DELETE from descuentos_contrato where id_contrato LIKE '".$id_contrato."'";
+                $result=mysqli_query(conectar(),$sql);
+                desconectar();
+                if($descuentos!=""){
+                    $cadena = explode(",", $desc_aplicados);
+                    $array_size = count($cadena);
+                    for ($i = 0; $i<$array_size; $i++) {
+                        $descuento = $cadena[$i];
+                        $sql="SELECT id_descuento FROM cat_descuentos WHERE descripcion LIKE '".$descuento."' ";
+                        $resultado = mysqli_query(conectar(),$sql);
+                        desconectar();
+                        $col = mysqli_fetch_array($resultado);
+                        $id_descuento = $col[0];
+                        $sql="INSERT into descuentos_contrato (id_contrato, id_descuento) values ('".$id_contrato."', '".$id_descuento."')";
+                        $resultado = mysqli_query(conectar(),$sql);
+                        desconectar();
+                    }//fin del for
+                }//fin del if
+                $respuesta['valor']="ok";
+                $respuesta['id_contrato']=$id_contrato;
             }else{
                 $respuesta['valor']="error";
             }//fin del else
@@ -263,19 +264,21 @@ if(($id_contrato!="")){
                     desconectar();
                     $col = mysqli_fetch_array($result);
                     $id_contrato = $col[0];
-                    $cadena = explode(",", $clientes);
-                    $array_size = count($cadena);
-                    for ($i = 0; $i<$array_size; $i++) {
-                        $cliente = $cadena[$i];
-                        $cadena2 = explode(" ", $cliente);
-                        $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."' AND nombre LIKE '%".$cadena2[2]."%'";
-                        $resultado = mysqli_query(conectar(),$sql);
-                        desconectar();
-                        $col_cliente = mysqli_fetch_array($resultado);
-                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
-                        $result=mysqli_query(conectar(),$sql);
-                        desconectar();
-                    }//fin del for
+                    $sql="DELETE from cliente_contrato WHERE id_contrato like '".$id_contrato."' ";
+                    $result=mysqli_query(conectar(),$sql);
+                    desconectar();
+                    if($result){
+                        $cadena = explode(",", $arreglo_id_clientes);
+                        $array_size = count($cadena);
+                        for ($i = 0; $i<$array_size; $i++) {
+                            $aux_id_cliente = $cadena[$i];
+                            $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$aux_id_cliente."', '".$id_contrato."') ";
+                            $result=mysqli_query(conectar(),$sql);
+                            desconectar();
+                        }//fin del for
+                    }else{
+                        $respuesta['valor']="error";
+                    }//fin del else
                     //Se actualiza la parte de descuentos
                     if($descuentos!=""){
                         $cadena = explode(",", $desc_aplicados);
@@ -335,19 +338,21 @@ if(($id_contrato!="")){
                 desconectar();
                 $col = mysqli_fetch_array($result);
                 $id_contrato = $col[0];
-                $cadena = explode(",", $clientes);
-                $array_size = count($cadena);
-                for ($i = 0; $i<$array_size; $i++) {
-                    $cliente = $cadena[$i];
-                    $cadena2 = explode(" ", $cliente);
-                    $sql="SELECT id_cliente FROM clientes WHERE apellido_paterno LIKE '".$cadena2[0]."' AND apellido_materno LIKE '".$cadena2[1]."' AND nombre LIKE '%".$cadena2[2]."%'";
-                    $resultado = mysqli_query(conectar(),$sql);
-                    desconectar();
-                    $col_cliente = mysqli_fetch_array($resultado);
-                    $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$col_cliente['id_cliente']."', '".$id_contrato."') ";
-                    $result=mysqli_query(conectar(),$sql);
-                    desconectar();
-                }//fin del for
+                $sql="DELETE from cliente_contrato WHERE id_contrato like '".$id_contrato."' ";
+                $result=mysqli_query(conectar(),$sql);
+                desconectar();
+                if($result){
+                    $cadena = explode(",", $arreglo_id_clientes);
+                    $array_size = count($cadena);
+                    for ($i = 0; $i<$array_size; $i++) {
+                        $aux_id_cliente = $cadena[$i];
+                        $sql="INSERT into cliente_contrato (id_cliente, id_contrato) VALUES ('".$aux_id_cliente."', '".$id_contrato."') ";
+                        $result=mysqli_query(conectar(),$sql);
+                        desconectar();
+                    }//fin del for
+                }else{
+                    $respuesta['valor']="error";
+                }//fin del else
                 //Se actualiza la parte de descuentos
                 if($descuentos!=""){
                     $cadena = explode(",", $desc_aplicados);

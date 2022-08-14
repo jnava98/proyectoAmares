@@ -216,7 +216,7 @@ function mostrar_formato_cliente($id_cliente){
     return $html;
 }//fin de mostrar formato cliente vacio
 
-function mostrar_formato_precontrato_vacio($input_cliente){
+function mostrar_formato_precontrato_vacio($input_cliente, $id_cliente){
     $html="";
     $html.='<div id="div_precontrato" class="col-lg-12">';
         $html.='<div class="card">';
@@ -566,6 +566,7 @@ function mostrar_formato_precontrato_vacio($input_cliente){
                     $html.='</div>';
                     $html.='<div class="col-sm-6">';
                         $html.='<textarea id="txtArea_clientes" disabled class="form-control">'.$input_cliente.'</textarea>';
+                        $html.='<textarea id="txt_id_clientes" class="form-control" style="display:none;">'.$id_cliente.'</textarea>';
                     $html.='</div>';
                 $html.='</div>'; 
                 $html.='<br>';
@@ -979,6 +980,23 @@ function mostrar_formato_precontrato($id_contrato){
                             $html.='</div>';
                             $html.='<div class="col-sm-6">';
                                 $html.='<textarea id="txtArea_clientes" disabled class="form-control">'.$col['clientes'].'</textarea>';
+                                $sql="SELECT * from cliente_contrato where id_contrato like '".$id_contrato."' ";
+                                $result_clientes = mysqli_query(conectar(), $sql);
+                                desconectar();
+                                $num = mysqli_num_rows($result_clientes);
+                                if($num>0){
+                                    $clientes = "";
+                                    $aux = 0;
+                                    while($row = mysqli_fetch_array($result_clientes)){
+                                        if($aux == 0){
+                                            $clientes = $row['id_cliente'];
+                                            $aux = 1;
+                                        }else{
+                                            $clientes .= ",".$row['id_cliente'];
+                                        }//fin del else
+                                    }//fin del while
+                                    $html.='<textarea id="txt_id_clientes" class="form-control" style="display:none;">'.$clientes.'</textarea>';
+                                }//fin del if
                             $html.='</div>';
                         $html.='</div>'; 
                         $html.='<br>';

@@ -112,10 +112,10 @@ function select_clientes(){
         $respuesta.='<select id="select_clientes" class="form-control" >';
             $respuesta.='<option value="0" disabled selected>Selecciona una opcion</option>';
         while($col=mysqli_fetch_array($result)){
-            $respuesta.="<option value='".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."'>".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."</option>";
+            $respuesta.="<option value='".$col['id_cliente']."-".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."'>".$col['apellido_paterno']." ".$col['apellido_materno']." ".$col['nombre']."</option>";
         }//fin del while
         $respuesta.='</select>';
-    }
+    }//fin del if
     return $respuesta;
 }//fin de select clientes
 
