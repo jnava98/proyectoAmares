@@ -218,7 +218,7 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
                 $id_estatus_pago = 2;
             };
             $fecha_mensualidad = date("Y-m-d");
-            
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
             $balance_final = $datosContrato['precio_venta'] - $abonado_capital;
             if ($ultimoPago == true) {
                 $no_mensualidad = $ultimoPago['no_mensualidad'] + 1;
