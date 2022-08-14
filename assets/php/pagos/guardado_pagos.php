@@ -300,7 +300,7 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
 
             $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
         }
-        if ($inp_cpagada > $inp_mensualidad) {
+        if ($inp_cpagada >= $inp_mensualidad) {
             
             $inp_cpagada = $inp_mensualidad;
             //Formula para calcular interes.
@@ -319,7 +319,7 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
             };
             $estatus_contrato = $datosContrato['id_estatus_venta'];
             
-            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
         }   
             
         
