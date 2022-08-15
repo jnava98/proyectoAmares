@@ -52,7 +52,7 @@ if ($id_concepto == APARTADO) {
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
     }
     if ($datosTotalPagado->totalPagado != null) {
-        if (number_format($datosTotalPagado->totalPagado,0) >= $datosContrato->cant_apartado) {
+        if (number_format($datosTotalPagado->totalPagado,0, '.', '') >= number_format($datosContrato->cant_apartado,0, '.', '')) {
             $mensaje = "Apartado pagado.";
             $mensaje2 = "El apartado ya fue pagado.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -70,7 +70,7 @@ if ($id_concepto == ENGANCHE) {
     if ($datosContrato->cant_apartado != 0) {
         //Verificamos si ya se pago el apartado
         $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
-        if ($totalPagadoApartado->totalPagado === null ||number_format($totalPagadoApartado->totalPagado,0)  < number_format($datosContrato->cant_apartado,0) ) {
+        if ($totalPagadoApartado->totalPagado === null ||number_format($totalPagadoApartado->totalPagado,0, '.', '')  < number_format($datosContrato->cant_apartado,0, '.', '') ) {
             $mensaje = "Verificación de pago.";
             $mensaje2 = "No es posible pagar el enganche si el apartado no ha sido pagado.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -87,7 +87,7 @@ if ($id_concepto == ENGANCHE) {
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
         }
         if ($datosTotalPagado != null) {
-            if (number_format($datosTotalPagado->totalPagado,0) >= number_format($datosContrato->cant_enganche,0)) {
+            if (number_format($datosTotalPagado->totalPagado,0, '.', '') >= number_format($datosContrato->cant_enganche,0, '.', '')) {
                 $mensaje = "Enganche pagado.";
                 $mensaje2 = "El enganche ya fue pagado.";
                 exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -109,7 +109,7 @@ if ($id_concepto == ENGANCHE) {
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
         }
         if ($datosTotalPagado != null) {
-            if (number_format($datosTotalPagado->totalPagado,0) >= number_format($datosContrato->cant_enganche,0)) {
+            if (number_format($datosTotalPagado->totalPagado,0, '.', '') >= number_format($datosContrato->cant_enganche,0, '.', '')) {
                 $mensaje = "Enganche pagado.";
                 $mensaje2 = "El enganche ya fue pagado.";
                 exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -139,7 +139,7 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
     if ($datosContrato->cant_apartado != 0) {
         //Verificamos si ya se pago el apartado
         $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
-        if ($totalPagadoApartado->totalPagado === null ||number_format($totalPagadoApartado->totalPagado,0)  < number_format($datosContrato->cant_apartado,0) ) {
+        if ($totalPagadoApartado->totalPagado === null ||number_format($totalPagadoApartado->totalPagado,0, '.', '')  < number_format($datosContrato->cant_apartado,0, '.', '') ) {
             $mensaje = "Verificación de pago.";
             $mensaje2 = "No es posible pagar mensualidades si el apartado no ha sido pagado.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -147,7 +147,7 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
     }
     //Verificamos que el enganche ya haya sido pagado
     $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
-    if (($totalPagadoEnganche->totalPagado === null) || (number_format($totalPagadoEnganche->totalPagado,0) < number_format($datosContrato->cant_enganche,0))) {
+    if (($totalPagadoEnganche->totalPagado === null) || (number_format($totalPagadoEnganche->totalPagado,0, '.', '') < number_format($datosContrato->cant_enganche,0, '.', ''))) {
         $mensaje = "Verificación de pago.";
         $mensaje2 = "No es posible pagar mensualidades si el enganche no ha sido pagado. $totalPagadoEnganche->totalPagado";
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -162,7 +162,7 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
     }
     if ($datosTotalPagado != null) {
         $totalEstipuladoMensualidades = ($datosContrato->monto_mensual*$datosContrato->mensualidades);
-        if (number_format($datosTotalPagado->totalPagado,0) >= number_format($totalEstipuladoMensualidades,0)) {
+        if (number_format($datosTotalPagado->totalPagado,0, '.', '') >= number_format($totalEstipuladoMensualidades,0, '.', '')) {
             $mensaje = "Verificación de pago.";
             $mensaje2 = "Las mensualidades ya han sido pagadas.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -186,7 +186,7 @@ if ($id_concepto == PAGO_FINAL) {
     if ($datosContrato->cant_apartado != 0) {
         //Verificamos si ya se pago el apartado
         $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
-        if ($totalPagadoApartado->totalPagado === null || number_format($totalPagadoApartado->totalPagado,0) < number_format($datosContrato->cant_apartado,0)) {
+        if ($totalPagadoApartado->totalPagado === null || number_format($totalPagadoApartado->totalPagado,0, '.', '') < number_format($datosContrato->cant_apartado,0, '.', '')) {
             $mensaje = "Verificación de pago.";
             $mensaje2 = "No es posible pagar el pago final si el apartado no ha sido pagado.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -194,14 +194,14 @@ if ($id_concepto == PAGO_FINAL) {
     }
     //Verificamos que el enganche ya haya sido pagado.
     $totalPagadoEnganche = totalPagadoxConcepto($id_contrato,ENGANCHE);
-    if ($totalPagadoEnganche->totalPagado === null || number_format($totalPagadoEnganche->totalPagado,0) <= number_format($datosContrato->cant_enganche,0)) {
+    if ($totalPagadoEnganche->totalPagado === null || number_format($totalPagadoEnganche->totalPagado,0, '.', '') <= number_format($datosContrato->cant_enganche,0, '.', '')) {
         $mensaje = "Verificación de pago.";
         $mensaje2 = "No es posible pagar mensualidades si el enganche no ha sido pagado.";
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
     }
     //Verificamos que las mensualidades ya hayan sido pagadas.
     $totalPagadoMensualidades = totalPagadoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
-    if ($totalPagadoMensualidades->totalPagado === null || number_format($totalPagadoMensualidades->totalPagado,0) < number_format(($datosContrato->monto_mensual*$datosContrato->mensualidades),0)) {
+    if ($totalPagadoMensualidades->totalPagado === null || number_format($totalPagadoMensualidades->totalPagado,0, '.', '') < number_format(($datosContrato->monto_mensual*$datosContrato->mensualidades),0, '.', '')) {
         $mensaje = "Verificación de pago.";
         $mensaje2 = "No es posible hacer el pago final si no se han pagado las mensualidades.";
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
@@ -213,7 +213,7 @@ if ($id_concepto == PAGO_FINAL) {
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
     }
     if ($datosTotalPagado != null) {
-        if (number_format($datosTotalPagado->totalPagado,0) >= number_format($datosContrato->pago_final,0)) {
+        if (number_format($datosTotalPagado->totalPagado,0, '.', '') >= number_format($datosContrato->pago_final,0, '.', '')) {
             $mensaje = "Verificación de pago.";
             $mensaje2 = "El contrato ya se ha pagado por completo.";
             exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));

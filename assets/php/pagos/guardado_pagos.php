@@ -511,8 +511,10 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
             $aFavor = $inp_cpagada + abs($inp_recargo);   
             if ($aFavor >= $inp_mensualidad) {
                 $inp_cpagada = $inp_mensualidad;
+                $abonado_capital = $inp_mensualidad;
             }else{
                 $inp_cpagada = $aFavor;
+                $abonado_capital = $aFavor;
             }
             $inp_diferencia = $inp_mensualidad - $aFavor;
             //Formula para calcular interes.
@@ -520,8 +522,7 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
             if ($ultimoPago == true) {
                 $balance = $ultimoPago['balance_final'];
             }
-            $abonado_interes = $balance*((2/100)/12);
-            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $abonado_interes = 0;
             $balance_final = $balance-$abonado_capital;
 
             if($inp_diferencia == "" || $inp_diferencia <= 0){
@@ -539,9 +540,11 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
             //Se coloca abs() para obtener el valor absoluto del numero, ya que la cantidad puede ser negativa.
             if ($inp_mensualidad > abs($inp_recargo)) {
                 $inp_cpagada = abs($inp_recargo);
+                $abonado_capital = abs($inp_recargo);
                 $restante =  $inp_mensualidad - abs($inp_recargo); 
             }else{
                 $inp_cpagada = $inp_mensualidad;
+                $abonado_capital = $inp_mensualidad;
                 $restante = $inp_mensualidad - abs($inp_recargo); 
             }
             //Formula para calcular interes.
@@ -549,7 +552,7 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
             if ($ultimoPago == true) {
                 $balance = $ultimoPago['balance_final'];
             }
-            $abonado_interes = $balance*((2/100)/12);
+            $abonado_interes = 0;
             $abonado_capital = $inp_cpagada-$abonado_interes;
             $balance_final = $balance-$abonado_capital;
 
@@ -565,13 +568,12 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
         if ($inp_cpagada >= $inp_mensualidad) {
             
             $inp_cpagada = $inp_mensualidad;
+            $abonado_capital = $inp_mensualidad;
             //Formula para calcular interes.
             $balance = $datosContrato['precio_venta'];
             if ($ultimoPago == true) {
                 $balance = $ultimoPago['balance_final'];
             }
-            $abonado_interes = $balance*((2/100)/12);
-            $abonado_capital = $inp_cpagada-$abonado_interes;
             $balance_final = $balance-$abonado_capital;
 
             if($inp_diferencia == "" || $inp_diferencia <= 0){
@@ -588,8 +590,8 @@ if ($datosContrato['id_tipo_compra'] == MSI) {
             if ($ultimoPago == true) {
                 $balance = $ultimoPago['balance_final'];
             }
-            $abonado_interes = $balance*((2/100)/12);
-            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $abonado_interes = 0;
+            $abonado_capital = $inp_cpagada;
             $balance_final = $balance-$abonado_capital;
 
             if($inp_diferencia == "" || $inp_diferencia <= 0){
