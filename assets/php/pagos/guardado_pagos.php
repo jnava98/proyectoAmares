@@ -3,17 +3,7 @@
 session_start();
 
 include "../conexion.php";
-/*  input_concepto:input_concepto,
-    inp_fpago:inp_fpago,
-    inp_cpagad:inp_cpagada,
-    inp_formpago:inp_formpago,
-    inp_recargo:inp_recargo,
-    inp_interes:inp_interes,
-    inp_mensualidad:inp_mensualidad,
-    inp_diferencia:inp_diferencia,
-    inp_totpagar:inp_totpagar,
-    inp_comentario:inp_comentario
-*/ 
+
 $datos = Array();
 
 if(empty($_GET["input_concepto"])){
@@ -477,6 +467,146 @@ if ($datosContrato['id_tipo_compra'] == CONTADO_COMERCIAL) {
         $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
     }
 }
+if ($datosContrato['id_tipo_compra'] == MSI) {
+   
+    //SI PAGA APARTADO O ENGANCHE TODO SE ABONA A CAPITAL
+    if ($input_concepto == APARTADO || $input_concepto == ENGANCHE) {
+            $abonado_capital = $inp_cpagada;
+            $abonado_interes = 0;
+            $no_mensualidad = 0;
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $fecha_mensualidad = date("Y-m-d");
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
+            $balance_final = $datosContrato['precio_venta'] - $abonado_capital;
+            if ($ultimoPago == true) {
+                $no_mensualidad = $ultimoPago['no_mensualidad'] + 1;
+                $balance_final = $ultimoPago['balance_final'] - $abonado_capital;  
+            }
+            //Si paga mas de su mensualidad
+            if ($inp_cpagada > $inp_mensualidad) {
+                $abonado_capital = $inp_mensualidad;
+            }
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
+
+    }
+    //SI PAGA MENSUALIDAD CONTRATO SE APLICA LA FORMULA DE INTERES.
+    if ($input_concepto == MENSUALIDAD_CONTRATO) {
+
+        //Calculando la fecha de la mensualidad
+        $ultimoPagoMensualidad = ConsultaPagoxConcepto($id_contrato,MENSUALIDAD_CONTRATO);
+        if ($ultimoPagoMensualidad==false) {
+            $no_mensualidad = 1;
+            $fecha_mensualidad = $datosContrato['dia_pago'];
+        }else{
+            $no_mensualidad = $ultimoPago['no_mensualidad'] + 1;
+            $fecha_ultima_mensualidad = $ultimoPago['fecha_mensualidad'];
+            $fecha_mensualidad = date("Y-m-d",strtotime($fecha_ultima_mensualidad."+ 1 month"));
+        }
+        //Paga menos de la mensualidad pero tiene saldo a favor
+        if ($inp_cpagada < $inp_mensualidad && $inp_recargo<0) {
+            $aFavor = $inp_cpagada + abs($inp_recargo);   
+            if ($aFavor >= $inp_mensualidad) {
+                $inp_cpagada = $inp_mensualidad;
+            }else{
+                $inp_cpagada = $aFavor;
+            }
+            $inp_diferencia = $inp_mensualidad - $aFavor;
+            //Formula para calcular interes.
+            $balance = $datosContrato['precio_venta'];
+            if ($ultimoPago == true) {
+                $balance = $ultimoPago['balance_final'];
+            }
+            $abonado_interes = $balance*((2/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $balance_final = $balance-$abonado_capital;
+
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
+
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
+        }
+        //Pagando con el saldo a favor.
+        if ($inp_cpagada <=0 && $inp_recargo < 0) {
+            //Si tenemos un saldo a favor y no se introduce una cantidad pagada. Se toma el saldo a favor para pagar.
+            //Se coloca abs() para obtener el valor absoluto del numero, ya que la cantidad puede ser negativa.
+            if ($inp_mensualidad > abs($inp_recargo)) {
+                $inp_cpagada = abs($inp_recargo);
+                $restante =  $inp_mensualidad - abs($inp_recargo); 
+            }else{
+                $inp_cpagada = $inp_mensualidad;
+                $restante = $inp_mensualidad - abs($inp_recargo); 
+            }
+            //Formula para calcular interes.
+            $balance = $datosContrato['precio_venta'];
+            if ($ultimoPago == true) {
+                $balance = $ultimoPago['balance_final'];
+            }
+            $abonado_interes = $balance*((2/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $balance_final = $balance-$abonado_capital;
+
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
+
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato);
+        }
+        if ($inp_cpagada >= $inp_mensualidad) {
+            
+            $inp_cpagada = $inp_mensualidad;
+            //Formula para calcular interes.
+            $balance = $datosContrato['precio_venta'];
+            if ($ultimoPago == true) {
+                $balance = $ultimoPago['balance_final'];
+            }
+            $abonado_interes = $balance*((2/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $balance_final = $balance-$abonado_capital;
+
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
+            
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
+        }   
+        if ($inp_cpagada < $inp_mensualidad && $inp_diferencia >= 0) {
+            $balance = $datosContrato['precio_venta'];
+            if ($ultimoPago == true) {
+                $balance = $ultimoPago['balance_final'];
+            }
+            $abonado_interes = $balance*((2/100)/12);
+            $abonado_capital = $inp_cpagada-$abonado_interes;
+            $balance_final = $balance-$abonado_capital;
+
+            if($inp_diferencia == "" || $inp_diferencia <= 0){
+                $id_estatus_pago = 1;
+            }else{
+                $id_estatus_pago = 2;
+            };
+            $estatus_contrato = $datosContrato['id_estatus_venta'];
+            
+            $guardadoPago = guardaPago($id_contrato,$inp_fpago, $inp_cuenta,$no_mensualidad,$inp_cpagada,$inp_divisa,$inp_tipocambio,$cant_inicial,$abonado_capital,$abonado_interes,$inp_diferencia,$id_estatus_pago,$inp_comentario,$input_concepto,$inp_mensualidad,$fecha_mensualidad,$balance_final,$inp_formapago,$estatus_contrato); 
+            
+        }    
+        
+    }
+    
+}
+
 
 
 function traeDatosContrato($id_contrato){
