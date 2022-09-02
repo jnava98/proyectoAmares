@@ -25,9 +25,10 @@ if(!(empty($_SESSION["usuario"]))){
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
   <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
-  
 </head>
-
+<?php
+  $anio = date("Y");
+?>
 <body onload="carga_tabla_notificaciones();cargar_indicadores_lotes();cargar_grafica_lotes_vendidos();">
 
 <?php
@@ -127,31 +128,23 @@ menu();
             <div class="col-12">
               <div class="card">
 
-                <!--<div class="filter">
+                <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <?php 
+                    for ($i = 2021; $i <= $anio; $i++) {
+                      ?>
+                      <li><a class="dropdown-item" onclick='cargar_grafica_lotes_vendidos(<?php echo $i ?>)'><?php echo $i ?></a></li>
+                      <?php
+                    }?>
                   </ul>
-                </div>-->
-
+                </div>
                 <div class="card-body">
-                  <?php
-                  $anio = date("Y");
-                  ?>
-                  <h5 class="card-title">Lotes Vendidos <span>| <?php echo $anio ?></span></h5>
-
+                  <h5 class="card-title">Lotes Vendidos | <span id='span_periodo'><?php echo $anio ?></span></h5>
                   <!-- Line Chart -->
                   <div id="div_grafica_lote">
                   </div>
-
                 </div>
-
               </div>
             </div><!-- End Reports -->
 

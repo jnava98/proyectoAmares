@@ -43,26 +43,31 @@ function cargar_indicadores_lotes(){
     });//fin de ajax
 }//fin de funcion carga tabla notificaciones
 
-function cargar_grafica_lotes_vendidos(){
+function cargar_grafica_lotes_vendidos(periodo){
     $.ajax({
         url:"assets/php/panel_control/cargar_grafica_lotes_vendidos.php",
         dataType:"json",//Formato en como se manda la información
-        type:"get",
+        type:"POST",
         data:{//Información a enviar o cadena a enviar
+            periodo:periodo
+        },
+        beforeSend: function() {
+            $('#div_grafica_lote').html('');
         },
         success:function(respuesta){
             $(document).ready(function(){
                 if(respuesta.valor=="ok"){
+                    $('#span_periodo').html(respuesta.periodo);
                     new ApexCharts(document.querySelector("#div_grafica_lote"), {
                         series: [{
                             name: 'Premium',
-                            data: [respuesta.Premium[0],respuesta.Premium[1],respuesta.Premium[2],respuesta.Premium[3],respuesta.Premium[4],respuesta.Premium[5],]
+                            data: [respuesta.Premium[0],respuesta.Premium[1],respuesta.Premium[2],respuesta.Premium[3],respuesta.Premium[4],respuesta.Premium[5],respuesta.Premium[6],respuesta.Premium[7],respuesta.Premium[8],respuesta.Premium[9],respuesta.Premium[10],respuesta.Premium[11],]
                         }, {
                             name: 'Estándar',
-                            data: [respuesta.Estandar[0],respuesta.Estandar[1],respuesta.Estandar[2],respuesta.Estandar[3],respuesta.Estandar[4],respuesta.Estandar[5],]
+                            data: [respuesta.Estandar[0],respuesta.Estandar[1],respuesta.Estandar[2],respuesta.Estandar[3],respuesta.Estandar[4],respuesta.Estandar[5],respuesta.Estandar[6],respuesta.Estandar[7],respuesta.Estandar[8],respuesta.Estandar[9],respuesta.Estandar[10],respuesta.Estandar[11],]
                         }, {
                             name: 'Plus',
-                            data: [respuesta.Plus[0],respuesta.Plus[1],respuesta.Plus[2],respuesta.Plus[3],respuesta.Plus[4],respuesta.Plus[5],]
+                            data: [respuesta.Plus[0],respuesta.Plus[1],respuesta.Plus[2],respuesta.Plus[3],respuesta.Plus[4],respuesta.Plus[5],respuesta.Plus[6],respuesta.Plus[7],respuesta.Plus[8],respuesta.Plus[9],respuesta.Plus[10],respuesta.Plus[11],]
                         }],
                         chart: {
                             height: 350,
@@ -93,7 +98,7 @@ function cargar_grafica_lotes_vendidos(){
                         },
                         xaxis: {
                             type: 'date',
-                            categories: [respuesta.meses[0], respuesta.meses[1], respuesta.meses[2], respuesta.meses[3], respuesta.meses[4], respuesta.meses[5],]
+                            categories: [respuesta.meses[0], respuesta.meses[1], respuesta.meses[2], respuesta.meses[3], respuesta.meses[4], respuesta.meses[5],respuesta.meses[6],respuesta.meses[7],respuesta.meses[8],respuesta.meses[9],respuesta.meses[10],respuesta.meses[11],]
                         },
                         tooltip: {
                             x: {
@@ -135,7 +140,7 @@ function cargar_grafica_lotes_vendidos(){
                         },
                     }).render();
                 }//fin del if
-            });	
+            });
         },
         error:function(respuesta){//Si surge un error
             console.log(respuesta);
