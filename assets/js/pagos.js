@@ -129,10 +129,15 @@ function abono_capital(id_contrato){
 			id_contrato:id_contrato
 		},
 		success:function(response) {
-			$('#div_form_pagos').hide('slow');
-			$('#div_form_pagos').html(response.html);
-			$('#div_form_pagos').show('slow');
-			consulta_historial_pagos(response.id_contrato);
+			if (response.msg != "") {
+				Swal.fire(response.msg,"No es posible realizar abonos a capital.");
+			}else{
+				$('#div_form_pagos').hide('slow');
+				$('#div_form_pagos').html(response.html);
+				$('#div_form_pagos').show('slow');
+				//consulta_historial_pagos(response.id_contrato);
+			}
+			
 		},
 		error:function(response){
 			//Mensaje de error
@@ -209,6 +214,7 @@ function guardaAbono(id_contrato){
 		},
 		success:function(response) {
 			//Si encontramos algun historial de pagos
+			consulta_historial_pagos(response.id_contrato);
 			console.log(response+"success");
 			// $('#div_form_pagos').html(response.html);
 			//Si encontramos algun historial de pagos
@@ -367,11 +373,11 @@ function guarda_pago(id_contrato,cambia_estatus){
 	//Validamos que los inputs tengan valores
 	if($('#inp_fpago').val()==""){ Swal.fire('Campos incompletos','Falta la: <b>Fecha de pago</b>','error'); return false }
 	if($('#inp_cpagada').val()=="") {Swal.fire('Campos incompletos','Falta la: <b>Cantidad pagada</b>','error'); return false}
-	if($('#inp_totpagar').val()=="") {Swal.fire('Campos incompletos','Falta el: <b>Fotal a pagar</b>','error'); return false}
+	if($('#inp_totpagar').val()=="") {Swal.fire('Campos incompletos','Falta el: <b>Total a pagar</b>','error'); return false}
 	if($('#inp_cuenta').val()==0) {Swal.fire('Campos incompletos','Falta la: <b>Cuenta bancaria</b>','error'); return false}
 	
 	//Recibimos los datos
-
+	$("#btnGuardarPago").prop("disabled",true);
 	$.ajax({
 		type:'get',
 		url:'assets/php/pagos/guardado_pagos.php',
@@ -398,9 +404,13 @@ function guarda_pago(id_contrato,cambia_estatus){
 		success:function(response) {
 			console.log(response);
 			console.log(response.result);
-			consulta_historial_pagos(response.id_contrato)
+			consulta_historial_pagos(response.id_contrato);
+			setTimeout(function(){
+				$("#btnGuardarPago").prop("disabled",false);
+			},1000);
 		},
 		error:function(response){
+			$("#btnGuardarPago").prop("disabled",false);
 			alert(response);
 			//Mensaje de error
 		}

@@ -136,7 +136,7 @@ $html="
 
             <div class='row mb-4'>
                 <div class='col-sm-4'>
-                    <button type='button' class='btn btn-primary' onclick='guarda_pago($id_contrato,$cambia_estatus);'>Guardar Pago</button>
+                    <button type='button' class='btn btn-success mt-3' id='btnGuardarPago' onclick='guarda_pago($id_contrato,$cambia_estatus);'>Guardar Pago</button>
                 </div>
             </div>";
 

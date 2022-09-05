@@ -22,6 +22,7 @@ const MSI = 4;
 const APARTADO = 1;
 const ENGANCHE = 2;
 const MENSUALIDAD_CONTRATO = 3;
+const ABONO_CAPITAL = 4;
 const PAGO_FINAL = 5;
 
 $datosContrato = traeDatosContrato($id_contrato);
@@ -135,7 +136,7 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
         $mensaje2 = "Los contratos de contado no tienen mensualidades, solo pago final.";
         exit(response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$mensaje,$mensaje2));
     }
-    //Verificamos si se definio un apartado y que ya haya sido pagado
+    //Verificamos si se definio un apartado y que ya haya sido pagado.
     if ($datosContrato->cant_apartado != 0) {
         //Verificamos si ya se pago el apartado
         $totalPagadoApartado = totalPagadoxConcepto($id_contrato,APARTADO);
@@ -155,6 +156,9 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
 
     if ($datosTotalPagado->totalPagado === null) {
         $cantidadxPagar = $datosContrato->monto_mensual;
+        if ($ultimoPago['id_concepto'] == ABONO_CAPITAL) {
+            $cantidadxPagar = $ultimoPago['mensualidad_historica'];
+        }
         if ($ultimoPago['diferencia'] < 0) {
             $saldoMesAnterior = $ultimoPago['diferencia'];
         }
@@ -169,7 +173,12 @@ if ($id_concepto == MENSUALIDAD_CONTRATO) {
         }else{
             $restantexPagar = $totalEstipuladoMensualidades-$datosTotalPagado->totalPagado;
             if ($restantexPagar >= $datosContrato->monto_mensual) {
-                $cantidadxPagar = $datosContrato->monto_mensual;
+                //Tenemos que ver si existe un abono a capital.
+                if ($ultimoPago['id_concepto'] == ABONO_CAPITAL || $ultimoPago['id_concepto'] == MENSUALIDAD_CONTRATO) {
+                    $cantidadxPagar = $ultimoPago['mensualidad_historica'];
+                }else {
+                    $cantidadxPagar = $datosContrato->monto_mensual;
+                }
             }else {
                 $cantidadxPagar = $restantexPagar;
             }
@@ -252,7 +261,7 @@ function response($aux,$interesMesAnterior,$saldoMesAnterior,$cantidadxPagar,$me
 
 function consultaPagoxConcepto($id_contrato,$id_concepto){
     //Consulta si existe algún pago de un concepto en específico
-    $sql="SELECT * FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1 LIMIT 1";
+    $sql="SELECT * FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1 ORDER BY id_pago DESC LIMIT 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $row = mysqli_fetch_assoc($result);
@@ -281,6 +290,16 @@ function consultaUltimoPago($id_contrato){
 
 function totalPagadoxConcepto($id_contrato,$id_concepto){
     $sql="SELECT sum(abonado_capital) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1";
+    $result=mysqli_query(conectar(),$sql);
+    desconectar();
+    $row = mysqli_fetch_assoc($result);
+    $row = json_encode($row);
+    $row = json_decode($row,false);
+    return $row;
+}
+
+function totalPagadoMensualidadesyAbonoCapital($id_contrato,$id_concepto){
+    $sql="SELECT sum(abonado_capital) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto in (3,4)  AND habilitado = 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $row = mysqli_fetch_assoc($result);
