@@ -382,6 +382,21 @@ function busca_cliente(){
 	});
 };//Fin busca_cliente
 
+function busca_lote(){
+	var lote = $('#input_buscar_lote').val();
+	$.ajax({
+		type:'get',
+		url:'assets/php/clientes/busca_lote.php',
+		data:{
+			lote:lote
+		},
+		success:function(response) {
+			$('#tbody_cliente').html(response);
+			$('#div_cliente_lista').css('display','block');
+		}//fin de success
+	});
+};//Fin busca_cliente
+
 function seleccionar_cliente(id){
 	var cadena = id.split("&");
 	id_cliente = cadena[0];	
@@ -389,6 +404,18 @@ function seleccionar_cliente(id){
 	//nombre = nombre.substring(0, nombre.length - 1);
 	$('#input_cliente').val(nombre);
 	$("#input_cliente").prop('disabled', true);
+	$('#id_cliente').val(id_cliente);
+	$('#div_cliente_lista').css('display','none');
+	$("#buscar").prop('disabled', false);
+};//Fin seleccionar_cliente
+
+function seleccionar_lote(id){
+	var cadena = id.split("&");
+	id_cliente = cadena[0];	
+	nombre = cadena[1];
+	//nombre = nombre.substring(0, nombre.length - 1);
+	$('#input_buscar_lote').val(nombre);
+	$("#input_buscar_lote").prop('disabled', true);
 	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
 	$("#buscar").prop('disabled', false);
@@ -447,6 +474,16 @@ function cargar_datos_cliente(id){
 		});
 	}//fin del else
 }//fin de cargar datos clientes
+
+function filtrar_datos_busqueda(valor){
+	if(valor=="option_cliente"){
+		document.getElementById("input_cliente").style.display = "block";
+		document.getElementById("input_buscar_lote").style.display = "none";
+	}else{
+		document.getElementById("input_cliente").style.display = "none";
+		document.getElementById("input_buscar_lote").style.display = "block";
+	}//fin del else
+}//fin de filtrar datos busqueda
 
 function cargar_datos_precontrato(id){
 	//alert("Entrando");
