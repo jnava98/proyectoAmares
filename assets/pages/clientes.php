@@ -54,7 +54,20 @@ if(!(empty($_SESSION["usuario"]))){
                 <h5 class="card-title">Clientes</h5>
                 <div class="row">
                   <div class="col-lg-6">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option_cliente" onclick="filtrar_datos_busqueda(this.value)" checked>
+                      <label class="form-check-label" for="inlineRadio1">Por Cliente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option_lote" onclick="filtrar_datos_busqueda(this.id)">
+                      <label class="form-check-label" for="inlineRadio2">Por Lote</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
                     <input id="input_cliente" class="form-control" type="text" autocomplete="off" placeholder="Nombre del cliente" onkeyup="busca_cliente()">
+                    <input id="input_buscar_lote" style="display:none;" class="form-control" type="text" autocomplete="off" placeholder='Ingresa el lote separado por "-"' onkeyup="busca_lote()">
                   </div>
                   <div class="col-lg-6">
                     <button type="button" id="buscar" class="btn boton_uno" onclick="cargar_datos_cliente(this.id);" disabled> Buscar</button>&nbsp
