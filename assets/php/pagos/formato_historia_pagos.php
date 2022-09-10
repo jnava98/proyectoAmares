@@ -51,9 +51,15 @@ if($id_contrato==" "||$id_contrato==""){
                 $boton = "";
             }
 
-           
+           //DANDO FORMATO DE NUMERO A LOS VALORES.
             $banco = $pago->banco." - ".$pago->identificador_cuenta;
- 
+            $pago->cant_inicial = number_format($pago->cant_inicial,2);
+            $pago->monto_pagado = number_format($pago->monto_pagado,2);
+            $pago->abonado_capital = number_format($pago->abonado_capital,2);
+            $pago->abonado_interes = number_format($pago->abonado_interes,2);
+            $pago->balance_final = number_format($pago->balance_final,2);
+            $pago->diferencia = number_format($pago->diferencia,2);
+            $pago->mensualidad_historica = number_format($pago->mensualidad_historica,2);
             $html.= "
                 <tr>
                     <th scope='row'>$pago->no_mensualidad</th>

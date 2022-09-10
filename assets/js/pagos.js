@@ -17,6 +17,31 @@ function busca_cliente(){
 	});
 };//Fin busca cliente
 
+function busca_lote(){
+	var lote = $('#input_buscar_lote').val();
+	$.ajax({
+		type:'get',
+		url:'assets/php/clientes/busca_lote.php',
+		data:{
+			lote:lote
+		},
+		success:function(response) {
+			$('#tbody_cliente').html(response);
+			$('#div_cliente_lista').css('display','block');
+		}//fin de success
+	});
+};//Fin busca_cliente
+
+function filtrar_datos_busqueda(valor){
+	if(valor=="option_cliente"){
+		document.getElementById("input_cliente").style.display = "block";
+		document.getElementById("input_buscar_lote").style.display = "none";
+	}else{
+		document.getElementById("input_cliente").style.display = "none";
+		document.getElementById("input_buscar_lote").style.display = "block";
+	}//fin del else
+}//fin de filtrar datos busqueda
+
 function cantInicialxtipoCambio(){
 
 	var cantInicial = $("#inpCantInicial").val();
@@ -72,6 +97,18 @@ function seleccionar_cliente(id){
 	$('#id_cliente').val(id_cliente);
 	$('#div_cliente_lista').css('display','none');
 };//Fin seleccionarPersona
+
+function seleccionar_lote(id){
+	var cadena = id.split("&");
+	id_cliente = cadena[0];	
+	nombre = cadena[1];
+	//nombre = nombre.substring(0, nombre.length - 1);
+	$('#input_buscar_lote').val(nombre);
+	$("#input_buscar_lote").prop('disabled', true);
+	$('#id_cliente').val(id_cliente);
+	$('#div_cliente_lista').css('display','none');
+	$("#buscar").prop('disabled', false);
+};//Fin seleccionar_cliente
 
 function trae_contratos_cliente(){
 	var id_cliente = $('#id_cliente').val();
@@ -129,10 +166,15 @@ function abono_capital(id_contrato){
 			id_contrato:id_contrato
 		},
 		success:function(response) {
-			$('#div_form_pagos').hide('slow');
-			$('#div_form_pagos').html(response.html);
-			$('#div_form_pagos').show('slow');
-			consulta_historial_pagos(response.id_contrato);
+			if (response.msg != "") {
+				Swal.fire(response.msg,"No es posible realizar abonos a capital.");
+			}else{
+				$('#div_form_pagos').hide('slow');
+				$('#div_form_pagos').html(response.html);
+				$('#div_form_pagos').show('slow');
+				//consulta_historial_pagos(response.id_contrato);
+			}
+			
 		},
 		error:function(response){
 			//Mensaje de error
@@ -209,6 +251,7 @@ function guardaAbono(id_contrato){
 		},
 		success:function(response) {
 			//Si encontramos algun historial de pagos
+			consulta_historial_pagos(response.id_contrato);
 			console.log(response+"success");
 			// $('#div_form_pagos').html(response.html);
 			//Si encontramos algun historial de pagos
@@ -333,30 +376,38 @@ function actualiza_datos_pago(){
 		$('#inp_recargo').val(0);
 	}
 	var recargo = parseFloat($('#inp_recargo').val());
+	var recargo = parseFloat(recargo.toFixed(2))
 
 	if($('#inp_interes').val()==""){
 		$('#inp_interes').val(0);
 	} 
 	var interes = parseFloat($('#inp_interes').val());
+	var interes = parseFloat(interes.toFixed(2));
 
 	if($('#inp_mensualidad').val()==""){
 		$('#inp_mensualidad').val(0);
 	} 
 
 	var mensualidad = parseFloat($('#inp_mensualidad').val());
+	var mensualidad = parseFloat(mensualidad.toFixed(2));
 
-	/*if($('#inp_cpagada').val()==""){
-		$('#inp_cpagada').val(0);
-	} */
-	var cpagada = parseFloat($('#inp_cpagada').val());
+
+	var cpagada = parseFloat(($('#inp_cpagada').val()));
+	var cpagada = parseFloat(cpagada.toFixed(2));
 
 	//Calculamos el total a pagar
-		$('#inp_totpagar').val(recargo + interes + mensualidad);
+	var inp_totpagar = (recargo + interes + mensualidad);
+	if (inp_totpagar <= 0) {
+		inp_totpagar = 0;
+	}
+	inp_totpagar = inp_totpagar.toFixed(2);
+	$('#inp_totpagar').val(inp_totpagar);
 	
 	//Calculamos la diferencia
-	var totpagar = parseFloat($('#inp_totpagar').val());
+	var totpagar = parseFloat(($('#inp_totpagar').val()));
+	var totpagar = parseFloat(totpagar.toFixed(2));
 	
-	$('#inp_diferencia').val(totpagar - cpagada);	
+	$('#inp_diferencia').val((totpagar - cpagada).toFixed(2));	
 }
 
 function cambia_concepto(id_concepto){
@@ -367,11 +418,11 @@ function guarda_pago(id_contrato,cambia_estatus){
 	//Validamos que los inputs tengan valores
 	if($('#inp_fpago').val()==""){ Swal.fire('Campos incompletos','Falta la: <b>Fecha de pago</b>','error'); return false }
 	if($('#inp_cpagada').val()=="") {Swal.fire('Campos incompletos','Falta la: <b>Cantidad pagada</b>','error'); return false}
-	if($('#inp_totpagar').val()=="") {Swal.fire('Campos incompletos','Falta el: <b>Fotal a pagar</b>','error'); return false}
+	if($('#inp_totpagar').val()=="") {Swal.fire('Campos incompletos','Falta el: <b>Total a pagar</b>','error'); return false}
 	if($('#inp_cuenta').val()==0) {Swal.fire('Campos incompletos','Falta la: <b>Cuenta bancaria</b>','error'); return false}
 	
 	//Recibimos los datos
-
+	$("#btnGuardarPago").prop("disabled",true);
 	$.ajax({
 		type:'get',
 		url:'assets/php/pagos/guardado_pagos.php',
@@ -398,9 +449,13 @@ function guarda_pago(id_contrato,cambia_estatus){
 		success:function(response) {
 			console.log(response);
 			console.log(response.result);
-			consulta_historial_pagos(response.id_contrato)
+			consulta_historial_pagos(response.id_contrato);
+			setTimeout(function(){
+				$("#btnGuardarPago").prop("disabled",false);
+			},1000);
 		},
 		error:function(response){
+			$("#btnGuardarPago").prop("disabled",false);
 			alert(response);
 			//Mensaje de error
 		}
