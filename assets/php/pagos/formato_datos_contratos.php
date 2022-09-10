@@ -17,13 +17,14 @@ if($datosContrato!=false){
     $lote = $datosContrato['fase']."-".$datosContrato['super_manzana']."-".$datosContrato['mza']."-".$datosContrato['lote'];  
     
     $deuda_restante = traeDeudaRestante($id_contrato);
+    $deuda_restante = number_format($deuda_restante,2);
     $abonado = traeAbonadoCapitaleInteres($id_contrato);
     $abonado_capital = number_format($abonado['abonadoCapital'],2);
     $abonado_intereses = number_format($abonado['abonadoInteres'],2);
     $datosContrato['precio_lista'] = number_format($datosContrato['precio_lista'],2);
     $datosContrato['precio_venta'] = number_format($datosContrato['precio_venta'],2);
 
-    if ($deuda_restante === false) {
+    if ($deuda_restante == false || $deuda_restante === "0.00") {
         $deuda_restante=$p_venta;
     }
 
@@ -167,7 +168,7 @@ function traeDeudaRestante($id_contrato){
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $num=mysqli_num_rows($result);
-    if($num>0&&$result!=false){
+    if($num>0){
         $row = mysqli_fetch_array($result);
         return $row['balance_final'];
     }else{

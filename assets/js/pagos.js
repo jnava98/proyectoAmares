@@ -376,30 +376,38 @@ function actualiza_datos_pago(){
 		$('#inp_recargo').val(0);
 	}
 	var recargo = parseFloat($('#inp_recargo').val());
+	var recargo = parseFloat(recargo.toFixed(2))
 
 	if($('#inp_interes').val()==""){
 		$('#inp_interes').val(0);
 	} 
 	var interes = parseFloat($('#inp_interes').val());
+	var interes = parseFloat(interes.toFixed(2));
 
 	if($('#inp_mensualidad').val()==""){
 		$('#inp_mensualidad').val(0);
 	} 
 
 	var mensualidad = parseFloat($('#inp_mensualidad').val());
+	var mensualidad = parseFloat(mensualidad.toFixed(2));
 
-	/*if($('#inp_cpagada').val()==""){
-		$('#inp_cpagada').val(0);
-	} */
-	var cpagada = parseFloat($('#inp_cpagada').val());
+
+	var cpagada = parseFloat(($('#inp_cpagada').val()));
+	var cpagada = parseFloat(cpagada.toFixed(2));
 
 	//Calculamos el total a pagar
-		$('#inp_totpagar').val(recargo + interes + mensualidad);
+	var inp_totpagar = (recargo + interes + mensualidad);
+	if (inp_totpagar <= 0) {
+		inp_totpagar = 0;
+	}
+	inp_totpagar = inp_totpagar.toFixed(2);
+	$('#inp_totpagar').val(inp_totpagar);
 	
 	//Calculamos la diferencia
-	var totpagar = parseFloat($('#inp_totpagar').val());
+	var totpagar = parseFloat(($('#inp_totpagar').val()));
+	var totpagar = parseFloat(totpagar.toFixed(2));
 	
-	$('#inp_diferencia').val(totpagar - cpagada);	
+	$('#inp_diferencia').val((totpagar - cpagada).toFixed(2));	
 }
 
 function cambia_concepto(id_concepto){
