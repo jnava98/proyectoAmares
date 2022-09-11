@@ -354,12 +354,12 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
                 // $diferencia = $inp_totpagar - $totalAFavor;
             }else{
                 if ($inp_totpagar <= $inp_mensualidad) {
-                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_mensualidad);
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $totalAFavor);
                     $abonado_capital = $abonos['capital'];
                     $abonado_interes = $abonos['interes'];
                     $diferencia = $inp_mensualidad - $totalAFavor;
                 }else{
-                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $totalAFavor);
                     $abonado_capital = $abonos['capital'];
                     $abonado_interes = $abonos['interes'];
                     $diferencia = $inp_totpagar - $totalAFavor;
