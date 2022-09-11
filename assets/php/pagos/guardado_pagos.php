@@ -194,7 +194,7 @@ if ($datosContrato['id_tipo_compra'] != FINANCIADO) {
         $totalAFavor = $inp_cpagada + $saldoAFavor;
         if ($totalAFavor > $inp_totpagar) {
             if ($inp_totpagar <= $inp_mensualidad) {
-                $abonado_capital = $totalAFavor;
+                $abonado_capital = $inp_mensualidad;
                 $diferencia = $inp_mensualidad - $totalAFavor;
             }else{
                 $abonado_capital = $inp_totpagar;
@@ -202,7 +202,28 @@ if ($datosContrato['id_tipo_compra'] != FINANCIADO) {
             }
         }else{
             if ($inp_totpagar <= $inp_mensualidad) {
-                $abonado_capital = $totalAFavor;
+                $abonado_capital = $inp_mensualidad;
+                $diferencia = $inp_mensualidad - $totalAFavor;
+            }else{
+                $abonado_capital = $inp_totpagar;
+                $diferencia = $inp_totpagar - $totalAFavor;
+            }
+        } 
+    }else{
+        $totalAFavor = $inp_cpagada;
+        if ($totalAFavor > $inp_totpagar) {
+            if ($inp_totpagar <= $inp_mensualidad) {
+                $abonado_capital = $inp_mensualidad;
+                $diferencia = $inp_mensualidad - $totalAFavor;
+            }else{
+                $abonado_capital = $inp_totpagar;
+                $diferencia = $inp_totpagar - $totalAFavor;
+            }
+            // $abonado_capital = $inp_totpagar;
+            // $diferencia = $inp_totpagar - $totalAFavor;
+        }else{  
+            if ($inp_totpagar <= $inp_mensualidad) {
+                $abonado_capital = $inp_mensualidad;
                 $diferencia = $inp_mensualidad - $totalAFavor;
             }else{
                 $abonado_capital = $inp_totpagar;
@@ -210,15 +231,6 @@ if ($datosContrato['id_tipo_compra'] != FINANCIADO) {
             }
             // $abonado_capital = $totalAFavor;
             // $diferencia = $inp_totpagar  - $totalAFavor;
-        } 
-    }else{
-        $totalAFavor = $inp_cpagada;
-        if ($totalAFavor > $inp_totpagar) {
-            $abonado_capital = $inp_totpagar;
-            $diferencia = $inp_totpagar - $totalAFavor;
-        }else{  
-            $abonado_capital = $totalAFavor;
-            $diferencia = $inp_totpagar  - $totalAFavor;
         }
     }
 
@@ -299,10 +311,10 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
             $totalAFavor = $inp_cpagada + $saldoAFavor;
             if ($totalAFavor > $inp_totpagar) {
                 if ($inp_totpagar <= $inp_mensualidad) {
-                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_mensualidad);
                     $abonado_capital = $abonos['capital'];
                     $abonado_interes = $abonos['interes'];
-                    $diferencia = $inp_totpagar - $totalAFavor;
+                    $diferencia = $inp_mensualidad - $totalAFavor;
                 }else{
                     $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
                     $abonado_capital = $abonos['capital'];
@@ -311,10 +323,10 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
                 }
             }else{
                 if ($inp_totpagar <= $inp_mensualidad) {
-                    $abonos = calculaAbononoInteresyCapital($balance, 8, $totalAFavor);
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_mensualidad);
                     $abonado_capital = $abonos['capital'];
                     $abonado_interes = $abonos['interes'];
-                    $diferencia = $totalAFavor - $inp_mensualidad;
+                    $diferencia = $inp_mensualidad - $totalAFavor;
                 }else{
                     $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
                     $abonado_capital = $abonos['capital'];
@@ -325,15 +337,37 @@ if ($datosContrato['id_tipo_compra'] == FINANCIADO) {
         }else{
             $totalAFavor = $inp_cpagada;
             if ($totalAFavor > $inp_totpagar) {
-                $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
-                $abonado_capital = $abonos['capital'];
-                $abonado_interes = $abonos['interes'];
-                $diferencia = $inp_totpagar - $totalAFavor;
+                if ($inp_totpagar <= $inp_mensualidad) {
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_mensualidad);
+                    $abonado_capital = $abonos['capital'];
+                    $abonado_interes = $abonos['interes'];
+                    $diferencia = $inp_mensualidad - $totalAFavor;
+                }else{
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
+                    $abonado_capital = $abonos['capital'];
+                    $abonado_interes = $abonos['interes'];
+                    $diferencia = $inp_totpagar - $totalAFavor;
+                }
+                // $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
+                // $abonado_capital = $abonos['capital'];
+                // $abonado_interes = $abonos['interes'];
+                // $diferencia = $inp_totpagar - $totalAFavor;
             }else{
-                $abonos = calculaAbononoInteresyCapital($balance, 8, $totalAFavor);
-                $abonado_capital = $abonos['capital'];
-                $abonado_interes = $abonos['interes'];
-                $diferencia = $inp_totpagar  - $totalAFavor;
+                if ($inp_totpagar <= $inp_mensualidad) {
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_mensualidad);
+                    $abonado_capital = $abonos['capital'];
+                    $abonado_interes = $abonos['interes'];
+                    $diferencia = $inp_mensualidad - $totalAFavor;
+                }else{
+                    $abonos = calculaAbononoInteresyCapital($balance, 8, $inp_totpagar);
+                    $abonado_capital = $abonos['capital'];
+                    $abonado_interes = $abonos['interes'];
+                    $diferencia = $inp_totpagar - $totalAFavor;
+                }
+                // $abonos = calculaAbononoInteresyCapital($balance, 8, $totalAFavor);
+                // $abonado_capital = $abonos['capital'];
+                // $abonado_interes = $abonos['interes'];
+                // $diferencia = $inp_totpagar  - $totalAFavor;
             }
         }
 
