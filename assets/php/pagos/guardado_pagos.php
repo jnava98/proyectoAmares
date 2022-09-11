@@ -223,10 +223,10 @@ if ($datosContrato['id_tipo_compra'] != FINANCIADO) {
             // $diferencia = $inp_totpagar - $totalAFavor;
         }else{  
             if ($inp_totpagar <= $inp_mensualidad) {
-                $abonado_capital = $inp_mensualidad;
+                $abonado_capital = $totalAFavor;
                 $diferencia = $inp_mensualidad - $totalAFavor;
             }else{
-                $abonado_capital = $inp_totpagar;
+                $abonado_capital = $totalAFavor;
                 $diferencia = $inp_totpagar - $totalAFavor;
             }
             // $abonado_capital = $totalAFavor;
