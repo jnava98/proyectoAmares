@@ -33,7 +33,9 @@ function cargar_indicadores_lotes(){
             $(document).ready(function(){
                 if(respuesta.valor=="ok"){
                     $('#div_ingreso_lote').html(respuesta.ingreso);//En donde quiero mostrar la información
+                    $('#span_ingresos').html(respuesta.trimestre);//En donde quiero mostrar la información
                     $('#div_lotes_vendidos').html(respuesta.lotes_vendidos);//En donde quiero mostrar la información
+                    $('#span_lotes_vendidos').html(respuesta.trimestre);//En donde quiero mostrar la información
                 }//fin del if
             });	
         },

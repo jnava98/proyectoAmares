@@ -74,7 +74,7 @@ menu();
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Ingresos <span>| Este Mes</span></h5>
+                  <h5 class="card-title">Ingresos |<span id="span_ingresos"> Este Mes</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
