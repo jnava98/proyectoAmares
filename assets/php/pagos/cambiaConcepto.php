@@ -294,7 +294,7 @@ function consultaUltimoPago($id_contrato){
 
 
 function totalPagadoxConcepto($id_contrato,$id_concepto){
-    $sql="SELECT (sum(abonado_capital) + sum(abonado_interes)+ 0.20) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1";
+    $sql="SELECT (sum(abonado_capital) + sum(abonado_interes)) as totalPagado FROM pagos WHERE id_contrato = $id_contrato AND id_concepto = $id_concepto AND habilitado = 1";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     $row = mysqli_fetch_assoc($result);
