@@ -108,7 +108,7 @@ menu();
                   </ul>
                 </div>-->
                 <div class="card-body">
-                  <h5 class="card-title">Lotes Vendidos <span>| Este Mes</span></h5>
+                  <h5 class="card-title">Lotes Vendidos |<span id="span_lotes_vendidos"> Este Mes</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
