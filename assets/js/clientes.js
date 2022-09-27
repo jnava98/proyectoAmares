@@ -162,6 +162,7 @@ function guardar_datos_precontrato(){
 			var tipo_compra = $('#select_tipo_compra').val();
 			var n_mensualidades = $('#n_mensualidades').val();
 			var monto_mensual = $('#monto_mensual').val();
+			var fecha_entrega = $('#fecha_entrega').val();
 			var pago_final = $('#pago_final').val();
 			var dia_pago = $('#dia_pago').val();
 			var descuentos = $('#desc_aplicados').val();

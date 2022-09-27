@@ -98,6 +98,12 @@ if(empty($_GET["dia_pago"])){
 	$dia_pago=$_GET["dia_pago"];
 }//Fin del else
 
+if(empty($_GET["fecha_entrega"])){
+	$fecha_entrega="";
+}else{
+	$fecha_entrega=$_GET["fecha_entrega"];
+}//Fin del else
+
 if(empty($_GET["descuentos"])){
 	$descuentos="";
 }else{
@@ -159,7 +165,7 @@ if(($id_contrato!="")){
         $clientes_antiguos = $col['clientes'];
         if($clientes_antiguos==$clientes){
             $dia_notificacion = date("d",strtotime($dia_pago));
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', dia_pago = '".$dia_pago."', dia_notificacion = '".$dia_notificacion."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', fecha_entrega='".$fecha_entrega."', dia_pago = '".$dia_pago."', dia_notificacion = '".$dia_notificacion."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
@@ -189,7 +195,7 @@ if(($id_contrato!="")){
             }//fin del else
         }else{
             $dia_notificacion = date("d",strtotime($dia_pago));
-            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', pago_final = '".$pago_final."', dia_pago = '".$dia_pago."', dia_pago = '".$dia_notificacion."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
+            $sql="UPDATE contrato set cant_apartado = '".$cantidad_apartado."', fecha_apartado = '".$fecha_apartado."', cant_enganche = '".$cantidad_enganche."', fecha_enganche = '".$fecha_enganche."', mensualidades_enganche = '".$mensualidad_enganche."', clientes = '".$clientes."', precio_venta = '".$precio_venta."', id_tipo_compra = '".$tipo_compra."', mensualidades = '".$n_mensualidades."', monto_mensual = '".$monto_mensual."', fecha_entrega='".$fecha_entrega."', pago_final = '".$pago_final."', dia_pago = '".$dia_pago."', dia_pago = '".$dia_notificacion."', tasa_interes = '".$tasa_interes."', nombre_broker = '".$nombre_broker."', comision_broker = '".$comision_broker."', observaciones = '".$observaciones."', id_lote = '".$lote."', cant_mensual_enganche = '".$cant_mensual_enganche."', fecha_modificacion = '".$hoy."', uum = '".$_SESSION["id"]."' where id_contrato LIKE '".$id_contrato."' ";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             if($result){
@@ -251,7 +257,7 @@ if(($id_contrato!="")){
                 $respuesta['mensaje']= "Ya existe un contrato relacionado con este lote";
             }else{
                 $dia_notificacion = date("d",strtotime($dia_pago));
-                $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, dia_notificacion, tasa_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta, cant_mensual_enganche, fecha_captura, fecha_modificacion, uc, uum) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$dia_notificacion."', '".$tasa_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."', '".$cant_mensual_enganche."', '".$hoy."', '".$hoy."', '".$_SESSION["id"]."', '".$_SESSION["id"]."')";
+                $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, fecha_entrega, dia_pago, dia_notificacion, tasa_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta, cant_mensual_enganche, fecha_captura, fecha_modificacion, uc, uum) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$fecha_entrega."', '".$dia_pago."', '".$dia_notificacion."', '".$tasa_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."', '".$cant_mensual_enganche."', '".$hoy."', '".$hoy."', '".$_SESSION["id"]."', '".$_SESSION["id"]."')";
                 $result=mysqli_query(conectar(),$sql);
                 desconectar();
                 //echo $sql;
@@ -325,7 +331,7 @@ if(($id_contrato!="")){
             $respuesta['mensaje']= "Ya existe un contrato relacionado con este lote";
         }else{
             $dia_notificacion = date("d",strtotime($dia_pago));
-            $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, dia_pago, dia_notificacion, tasa_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta, cant_mensual_enganche, fecha_captura, fecha_modificacion, uc, uum) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$dia_pago."', '".$dia_notificacion."', '".$tasa_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."', '".$cant_mensual_enganche."', '".$hoy."', '".$hoy."', '".$_SESSION["id"]."', '".$_SESSION["id"]."')";
+            $sql="INSERT into contrato (cant_apartado, fecha_apartado, cant_enganche, fecha_enganche, mensualidades_enganche, clientes, id_lote, precio_venta, id_tipo_compra, mensualidades, monto_mensual, pago_final, fecha_entrega, dia_pago, dia_notificacion, tasa_interes, nombre_broker, comision_broker, observaciones, id_estatus_venta, cant_mensual_enganche, fecha_captura, fecha_modificacion, uc, uum) values ('".$cantidad_apartado."', '".$fecha_apartado."', '".$cantidad_enganche."', '".$fecha_enganche."', '".$mensualidad_enganche."', '".$clientes."', '".$lote."', '".$precio_venta."', '".$tipo_compra."', '".$n_mensualidades."', '".$monto_mensual."', '".$pago_final."', '".$fecha_entrega."', '".$dia_pago."', '".$dia_notificacion."', '".$tasa_interes."', '".$nombre_broker."', '".$comision_broker."', '".$observaciones."', '".$estatus_venta."', '".$cant_mensual_enganche."', '".$hoy."', '".$hoy."', '".$_SESSION["id"]."', '".$_SESSION["id"]."')";
             $result=mysqli_query(conectar(),$sql);
             desconectar();
             //echo $sql;
