@@ -23,10 +23,7 @@ function cargar_tabla_reporte(){
 					if(respuesta.valor=="ok"){
 						$('#div_reportes').show('slow');
 						$('#div_tabla_reportes').html(respuesta.tabla);//En donde quiero mostrar la información
-						$('#'+respuesta.id_tabla).DataTable({
-                            dom: 'Bfrtip',
-        			        buttons: ['excel', 'pdf', 'print']
-                        });
+						$('#'+respuesta.id_tabla).DataTable();
 					}else{
                         $(document).ready(function(){
                             swal.fire({

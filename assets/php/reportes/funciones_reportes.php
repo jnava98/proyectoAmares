@@ -319,7 +319,8 @@ function reporte_ingresos_ambos($fecha_uno, $fecha_dos){
 									$periodo2 = $periodo."-".$mes."-".$dia;
 									$aux = 0;
 									$contador_unidades = 0;
-									$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND l.estatus LIKE '1' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+									$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+									//echo $sql;
 									$result = mysqli_query(conectar(),$sql);
 									desconectar();
 									$num = mysqli_num_rows($result);
@@ -394,7 +395,7 @@ function reporte_reservas_mensuales($fecha_uno, $fecha_dos){
 									$periodo2 = $periodo."-".$mes."-".$dia;
 									$aux = 0;
 									$contador_unidades = 0;
-									$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND l.estatus LIKE '1' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+									$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
 									$result = mysqli_query(conectar(),$sql);
 									desconectar();
 									$num = mysqli_num_rows($result);
@@ -465,7 +466,7 @@ function reporte_reservas_pendientes($fecha_uno, $fecha_dos){
 									$periodo2 = $periodo."-".$mes."-".$dia;
 									$aux = 0;
 									$contador_unidades = 0;
-									$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma LIKE '0000-00-00' AND c.fecha_contrato LIKE '0000-00-00' AND l.estatus LIKE '1' AND ((c.dia_pago>='".$periodo1."')AND(c.dia_pago<='".$periodo2."')) ";
+									$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma LIKE '0000-00-00' AND c.fecha_contrato LIKE '0000-00-00' AND ((c.dia_pago>='".$periodo1."')AND(c.dia_pago<='".$periodo2."')) ";
 									$result = mysqli_query(conectar(),$sql);
 									desconectar();
 									$num = mysqli_num_rows($result);
@@ -537,7 +538,7 @@ function contratos_elaborados($fecha_uno, $fecha_dos){
 									$periodo2 = $periodo."-".$mes."-".$dia;
 									$aux = 0;
 									$contador_unidades = 0;
-									$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND l.estatus LIKE '1' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+									$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
 									$result = mysqli_query(conectar(),$sql);
 									desconectar();
 									$num = mysqli_num_rows($result);
@@ -612,7 +613,7 @@ function promesas_contratos($fecha_uno, $fecha_dos){
 									$periodo2 = $periodo."-".$mes."-".$dia;
 									$aux = 0;
 									$contador_unidades = 0;
-									$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma like '0000-00-00' AND c.fecha_contrato like '0000-00-00' AND l.estatus LIKE '1' AND ((c.dia_pago>='".$periodo1."')AND(c.dia_pago<='".$periodo2."')) ";
+									$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma like '0000-00-00' AND c.fecha_contrato like '0000-00-00' AND ((c.dia_pago>='".$periodo1."')AND(c.dia_pago<='".$periodo2."')) ";
 									$result = mysqli_query(conectar(),$sql);
 									desconectar();
 									$num = mysqli_num_rows($result);
