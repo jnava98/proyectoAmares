@@ -1,0 +1,10 @@
+{
+    "name": "cdi/crear_word.php",
+    "description": "Trabajar con word y php",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "phpoffice/phpword": "^0.18.3",
+        "phpoffice/phpspreadsheet": "^1.25"
+    }
+}

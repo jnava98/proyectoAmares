@@ -11,45 +11,18 @@ if(!(empty($_SESSION["usuario"]))){
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Amares Cobranza - Clientes</title>
+  <title>Amares Cobranza - Reportes</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!--Referencias Cesar -->
   <script type="text/javascript" src="assets/js/jquery/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="assets/js/reportes.js"></script>
-  <!--
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  -->
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
-  <!-- Favicons -->
-  <link href="assets\img\iconAmares.svg" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="assets/DataTables/datatables.min.css">
+  <script type="text/javascript" charset="utf8" src="assets/DataTables/datatables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/sweetalert/sweetalert2.min.css">
+  <script type="text/javascript" src="assets/sweetalert/sweetalert2.min.js" ></script>
 
 </head>
 
@@ -77,43 +50,47 @@ if(!(empty($_SESSION["usuario"]))){
         <div id="div_buscar_cliente" class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Reportes</h5>
-              <div class="row">
-                <div class="col-lg-5">
-                  <?php echo select_tipo_reporte(); ?>
+              <form action="/proyectoamares/assets/php/reportes/cargar_reportes.php" method="POST" target="_blank">
+                <h5 class="card-title">Reportes</h5>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <?php echo select_tipo_reporte(); ?>
+                  </div>
+                  <div class="col-lg-5">
+                    <button type="button" id="tipo_reporte" name="tipo_reporte" class="btn boton_uno" onclick="validar_formato_reportes();">Generar Reporte</button>
+                    <button type="submit" id="boton_formulario" style="display:none;">
+                    <!--<button type="button" id="tipo_reporte" name="tipo_reporte" class="btn boton_uno" onclick="actualizar_fechas_entrega()">Aux Fechas Entrega</button>-->
+                  </div>
                 </div>
-                <div class="col-lg-5">
-                  <button type="button" id="tipo_reporte" name="tipo_reporte" class="btn boton_uno" onclick="cargar_tabla_reporte()">Generar Reporte</button>
+                <br>
+                <div class="row" id="inputs_fechas" style="display: none;">
+                  <div class="col-lg-1">
+                    <label > Del </label>
+                  </div>
+                  <div class="col-lg-4">
+                    <input type="date" id="fecha_uno" name="fecha_uno" class="form-control">
+                  </div>
+                  <div class="col-lg-1">
+                    <label > Al </label>
+                  </div>
+                  <div class="col-lg-4">
+                    <input type="date" id="fecha_dos" name="fecha_dos" class="form-control">
+                  </div>
                 </div>
-              </div>
-              <br>
-              <div class="row" id="inputs_fechas" style="display: none;">
-                <div class="col-lg-1">
-                  <label > Del </label>
-                </div>
-                <div class="col-lg-4">
-                  <input type="date" id="fecha_uno" name="fecha_uno" class="form-control">
-                </div>
-                <div class="col-lg-1">
-                  <label > Al </label>
-                </div>
-                <div class="col-lg-4">
-                  <input type="date" id="fecha_dos" name="fecha_dos" class="form-control">
-                </div>
-              </div>
-              <br>
-              <div class="row">
-                <div id="div_reportes" class="col-lg-12" style="display:none;">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="table-responsive col-lg-12" id="div_tabla_reportes">
+                <br>
+                <div class="row">
+                  <div id="div_reportes" class="col-lg-12" style="display:none;">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="table-responsive col-lg-12" id="div_tabla_reportes">
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
