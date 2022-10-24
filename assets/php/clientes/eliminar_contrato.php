@@ -10,7 +10,7 @@ if(empty($_GET["id_contrato"])){
 
 $respuesta=Array();
 //Validamos si el contrato tiene pagos
-$sql="SELECT * from pagos where id_contrato LIKE '".$id_contrato."'";
+$sql="SELECT * from pagos where id_contrato LIKE '".$id_contrato."' AND habilitado = 1";
 $result=mysqli_query(conectar(),$sql);
 desconectar();
 $num = mysqli_num_rows($result);
