@@ -50,7 +50,7 @@ if(!(empty($_SESSION["usuario"]))){
         <div id="div_buscar_cliente" class="col-lg-12">
           <div class="card">
             <div class="card-body">
-              <form action="/proyectoamares/assets/php/reportes/cargar_reportes.php" method="POST" target="_blank">
+              <form action="?page=cargar_reportes" method="POST" target="_blank">
                 <h5 class="card-title">Reportes</h5>
                 <div class="row">
                   <div class="col-lg-5">

@@ -15,6 +15,7 @@
 	if ($pagina=="cuentas_bancarias") include "./assets/pages/cuentas_bancarias.php";
 	if($pagina=="impresion_contrato") include "./assets/pages/impresion_contrato.php";
 	if($pagina=="impresion_recibo_pago") include "./assets/php/pagos/impresion_recibo_pago.php";
+	if($pagina=="cargar_reportes") include "./assets/php/reportes/cargar_reportes.php";
 	}else{
 		$pagina="login";
 		include "./assets/pages/login.php";

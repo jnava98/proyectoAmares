@@ -5,7 +5,7 @@ function crear_lista_usuarios_notificar(){
     //Faltan 5 dias para su fecha de pago
     $nueva_fecha = date("Y-m-d",strtotime($hoy."+ 5 days"));
     
-    $aux = date("d", strtotime($nueva_fecha)); 
+    $aux = date("d", strtotime($nueva_fecha));
     $sql="SELECT co.id_contrato, cc.id_cliente, l.id_lote FROM contrato as co inner join cliente_contrato as cc on co.id_contrato = cc.id_contrato inner join lotes as l on co.id_lote = l.id_lote WHERE co.dia_notificacion LIKE  '".$aux."' and co.dia_pago <= '".$nueva_fecha."'  and l.estatus <> '4' ";
     $result = mysqli_query(conectar(),$sql);
     desconectar();

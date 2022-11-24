@@ -4,9 +4,9 @@ Función: cargar_reportes.php
 Invocada por: js/reportes.js/cargar_tabla_repotes()
 Objetivo: Carga el reporte seleccionado en el select.
 */
-	require_once "../../vendor/autoload.php";
-	include "../conexion.php";
-	include "funciones_reportes.php";
+	require_once "assets/vendor/autoload.php";
+	include "assets/php/conexion.php";
+	include "assets/php/reportes/funciones_reportes.php";
 
 	use PhpOffice\PhpSpreadsheet\Spreadsheet;
 	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
