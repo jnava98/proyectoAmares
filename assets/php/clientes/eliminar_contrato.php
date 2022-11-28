@@ -18,12 +18,20 @@ if($num>0){
     $respuesta['valor']="warning";
     $respuesta['mensaje']="Este contrato cuenta con pagos registrados, para poder eliminar el contrato, primero debes eliminar los pagos";
 }else{
-    $sql="DELETE from contrato where id_contrato LIKE '".$id_contrato."'"; //Consultar id de la variable
+    $sql = "DELETE from notificaciones where id_contrato like '".$id_contrato."'";
     $result=mysqli_query(conectar(),$sql);
     desconectar();
     if($result){
-        $respuesta['valor']="success";
-        $respuesta['mensaje']="Contrato eliminado";
+        $sql="DELETE from contrato where id_contrato LIKE '".$id_contrato."'"; //Consultar id de la variable
+        $result=mysqli_query(conectar(),$sql);
+        desconectar();
+        if($result){
+            $respuesta['valor']="success";
+            $respuesta['mensaje']="Contrato eliminado";
+        }else{
+            $respuesta['valor']="error";
+            $respuesta['mensaje']="Error";
+        }//Fin del else
     }else{
         $respuesta['valor']="error";
         $respuesta['mensaje']="Error";
