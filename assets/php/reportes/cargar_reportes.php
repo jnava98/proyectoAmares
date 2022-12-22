@@ -32,7 +32,6 @@ Objetivo: Carga el reporte seleccionado en el select.
 	}//Fin del else
 	
 	$documento = new Spreadsheet();
-	//$documento = new PhpOffice\PhpSpreadsheet\Spreadsheet();
 	$documento
 	->getProperties()
 	->setLastModifiedBy('Amares Riviera Maya')
@@ -150,7 +149,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 						}//fin del else
 						$periodo2 = $periodo."-".$mes."-".$dia;
 						$aux = 0;
-						$sql="SELECT c.fecha_firma from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_firma <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."'))";
+						$sql="SELECT c.fecha_firma from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_enganche <> '0000-00-00' AND ((c.fecha_enganche>='".$periodo1."')AND(c.fecha_enganche<='".$periodo2."'))";
 						$result = mysqli_query(conectar(),$sql);
 						desconectar();
 						$num = mysqli_num_rows($result);
@@ -215,7 +214,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 						}//fin del else
 						$periodo2 = $periodo."-".$mes."-".$dia;
 						$aux = 0;
-						$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_firma <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."'))";
+						$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_enganche <> '0000-00-00' AND ((c.fecha_enganche>='".$periodo1."')AND(c.fecha_enganche<='".$periodo2."'))";
 						$result = mysqli_query(conectar(),$sql);
 						desconectar();
 						$num = mysqli_num_rows($result);
@@ -283,7 +282,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 						$periodo2 = $periodo."-".$mes."-".$dia;
 						$aux = 0;
 						$contador_unidades = 0;
-						$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_firma <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."'))";
+						$sql="SELECT c.fecha_firma, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE c.id_estatus_venta LIKE '1' AND l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND fecha_enganche <> '0000-00-00' AND ((c.fecha_enganche>='".$periodo1."')AND(c.fecha_enganche<='".$periodo2."'))";
 						$result = mysqli_query(conectar(),$sql);
 						desconectar();
 						$num = mysqli_num_rows($result);
@@ -353,7 +352,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 						$periodo2 = $periodo."-".$mes."-".$dia;
 						$aux = 0;
 						$contador_unidades = 0;
-						$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+						$sql="SELECT c.fecha_firma, c.fecha_contrato from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_enganche <> '0000-00-00' AND ((c.fecha_enganche>='".$periodo1."')AND(c.fecha_enganche<='".$periodo2."')) ";
 						$result = mysqli_query(conectar(),$sql);
 						desconectar();
 						$num = mysqli_num_rows($result);
@@ -484,7 +483,7 @@ Objetivo: Carga el reporte seleccionado en el select.
 						$periodo2 = $periodo."-".$mes."-".$dia;
 						$aux = 0;
 						$contador_unidades = 0;
-						$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_firma <> '0000-00-00' AND c.fecha_contrato <> '0000-00-00' AND ((c.fecha_firma>='".$periodo1."')AND(c.fecha_firma<='".$periodo2."')) ";
+						$sql="SELECT c.fecha_firma, c.fecha_contrato, c.precio_venta from contrato as c inner join lotes as l on c.id_lote = l.id_lote WHERE l.id_tipo_lote LIKE '".$col_tipo_lote['id_tipo_lote']."' AND c.fecha_enganche <> '0000-00-00' AND ((c.fecha_enganche>='".$periodo1."')AND(c.fecha_enganche<='".$periodo2."')) ";
 						$result = mysqli_query(conectar(),$sql);
 						desconectar();
 						$num = mysqli_num_rows($result);
