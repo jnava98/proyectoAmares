@@ -578,7 +578,69 @@ Objetivo: Carga el reporte seleccionado en el select.
 			}//fin del if
 			$nombreDelDocumento = "Reporte_Promesas_Contratos.xlsx";
 			break;
-	}//fin del switch
+
+		case "disponibilidad":
+			# Encabezado
+			$encabezado = array();
+			$encabezado[]= "Identificador Lote";
+			$encabezado[]= "Tipo Lote";
+			$encabezado[]= "Nombre del cliente";
+			$encabezado[]= "Fecha Reserva";
+			$encabezado[]= "Fecha Firma";
+			$encabezado[]= "Tipo de compra";
+			$encabezado[]= "Estatus"; //Disponibilidad/vendido
+			$encabezado[]= "Precio de Venta";
+			# El último argumento es por defecto A1
+			$hojaDeReportes->fromArray($encabezado, null, 'A1');
+			# Comenzamos en la fila 2
+			$numeroDeFila = 2;
+			$sql="SELECT l.identificador, ctl.nombre as tipo_lote, c.id_contrato, c.precio_venta, c.fecha_contrato, c.fecha_firma, ctc.nombre as tipo_compra from lotes as l inner join cat_tipo_lote as ctl on l.id_tipo_lote = ctl.id_tipo_lote left join contrato as c on l.id_lote = c.id_lote inner join cat_tipo_compra as ctc on c.id_tipo_compra = ctc.id_tipo_compra";
+			$result=mysqli_query(conectar(),$sql);
+			desconectar();
+			$num = mysqli_num_rows($result);
+			if($num>0){
+				while($col=mysqli_fetch_array($result)){
+					# Escribir registros en el documento
+					$estatus = "";
+					$hojaDeReportes->setCellValueByColumnAndRow(1, $numeroDeFila, $col['identificador']);
+					$hojaDeReportes->setCellValueByColumnAndRow(2, $numeroDeFila, $col['tipo_lote']);
+					$fecha_contrato=date("d/m/Y",strtotime($col["fecha_contrato"]));
+					$hojaDeReportes->setCellValueByColumnAndRow(4, $numeroDeFila, $fecha_contrato);
+					$fecha_firma=date("d/m/Y",strtotime($col["fecha_firma"]));
+					$hojaDeReportes->setCellValueByColumnAndRow(5, $numeroDeFila, $fecha_firma);
+					$hojaDeReportes->setCellValueByColumnAndRow(6, $numeroDeFila, $col['tipo_compra']);
+					if($col["id_contrato"]!=""){
+						$estatus = "Vendido";
+					}else{
+						$estatus = "Disponible";
+					}//fin del else
+					$hojaDeReportes->setCellValueByColumnAndRow(7, $numeroDeFila, $estatus);
+					$hojaDeReportes->setCellValueByColumnAndRow(8, $numeroDeFila, $col['precio_venta']);
+					$sql = "SELECT c.nombre, c.apellido_paterno, c.apellido_materno from cliente_contrato as cc inner join clientes as c on cc.id_cliente = c.id_cliente where cc.id_contrato like '".$col["id_contrato"]."'";
+					$result_cliente = mysqli_query(conectar(),$sql);
+					desconectar();
+					$num_cliente = mysqli_num_rows($result_cliente);
+					if($num_cliente > 0){
+						$cliente = "";
+						$aux = 1;
+						while($col_cliente = mysqli_fetch_array($result_cliente)){
+							if($aux == 1){
+								$cliente.= $col_cliente["nombre"]." ".$col_cliente["apellido_paterno"]." ".$col_cliente["apellido_materno"];
+							}else{
+								$cliente.= ", ".$col_cliente["nombre"]." ".$col_cliente["apellido_paterno"]." ".$col_cliente["apellido_materno"];
+							}//else
+							$aux++;
+						}//while
+						$hojaDeReportes->setCellValueByColumnAndRow(3, $numeroDeFila, $cliente);
+					}else{
+						$hojaDeReportes->setCellValueByColumnAndRow(3, $numeroDeFila, "No disponible");
+					}//else
+					$numeroDeFila++;
+				}//fin del while
+			}//fin del if
+			$nombreDelDocumento = "Reporte_Disponibilidad.xlsx";
+		break;
+		}//fin del switch
     #Exportar archivo y que se abra
 	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 	header('Content-Disposition: attachment;filename="'.$nombreDelDocumento.'"');

@@ -57,7 +57,7 @@ function validar_formato_reportes(){
             type: 'warning'
         });
     }else{
-        if((reporte=="clientes")||(reporte=="lotes")){
+        if((reporte=="clientes")||(reporte=="lotes")||(reporte=="disponibilidad")){
             var objO = document.getElementById("boton_formulario");
 	        objO.click();
         }else{

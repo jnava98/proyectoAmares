@@ -201,6 +201,7 @@ function select_tipo_reporte(){
     $respuesta.='<option value="reservas_pendientes">Reservas Pendientes de Contrato(Unidades)</option>';
     $respuesta.='<option value="contratos_elaborados">Contratos Elaborados</option>';
     $respuesta.='<option value="promesas_contratos">Promesas Contratos</option>';
+    $respuesta.='<option value="disponibilidad">Disponibilidad</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select estatus venta
@@ -212,7 +213,6 @@ function select_idioma_contrato(){
         $respuesta.='<option value="cont_extra" >Contado Extranjeros</option>';
         $respuesta.='<option value="financiado_extra" >Financiado Extranjeros</option>';
         $respuesta.='<option value="financiado" >Financiado</option>';
-        $respuesta.='<option value="cont" >Contado</option>';
     $respuesta.='</select>';
     return $respuesta;
 }//fin de select clientes
